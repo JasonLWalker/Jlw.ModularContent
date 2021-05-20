@@ -1,0 +1,42 @@
+name: Build and Test
+
+on:
+  push:
+    branches: #all branches that are NOT master.
+      - '*'
+      - '!main'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Config Environment Variables
+      run: |
+        ./build-scripts/setenv.ps1
+    - name: Run build script
+      run: |
+        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Release"
+    - name: Run test script
+      run: |
+        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Release"
+
+  cleanup:
+    needs: build-test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Config Environment Variables
+      run: |
+        /bin/bash ./build-scripts/setenv.sh
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: ${{ env.PKGNAME }}
+        failOnError: false
+
