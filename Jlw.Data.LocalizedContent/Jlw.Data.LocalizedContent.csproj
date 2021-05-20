@@ -15,10 +15,11 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jlw.Utilities.Data" Version="4.0.7754.41085" />
+    <PackageReference Include="Jlw.Utilities.Data" Version="4.0.7789.29087" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.15" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
