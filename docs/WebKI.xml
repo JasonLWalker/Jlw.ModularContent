@@ -1,0 +1,524 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="AddLocalizedContentFieldRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.AddLocalizedContentFieldRepository.htm" />
+  <HelpKINode Title="AddLocalizedContentTextRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.AddLocalizedContentTextRepository.htm" />
+  <HelpKINode Title="AddLocalizedGroupDataItemRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.AddLocalizedGroupDataItemRepository.htm" />
+  <HelpKINode Title="AuditChangeBy property">
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeBy.htm" />
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeBy.htm" />
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeBy.htm" />
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeBy.htm" />
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeBy.htm" />
+    <HelpKINode Title="AuditChangeBy Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeBy.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AuditChangeDate property">
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeDate.htm" />
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeDate.htm" />
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeDate.htm" />
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeDate.htm" />
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeDate.htm" />
+    <HelpKINode Title="AuditChangeDate Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeDate.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AuditChangeType property">
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeType.htm" />
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeType.htm" />
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeType.htm" />
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeType.htm" />
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeType.htm" />
+    <HelpKINode Title="AuditChangeType Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeType.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ConnectionString property">
+    <HelpKINode Title="ConnectionString Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.ConnectionString.htm" />
+    <HelpKINode Title="ConnectionString Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.ConnectionString.htm" />
+    <HelpKINode Title="ConnectionString Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.ConnectionString.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Data property">
+    <HelpKINode Title="Data Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Data.htm" />
+    <HelpKINode Title="Data Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Data.htm" />
+    <HelpKINode Title="Data Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Data.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DbClient property">
+    <HelpKINode Title="DbClient Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.DbClient.htm" />
+    <HelpKINode Title="DbClient Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.DbClient.htm" />
+    <HelpKINode Title="DbClient Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.DbClient.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DefaultLabel property">
+    <HelpKINode Title="DefaultLabel Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.DefaultLabel.htm" />
+    <HelpKINode Title="DefaultLabel Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.DefaultLabel.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Description property">
+    <HelpKINode Title="Description Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Description.htm" />
+    <HelpKINode Title="Description Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Description.htm" />
+    <HelpKINode Title="Description Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Description.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FieldClass property">
+    <HelpKINode Title="FieldClass Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldClass.htm" />
+    <HelpKINode Title="FieldClass Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldClass.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FieldData property">
+    <HelpKINode Title="FieldData Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldData.htm" />
+    <HelpKINode Title="FieldData Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldData.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FieldKey property">
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.FieldKey.htm" />
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.FieldKey.htm" />
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldKey.htm" />
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.FieldKey.htm" />
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.FieldKey.htm" />
+    <HelpKINode Title="FieldKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldKey.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FieldType property">
+    <HelpKINode Title="FieldType Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldType.htm" />
+    <HelpKINode Title="FieldType Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldType.htm" />
+    <HelpKINode Title="FieldType Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.FieldType.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetDataTableList method">
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.GetDataTableList.htm" />
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.GetDataTableList.htm" />
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.GetDataTableList.htm" />
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.GetDataTableList.htm" />
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.GetDataTableList.htm" />
+    <HelpKINode Title="GetDataTableList Method " Url="html/M-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.GetDataTableList.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GroupKey property">
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.GroupKey.htm" />
+    <HelpKINode Title="GroupKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.GroupKey.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Id property">
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Id.htm" />
+    <HelpKINode Title="Id Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.Id.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedContentField interface">
+    <HelpKINode Title="ILocalizedContentField Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="ILocalizedContentField Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="about ILocalizedContentField interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedContentField.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeBy.htm" />
+  <HelpKINode Title="ILocalizedContentField.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeDate.htm" />
+  <HelpKINode Title="ILocalizedContentField.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.AuditChangeType.htm" />
+  <HelpKINode Title="ILocalizedContentField.DefaultLabel property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.DefaultLabel.htm" />
+  <HelpKINode Title="ILocalizedContentField.FieldClass property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldClass.htm" />
+  <HelpKINode Title="ILocalizedContentField.FieldData property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldData.htm" />
+  <HelpKINode Title="ILocalizedContentField.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldKey.htm" />
+  <HelpKINode Title="ILocalizedContentField.FieldType property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.FieldType.htm" />
+  <HelpKINode Title="ILocalizedContentField.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.GroupKey.htm" />
+  <HelpKINode Title="ILocalizedContentField.Id property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.Id.htm" />
+  <HelpKINode Title="ILocalizedContentField.Order property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.Order.htm" />
+  <HelpKINode Title="ILocalizedContentField.ParentKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.ParentKey.htm" />
+  <HelpKINode Title="ILocalizedContentField.WrapperClass property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperClass.htm" />
+  <HelpKINode Title="ILocalizedContentField.WrapperHtmlEnd property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperHtmlEnd.htm" />
+  <HelpKINode Title="ILocalizedContentField.WrapperHtmlStart property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperHtmlStart.htm" />
+  <HelpKINode Title="ILocalizedContentFieldRepository interface">
+    <HelpKINode Title="ILocalizedContentFieldRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="ILocalizedContentFieldRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="about ILocalizedContentFieldRepository interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedContentFieldRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.GetDataTableList.htm" />
+  <HelpKINode Title="ILocalizedContentText interface">
+    <HelpKINode Title="ILocalizedContentText Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="ILocalizedContentText Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="about ILocalizedContentText interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedContentText.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeBy.htm" />
+  <HelpKINode Title="ILocalizedContentText.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeDate.htm" />
+  <HelpKINode Title="ILocalizedContentText.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.AuditChangeType.htm" />
+  <HelpKINode Title="ILocalizedContentText.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.FieldKey.htm" />
+  <HelpKINode Title="ILocalizedContentText.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.GroupKey.htm" />
+  <HelpKINode Title="ILocalizedContentText.Language property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.Language.htm" />
+  <HelpKINode Title="ILocalizedContentText.Text property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.Text.htm" />
+  <HelpKINode Title="ILocalizedContentTextRepository interface">
+    <HelpKINode Title="ILocalizedContentTextRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+    <HelpKINode Title="ILocalizedContentTextRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+    <HelpKINode Title="about ILocalizedContentTextRepository interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedContentTextRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.GetDataTableList.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem interface">
+    <HelpKINode Title="ILocalizedGroupDataItem Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="ILocalizedGroupDataItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="about ILocalizedGroupDataItem interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedGroupDataItem.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeBy.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeDate.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.AuditChangeType.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Data property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Data.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Description property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Description.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.GroupKey.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Id property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Id.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Key property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Key.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Language property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Language.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Order property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Order.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItem.Value property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Value.htm" />
+  <HelpKINode Title="ILocalizedGroupDataItemRepository interface">
+    <HelpKINode Title="ILocalizedGroupDataItemRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="ILocalizedGroupDataItemRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="about ILocalizedGroupDataItemRepository interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedGroupDataItemRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.GetDataTableList.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem interface">
+    <HelpKINode Title="ILocalizedGroupDatasetItem Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="ILocalizedGroupDatasetItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="about ILocalizedGroupDatasetItem interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Data property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Data.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Description property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Description.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.GroupKey.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Id property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Id.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Key property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Key.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Language property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Language.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Order property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Order.htm" />
+  <HelpKINode Title="ILocalizedGroupDatasetItem.Value property" Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Value.htm" />
+  <HelpKINode Title="Initialize method">
+    <HelpKINode Title="Initialize Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentText.Initialize.htm" />
+    <HelpKINode Title="Initialize Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentField.Initialize.htm" />
+    <HelpKINode Title="Initialize Method " Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Initialize.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent namespace" Url="html/N-Jlw.Data.LocalizedContent.htm" />
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedContentField interface">
+    <HelpKINode Title="ILocalizedContentField Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+    <HelpKINode Title="ILocalizedContentField Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentField.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository interface">
+    <HelpKINode Title="ILocalizedContentFieldRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="ILocalizedContentFieldRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedContentText interface">
+    <HelpKINode Title="ILocalizedContentText Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+    <HelpKINode Title="ILocalizedContentText Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentText.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedContentTextRepository interface">
+    <HelpKINode Title="ILocalizedContentTextRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+    <HelpKINode Title="ILocalizedContentTextRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedContentTextRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedGroupDataItem interface">
+    <HelpKINode Title="ILocalizedGroupDataItem Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+    <HelpKINode Title="ILocalizedGroupDataItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository interface">
+    <HelpKINode Title="ILocalizedGroupDataItemRepository Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="ILocalizedGroupDataItemRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem interface">
+    <HelpKINode Title="ILocalizedGroupDatasetItem Interface" Url="html/T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+    <HelpKINode Title="ILocalizedGroupDatasetItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentField class">
+    <HelpKINode Title="LocalizedContentField Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="LocalizedContentField Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput class">
+    <HelpKINode Title="LocalizedContentFieldDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedContentFieldDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentFieldRepository class">
+    <HelpKINode Title="LocalizedContentFieldRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="LocalizedContentFieldRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions class">
+    <HelpKINode Title="LocalizedContentFieldRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedContentFieldRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentText class">
+    <HelpKINode Title="LocalizedContentText Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="LocalizedContentText Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput class">
+    <HelpKINode Title="LocalizedContentTextDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedContentTextDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentTextRepository class">
+    <HelpKINode Title="LocalizedContentTextRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+    <HelpKINode Title="LocalizedContentTextRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions class">
+    <HelpKINode Title="LocalizedContentTextRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedContentTextRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedGroupDataItem class">
+    <HelpKINode Title="LocalizedGroupDataItem Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="LocalizedGroupDataItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput class">
+    <HelpKINode Title="LocalizedGroupDataItemDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository class">
+    <HelpKINode Title="LocalizedGroupDataItemRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions class">
+    <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Key property">
+    <HelpKINode Title="Key Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Key.htm" />
+    <HelpKINode Title="Key Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Key.htm" />
+    <HelpKINode Title="Key Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Key.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Language property">
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.Language.htm" />
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.Language.htm" />
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Language.htm" />
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.Language.htm" />
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Language.htm" />
+    <HelpKINode Title="Language Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Language.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentField class">
+    <HelpKINode Title="LocalizedContentField Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="LocalizedContentField Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="about LocalizedContentField class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedContentField.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentField.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentField.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeBy.htm" />
+  <HelpKINode Title="LocalizedContentField.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeDate.htm" />
+  <HelpKINode Title="LocalizedContentField.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.AuditChangeType.htm" />
+  <HelpKINode Title="LocalizedContentField.DefaultLabel property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.DefaultLabel.htm" />
+  <HelpKINode Title="LocalizedContentField.FieldClass property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldClass.htm" />
+  <HelpKINode Title="LocalizedContentField.FieldData property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldData.htm" />
+  <HelpKINode Title="LocalizedContentField.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldKey.htm" />
+  <HelpKINode Title="LocalizedContentField.FieldType property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.FieldType.htm" />
+  <HelpKINode Title="LocalizedContentField.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.GroupKey.htm" />
+  <HelpKINode Title="LocalizedContentField.Id property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.Id.htm" />
+  <HelpKINode Title="LocalizedContentField.Initialize method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentField.Initialize.htm" />
+  <HelpKINode Title="LocalizedContentField.LocalizedContentField constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedContentField.-ctor.htm" />
+  <HelpKINode Title="LocalizedContentField.Order property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.Order.htm" />
+  <HelpKINode Title="LocalizedContentField.ParentKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.ParentKey.htm" />
+  <HelpKINode Title="LocalizedContentField.WrapperClass property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperClass.htm" />
+  <HelpKINode Title="LocalizedContentField.WrapperHtmlEnd property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperHtmlEnd.htm" />
+  <HelpKINode Title="LocalizedContentField.WrapperHtmlStart property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperHtmlStart.htm" />
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput class">
+    <HelpKINode Title="LocalizedContentFieldDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedContentFieldDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="about LocalizedContentFieldDataTablesInput class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.FieldKey.htm" />
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput.FieldType property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.FieldType.htm" />
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.GroupKey.htm" />
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput.Id property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.Id.htm" />
+  <HelpKINode Title="LocalizedContentFieldDataTablesInput.ParentKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.ParentKey.htm" />
+  <HelpKINode Title="LocalizedContentFieldExtensions class">
+    <HelpKINode Title="LocalizedContentFieldExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+    <HelpKINode Title="LocalizedContentFieldExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+    <HelpKINode Title="about LocalizedContentFieldExtensions class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentFieldExtensions.AddLocalizedContentFieldRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.AddLocalizedContentFieldRepository.htm" />
+  <HelpKINode Title="LocalizedContentFieldRepository class">
+    <HelpKINode Title="LocalizedContentFieldRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="LocalizedContentFieldRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="about LocalizedContentFieldRepository class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentFieldRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.GetDataTableList.htm" />
+  <HelpKINode Title="LocalizedContentFieldRepository.LocalizedContentFieldRepository constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentFieldRepository.-ctor.htm" />
+  <HelpKINode Title="LocalizedContentFieldRepositoryOptions class">
+    <HelpKINode Title="LocalizedContentFieldRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedContentFieldRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="about LocalizedContentFieldRepositoryOptions class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentFieldRepositoryOptions.ConnectionString property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.ConnectionString.htm" />
+  <HelpKINode Title="LocalizedContentFieldRepositoryOptions.DbClient property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldRepositoryOptions.DbClient.htm" />
+  <HelpKINode Title="LocalizedContentText class">
+    <HelpKINode Title="LocalizedContentText Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="LocalizedContentText Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="about LocalizedContentText class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedContentText.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentText.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentText.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeBy.htm" />
+  <HelpKINode Title="LocalizedContentText.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeDate.htm" />
+  <HelpKINode Title="LocalizedContentText.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.AuditChangeType.htm" />
+  <HelpKINode Title="LocalizedContentText.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.FieldKey.htm" />
+  <HelpKINode Title="LocalizedContentText.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.GroupKey.htm" />
+  <HelpKINode Title="LocalizedContentText.Initialize method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentText.Initialize.htm" />
+  <HelpKINode Title="LocalizedContentText.Language property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.Language.htm" />
+  <HelpKINode Title="LocalizedContentText.LocalizedContentText constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedContentText.-ctor.htm" />
+  <HelpKINode Title="LocalizedContentText.Text property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.Text.htm" />
+  <HelpKINode Title="LocalizedContentTextDataTablesInput class">
+    <HelpKINode Title="LocalizedContentTextDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedContentTextDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="about LocalizedContentTextDataTablesInput class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentTextDataTablesInput.FieldKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.FieldKey.htm" />
+  <HelpKINode Title="LocalizedContentTextDataTablesInput.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.GroupKey.htm" />
+  <HelpKINode Title="LocalizedContentTextDataTablesInput.Language property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput.Language.htm" />
+  <HelpKINode Title="LocalizedContentTextExtensions class">
+    <HelpKINode Title="LocalizedContentTextExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+    <HelpKINode Title="LocalizedContentTextExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+    <HelpKINode Title="about LocalizedContentTextExtensions class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentTextExtensions.AddLocalizedContentTextRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.AddLocalizedContentTextRepository.htm" />
+  <HelpKINode Title="LocalizedContentTextRepository class">
+    <HelpKINode Title="LocalizedContentTextRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+    <HelpKINode Title="LocalizedContentTextRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+    <HelpKINode Title="about LocalizedContentTextRepository class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentTextRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.GetDataTableList.htm" />
+  <HelpKINode Title="LocalizedContentTextRepository.LocalizedContentTextRepository constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedContentTextRepository.-ctor.htm" />
+  <HelpKINode Title="LocalizedContentTextRepositoryOptions class">
+    <HelpKINode Title="LocalizedContentTextRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedContentTextRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="about LocalizedContentTextRepositoryOptions class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedContentTextRepositoryOptions.ConnectionString property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.ConnectionString.htm" />
+  <HelpKINode Title="LocalizedContentTextRepositoryOptions.DbClient property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions.DbClient.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem class">
+    <HelpKINode Title="LocalizedGroupDataItem Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="LocalizedGroupDataItem Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="about LocalizedGroupDataItem class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedGroupDataItem.AuditChangeBy property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeBy.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.AuditChangeDate property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeDate.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.AuditChangeType property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.AuditChangeType.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Data property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Data.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Description property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Description.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.GroupKey property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.GroupKey.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Id property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Id.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Initialize method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Initialize.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Key property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Key.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Language property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Language.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.LocalizedGroupDataItem constructor" Url="html/Overload-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.-ctor.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Order property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Order.htm" />
+  <HelpKINode Title="LocalizedGroupDataItem.Value property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Value.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemDataTablesInput class">
+    <HelpKINode Title="LocalizedGroupDataItemDataTablesInput Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemDataTablesInput Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="about LocalizedGroupDataItemDataTablesInput class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedGroupDataItemDataTablesInput.Id property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemDataTablesInput.Id.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemExtensions class">
+    <HelpKINode Title="LocalizedGroupDataItemExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+    <HelpKINode Title="about LocalizedGroupDataItemExtensions class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedGroupDataItemExtensions.AddLocalizedGroupDataItemRepository method" Url="html/M-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.AddLocalizedGroupDataItemRepository.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemRepository class">
+    <HelpKINode Title="LocalizedGroupDataItemRepository Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemRepository Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="about LocalizedGroupDataItemRepository class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedGroupDataItemRepository.GetDataTableList method" Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.GetDataTableList.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemRepository.LocalizedGroupDataItemRepository constructor" Url="html/M-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepository.-ctor.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions class">
+    <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions Class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions Members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="about LocalizedGroupDataItemRepositoryOptions class" Url="html/T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions.ConnectionString property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.ConnectionString.htm" />
+  <HelpKINode Title="LocalizedGroupDataItemRepositoryOptions.DbClient property" Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItemRepositoryOptions.DbClient.htm" />
+  <HelpKINode Title="Microsoft.Extensions.DependencyInjection namespace" Url="html/N-Microsoft.Extensions.DependencyInjection.htm" />
+  <HelpKINode Title="Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions class">
+    <HelpKINode Title="LocalizedContentFieldExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+    <HelpKINode Title="LocalizedContentFieldExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentFieldExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions class">
+    <HelpKINode Title="LocalizedContentTextExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+    <HelpKINode Title="LocalizedContentTextExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedContentTextExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions class">
+    <HelpKINode Title="LocalizedGroupDataItemExtensions Class" Url="html/T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+    <HelpKINode Title="LocalizedGroupDataItemExtensions Members" Url="html/AllMembers.T-Microsoft.Extensions.DependencyInjection.LocalizedGroupDataItemExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Order property">
+    <HelpKINode Title="Order Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.Order.htm" />
+    <HelpKINode Title="Order Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.Order.htm" />
+    <HelpKINode Title="Order Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Order.htm" />
+    <HelpKINode Title="Order Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Order.htm" />
+    <HelpKINode Title="Order Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Order.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ParentKey property">
+    <HelpKINode Title="ParentKey Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.ParentKey.htm" />
+    <HelpKINode Title="ParentKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentFieldDataTablesInput.ParentKey.htm" />
+    <HelpKINode Title="ParentKey Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.ParentKey.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Text property">
+    <HelpKINode Title="Text Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentText.Text.htm" />
+    <HelpKINode Title="Text Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentText.Text.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Value property">
+    <HelpKINode Title="Value Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDataItem.Value.htm" />
+    <HelpKINode Title="Value Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedGroupDatasetItem.Value.htm" />
+    <HelpKINode Title="Value Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedGroupDataItem.Value.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WrapperClass property">
+    <HelpKINode Title="WrapperClass Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperClass.htm" />
+    <HelpKINode Title="WrapperClass Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperClass.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WrapperHtmlEnd property">
+    <HelpKINode Title="WrapperHtmlEnd Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperHtmlEnd.htm" />
+    <HelpKINode Title="WrapperHtmlEnd Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperHtmlEnd.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WrapperHtmlStart property">
+    <HelpKINode Title="WrapperHtmlStart Property " Url="html/P-Jlw.Data.LocalizedContent.ILocalizedContentField.WrapperHtmlStart.htm" />
+    <HelpKINode Title="WrapperHtmlStart Property " Url="html/P-Jlw.Data.LocalizedContent.LocalizedContentField.WrapperHtmlStart.htm" />
+  </HelpKINode>
+</HelpKI>

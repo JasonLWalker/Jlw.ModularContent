@@ -5,8 +5,14 @@ on:
     branches: #all branches that are NOT master.
       - '*'
       - '!main'
+    paths-ignore:
+      - '!Help/**'
+      - '!docs/**'
+      - '!.github/**'
+      - '!build-scripts/**'
   pull_request:
-    branches: [ main ]
+    branches: [ main, staging ]
+  workflow_dispatch:
 
 jobs:
   build-test:
