@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent", "Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj", "{A0329EAE-26A9-4407-B373-49DF6A7C43F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent.Tests", "Jlw.Data.LocalizedContent.Tests\Jlw.Data.LocalizedContent.Tests.csproj", "{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{4500102C-AECD-4C3A-B025-68EA29A985A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{AA3405BA-2841-42A0-B467-0DF5FFF1C086}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-deploy-alpha.yml = .github\workflows\build-deploy-alpha.yml
+		.github\workflows\build-deploy-rc.yml = .github\workflows\build-deploy-rc.yml
+		.github\workflows\build-deploy.yml = .github\workflows\build-deploy.yml
+		.github\workflows\build-test.yml = .github\workflows\build-test.yml
+		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
+		.github\workflows\GenerateRelease.yml = .github\workflows\GenerateRelease.yml
+		.github\workflows\sonnarbuild.yml = .github\workflows\sonnarbuild.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scripts", "{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0}"
+	ProjectSection(SolutionItems) = preProject
+		build-scripts\build-test.ps1 = build-scripts\build-test.ps1
+		build-scripts\build.ps1 = build-scripts\build.ps1
+		build-scripts\deploy.sh = build-scripts\deploy.sh
+		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
+		build-scripts\setenv.sh = build-scripts\setenv.sh
+		build-scripts\test.ps1 = build-scripts\test.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57CC95E7-95B5-4CEB-BA7E-56DA8124551D}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA3405BA-2841-42A0-B467-0DF5FFF1C086} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE81A48A-3CA3-48FC-A5A2-E2C265718B6B}
+	EndGlobalSection
+EndGlobal
