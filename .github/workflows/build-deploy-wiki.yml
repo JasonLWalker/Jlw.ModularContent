@@ -1,27 +1,24 @@
 name: Build Wiki
 
 on:
+  push:
+    branches:
+      # And only on main branch
+      - main
   workflow_dispatch:
 
 jobs:
   build-wiki:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
     - name: Config Environment Variables
       run: |
-        ./build-scripts/setenv.ps1
+        /bin/bash ./build-scripts/setenv.sh
     - name: Run build script
       run: |
-        ./build-scripts/build-wiki.ps1 "Jlw.Data.LocalizedContent" "Release"
-    # Additional steps to generate documentation in "Documentation" directory
-    - name: Upload Documentation to Wiki
-      uses: SwiftDocOrg/github-wiki-publish-action@v1
-      with:
-        path: "Documentation"
-    env:
-      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        /bin/bash ./build-scripts/build-wiki.sh -p "Jlw.Data.LocalizedContent" -b "Release" -u ${{ secrets.NUGET_USER }} -e ${{ secrets.GPR_EMAIL }} -t ${{ secrets.GITHUB_TOKEN }}
   cleanup:
     needs: build-wiki
     if: always()

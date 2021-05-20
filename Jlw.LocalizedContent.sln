@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-deploy-alpha.yml = .github\workflows\build-deploy-alpha.yml
 		.github\workflows\build-deploy-rc.yml = .github\workflows\build-deploy-rc.yml
+		.github\workflows\build-deploy-wiki.yml = .github\workflows\build-deploy-wiki.yml
 		.github\workflows\build-deploy.yml = .github\workflows\build-deploy.yml
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
@@ -23,6 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scripts", "{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0}"
 	ProjectSection(SolutionItems) = preProject
 		build-scripts\build-test.ps1 = build-scripts\build-test.ps1
+		build-scripts\build-wiki.ps1 = build-scripts\build-wiki.ps1
+		build-scripts\build-wiki.sh = build-scripts\build-wiki.sh
 		build-scripts\build.ps1 = build-scripts\build.ps1
 		build-scripts\deploy.sh = build-scripts\deploy.sh
 		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
@@ -32,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scri
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57CC95E7-95B5-4CEB-BA7E-56DA8124551D}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
