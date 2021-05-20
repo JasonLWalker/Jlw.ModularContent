@@ -1,0 +1,40 @@
+name: Build Wiki
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-wiki:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Config Environment Variables
+      run: |
+        ./build-scripts/setenv.ps1
+    - name: Run build script
+      run: |
+        ./build-scripts/build-wiki.ps1 "Jlw.Data.LocalizedContent" "Release"
+    # Additional steps to generate documentation in "Documentation" directory
+    - name: Upload Documentation to Wiki
+      uses: SwiftDocOrg/github-wiki-publish-action@v1
+      with:
+        path: "Documentation"
+    env:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  cleanup:
+    needs: build-wiki
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Config Environment Variables
+      run: |
+        /bin/bash ./build-scripts/setenv.sh
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: ${{ env.PKGNAME }}
+        failOnError: false
+
