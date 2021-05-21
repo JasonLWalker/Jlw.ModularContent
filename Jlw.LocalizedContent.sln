@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{B9C7434B-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jlw.Web.Core31.LocalizedContent.SampleWebApp", "Jlw.Web.Core31.LocalizedContent.SampleWebApp\Jlw.Web.Core31.LocalizedContent.SampleWebApp.csproj", "{272B7544-D897-445C-A19A-361D06BB64D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{AA332A19-CB14-4C82-AC9F-28252C781065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA332A19-CB14-4C82-AC9F-28252C781065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA332A19-CB14-4C82-AC9F-28252C781065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272B7544-D897-445C-A19A-361D06BB64D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272B7544-D897-445C-A19A-361D06BB64D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272B7544-D897-445C-A19A-361D06BB64D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272B7544-D897-445C-A19A-361D06BB64D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
