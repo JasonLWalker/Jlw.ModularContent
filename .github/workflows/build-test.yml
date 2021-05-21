@@ -2,47 +2,28 @@ name: Build and Test
 
 on:
   push:
-    branches: #all branches that are NOT master.
-      - '*'
-      - '!main'
-    paths-ignore:
-      - '!Help/**'
-      - '!docs/**'
-      - '!.github/**'
-      - '!build-scripts/**'
+    branches-ignore:    # Automatically run when pushing to all branches that are NOT main or staging. (These will be run when pull requests come in)
+      [ 'main', 'staging' ]
+    paths-ignore:       # Do not automatically run if changes are only in the following directories
+      [ 'Help/**', 'docs/**', '.github/**', 'build-scripts/**' ]
   pull_request:
-    branches: [ main, staging ]
-  workflow_dispatch:
-
+    branches:           # Run when pull requests are submitted to main or staging
+      [ main, staging ]
+    paths-ignore:       # Do not automatically run if changes are only in the following directories
+      [ 'Help/**', 'docs/**', '.github/**', 'build-scripts/**' ]
+  workflow_dispatch:    # Run on demand
+env:
+  PACKAGE_NAME: "Jlw.Data.LocalizedContent"
+  BUILD_TYPE: "Release"
 jobs:
   build-test:
     runs-on: windows-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        ./build-scripts/setenv.ps1
     - name: Run build script
       run: |
-        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Release"
+        ./build-scripts/build.ps1 ${{ env.PACKAGE_NAME }} ${{ env.BUILD_TYPE }}
     - name: Run test script
       run: |
-        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Release"
-
-  cleanup:
-    needs: build-test
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        /bin/bash ./build-scripts/setenv.sh
-    - name: Delete Artifacts
-      uses: geekyeggo/delete-artifact@v1
-      with:
-        name: ${{ env.PKGNAME }}
-        failOnError: false
-
+        ./build-scripts/test.ps1 "${{ env.PACKAGE_NAME }}.Tests" ${{ env.BUILD_TYPE }}

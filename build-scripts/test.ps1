@@ -1,4 +1,4 @@
-param([string]$packageName, [string]$buildType = "Release")
+param([string]$packageName, [string]$buildType = "Release", [bool] $restorePackages = $false)
 
 # Set the Current directory path into the $workingDir variable
 $workingDir=(Get-Item -Path ".\").FullName
@@ -9,7 +9,9 @@ if (-Not ($packageName)){
 }
 
 # Install dependencies
-dotnet restore
+if ($restorePackages) {
+	dotnet restore
+}
 
 # test package
 dotnet test --no-build --configuration $buildType --verbosity normal "${packageName}"
