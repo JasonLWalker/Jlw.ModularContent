@@ -1,4 +1,5 @@
 using System;
+using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
