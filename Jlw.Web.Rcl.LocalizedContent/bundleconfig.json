@@ -1,0 +1,113 @@
+[
+  {
+    "outputFileName": "resources/LocalizedContent/css/bootstrap.min.css",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/bootstrap/css/bootstrap.css"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/css/jquery.dataTables.min.css",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/datatables/css/jquery.dataTables.min.css"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/css/dataTables.bootstrap4.min.css",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/datatables/css/dataTables.bootstrap4.min.css"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/css/toastr.min.css",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/toastr/toastr.css"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/jquery.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/jquery/jquery.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/bootstrap.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/bootstrap/js/bootstrap.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/bootbox.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/bootbox.js/bootbox.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/toastr.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/toastr/toastr.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/jquery.dataTables.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/datatables/js/jquery.dataTables.min.js",
+      "libman/datatables/js/dataTables.bootstrap4.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/libJlwAppBuilder.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/jlwappbuilder/libJlwAppBuilder.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "resources/LocalizedContent/js/libJlwUtility.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/jlwutility/libJlwUtility.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  }
+]

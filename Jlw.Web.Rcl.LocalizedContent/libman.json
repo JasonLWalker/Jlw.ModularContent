@@ -1,0 +1,40 @@
+{
+	"version": "1.0",
+	"defaultProvider": "cdnjs",
+	"libraries": [
+		{
+			"library": "jquery@3.3.1",
+			"destination": "libman/jquery"
+		},
+		{
+			"library": "twitter-bootstrap@4.3.1",
+			"destination": "libman/bootstrap"
+		},
+		{
+			"library": "toastr.js@2.1.4",
+			"destination": "libman/toastr/"
+		},
+		{
+			"library": "datatables@1.10.21",
+			"destination": "libman/datatables/"
+		},
+		{
+			"library": "bootbox.js@5.4.0",
+			"destination": "libman/bootbox.js/"
+		},
+		{
+			"provider": "jsdelivr",
+			"library": "@jasonlwalker/jlwutility@0.0.27",
+			"destination": "libman/jlwutility/"
+		},
+		{
+			"provider": "jsdelivr",
+			"library": "@jasonlwalker/jlwappbuilder@0.0.19",
+			"destination": "libman/jlwappbuilder/"
+		},
+		{
+			"library": "font-awesome@5.14.0",
+      "destination": "resources/LocalizedContent/font-awesome/"
+    }
+	]
+}
