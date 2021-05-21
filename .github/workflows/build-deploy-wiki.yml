@@ -1,37 +1,20 @@
-name: Build Wiki
+name: Build and Deploy Wiki
 
 on:
   push:
-    branches:
-      # And only on main branch
-      - main
-  workflow_dispatch:
+    branches:           # Automatically run when pushing only to main branch
+      [ main ]
+  workflow_dispatch:    # Run on demand
 
+env:
+  PACKAGE_NAME: "Jlw.Data.LocalizedContent"
+  BUILD_TYPE: "Release"
 jobs:
   build-wiki:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        /bin/bash ./build-scripts/setenv.sh
     - name: Run build script
       run: |
-        /bin/bash ./build-scripts/build-wiki.sh -p "Jlw.Data.LocalizedContent" -b "Release" -u ${{ secrets.NUGET_USER }} -e ${{ secrets.GPR_EMAIL }} -t ${{ secrets.GITHUB_TOKEN }}
-  cleanup:
-    needs: build-wiki
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        /bin/bash ./build-scripts/setenv.sh
-    - name: Delete Artifacts
-      uses: geekyeggo/delete-artifact@v1
-      with:
-        name: ${{ env.PKGNAME }}
-        failOnError: false
-
+        /bin/bash ./build-scripts/build-wiki.sh -p ${{ env.PACKAGE_NAME }} -b ${{ env.BUILD_TYPE }} -u ${{ secrets.NUGET_USER }} -e ${{ secrets.GPR_EMAIL }} -t ${{ secrets.GITHUB_TOKEN }}
