@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "Form Wizard Admin";
+
+    string jsRoot = "LocalizedContent";
+
+    var aBreadcrumb = new List<KeyValuePair<string, string>>()
+{
+        new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
+        new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
+    };
+    switch (ViewData["fieldType"]?.ToString()?.ToUpper())
+    {
+        case "WIZARD":
+            aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Wizard", "Wizard Forms Admin"));
+            break;
+        case "EMAIL":
+            aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Email", "Wizard Email Admin"));
+            break;
+        default:
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField", groupKey = "" }), "Form Wizard Admin");
+            break;
+    }
+    if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
+    {
+        switch (ViewData["fieldType"]?.ToString()?.ToUpper())
+        {
+            case "WIZARD":
+                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Wizard/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                break;
+            case "EMAIL":
+                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Email/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                break;
+            default:
+                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                break;
+        }
+    }
+    if (!string.IsNullOrWhiteSpace(ViewData["parentKey"]?.ToString()))
+    {
+        aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/" + ViewData["groupKey"] + "/" + ViewData["parentKey"], ViewData["parentKey"]?.ToString()));
+    }
+
+    ViewData["Breadcrumb"] = aBreadcrumb;
+}
+@section Scripts {
+    <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")" />
+    <script>
+
+
+    function jlwDefer(fnCb) {
+        if (typeof fnCb != 'function')
+            return;
+        if (window.jQuery && window.jlwUtility) {
+            fnCb();
+        } else {
+            window.setTimeout(function() { jlwDefer(fnCb); }, 50);
+        }
+    }
+
+    (function(cacheVer) {
+        function onPageLoadInit() {
+            function fnInit() {
+                window.jlwUtility.showPleaseWait();
+                $.when(
+                    window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,"@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
+                    window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
+                    window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
+                    window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
+                    window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")")
+
+                ).done(function() {
+                    bootbox.setDefaults({ centerVertical: true, scrollable: true });
+
+                    window.jlwLibLocalizedContentField();
+                    window.jlwUtility.hidePleaseWait();
+
+                });
+            }
+
+            if (typeof window.jlwUtility == 'undefined') {
+                window.jlwUtility = new window.libJlwUtility({
+                    'cacheVersion': cacheVer,
+                    'libPaths': {},
+                    'fnInit': window.setTimeout(fnInit, 10)
+                });
+            } else {
+                fnInit();
+            }
+        };
+
+
+        if (typeof libJlwUtility == 'undefined') {
+            var headTag = document.getElementsByTagName("head")[0];
+            var jqTag = document.createElement('script');
+            jqTag.type = 'text/javascript';
+            jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_v=' + cacheVer;
+            jqTag.onload = onPageLoadInit;
+            headTag.appendChild(jqTag);
+        } else {
+            onPageLoadInit();
+        }
+    })('');
+    </script>
+}
+
+<div class="col-xs-12">
+    <div>
+        <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
+        <div class="jlw-header h3">
+            @ViewData["Title"]
+        </div>
+    </div>
+    <br />
+    @Html.PartialAsync("_DataTableList").Result
+</div>
+<div class="d-none hidden">
+
+    @Html.PartialAsync("_EditRecord").Result
+
+</div>
+
+@Html.PartialAsync("_DataTableListScript").Result

@@ -1,0 +1,87 @@
+@{ 
+    bool isAdmin = true; 
+    bool canView = isAdmin || true; 
+    bool canAdd = isAdmin || true; 
+    bool canEdit = isAdmin || true; 
+    bool canDelete = isAdmin || true; 
+} 
+<script>
+
+    if (!window.jlwLibLocalizedContentField) {
+        window.jlwLibLocalizedContentField = function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedContentField"})/', '.jlw-dtlist-localizedcontentfield table.jlw-datatable-localizedcontentfield');
+
+        @if (canEdit) {
+        <text>
+            t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
+            function onEditLanguage(o) {
+                var elem = $(o);
+                var data = t.getParentData(o);
+                window.location = '@Url.Action("Index", "Admin", new {Area="LocalizedContentText"})/' + data['GroupKey'] + '/' + data['FieldKey'];
+            }
+
+            t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
+            t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', t.onEditRecord);
+        </text>}
+
+            t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+
+            t.fnPostDtAjaxData = function(d) {
+                // Add additional parameters here like this:
+                // d.SomeParameter = 'SomeValue';
+                d.GroupKey = '@(ViewData["groupKey"])';
+                d.FieldKey = '@(ViewData["fieldKey"])';
+                d.FieldType = '@(ViewData["fieldType"])';
+                d.ParentKey = '@(ViewData["parentKey"])';
+            }
+            t.addDtRenderer(t.dtRenderButtons, [15]);
+
+            t.addDtRenderer(function (data, type, row) {
+                switch (row["FieldType"].toUpperCase()) {
+                case 'WIZARD':
+                case 'EMAIL':
+                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/' + row['FieldType'] + '/' + data + '">' + data + '</a>';
+                }
+                return data;
+            }, [1]);
+            t.addDtRenderer(function (data, type, row) {
+                switch (row["FieldType"].toUpperCase()) {
+                case 'WIZARD':
+                case 'EMAIL':
+                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/' + row['FieldType'] + '/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
+                case 'FORM':
+                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/Wizard/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
+                }
+                return data;
+            }, [2]);
+            var dt = t.initializeDataTable(t.sDtSelector);
+
+            dt.on('error.dt',
+                    function(e, settings, techNote, message) {
+                        if (console)
+                            console.log('An error has been reported by DataTables: ', message);
+                    })
+                .on('xhr.dt', function ( e, settings, json, xhr ) {
+                    var data = xhr["responseJSON"];
+                    t.checkAjaxMessage(data);
+                })
+                .on('draw.dt', function(e, settings) {
+                    //console.log(e, settings);
+                    var a = $('.btn-localize');
+                    a.each(function(i, elem) {
+                        var o = $(elem);
+                        var data = t.getParentData(o);
+                        o.append($('<span class="fa-layers fa-fw"><span class="fas fa-language"></span><span class="fa-layers-counter"  data-fa-transform="shrink-11 up-10 right-10" style="background:#0062cccc; font-size:2rem; top:-5px; right:-5px;">' + data['LocalizedCount'] + '</span></span>'));
+
+                    });
+                });
+
+
+
+            t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', t.onAddRecord);
+            t.dtRenderFooterButtons();
+            $('.btn-newrecord').off('click').on('click', t.onAddRecord);
+        }
+    }
+</script>
