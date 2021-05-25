@@ -14,6 +14,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Jlw.Extensions.Identity.Mock;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Newtonsoft.Json.Converters;
@@ -42,8 +43,6 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
             AddMockedUsers();
             services.AddIdentityMocking<TUser>();
 
-
-            services.AddSingleton<IModularDbClient>(new ModularDbClient<SqlConnection, SqlCommand, SqlParameter, SqlConnectionStringBuilder>());
             services.AddSqlLocalDB(options =>
             {
                 options.AutomaticallyDeleteInstanceFiles = true;
@@ -53,13 +52,19 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
             {
                 options.InstanceName = Configuration.GetConnectionString("LocalDbInstanceName");
             });
+            string connString = "";
+            services.AddSingleton<IModularDbClient>( provider =>
+            {
+                var dbInstanceInfo = provider.GetRequiredService<ISqlLocalDbInstanceInfo>();
+                connString = dbInstanceInfo.GetConnectionString();
+                return new ModularDbClient<SqlConnection, SqlCommand, SqlParameter, SqlConnectionStringBuilder>();
+            });
 
-            var provider = services.BuildServiceProvider();
-            var dbInstanceInfo = provider.GetRequiredService<ISqlLocalDbInstanceInfo>();
-            var connString = dbInstanceInfo.GetConnectionString();
             services.AddLocalizedContentFieldRepository(options => options.ConnectionString = connString);
             services.AddLocalizedContentTextRepository(options => options.ConnectionString = connString);
             services.AddLocalizedGroupDataItemRepository(options => options.ConnectionString = connString);
+
+            //var provider = services.BuildServiceProvider();
 
             var mvcBuilder = services.AddControllersWithViews();
 
