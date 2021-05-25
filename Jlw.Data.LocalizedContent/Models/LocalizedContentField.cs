@@ -95,7 +95,8 @@ namespace Jlw.Data.LocalizedContent
 			AuditChangeBy = DataUtility.Parse<string>(o, "AuditChangeBy");
 			AuditChangeDate = DataUtility.Parse<DateTime>(o, "AuditChangeDate");
 			Order = DataUtility.Parse<int>(o, "Order");
-        }
+			GroupFilter = DataUtility.Parse<string>(o, "GroupFilter");
+		}
 
 	} 
 } 
