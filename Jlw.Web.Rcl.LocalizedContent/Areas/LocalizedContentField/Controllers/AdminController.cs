@@ -12,7 +12,9 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             ViewData["groupKey"] = groupKey;
             ViewData["parentKey"] = parentKey;
-            return View("Index"); 
+            ViewData["groupFilter"] = null;
+            ViewData["PageTitle"] = "Localized Content Field Admin";
+            return GetViewResult();
         }
 
         [HttpGet]
@@ -20,8 +22,10 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             ViewData["fieldType"] = "WIZARD";
             ViewData["groupKey"] = groupKey;
+            ViewData["groupFilter"] = null;
             ViewData["parentKey"] = parentKey;
-            return View("Index");
+            ViewData["PageTitle"] = "Localized Wizard Admin";
+            return GetViewResult();
         }
 
         [HttpGet]
@@ -29,8 +33,16 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             ViewData["fieldType"] = "EMAIL";
             ViewData["groupKey"] = groupKey;
+            ViewData["groupFilter"] = null;
             ViewData["parentKey"] = parentKey;
-            return View("Index");
+            ViewData["PageTitle"] = "Localized Email Admin";
+            return GetViewResult();
+        }
+
+        [NonAction]
+        public ActionResult GetViewResult(string viewName = "Index")
+        {
+            return View(viewName);
         }
 
     }

@@ -43,14 +43,12 @@ namespace Microsoft.Extensions.DependencyInjection
             
 
             services.ConfigureOptions(typeof(LocalizedContentAdminConfigureOptions));
-            services.AddAuthorization(opts =>
-            {
-                opts.AddLocalizedContentAdminAuthorizationPolicy();
-            });
             return services;
         }
 
-        public static AuthorizationOptions AddLocalizedContentAdminAuthorizationPolicy(this AuthorizationOptions options)
+
+
+        public static AuthorizationOptions AddDefaultLocalizedContentAdminAuthorizationPolicy(this AuthorizationOptions options)
         {
             options.AddPolicy("LocalizedContentUser", policy =>
             {
@@ -95,7 +93,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return options;
         }
 
-        public static IApplicationBuilder UseLocalizedContentAdmin(this IApplicationBuilder app)
+        public static IApplicationBuilder UseDefaultLocalizedContentAdmin(this IApplicationBuilder app)
         {
             return app.UseEndpoints(endpoints =>
             {
@@ -107,12 +105,12 @@ namespace Microsoft.Extensions.DependencyInjection
                     constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentField" });
                 endpoints.MapControllerRoute(
                     name: "LocalizedContentFieldWizardAdmin",
-                    pattern: "Admin/LocalizedContentField/Wizard/{groupKey?}/{parentKey?}",
+                    pattern: "Admin/LocalizedContentWizard/{groupKey?}/{parentKey?}",
                     defaults: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" },
                     constraints: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" });
                 endpoints.MapControllerRoute(
                     name: "LocalizedContentFieldEmailAdmin",
-                    pattern: "Admin/LocalizedContentField/Email/{groupKey?}/{parentKey?}",
+                    pattern: "Admin/LocalizedContentEmail/{groupKey?}/{parentKey?}",
                     defaults: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" },
                     constraints: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" });
 

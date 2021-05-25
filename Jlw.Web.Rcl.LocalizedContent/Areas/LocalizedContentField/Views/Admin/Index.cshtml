@@ -1,7 +1,12 @@
 @{
-    ViewData["Title"] = "Form Wizard Admin";
+    ViewData["Title"] = ViewData["PageTitle"];
 
     string jsRoot = "LocalizedContent";
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
+    string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
+    string emailUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Email", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["emailOverrideUrl"]?.ToString();
+
 
     var aBreadcrumb = new List<KeyValuePair<string, string>>()
 {
@@ -11,13 +16,13 @@
     switch (ViewData["fieldType"]?.ToString()?.ToUpper())
     {
         case "WIZARD":
-            aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Wizard", "Wizard Forms Admin"));
+            aBreadcrumb.Add(new KeyValuePair<string, string>(wizardUrl, ViewData["PageTitle"]?.ToString()));
             break;
         case "EMAIL":
-            aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Email", "Wizard Email Admin"));
+            aBreadcrumb.Add(new KeyValuePair<string, string>(emailUrl, ViewData["PageTitle"]?.ToString()));
             break;
         default:
-            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField", groupKey = "" }), "Form Wizard Admin");
+            new KeyValuePair<string, string>(adminUrl, ViewData["PageTitle"]?.ToString());
             break;
     }
     if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
@@ -25,25 +30,26 @@
         switch (ViewData["fieldType"]?.ToString()?.ToUpper())
         {
             case "WIZARD":
-                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Wizard/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                aBreadcrumb.Add(new KeyValuePair<string, string>($"{wizardUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
                 break;
             case "EMAIL":
-                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/Email/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                aBreadcrumb.Add(new KeyValuePair<string, string>($"{emailUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
                 break;
             default:
-                aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+                aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
                 break;
         }
     }
     if (!string.IsNullOrWhiteSpace(ViewData["parentKey"]?.ToString()))
     {
-        aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentField" }) + "/" + ViewData["groupKey"] + "/" + ViewData["parentKey"], ViewData["parentKey"]?.ToString()));
+        aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}/{ViewData["parentKey"]}", ViewData["parentKey"]?.ToString()));
     }
 
     ViewData["Breadcrumb"] = aBreadcrumb;
 }
 @section Scripts {
     <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")" />
+    <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/toastr.min.css")" />
     <script>
 
 
@@ -107,16 +113,16 @@
     <div>
         <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
         <div class="jlw-header h3">
-            @ViewData["Title"]
+            @ViewData["PageTitle"]
         </div>
     </div>
     <br />
-    @Html.PartialAsync("_DataTableList").Result
+    @Html.PartialAsync("~/Areas/LocalizedContentField/Views/Admin/_DataTableList.cshtml").Result
 </div>
 <div class="d-none hidden">
 
-    @Html.PartialAsync("_EditRecord").Result
+    @Html.PartialAsync("~/Areas/LocalizedContentField/Views/Admin/_EditRecord.cshtml").Result
 
 </div>
 
-@Html.PartialAsync("_DataTableListScript").Result
+@Html.PartialAsync("~/Areas/LocalizedContentField/Views/Admin/_DataTableListScript.cshtml").Result

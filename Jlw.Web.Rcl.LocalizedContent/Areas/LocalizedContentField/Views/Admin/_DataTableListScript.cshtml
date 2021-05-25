@@ -1,16 +1,20 @@
 @{ 
-    bool isAdmin = true; 
-    bool canView = isAdmin || true; 
-    bool canAdd = isAdmin || true; 
-    bool canEdit = isAdmin || true; 
-    bool canDelete = isAdmin || true; 
+    bool isAdmin = true;
+    bool canView = isAdmin || true;
+    bool canAdd = isAdmin || true;
+    bool canEdit = isAdmin || true;
+    bool canDelete = isAdmin || true;
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index",new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
+    string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
+    string emailUrl = (string.IsNullOrWhiteSpace(ViewData["emailOverrideUrl"]?.ToString())) ? Url.Action("Email", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
 } 
 <script>
 
     if (!window.jlwLibLocalizedContentField) {
         window.jlwLibLocalizedContentField = function() {
             $.fn.dataTable.ext.errMode = 'none';
-            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedContentField"})/', '.jlw-dtlist-localizedcontentfield table.jlw-datatable-localizedcontentfield');
+            var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-localizedcontentfield table.jlw-datatable-localizedcontentfield');
 
         @if (canEdit) {
         <text>
@@ -18,7 +22,7 @@
             function onEditLanguage(o) {
                 var elem = $(o);
                 var data = t.getParentData(o);
-                window.location = '@Url.Action("Index", "Admin", new {Area="LocalizedContentText"})/' + data['GroupKey'] + '/' + data['FieldKey'];
+                window.location = '@adminUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
             }
 
             t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
@@ -41,17 +45,18 @@
                 switch (row["FieldType"].toUpperCase()) {
                 case 'WIZARD':
                 case 'EMAIL':
-                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/' + row['FieldType'] + '/' + data + '">' + data + '</a>';
+                    return '<a href="@wizardUrl/' + data + '">' + data + '</a>';
                 }
                 return data;
             }, [1]);
             t.addDtRenderer(function (data, type, row) {
                 switch (row["FieldType"].toUpperCase()) {
                 case 'WIZARD':
+                    return '<a href="@wizardUrl/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
                 case 'EMAIL':
-                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/' + row['FieldType'] + '/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
+                    return '<a href="@emailUrl/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
                 case 'FORM':
-                    return '<a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})/Wizard/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
+                    return '<a href="@adminUrl/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
                 }
                 return data;
             }, [2]);
