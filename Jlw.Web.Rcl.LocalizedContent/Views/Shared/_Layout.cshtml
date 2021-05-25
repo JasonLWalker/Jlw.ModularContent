@@ -1,5 +1,6 @@
 ﻿@{
     string libRoot = "LocalizedContent";
+    IList<KeyValuePair<string, string>> oBreadcrumb = (List<KeyValuePair<string, string>>)ViewData["Breadcrumb"] ?? new List<KeyValuePair<string, string>>();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -8,10 +9,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/@libRoot/css/bootstrap.min.css" />
+    @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (oBreadcrumb?.Count > 0)
+            {
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb px-2 py-1">
+                        @{
+                            if (oBreadcrumb.Any())
+                            {
+                                var nLast = oBreadcrumb.Count;
+                                for (var n = 0; n < nLast; n++)
+                                {
+                                    var kvp = oBreadcrumb[n];
+                                    if (n == nLast - 1)
+                                    {
+                                        <li class="breadcrumb-item active">@kvp.Value</li>
+                                        continue;
+                                    }
+                                    <li class="breadcrumb-item"><a href="@kvp.Key">@kvp.Value</a></li>
+
+                                }
+                            }
+                            else
+                            {
+                                <li class="breadcrumb-item active">Home</li>
+                            }
+                        }
+                    </ol>
+                </nav>
+            }
             @RenderBody()
         </main>
     </div>
