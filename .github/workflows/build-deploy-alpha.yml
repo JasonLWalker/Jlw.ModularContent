@@ -54,8 +54,8 @@ jobs:
     - name: Publish RCL to github (using curl)
       run: |
         /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent"
-    - name: Create Release
-      id: create_release
+    - name: Create RCL Release
+      id: create_rcl_release
       uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,8 +64,8 @@ jobs:
         release_name: Release ${{ env.PKGNAME }}
         draft: true
         prerelease: true
-    - name: Upload Release Asset
-      id: upload-release-asset 
+    - name: Upload RCL Release Asset
+      id: upload-rcl-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,8 +78,8 @@ jobs:
     - name: Publish Data Repo to github (using curl)
       run: |
         /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Data.LocalizedContent"
-    - name: Create Release
-      id: create_release
+    - name: Create DataRepo Release
+      id: create_datarepo_release
       uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -89,7 +89,7 @@ jobs:
         draft: true
         prerelease: true
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-datarepo-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
