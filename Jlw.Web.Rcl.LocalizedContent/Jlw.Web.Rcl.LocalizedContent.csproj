@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Jlw.Data.LocalizedContent" Version="0.1.7816.28051-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
@@ -34,10 +35,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="resources\**\*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
   </ItemGroup>
 
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
