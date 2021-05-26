@@ -1,0 +1,84 @@
+@{ 
+    bool isAdmin = true; 
+    bool canView = isAdmin || true; 
+    bool canAdd = isAdmin || true; 
+    bool canEdit = isAdmin || true; 
+    bool canDelete = isAdmin || true; 
+} 
+<script>
+
+    if (!window.jlwLibLocalizedContentText) {
+        window.jlwLibLocalizedContentText = function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedContentText"})/', '.jlw-dtlist-localizedcontenttext table.jlw-datatable-localizedcontenttext');
+
+            @if (canEdit)
+    {
+        <text>
+            t.frmEdit = $('#jlwEditFormLocalizedContentText').html();
+        </text>
+    }
+
+            @if (canEdit)
+        {
+            <text>
+                function fnOnAddRecord(fnOnShow) {
+                    function fnShow(o, data) {
+                        var oFrm = $(o);
+                        console.log(oFrm);
+                        $('input[name=GroupKey]', oFrm).val('@(ViewData["groupKey"])');
+                        $('input[name=FieldKey]', oFrm).val('@(ViewData["fieldKey"])');
+                        $('input[name=Language]', oFrm).val('@(ViewData["language"])');
+
+                        if (typeof fnOnShow == 'function')
+                            fnOnShow(o, data);
+                    }
+
+                    return t.onAddRecord(fnShow);
+                }
+
+                function fnOnEditRecord(oBtn, fnOnShow) {
+                    function fnShow(o, data) {
+                        var oFrm = $(o);
+                        $('input[name=Language]', oFrm).attr('disabled', true);
+
+                        if (typeof fnOnShow == 'function')
+                            fnOnShow(o, data);
+                    }
+
+                    return t.onEditRecord(oBtn, fnShow);
+                }
+
+                t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
+            </text>
+
+        }
+            t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+
+            t.fnPostDtAjaxData = function(d) {
+                d.GroupKey = '@(ViewData["groupKey"])';
+                d.FieldKey = '@(ViewData["fieldKey"])';
+                d.Language = '@(ViewData["language"])';
+            }
+            t.addDtRenderer(t.dtRenderButtons, [7]);
+            var dt = t.initializeDataTable(t.sDtSelector);
+
+            dt.on('error.dt',
+                    function(e, settings, techNote, message) {
+                        if (console)
+                            console.log('An error has been reported by DataTables: ', message);
+                    })
+                .on('xhr.dt', function ( e, settings, json, xhr ) {
+                    var data = xhr["responseJSON"];
+                    t.checkAjaxMessage(data);
+                } );
+
+
+
+            t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
+            t.dtRenderFooterButtons();
+            $('.btn-newrecord').off('click').on('click', fnOnAddRecord);
+
+        }
+    }
+</script> 

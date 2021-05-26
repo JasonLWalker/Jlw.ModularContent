@@ -46,9 +46,11 @@ namespace Jlw.Data.LocalizedContent
 		public string AuditChangeBy { get; protected set; }      
  
 		/// Member for [AuditChangeDate] Database Column 
-		public DateTime AuditChangeDate { get; protected set; }      
- 
-		/// Member for [Order] Database Column 
+		public DateTime AuditChangeDate { get; protected set; }
+
+        public string GroupFilter { get; set; }
+
+        /// Member for [Order] Database Column 
 		public int Order { get; protected set; }
 
 		/// <summary>Initializes a new instance of the <see cref="LocalizedContentField" /> class. Members are set to their default values.</summary>
@@ -93,7 +95,8 @@ namespace Jlw.Data.LocalizedContent
 			AuditChangeBy = DataUtility.Parse<string>(o, "AuditChangeBy");
 			AuditChangeDate = DataUtility.Parse<DateTime>(o, "AuditChangeDate");
 			Order = DataUtility.Parse<int>(o, "Order");
-        }
+			GroupFilter = DataUtility.Parse<string>(o, "GroupFilter");
+		}
 
 	} 
 } 

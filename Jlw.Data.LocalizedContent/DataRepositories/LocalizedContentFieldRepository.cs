@@ -42,15 +42,18 @@ namespace Jlw.Data.LocalizedContent
                         new KeyValuePair<string, object>("@wrapperhtmlend", "WrapperHtmlEnd"),
                         new KeyValuePair<string, object>("@auditchangeby", "AuditChangeBy"),
                         new KeyValuePair<string, object>("@order", "Order"),
+                        new KeyValuePair<string, object>("@groupfilter", "GroupFilter"),
                     };
                 case SpDeleteRecord:
                     return new KeyValuePair<string, object>[] {
                         new KeyValuePair<string, object>("@id", "Id"),
                         new KeyValuePair<string, object>("@auditchangeby", "AuditChangeBy"),
+                        new KeyValuePair<string, object>("@groupfilter", "GroupFilter"),
                     };
                 case SpGetRecord: 
                     return new KeyValuePair<string, object>[] { 
-                        new KeyValuePair<string, object>("@id", "Id"), 
+                        new KeyValuePair<string, object>("@id", "Id"),
+                        new KeyValuePair<string, object>("@groupfilter", "GroupFilter"),
                     }; 
                 //case SpListRecord: 
                 //    return new KeyValuePair<string, object>[] { }; 
@@ -64,12 +67,12 @@ namespace Jlw.Data.LocalizedContent
 
         public object GetDataTableList(LocalizedContentFieldDataTablesInput o)
         {
-            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey";
+            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey, @sGroupFilter=@sGroupFilter";
             var dt = new DataTablesBase(o, _dbClient);
-            if (!dt.UseOrderedPaging)
-            {
-                sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=0, @nPageSize=1000, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey";
-            }
+//            if (!dt.UseOrderedPaging)
+//            {
+//                sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=0, @nPageSize=1000, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey";
+//            }
 
             dt.AddExtraParams("sSortCol", o?.columns?.ElementAtOrDefault(o?.order?.FirstOrDefault()?.column ?? 0)?.data);
             dt.AddExtraParams("sSortDir", o?.order?.FirstOrDefault()?.dir);
@@ -78,6 +81,7 @@ namespace Jlw.Data.LocalizedContent
             dt.AddExtraParams("sFieldKey", o.FieldKey);
             dt.AddExtraParams("sGroupKey", o.GroupKey);
             dt.AddExtraParams("sParentKey", o.ParentKey);
+            dt.AddExtraParams("sGroupFilter", string.IsNullOrWhiteSpace(o.GroupFilter) ? null : o.GroupFilter);
 
             dt.SetDebug(false);
 

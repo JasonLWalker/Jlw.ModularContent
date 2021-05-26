@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "View";
+}
+<h1>View</h1>
+<ul>
+    <li><a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentField"})">Default Fields</a></li>
+    <li><a href="@Url.Action("Index", "Admin", new {Area="LocalizedContentText"})">Default Text</a></li>
+    <li><a href="@Url.Action("Index", "Admin", new {Area="LocalizedGroupDataItem"})">Default Items</a></li>
+    <li><a href="@Url.Action("Index","ContentOverrideAdmin")">Field Override</a></li>
+</ul>
