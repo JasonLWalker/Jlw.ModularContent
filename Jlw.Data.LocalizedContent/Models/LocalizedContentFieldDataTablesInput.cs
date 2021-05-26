@@ -1,4 +1,7 @@
+using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Data.LocalizedContent
 {
@@ -9,5 +12,6 @@ namespace Jlw.Data.LocalizedContent
         public string FieldKey { get; set; }
         public string GroupKey { get; set; }
         public string ParentKey { get; set; }
+        public new string GroupFilter { get; set; }
     }
 }

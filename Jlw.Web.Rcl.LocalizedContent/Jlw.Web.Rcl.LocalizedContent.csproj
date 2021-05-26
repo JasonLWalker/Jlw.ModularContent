@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.14" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
+    <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.0.7678.29298" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="resources\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+  </ItemGroup>
+
+
+</Project>

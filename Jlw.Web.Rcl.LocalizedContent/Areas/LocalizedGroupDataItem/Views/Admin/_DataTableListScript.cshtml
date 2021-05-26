@@ -1,0 +1,57 @@
+ 
+@{ 
+    bool isAdmin = true; 
+    bool canView = isAdmin || true; 
+    bool canAdd = isAdmin || true; 
+    bool canEdit = isAdmin || true; 
+    bool canDelete = isAdmin || true; 
+} 
+<script>
+
+    if (!window.jlwLibLocalizedGroupDataItem) {
+        window.jlwLibLocalizedGroupDataItem = function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedGroupDataItem"})/', '.jlw-dtlist-localizedgroupdataitem table.jlw-datatable-localizedgroupdataitem');
+
+    @if (canEdit)
+    {
+        <text>
+            t.frmEdit = $('#jlwEditFormLocalizedGroupDataItem').html();
+        </text>
+    }
+
+        @if (canEdit)
+        {
+            <text>
+                t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', t.onEditRecord);
+            </text>
+
+        }
+            t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+
+            t.fnPostDtAjaxData = function(d) {
+                // Add additional parameters here like this:
+                // d.SomeParameter = 'SomeValue';
+            }
+            t.addDtRenderer(t.dtRenderButtons, [8]);
+            var dt = t.initializeDataTable(t.sDtSelector);
+
+            dt.on('error.dt',
+                    function(e, settings, techNote, message) {
+                        if (console)
+                            console.log('An error has been reported by DataTables: ', message);
+                    })
+                .on('xhr.dt', function ( e, settings, json, xhr ) {
+                    var data = xhr["responseJSON"];
+                    t.checkAjaxMessage(data);
+                } );
+
+
+
+            t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', t.onAddRecord);
+            t.dtRenderFooterButtons();
+            $('.btn-newrecord').off('click').on('click', t.onAddRecord);
+
+        }
+    }
+</script> 

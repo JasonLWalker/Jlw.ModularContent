@@ -89,10 +89,13 @@ namespace Jlw.Data.LocalizedContent
         /// Member for AuditChangeDate Database Column 
          
         [JsonIgnore] 
-        DateTime AuditChangeDate { get; } 
-         
+        DateTime AuditChangeDate { get; }
+
+        [JsonIgnore]
+        string GroupFilter { get; set; }
+
         /// Member for Order Database Column 
-         
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<int>))] 
         int Order { get; } 

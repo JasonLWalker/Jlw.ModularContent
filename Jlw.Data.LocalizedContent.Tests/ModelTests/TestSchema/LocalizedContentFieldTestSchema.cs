@@ -30,6 +30,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 var auditChangeBy = DataUtility.GenerateRandom<string>();
                 var auditChangeDate = DataUtility.GenerateRandom<DateTime>();
                 var order = DataUtility.GenerateRandom<int>();
+                var groupFilter = DataUtility.GenerateRandom<string>();
 
                 var sut = new TModel(new
                 {
@@ -47,11 +48,13 @@ namespace Jlw.Data.LocalizedContent.Tests
                     AuditChangeType = auditChangeType,
                     AuditChangeBy = auditChangeBy,
                     AuditChangeDate = auditChangeDate,
-                    Order = order
+                    Order = order,
+                    GroupFilter = groupFilter
                 });
 
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Id), id);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
+                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupFilter), groupFilter);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldType), fieldType);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldData), fieldData);
@@ -86,6 +89,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             AddProperty(typeof(string), "AuditChangeBy", Public, Protected);
             AddProperty(typeof(DateTime), "AuditChangeDate", Public, Protected);
             AddProperty(typeof(int), "Order", Public, Protected);
+            AddProperty(typeof(string), "GroupFilter", Public, Public);
         }
 
         public void InitInterfaces()
