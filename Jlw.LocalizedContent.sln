@@ -46,11 +46,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{B9C7434B-F
 		wiki\_Footer.md = wiki\_Footer.md
 		wiki\_Sidebar.md = wiki\_Sidebar.md
 		wiki\Home.md = wiki\Home.md
+		wiki\Jlw.Data.LocalizedContent.md = wiki\Jlw.Data.LocalizedContent.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jlw.Web.Core31.LocalizedContent.SampleWebApp", "Jlw.Web.Core31.LocalizedContent.SampleWebApp\Jlw.Web.Core31.LocalizedContent.SampleWebApp.csproj", "{272B7544-D897-445C-A19A-361D06BB64D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Core31.LocalizedContent.SampleWebApp", "Jlw.Web.Core31.LocalizedContent.SampleWebApp\Jlw.Web.Core31.LocalizedContent.SampleWebApp.csproj", "{272B7544-D897-445C-A19A-361D06BB64D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
