@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Jlw.Data.LocalizedContent")]
-[assembly: AssemblyDescription("A data utility class")]
+[assembly: AssemblyTitle("Jlw.Web.Rcl.LocalizedContent")]
+[assembly: AssemblyDescription("Razor Class Library to implement form and content creation via a database-driven UI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jason L. Walker")]
 [assembly: AssemblyProduct("Jlw.LocalizedContent")]
-[assembly: AssemblyCopyright("Copyright ©2012-2021 Jason L. Walker")]
+[assembly: AssemblyCopyright("Copyright ©2019-2021 Jason L. Walker")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a5ae8ce9-827b-4c38-a3dc-365a3bc75d7d")]
+[assembly: Guid("765917de-f725-487a-94d3-fced26163d5f")]
 
 // Version information for an assembly consists of the following four values:
 //
