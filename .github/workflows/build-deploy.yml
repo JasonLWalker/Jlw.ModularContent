@@ -57,8 +57,32 @@ jobs:
       run: |
         /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Data.LocalizedContent"
     
-    - name: Create Release
-      id: create_release
+    - name: Create RCL Release
+      id: create_rcl_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.PKGVERSION }} 
+        release_name: Release ${{ env.PKGNAME }}
+        draft: false
+        prerelease: false
+    - name: Upload RCL Release Asset
+      id: upload-rcl-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_rcl_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: "./${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
+        asset_name: "${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
+        asset_content_type: application/zip
+
+    - name: Publish Data Repo to github (using curl)
+      run: |
+        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Data.LocalizedContent"
+    - name: Create DataRepo Release
+      id: create_datarepo_release
       uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,12 +92,12 @@ jobs:
         draft: false
         prerelease: false
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-datarepo-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        upload_url: ${{ steps.create_datarepo_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: "./${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
         asset_name: "${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
         asset_content_type: application/zip

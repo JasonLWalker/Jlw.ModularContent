@@ -5,6 +5,20 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <Deterministic>False</Deterministic>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
+    <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <AssemblyName>Jlw.Web.Rcl.LocalizedContent</AssemblyName>
+    <RootNamespace>Jlw.Web.Rcl.LocalizedContent</RootNamespace>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 
@@ -25,6 +39,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
   </ItemGroup>
+
+  <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
+    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
+      <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <PackageVersion>%(PackAssembly.Version)$(VersionSuffix)</PackageVersion>
+    </PropertyGroup>
+  </Target>
 
 
 </Project>
