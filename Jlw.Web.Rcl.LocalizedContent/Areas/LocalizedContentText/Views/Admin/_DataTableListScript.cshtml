@@ -1,16 +1,17 @@
 @{ 
-    bool isAdmin = true; 
-    bool canView = isAdmin || true; 
-    bool canAdd = isAdmin || true; 
-    bool canEdit = isAdmin || true; 
-    bool canDelete = isAdmin || true; 
+    bool isAdmin = true;
+    bool canView = isAdmin || true;
+    bool canAdd = isAdmin || true;
+    bool canEdit = isAdmin || true;
+    bool canDelete = isAdmin || true;
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, parentKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
 } 
 <script>
 
     if (!window.jlwLibLocalizedContentText) {
         window.jlwLibLocalizedContentText = function() {
             $.fn.dataTable.ext.errMode = 'none';
-            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedContentText"})/', '.jlw-dtlist-localizedcontenttext table.jlw-datatable-localizedcontenttext');
+            var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-localizedcontenttext table.jlw-datatable-localizedcontenttext');
 
             @if (canEdit)
     {

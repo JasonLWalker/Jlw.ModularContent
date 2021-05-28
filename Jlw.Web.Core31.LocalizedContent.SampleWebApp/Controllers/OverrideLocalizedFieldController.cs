@@ -10,14 +10,15 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
 {
     //[Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class ContentOverrideAdmin : Controller
+    public class OverrideLocalizedFieldController : Controller
     {
         [HttpGet("~/Admin/[controller]/{groupKey?}/{parentKey?}")]
         public ActionResult Index(string groupKey, string parentKey)
         {
             ViewData["groupKey"] = groupKey;
-            ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
+            ViewData["apiOverrideUrl"] = Url.Content("~/admin/api/OverrideLocalizedField/");
             ViewData["adminOverrideUrl"] = Url.Action("Index", new { groupKey = (string)null, fieldKey = (string)null });
+            ViewData["adminTextOverrideUrl"] = Url.Action("Index", "OverrideLocalizedText", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["wizardOverrideUrl"] = Url.Action("Wizard", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["emailOverrideUrl"] = Url.Action("Email", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["parentKey"] = parentKey;
@@ -29,8 +30,11 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         public ActionResult Wizard(string groupKey, string parentKey)
         {
             ViewData["groupKey"] = groupKey;
-            ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
+            //ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
+            //ViewData["apiOverrideUrl"] = Url.Action("Index", "OverrideLocalizedFieldApi", new { groupKey = (string)null, fieldKey = (string)null }) + "/";
+            ViewData["apiOverrideUrl"] = Url.Content("~/admin/api/OverrideLocalizedField/");
             ViewData["adminOverrideUrl"] = Url.Action("Index", new { groupKey = (string)null, fieldKey = (string)null });
+            ViewData["adminTextOverrideUrl"] = Url.Action("Index", "OverrideLocalizedText", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["wizardOverrideUrl"] = Url.Action("Wizard",new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["emailOverrideUrl"] = Url.Action("Email",new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["fieldType"] = "WIZARD";
@@ -43,8 +47,11 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         public ActionResult Email(string groupKey, string parentKey)
         {
             ViewData["groupKey"] = groupKey;
-            ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
+            //ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
+            //ViewData["apiOverrideUrl"] = Url.Action("Index", "OverrideLocalizedFieldApi", new { groupKey = (string)null, fieldKey = (string)null }) + "/";
+            ViewData["apiOverrideUrl"] = Url.Content("~/admin/api/OverrideLocalizedField/");
             ViewData["adminOverrideUrl"] = Url.Action("Index");
+            ViewData["adminTextOverrideUrl"] = Url.Action("Index", "OverrideLocalizedText", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["wizardOverrideUrl"] = Url.Action("Wizard");
             ViewData["emailOverrideUrl"] = Url.Action("Email");
             ViewData["fieldType"] = "EMAIL";

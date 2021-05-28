@@ -5,32 +5,35 @@ using Microsoft.AspNetCore.Mvc;
 namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
-    [Route("admin/ContentOverride/api/")]
-    public class ContentOverrideAdminApiController : Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers.ApiController
+    [Route("admin/api/OverrideLocalizedField/")]
+    public class OverrideLocalizedFieldApiController : Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers.ApiController
     {
-        public ContentOverrideAdminApiController(ILocalizedContentFieldRepository repository) : base (repository)
+        public OverrideLocalizedFieldApiController(ILocalizedContentFieldRepository repository) : base (repository)
         {
             _groupFilter = "Sample%";
         }
 
+        /*
+
         public override object DtList(LocalizedContentFieldDataTablesInput o)
         {
-            return GetDataTableList(o);
+            return base.DtList(o);
         }
 
         public override object Data(LocalizedContentFieldRecordInput o)
         {
-            return GetRecordData(o);
+            return base.Data(o);
         }
 
         public override object Save(LocalizedContentFieldRecordInput o)
         {
-            return SaveRecordData(o);
+            return base.Save(o);
         }
 
         public override object Delete(LocalizedContentFieldRecordInput o)
         {
-            return DeleteRecordData(o);
+            return base.Delete(o);
         }
+        */
     }
 }

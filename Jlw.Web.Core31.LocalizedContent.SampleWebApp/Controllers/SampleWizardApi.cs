@@ -18,10 +18,31 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             WizardPrefix = "SampleWizard";
         }
 
+        [HttpPost]
+        public virtual object Index(WizardInputModel model)
+        {
+            //TODO: add configuration
+
+            return ProcessWizard(model, false);
+        }
+
+        /// <summary>Saves the submitted data from the wizard.</summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Object.</returns>
+        [Route("Wizard/Save")]
+        [HttpPost]
+        public virtual object Save(WizardInputModel model)
+        {
+            //TODO: add configuration
+            //TODO: add configuration checking
+
+            return ProcessWizard(model, true);
+        }
+
         [NonAction]
         protected override object ProcessWizard(object inputModel, bool isSave = false)
         {
-            var model = new PageWizardModel(inputModel);
+            var model = new WizardInputModel(inputModel);
 
             string groupKey = $"{WizardPrefix}_{model.Section}.{model.Step}";
 
@@ -29,6 +50,14 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             {
                 case 0:
                     groupKey = $"{WizardPrefix}_0";
+                    break;
+                case 1:
+                    if (model.Step < 1)
+                        groupKey = $"{WizardPrefix}_1.1";
+                    break;
+                case 4:
+                    if (model.Step < 1)
+                        groupKey = $"{WizardPrefix}_4";
                     break;
             }
 
@@ -39,7 +68,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         }
 
 
-        public class PageWizardModel : IWizardModelBase
+        public class WizardInputModel : IWizardModelBase
         {
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             [JsonConverter(typeof(JlwJsonConverter<int>))]
@@ -49,12 +78,14 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Step { get; set; }
 
-            public PageWizardModel() => Initialize(null);
+            public WizardInputModel() => Initialize(null);
 
-            public PageWizardModel(object o) => Initialize(o);
+            public WizardInputModel(object o) => Initialize(o);
 
             protected new void Initialize(object o)
             {
+                Section = DataUtility.Parse<int>(o, "Section");
+                Step = DataUtility.Parse<int>(o, "Step");
                 //base.Initialize(o);
             }
         }

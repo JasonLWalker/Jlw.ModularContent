@@ -6,6 +6,7 @@
     bool canDelete = isAdmin || true;
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
     string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index",new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
+    string adminTextUrl = (string.IsNullOrWhiteSpace(ViewData["adminTextOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentText", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminTextOverrideUrl"]?.ToString();
     string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
     string emailUrl = (string.IsNullOrWhiteSpace(ViewData["emailOverrideUrl"]?.ToString())) ? Url.Action("Email", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
 } 
@@ -22,7 +23,7 @@
             function onEditLanguage(o) {
                 var elem = $(o);
                 var data = t.getParentData(o);
-                window.location = '@adminUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
+                window.location = '@adminTextUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
             }
 
             t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
@@ -35,9 +36,9 @@
                 // Add additional parameters here like this:
                 // d.SomeParameter = 'SomeValue';
                 d.GroupKey = '@(ViewData["groupKey"])';
-                d.FieldKey = '@(ViewData["fieldKey"])';
+                d.FieldKey = '@(ViewData["parentKey"])';
                 d.FieldType = '@(ViewData["fieldType"])';
-                d.ParentKey = '@(ViewData["parentKey"])';
+                //d.ParentKey = '@(ViewData["parentKey"])';
             }
             t.addDtRenderer(t.dtRenderButtons, [15]);
 

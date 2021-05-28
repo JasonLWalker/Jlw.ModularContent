@@ -1,7 +1,10 @@
 @{ 
-    ViewData["Title"] = "Language Text - ";
+    ViewData["Title"] = ViewData["PageTitle"];
 
     string jsRoot = "LocalizedContent";
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", "Admin", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
+    string adminFieldUrl = (string.IsNullOrWhiteSpace(ViewData["adminFieldOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminFieldOverrideUrl"]?.ToString();
 
     var aBreadcrumb = new List<KeyValuePair<string, string>>()
     {
@@ -12,12 +15,12 @@
     if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
     {
         ViewData["Title"] += ViewData["groupKey"]?.ToString();
-        aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedContentText"}) + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+        aBreadcrumb.Add(new KeyValuePair<string, string>(adminFieldUrl + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
     }
     if (!string.IsNullOrWhiteSpace(ViewData["fieldKey"]?.ToString()))
     {
         ViewData["Title"] += " " + ViewData["fieldKey"]?.ToString();
-        aBreadcrumb.Add(new KeyValuePair<string, string>(Url.Action("Index", "Admin", new { Area = "LocalizedContentText" }) + "/" + ViewData["groupKey"] + "/" + ViewData["fieldKey"], ViewData["fieldKey"]?.ToString()));
+        aBreadcrumb.Add(new KeyValuePair<string, string>(adminUrl + "/" + ViewData["groupKey"] + "/" + ViewData["fieldKey"], ViewData["fieldKey"]?.ToString()));
     }
 
     ViewData["Breadcrumb"] = aBreadcrumb;
@@ -91,12 +94,12 @@
         </div> 
     </div> 
     <br/> 
-    @Html.PartialAsync("_DataTableList").Result 
+    @Html.PartialAsync("~/Areas/LocalizedContentText/Views/Admin/_DataTableList.cshtml").Result 
 </div> 
 <div class="d-none hidden"> 
  
-    @Html.PartialAsync("_EditRecord").Result 
+    @Html.PartialAsync("~/Areas/LocalizedContentText/Views/Admin/_EditRecord.cshtml").Result 
  
 </div> 
  
-@Html.PartialAsync("_DataTableListScript").Result 
+@Html.PartialAsync("~/Areas/LocalizedContentText/Views/Admin/_DataTableListScript.cshtml").Result 

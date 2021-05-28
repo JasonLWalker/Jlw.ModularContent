@@ -8,14 +8,16 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 {
     [Area("LocalizedContentText")]
     [ApiController]
-    [Authorize("LocalizedContentUser")]
+    //[Authorize("LocalizedContentUser")]
     [Produces("application/json")]
     [Route("admin/[area]/[controller]")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] 
-	public class ApiController : ControllerBase 
+	public abstract class ApiController : ControllerBase 
 	{ 
-        private readonly ILocalizedContentTextRepository _repo; 
-		public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText 
+        private readonly ILocalizedContentTextRepository _repo;
+        protected string _groupFilter;
+
+        public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText 
 		{ 
 			public string EditToken { get; set; } 
 			public new string GroupKey  { get; set; } 
@@ -29,24 +31,25 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
  
 		public ApiController (ILocalizedContentTextRepository repository) 
         { 
-            _repo = repository; 
+            _repo = repository;
+            _groupFilter = "";
         }
 
-        [HttpPost]
-        public object Index()
+		[HttpPost]
+        public virtual object Index()
         {
             return new {};
         }
 
 
 		[HttpPost("DtList")] 
-		public object GetDataTableList([FromForm]LocalizedContentTextDataTablesInput o) 
+		public virtual object DtList([FromForm]LocalizedContentTextDataTablesInput o) 
 		{
             return _repo.GetDataTableList(o);
         }
 
 		[HttpPost("Data")] 
-		public object GetRecordData(LocalizedContentTextRecordInput o) 
+		public virtual object Data(LocalizedContentTextRecordInput o) 
 		{ 
 			ILocalizedContentText oResult; 
  
@@ -64,7 +67,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 		} 
  
 		[HttpPost("Save")] 
-		public object SaveRecordData(LocalizedContentTextRecordInput o) 
+		public virtual object Save(LocalizedContentTextRecordInput o) 
 		{ 
 			var bResult = false;
             o.AuditChangeBy = User.Identity.Name;
@@ -89,7 +92,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 		} 
  
 		[HttpPost("Delete")] 
-		public object DeleteRecordData(LocalizedContentTextRecordInput o) 
+		public virtual object Delete(LocalizedContentTextRecordInput o) 
 		{ 
 			var bResult = false;
 
