@@ -1,14 +1,29 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Jlw.Utilities.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Data.LocalizedContent
 {
     public class WizardButtonData
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Label { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Class { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Icon { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         public object Action { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Wrapper { get; set; }
 
         public WizardButtonData() : this(null) { }

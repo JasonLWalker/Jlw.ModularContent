@@ -36,14 +36,14 @@
             t.debugLevel = opts['debugLevel'] || t.debugLevel;
 
             $(".list-group.wizard-nav button").off().on('click', t.fnOnClickNav);
-            t.populateFormData(opts["FormData"] || {}, $('.wizard-form'));
+            t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
 
         }
 
         function fnOnClickNav(evt) {
             var btn = $(evt.target);
-            var section = btn.data('Section');
-            var step = btn.data('Step');
+            var section = btn.data('section');
+            var step = btn.data('step');
             var fn = btn.data('fnclick');
             if (fn && typeof t[fn] == 'function') {
                 t[fn](evt);
@@ -110,8 +110,8 @@
         function navToStep(section, step) {
 
             var frmData = t.serializeFormToJson($('.wizard-form'));
-            frmData["section"] = frmData["section"] || section;
-            frmData["step"] = frmData["step"] || step;
+            frmData["Section"] = frmData["Section"] || section;
+            frmData["Step"] = frmData["Step"] || step;
             var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail)
                 .done(function(data, status, jqXhr) {
                     renderWizard(section, step, data);
@@ -122,16 +122,16 @@
         }
 
         function renderButton(o) {
-            var icon = o['icon'] ? '<span class="' + o['icon'] + '" /></span> ' : '';
-            var col = $('<div class="' + o["wrapper"] + '"></div>');
-            var action = o["action"] || {}
+            var icon = o['Icon'] ? '<span class="' + o['Icon'] + '" /></span> ' : '';
+            var col = $('<div class="' + o["Wrapper"] + '"></div>');
+            var action = o["Action"] || {}
             var data = '';
             if (action['type']) data += ' data-type="' + action['type'] + '"';
             if (action['section']) data += ' data-section="' + action['section'] + '"';
             if (action['step']) data += ' data-step="' + action['step'] + '"';
             if (action['url']) data += ' data-url="' + action['url'] + '"';
             if (action['fnClick']) data += ' data-fnclick="' + action['fnClick'] + '"';
-            var btn = $('<button class="' + o["class"] + '" ' + data + '>' + icon + o["label"] + '</button>');
+            var btn = $('<button class="' + o["Class"] + '" ' + data + '>' + icon + o["Label"] + '</button>');
             col.append(btn);
             btn.on('click', fnOnClickAction);
             return col;
@@ -147,38 +147,38 @@
                 var o = buttons[i];
                 var btn = renderButton(o);
                 btns.append(btn);
-                setButtonAction(btn, o["action"] || "");
+                setButtonAction(btn, o["Action"] || "");
             }
         }
 
         function renderWizardForm(data) {
             var wrapper = $("<div></div>");
             var formBody = $('<div class=""></div>');
-            var headingText = data["label"];
-            var fields = data['fields'] || [];
+            var headingText = data["Label"];
+            var fields = data['Fields'] || [];
             var i = 0;
 
             //Todo: Remove next line after debugging:
-            if (t.debugLevel >= 10) headingText = '[' + data["groupKey"] + ' ' + data["fieldKey"] + ']' + headingText;
+            if (t.debugLevel >= 10) headingText = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + headingText;
 
-            if (data['wrapperClass'])
-                wrapper.addClass(data['wrapperClass']);
+            if (data['WrapperClass'])
+                wrapper.addClass(data['WrapperClass']);
 
-            if (data['fieldClass'])
-                formBody.addClass(data['fieldClass']);
+            if (data['FieldClass'])
+                formBody.addClass(data['FieldClass']);
 
             for (i = 0; i < fields.length; i++) {
-                data["usedFields"][fields[i]["FieldKey"]] = true;
+                data["UsedFields"][fields[i]["FieldKey"]] = true;
                 renderWizardFormField(fields[i], formBody);
             }
 
             var btn = "";
-            if (data["useCardLayout"]) {
+            if (data["UseCardLayout"]) {
                 wrapper.addClass('card');
-                if (data["label"]) {
+                if (data["Label"]) {
                     var header = $('<div class="card-header"><div class="h5">' + headingText + '</div></div>');
-                    if (data["editButton"] && typeof (data["editButton"]) == "object") {
-                        btn = renderButton(data["editButton"]);
+                    if (data["EditButton"] && typeof (data["EditButton"]) == "object") {
+                        btn = renderButton(data["EditButton"]);
                         btn.addClass('float-right');
                         header.prepend(btn);
                     }
@@ -193,8 +193,8 @@
 
 
             $(".wizard-body").append(wrapper);
-            if (data["editButton"] && typeof (data["editButton"]) == "object" && typeof (btn) == "object") {
-                setButtonAction(btn, data["editButton"]["action"] || "");
+            if (data["EditButton"] && typeof (data["EditButton"]) == "object" && typeof (btn) == "object") {
+                setButtonAction(btn, data["EditButton"]["Action"] || "");
             }
         }
 
@@ -313,15 +313,15 @@
         }
 
         function renderWizard(section, step, data) {
-            var heading = data["heading"] || "";
-            var body = data["body"] || "";
-            var buttons = data["buttons"];
-            var forms = data["forms"] || [];
+            var heading = data["Heading"] || "";
+            var body = data["Body"] || "";
+            var buttons = data["Buttons"];
+            var forms = data["Forms"] || [];
             var usedFields = {};
             var i;
             //Todo: Remove next line after debugging:
-            if (t.debugLevel >= 10 && data['groupKey']) heading = '[' + data["groupKey"] + ' Heading]' + heading;
-            if (t.debugLevel >= 10 && data['groupKey']) body = '[' + data["groupKey"] + ' Body]' + body;
+            if (t.debugLevel >= 10 && data['GroupKey']) heading = '[' + data["GroupKey"] + ' Heading]' + heading;
+            if (t.debugLevel >= 10 && data['GroupKey']) body = '[' + data["GroupKey"] + ' Body]' + body;
 
             $('.wizard-heading').html(heading);
             $('.wizard-body').html(body);
@@ -329,12 +329,12 @@
             renderWizardButtons(buttons || []);
             if (forms && forms.length) {
                 for (i = 0; i < forms.length; i++) {
-                    forms[i]["usedFields"] = usedFields;
-                    renderWizardForm(forms[i] || { 'usedFields': usedFields });
-                    usedFields = forms[i]["usedFields"];
+                    forms[i]["UsedFields"] = usedFields;
+                    renderWizardForm(forms[i] || { 'UsedFields': usedFields });
+                    usedFields = forms[i]["UsedFields"];
                 }
             } else {
-                renderWizardForm({ 'usedFields': usedFields });
+                renderWizardForm({ 'UsedFields': usedFields });
             }
 
             var formBody = $(".wizard-body");
@@ -343,11 +343,11 @@
                     formBody.append($('<input type="hidden" name="' + t.wizardFields[i] + '" value="" />'));
             }
 
-            if (data["formData"]) {
-                t.renderInvalidFormFields(data["formData"]['invalidFields']);
-                t.renderValidFormFields(data["formData"]['validFields']);
-                section = data["formData"]["section"] || section;
-                step = data["formData"]["step"] || step;
+            if (data["FormData"]) {
+                t.renderInvalidFormFields(data["FormData"]['invalidFields']);
+                t.renderValidFormFields(data["FormData"]['validFields']);
+                section = data["FormData"]["section"] || section;
+                step = data["FormData"]["step"] || step;
             }
             if (currSection != section || currStep != step) {
                 lastSection = currSection;
@@ -365,7 +365,7 @@
 
             $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
 
-            t.populateFormData(data["formData"] || {}, $('.wizard-form'));
+            t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
 
         }
 
