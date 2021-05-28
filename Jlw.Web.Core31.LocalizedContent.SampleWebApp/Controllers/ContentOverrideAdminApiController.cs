@@ -10,7 +10,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
     {
         public ContentOverrideAdminApiController(ILocalizedContentFieldRepository repository) : base (repository)
         {
-            _groupFilter = "%";
+            _groupFilter = "Sample%";
         }
 
         public override object DtList(LocalizedContentFieldDataTablesInput o)
