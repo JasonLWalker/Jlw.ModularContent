@@ -1,0 +1,94 @@
+﻿@using Microsoft.Extensions.DependencyInjection
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model object
+@{
+    ViewData["Title"] = "Sample Wizard";
+    ViewData["Breadcrumb"] ??= new List<KeyValuePair<string, string>>()
+{
+        new KeyValuePair<string, string>(Url.Action("Index", "Home", new {Area = (string)null}), "Home"),
+        new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Sample Wizard"),
+        new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Start"),
+    };
+
+}
+<div class="row">
+    @{//if (!Model.WizardComplete)
+    //{
+        <div class="d-none d-lg-inline-block col-lg-auto border-right">
+            <form method="post">
+                <input type="hidden" name="st" value="1" />
+                <div class="list-group wizard-nav">
+                    <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
+                    <button type="button" data-section="1" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Personal Information</button>
+                    <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
+                    <button type="button" data-section="1" data-step="4" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Bio</button>
+                    <button type="button" data-section="1" data-step="5" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Address</button>
+                    <button type="button" data-section="1" data-step="6" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Review Info</button>
+                    <button type="button" data-section="3" data-step="1" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Request Information</button>
+                    <button type="button" data-section="2" data-step="1" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Additional Information</button>
+                    <button type="button" data-section="4" data-step="1" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Request</button>
+                </div>
+
+            </form>
+        </div>
+    }
+    <div class="col-md wizard-form">
+        <form method="post">
+            <div class="h3 wizard-heading">@(ViewData["Heading"] ?? ViewData["Title"])</div>
+            <div class="wizard-body">
+
+                <div class="spinner-border spinner-border-sm float-left my-1" role="status"></div>
+                <div class="p-0">
+                    <div class="h5">&nbsp;Please wait, loading...</div>
+                    <input type="hidden" name="step" value="" />
+                    <input type="hidden" name="section" value="" />
+                </div>
+            </div>
+            <div class="wizard-buttons row">
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_WizardLibScript");
+    }
+    <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
+    <script src="~/LocalizedContent/js/bootbox.min.js"></script>
+    <script>
+        (function(t, $, initOptions, undefined) {
+
+            var wiz = window.libJlwWizardBase(t || new window.libJlwUtility() || {}, $, initOptions, undefined);
+
+            t.wizardFields = [
+                'ApplicationId',
+                'DigitalSignature'
+            ];
+            t.initializeWizard = initialize;
+            t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
+            t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+
+
+            if (initOptions)
+                initialize(initOptions);
+
+            function initialize(opts) {
+                currApplicationId = opts["ApplicationId"];
+                var btn = $("nav .breadcrumb .breadcrumb-item>a[href$='\/Wizard']");
+                btn.data('section', 0);
+                btn.data('step', 0);
+                btn.off().on('click', t.fnOnClickNav);
+
+                t.navToStep(opts['Section'], opts['Step']).done(function() {
+                    t.populateFormData(opts["FormData"] || {}, $('.wizard-form'));
+                });
+            }
+
+        })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
+            'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
+            'urlApiRoot': '@Html.Raw(Url.Action("Index", "SampleWizardApi"))',
+            'debugLevel':11
+        });
+    </script>
+}
