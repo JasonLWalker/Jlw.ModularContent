@@ -10,11 +10,12 @@
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Sample Wizard"),
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Start"),
     };
+    string jsRoot = "LocalizedContent";
 
 }
 <div class="row">
     @{//if (!Model.WizardComplete)
-    //{
+        //{
         <div class="d-none d-lg-inline-block col-lg-auto border-right">
             <form method="post">
                 <input type="hidden" name="st" value="1" />
@@ -56,6 +57,8 @@
     }
     <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
     <script src="~/LocalizedContent/js/bootbox.min.js"></script>
+    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/all.min.js")"></script>
+    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"></script>
     <script>
         (function(t, $, initOptions, undefined) {
 
