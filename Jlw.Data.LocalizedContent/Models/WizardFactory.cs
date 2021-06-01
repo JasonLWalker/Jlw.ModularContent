@@ -30,7 +30,7 @@ namespace Jlw.Data.LocalizedContent
             string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
             foreach (var form in formList)
             {
-                ((List<WizardFormData>)content.Forms).Add(new WizardFormData(form.FieldKey, fieldData));
+                ((List<WizardFormData>)content.Forms).Add(CreateWizardFormData(form.FieldKey, fieldData));
             }
 
             if (!string.IsNullOrWhiteSpace(embedData))
