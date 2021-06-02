@@ -2,54 +2,58 @@
     ViewData["Title"] = ViewData["PageTitle"];
 
     string jsRoot = "LocalizedContent";
-    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
-    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
-    string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
-    string emailUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Email", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["emailOverrideUrl"]?.ToString();
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) : ViewData["adminOverrideUrl"]?.ToString();
+    string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) : ViewData["wizardOverrideUrl"]?.ToString();
+    string emailUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Email", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) : ViewData["emailOverrideUrl"]?.ToString();
 
 
-    var aBreadcrumb = new List<KeyValuePair<string, string>>()
-{
-        new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
-        new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-    };
-    switch (ViewData["fieldType"]?.ToString()?.ToUpper())
+    if (!(ViewData["Breadcrumb"] is IEnumerable<KeyValuePair<string, string>>))
     {
-        case "WIZARD":
-            aBreadcrumb.Add(new KeyValuePair<string, string>(wizardUrl, ViewData["PageTitle"]?.ToString()));
-            break;
-        case "EMAIL":
-            aBreadcrumb.Add(new KeyValuePair<string, string>(emailUrl, ViewData["PageTitle"]?.ToString()));
-            break;
-        default:
-            new KeyValuePair<string, string>(adminUrl, ViewData["PageTitle"]?.ToString());
-            break;
-    }
-    if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
-    {
+        var aBreadcrumb = new List<KeyValuePair<string, string>>()
+        {
+            new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
+        };
         switch (ViewData["fieldType"]?.ToString()?.ToUpper())
         {
             case "WIZARD":
-                aBreadcrumb.Add(new KeyValuePair<string, string>($"{wizardUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                aBreadcrumb.Add(new KeyValuePair<string, string>(wizardUrl, ViewData["PageTitle"]?.ToString()));
                 break;
             case "EMAIL":
-                aBreadcrumb.Add(new KeyValuePair<string, string>($"{emailUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                aBreadcrumb.Add(new KeyValuePair<string, string>(emailUrl, ViewData["PageTitle"]?.ToString()));
                 break;
             default:
-                aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                new KeyValuePair<string, string>(adminUrl, ViewData["PageTitle"]?.ToString());
                 break;
         }
-    }
-    if (!string.IsNullOrWhiteSpace(ViewData["parentKey"]?.ToString()))
-    {
-        aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}/{ViewData["parentKey"]}", ViewData["parentKey"]?.ToString()));
-    }
+        if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
+        {
+            switch (ViewData["fieldType"]?.ToString()?.ToUpper())
+            {
+                case "WIZARD":
+                    aBreadcrumb.Add(new KeyValuePair<string, string>($"{wizardUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                    break;
+                case "EMAIL":
+                    aBreadcrumb.Add(new KeyValuePair<string, string>($"{emailUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                    break;
+                default:
+                    aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}", ViewData["groupKey"]?.ToString()));
+                    break;
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(ViewData["parentKey"]?.ToString()))
+        {
+            aBreadcrumb.Add(new KeyValuePair<string, string>($"{adminUrl}/{ViewData["groupKey"]}/{ViewData["parentKey"]}", ViewData["parentKey"]?.ToString()));
+        }
 
-    ViewData["Breadcrumb"] = aBreadcrumb;
+        ViewData["Breadcrumb"] = aBreadcrumb;
+    }
 }
 @section Scripts {
     <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")" />
     <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/toastr.min.css")" />
+    <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")" />
     <script>
 
 

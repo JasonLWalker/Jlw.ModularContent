@@ -11,6 +11,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Config Environment Variables
       run: |
+        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
         ./build-scripts/setenv.ps1
     - name: Run build script
       run: |
@@ -30,6 +31,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Config Environment Variables
       run: |
+        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
         ./build-scripts/setenv.ps1
     - name: Download artifacts from build step
       uses: actions/download-artifact@v2
@@ -47,6 +49,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Config Environment Variables
       run: |
+        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
         /bin/bash ./build-scripts/setenv.sh
     - uses: actions/download-artifact@v2
       with:

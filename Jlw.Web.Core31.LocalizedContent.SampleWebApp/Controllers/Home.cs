@@ -9,5 +9,17 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("~/Wizard")]
+        public ActionResult Wizard()
+        {
+            var application = new object();
+
+            return View(application);
+        }
+
+
     }
 }

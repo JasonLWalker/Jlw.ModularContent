@@ -74,23 +74,27 @@ namespace Jlw.Data.LocalizedContent
          
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string WrapperHtmlEnd { get; } 
-         
+        string WrapperHtmlEnd { get; }
+
         /// Member for AuditChangeType Database Column 
-         
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonIgnore] 
-        string AuditChangeType { get; } 
-         
+        string AuditChangeType { get; }
+
         /// Member for AuditChangeBy Database Column 
-         
+
         //[JsonIgnore] 
-        string AuditChangeBy { get; } 
-         
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        string AuditChangeBy { get; }
+
         /// Member for AuditChangeDate Database Column 
-         
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonIgnore] 
         DateTime AuditChangeDate { get; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonIgnore]
         string GroupFilter { get; set; }
 
