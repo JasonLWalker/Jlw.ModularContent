@@ -1,15 +1,18 @@
-@{ 
+@{
     ViewData["Title"] = "Configuration Settings Admin";
     string jsRoot = "LocalizedContent";
     //int nCount = 0; 
 
-    var aBreadcrumb = new List<KeyValuePair<string, string>>()
+    if (!(ViewData["Breadcrumb"] is IEnumerable<KeyValuePair<string, string>>))
     {
-        new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
-        new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-        new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area="LocalizedGroupDataItem"}), "Configuration Settings"),
-    };
-    ViewData["Breadcrumb"] = aBreadcrumb;
+        var aBreadcrumb = new List<KeyValuePair<string, string>>()
+        {
+            new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedGroupDataItem"}), "Configuration Settings"),
+        };
+        ViewData["Breadcrumb"] = aBreadcrumb;
+    }
 }
 @section Scripts { 
     <script>

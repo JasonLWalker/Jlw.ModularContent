@@ -6,25 +6,27 @@
     string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", "Admin", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
     string adminFieldUrl = (string.IsNullOrWhiteSpace(ViewData["adminFieldOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentField", groupKey = (string)null, fieldKey = (string)null }) : ViewData["adminFieldOverrideUrl"]?.ToString();
 
-    var aBreadcrumb = new List<KeyValuePair<string, string>>()
-{
-        new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
-        new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-    };
-
-    if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
+    if (!(ViewData["Breadcrumb"] is IEnumerable<KeyValuePair<string, string>>))
     {
-        ViewData["Title"] += ViewData["groupKey"]?.ToString();
-        aBreadcrumb.Add(new KeyValuePair<string, string>(adminFieldUrl + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
-    }
-    if (!string.IsNullOrWhiteSpace(ViewData["fieldKey"]?.ToString()))
-    {
-        ViewData["Title"] += " " + ViewData["fieldKey"]?.ToString();
-        aBreadcrumb.Add(new KeyValuePair<string, string>(adminUrl + "/" + ViewData["groupKey"] + "/" + ViewData["fieldKey"], ViewData["fieldKey"]?.ToString()));
-    }
+        var aBreadcrumb = new List<KeyValuePair<string, string>>()
+        {
+            new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
+        };
 
-    ViewData["Breadcrumb"] = aBreadcrumb;
+        if (!string.IsNullOrWhiteSpace(ViewData["groupKey"]?.ToString()))
+        {
+            ViewData["Title"] += ViewData["groupKey"]?.ToString();
+            aBreadcrumb.Add(new KeyValuePair<string, string>(adminFieldUrl + "/" + ViewData["groupKey"], ViewData["groupKey"]?.ToString()));
+        }
+        if (!string.IsNullOrWhiteSpace(ViewData["fieldKey"]?.ToString()))
+        {
+            ViewData["Title"] += " " + ViewData["fieldKey"]?.ToString();
+            aBreadcrumb.Add(new KeyValuePair<string, string>(adminUrl + "/" + ViewData["groupKey"] + "/" + ViewData["fieldKey"], ViewData["fieldKey"]?.ToString()));
+        }
 
+        ViewData["Breadcrumb"] = aBreadcrumb;
+    }
 }
 
 @section Scripts {

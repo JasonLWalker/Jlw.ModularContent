@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Sample Wizard";
     ViewData["Breadcrumb"] ??= new List<KeyValuePair<string, string>>()
-{
+    {
         new KeyValuePair<string, string>(Url.Action("Index", "Home", new {Area = (string)null}), "Home"),
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Sample Wizard"),
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Start"),
