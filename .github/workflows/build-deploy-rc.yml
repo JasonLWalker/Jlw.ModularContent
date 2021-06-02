@@ -54,10 +54,9 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: ${{ env.PKGNAME }}
-    - name: Publish to github (using curl)
+    - name: Publish RCL to github (using curl)
       run: |
-        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Data.LocalizedContent"
-
+        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent"
     - name: Create RCL Release
       id: create_rcl_release
       uses: actions/create-release@latest
