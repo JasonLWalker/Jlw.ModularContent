@@ -1,4 +1,6 @@
-﻿using Jlw.Data.LocalizedContent;
+﻿using System;
+using System.Collections.Generic;
+using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Web.Rcl.LocalizedContent;
 using Microsoft.AspNetCore.Authorization;
@@ -78,9 +80,20 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Step { get; set; }
 
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public Dictionary<string, string> ValidFields { get; } = new Dictionary<string, string>();
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public Dictionary<string, string> InvalidFields { get; } = new Dictionary<string, string>();
+
             public WizardInputModel() => Initialize(null);
 
             public WizardInputModel(object o) => Initialize(o);
+
+            public void Validate(ValidationOptions opts)
+            {
+
+            }
 
             protected void Initialize(object o)
             {
@@ -88,6 +101,18 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
                 Step = DataUtility.Parse<int>(o, "Step");
                 //base.Initialize(o);
             }
+        }
+
+        [Flags]
+        public enum ValidationOptions
+        {
+            None,
+            RequireId = 1,
+            PersonalInfo = 2,
+            PersonalAddress = 4,
+            AdditionalInfo = 8,
+            ApplicationOptions = 16,
+            DigitalSignature = 32
         }
 
     }
