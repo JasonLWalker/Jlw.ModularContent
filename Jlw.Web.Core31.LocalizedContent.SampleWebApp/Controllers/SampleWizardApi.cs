@@ -82,7 +82,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
 
             public WizardInputModel(object o) => Initialize(o);
 
-            protected new void Initialize(object o)
+            protected void Initialize(object o)
             {
                 Section = DataUtility.Parse<int>(o, "Section");
                 Step = DataUtility.Parse<int>(o, "Step");
