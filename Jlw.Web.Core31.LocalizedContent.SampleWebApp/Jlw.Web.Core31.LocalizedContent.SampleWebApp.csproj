@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
     <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj" />
   </ItemGroup>
 
