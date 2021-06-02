@@ -22,8 +22,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             ViewData["fieldType"] = "WIZARD";
             ViewData["groupKey"] = groupKey;
-            ViewData["groupFilter"] = null;
             ViewData["parentKey"] = parentKey;
+            ViewData["groupFilter"] = null;
             ViewData["PageTitle"] = "Localized Wizard Admin";
             return GetViewResult();
         }

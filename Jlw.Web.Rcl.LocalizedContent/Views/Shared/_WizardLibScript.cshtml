@@ -1,0 +1,465 @@
+﻿<script>
+    function libJlwWizardBase(t, $, initOptions, undefined) {
+        var currSection = 0;
+        var currStep = 0;
+        var lastSection = 0;
+        var lastStep = 0;
+
+        t.wizardFields = t.wizardFields || [
+        ];
+
+        t.debugLevel = t.debugLevel || 0;
+        t.renderWizard = t.renderWizard || renderWizard;
+        t.renderValidFormFields = t.renderValidFormFields || renderValidFormFields;
+        t.renderInvalidFormFields = t.renderInvalidFormFields || renderInvalidFormFields;
+
+        t.initializeWizard = t.initializeWizard || initializeWizard;
+
+        t.fnOnClickNav = t.fnOnClickNav || fnOnClickNav;
+        t.navToStep = t.navToStep || navToStep;
+        t.fnOnClickBack = t.fnOnClickBack || fnOnClickBack;
+        t.fnOnClickLink = t.fnOnClickLink || fnOnClickLink;
+        t.fnOnClickSave = t.fnOnClickSave || fnOnClickSave;
+        t.fnOnClickAction = t.fnOnClickAction || fnOnClickAction;
+
+        t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+
+        t.ajaxFail = t.ajaxFail || ajaxFail;
+
+        if (initOptions)
+            t.initializeWizard(initOptions);
+
+        function initializeWizard(opts) {
+            $ = opts['$'] || $;
+            t.urlRoot = opts['urlRoot'] || t.urlRoot;
+            t.urlApiRoot = opts['urlApiRoot'] || t.urlApiRoot || t.urlRoot;
+            t.debugLevel = opts['debugLevel'] || t.debugLevel;
+
+            $(".list-group.wizard-nav button").off().on('click', t.fnOnClickNav);
+            t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
+
+        }
+
+        function fnOnClickNav(evt) {
+            var btn = $(evt.target);
+            var section = btn.data('section');
+            var step = btn.data('step');
+            var fn = btn.data('fnclick');
+            if (fn && typeof t[fn] == 'function') {
+                t[fn](evt);
+            }
+
+            t.navToStep(section, step);
+            return false;
+        }
+
+        function fnOnClickBack(evt) {
+            var btn = $(evt.target);
+            var section = lastSection;
+            var step = lastStep;
+            t.navToStep(section, step);
+            return false;
+        }
+
+        function fnOnClickLink(evt) {
+            var btn = $(evt.target);
+            var url = btn.data('url');
+            window.location = url.replace('~/', t.urlRoot);
+            return false;
+        }
+
+        function fnOnClickSave(evt) {
+            var btn = $(evt.target);
+            var section = btn.data('section');
+            var step = btn.data('step');
+            var fn = btn.data('fnclick');
+            if (fn && typeof t[fn] == 'function') {
+                t[fn](evt);
+            }
+            t.saveStep(section, step);
+            return false;
+        }
+
+        function fnOnClickAction(evt) {
+            var btn = $(evt.target);
+            switch (btn.data("type")) {
+                case 'nav':
+                    return t.fnOnClickNav(evt);
+                    break;
+                case 'save':
+                    return t.fnOnClickSave(evt);
+                    break;
+                case 'back':
+                    return t.fnOnClickBack(evt);
+                    break;
+                case 'link':
+                    return t.fnOnClickLink(evt);
+                    break;
+            }
+        }
+
+        function fnOnChange(evt) {
+            var o = $(evt.target);
+            var fn = o.data('fnChange');
+            if (fn && typeof t[fn] == 'function') {
+                t[fn](evt);
+            }
+            return false;
+        }
+
+        function navToStep(section, step) {
+
+            var frmData = t.serializeFormToJson($('.wizard-form'));
+            frmData["Section"] = frmData["Section"] || section;
+            frmData["Step"] = frmData["Step"] || step;
+            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail)
+                .done(function(data, status, jqXhr) {
+                    renderWizard(section, step, data);
+                });
+            $("input,select,textarea", $('.wizard-form')).prop("disabled",true);
+
+            return prm;
+        }
+
+        function renderButton(o) {
+            var icon = o['Icon'] ? '<span class="' + o['Icon'] + '" /></span> ' : '';
+            var col = $('<div class="' + o["Wrapper"] + '"></div>');
+            var action = o["Action"] || {}
+            var data = '';
+            if (action['type']) data += ' data-type="' + action['type'] + '"';
+            if (action['section']) data += ' data-section="' + action['section'] + '"';
+            if (action['step']) data += ' data-step="' + action['step'] + '"';
+            if (action['url']) data += ' data-url="' + action['url'] + '"';
+            if (action['fnClick']) data += ' data-fnclick="' + action['fnClick'] + '"';
+            var btn = $('<button class="' + o["Class"] + '" ' + data + '>' + icon + o["Label"] + '</button>');
+            col.append(btn);
+            btn.on('click', fnOnClickAction);
+            return col;
+        }
+
+        function setButtonAction(btnWrapper, action) {
+        }
+
+        function renderWizardButtons(buttons) {
+            var btns = $('.wizard-buttons');
+            btns.empty();
+            for (var i = 0; i < buttons.length; i++) {
+                var o = buttons[i];
+                var btn = renderButton(o);
+                btns.append(btn);
+                setButtonAction(btn, o["Action"] || "");
+            }
+        }
+
+        function renderWizardForm(data) {
+            var wrapper = $("<div></div>");
+            var formBody = $('<div class=""></div>');
+            var headingText = data["Label"];
+            var fields = data['Fields'] || [];
+            var i = 0;
+
+            //Todo: Remove next line after debugging:
+            if (t.debugLevel >= 10) headingText = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + headingText;
+
+            if (data['WrapperClass'])
+                wrapper.addClass(data['WrapperClass']);
+
+            if (data['FieldClass'])
+                formBody.addClass(data['FieldClass']);
+
+            for (i = 0; i < fields.length; i++) {
+                data["UsedFields"][fields[i]["FieldKey"]] = true;
+                renderWizardFormField(fields[i], formBody);
+            }
+
+            var btn = "";
+            if (data["UseCardLayout"]) {
+                wrapper.addClass('card');
+                if (data["Label"]) {
+                    var header = $('<div class="card-header"><div class="h5">' + headingText + '</div></div>');
+                    if (data["EditButton"] && typeof (data["EditButton"]) == "object") {
+                        btn = renderButton(data["EditButton"]);
+                        btn.addClass('float-right');
+                        header.prepend(btn);
+                    }
+                    wrapper.append(header);
+                }
+                var wrapperBody = $('<div class="card-body"></div>');
+                wrapperBody.append(formBody);
+                wrapper.append(wrapperBody);
+            } else {
+                wrapper.append(formBody);
+            }
+
+
+            $(".wizard-body").append(wrapper);
+            if (data["EditButton"] && typeof (data["EditButton"]) == "object" && typeof (btn) == "object") {
+                setButtonAction(btn, data["EditButton"]["Action"] || "");
+            }
+        }
+
+        function onRenderWizardFormField(obj, data, parent) {
+            return obj;
+        }
+
+        function renderWizardFormField(data, parent) {
+            var field = data["FieldType"] || "";
+            var fieldData = data["FieldData"] || {};
+            var type = fieldData["type"] || "";
+            var name = data["FieldKey"];
+            var label = data["Label"] || "&nbsp;";
+            var wrapperClass = data["WrapperClass"] || "";
+            var wrapperStart = data["WrapperHtmlStart"] || "";
+            var wrapperEnd = data["WrapperHtmlEnd"] || "";
+            var obj;
+            var id = name + (new Date()).valueOf();
+            var props = ' id="' + id + '" ';
+
+            if (fieldData["props"])
+                props += fieldData['props'] + ' ';
+
+
+            switch (field.toLowerCase()) {
+                case 'separator':
+                    if (data["FieldClass"]) {
+                        props += 'class="' + data.FieldClass + '" ';
+                    }
+
+                    obj = $('<div><hr ' + props + '/></div>');
+                    break;
+                case 'select':
+                    if (data["FieldClass"]) {
+                        props += 'class="' + data.FieldClass + '" ';
+                    }
+                    var slct = $('<select name="' + name + '"' + props + '></select>');
+
+                    if (fieldData['onchange']) {
+                        slct.data('fnChange', fieldData['onchange']);
+                        slct.on('change', fnOnChange);
+                    }
+
+                    obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label></div>');
+                    obj.append(slct);
+
+                    if (wrapperEnd)
+                        obj.append($(wrapperEnd));
+                    if (fieldData["data"]) {
+                        for (var i = 0; i < fieldData["data"].length; i++) {
+                            var opt = fieldData["data"][i];
+                            slct.append($('<option value="' + opt["Key"] + '">' + opt["Value"] + '</option>'));
+                        }
+                    }
+                    break;
+                case 'input':
+                    switch (type.toLowerCase()) {
+                        case 'hidden':
+                            obj = $(wrapperStart + '<input type="hidden" name="' + name + '" ' + props + ' value="" />' + wrapperEnd);
+                            break;
+                        case 'checkbox':
+                            if (data["FieldClass"])
+                                props += 'class="' + data.FieldClass + '" ';
+
+                            obj = $('<div>' + wrapperStart + '<div class="form-check"><input type="checkbox" name="' + name + '" ' + props + '/><label class="form-check-label" for="' + id + '">' + label + '</label></div>' + wrapperEnd + '</div>');
+                            break;
+                        case 'radio':
+                            if (data["FieldClass"])
+                                props += 'class="' + data.FieldClass + '" ';
+
+                            obj = $('<div>' + wrapperStart + '<div class="form-check"><input type="radio" name="' + name + '" ' + props + '/><label class="form-check-label" for="' + id + '">' + label + '</label></div>' + wrapperEnd + '</div>');
+                            break;
+                        case 'text':
+                            if (data["FieldClass"])
+                                props += 'class="' + data.FieldClass + '" ';
+
+                            if (fieldData["maxlength"])
+                                props += 'maxlength="' + fieldData['maxlength'] + '"';
+
+                            obj = $('<div><label for="' + id + '">' + label + '</label><input type="text" name="' + name + '" value=""' + props + '/></div>');
+                            break;
+                        case 'date':
+                            if (data["FieldClass"])
+                                props += 'class="' + data.FieldClass + '" ';
+
+                            if (fieldData["pattern"])
+                                props += 'pattern="' + fieldData['pattern'] + '"';
+
+                            obj = $('<div><label for="' + id + '">' + label + '</label><input type="date" name="' + name + '" value=""' + props + '/></div>');
+                            break;
+                    }
+                    break;
+                case 'textarea':
+                    if (data["FieldClass"])
+                        props += 'class="' + data.FieldClass + '" ';
+
+                    obj = $('<div>' + wrapperStart + '<textarea name="' + name + '" ' + props + '></textarea>' + wrapperEnd + '</div>');
+                    break;
+                case 'html':
+                    //Todo: Remove next line after debugging:
+                    if (t.debugLevel >= 10) label = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + label;
+                    obj = $('<div>' + label + '</div>');
+                    break;
+            }
+
+            if (obj) {
+                if (wrapperClass)
+                    obj.addClass(wrapperClass);
+
+                // Process extra rendering if needed.
+                t.onRenderWizardFormField(obj, data, parent);
+
+                parent.append(obj);
+            }
+
+        }
+
+        function renderWizard(section, step, data) {
+            var heading = data["Heading"] || "";
+            var body = data["Body"] || "";
+            var buttons = data["Buttons"];
+            var forms = data["Forms"] || [];
+            var usedFields = {};
+            var i;
+            //Todo: Remove next line after debugging:
+            if (t.debugLevel >= 10 && data['GroupKey']) heading = '[' + data["GroupKey"] + ' Heading]' + heading;
+            if (t.debugLevel >= 10 && data['GroupKey']) body = '[' + data["GroupKey"] + ' Body]' + body;
+
+            $('.wizard-heading').html(heading);
+            $('.wizard-body').html(body);
+
+            renderWizardButtons(buttons || []);
+            if (forms && forms.length) {
+                for (i = 0; i < forms.length; i++) {
+                    forms[i]["UsedFields"] = usedFields;
+                    renderWizardForm(forms[i] || { 'UsedFields': usedFields });
+                    usedFields = forms[i]["UsedFields"];
+                }
+            } else {
+                renderWizardForm({ 'UsedFields': usedFields });
+            }
+
+            var formBody = $(".wizard-body");
+            for (i = 0; i < t.wizardFields.length; i++) {
+                if (!usedFields[t.wizardFields[i]])
+                    formBody.append($('<input type="hidden" name="' + t.wizardFields[i] + '" value="" />'));
+            }
+
+            if (data["FormData"]) {
+                t.renderInvalidFormFields(data["FormData"]['invalidFields']);
+                t.renderValidFormFields(data["FormData"]['validFields']);
+                section = data["FormData"]["section"] || section;
+                step = data["FormData"]["step"] || step;
+            }
+            if (currSection != section || currStep != step) {
+                lastSection = currSection;
+                lastStep = currStep;
+
+                currSection = section;
+                currStep = step;
+            }
+
+            $('.wizard-nav button').removeClass('active');
+            var nav = $('.wizard-nav button[data-section=' + section + '][data-step=' + step + ']');
+            if (!nav.length)
+                nav = $('.wizard-nav button[data-section=' + section + ']').first();
+            nav.addClass('active');
+
+            $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
+
+            t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
+
+        }
+
+        function renderValidFormFields(validFields) {
+            if (validFields) {
+                for (var key in validFields) {
+                    var feedback = validFields[key];
+                    var o = $('input[type!=hidden][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
+                    o.addClass('is-valid');
+                    var id;
+                    if (o[0] && feedback) {
+                        id = o[0].id;
+                        o.attr('aria-describedby', id + "Feedback");
+                        o.parent().append($('<div id="' + id + 'Feedback" class="valid-feedback">' + feedback + '</div>'));
+                    }
+                }
+            }
+        }
+
+        function renderInvalidFormFields(invalidFields) {
+            if (invalidFields) {
+                var nCount = 0;
+                for (var key in invalidFields) {
+                    var feedback = invalidFields[key];
+                    var o = $('input[type!=hidden][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
+                    o.addClass('is-invalid');
+                    var id;
+                    if (o[0] && feedback) {
+                        id = o[0].id;
+                        o.attr('aria-describedby', id + "Feedback");
+                        o.parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
+                        nCount++;
+                    }
+                }
+                if (nCount > 0) {
+                    $('.wizard-body').prepend('<div class="text-danger ">&bull; Please correct the information below before submitting the form.</div>');
+                }
+            }
+        }
+
+        function ajaxFail(jqXhr, textStatus, errorThrown) {
+            var data = null;
+            var re = new RegExp('application/json', 'i');
+            if (re.test(jqXhr.getResponseHeader("content-type"))) {
+                data = jQuery.parseJSON(jqXhr.responseText);
+            } else {
+                data = { Message: jqXhr.status + " - " + textStatus + ": " + errorThrown, MessageType: t.messageTypes.Danger, 'Title': 'An error has occurred' }
+            }
+
+
+            if (jqXhr && (jqXhr["status"] >= 400 || jqXhr["status"] < 500) && jqXhr["getResponseHeader"]) {
+                // jqXhr is only populated on fail
+                var loc = jqXhr.getResponseHeader("location");
+                if (loc) {
+                    jqXhr["status"] = 401;
+                }
+            }
+
+
+            t.checkAjaxMessage(data, textStatus, jqXhr);
+            t.hidePleaseWait();
+            return false;
+        }
+
+
+        function debug(level) {
+            if (t.debugLevel <= level) return;
+
+            if (console) {
+                switch (arguments.length) {
+                case 2:
+                    console.log(arguments[1]);
+                    break;
+                case 3:
+                    console.log(arguments[1], arguments[2]);
+                    break;
+                case 4:
+                    console.log(arguments[1], arguments[2], arguments[3]);
+                    break;
+                case 5:
+                    console.log(arguments[1], arguments[2], arguments[3], arguments[4]);
+                    break;
+                case 6:
+                    console.log(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+                    break;
+                case 7:
+                    console.log(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+                    break;
+                }
+            }
+        }
+
+
+
+        return t;
+    }
+</script>

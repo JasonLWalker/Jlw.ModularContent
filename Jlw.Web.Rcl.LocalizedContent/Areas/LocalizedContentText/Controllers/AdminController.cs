@@ -16,8 +16,17 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
             ViewData["groupKey"] = groupKey;
             ViewData["fieldKey"] = fieldKey;
             ViewData["language"] = language;
-            return View("Index"); 
-        } 
- 
-    } 
+            ViewData["groupFilter"] = null;
+            ViewData["PageTitle"] = "Localized Content Text Admin";
+            return GetViewResult();
+        }
+
+        [NonAction]
+        public ActionResult GetViewResult(string viewName = "Index")
+        {
+            return View(viewName);
+        }
+
+
+    }
 }

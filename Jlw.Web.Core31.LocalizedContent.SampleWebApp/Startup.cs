@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
 using MartinCostello.SqlLocalDb;
 using Microsoft.Data.SqlClient;
@@ -81,14 +82,18 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
             
             mvcBuilder.AddNewtonsoftJson(o =>
             {
-                /*
-                o.SerializerSettings.Converters.Add(new StringEnumConverter());
-                o.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                */
             });
             
 
             services.AddLocalizedContentAdmin();
+            services.AddSingleton<IWizardFactory>(provider =>
+            {
+                return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
+            });
+            services.AddSingleton<IWizardFactoryRepository>(provider =>
+            {
+                return new WizardFactoryRepository(provider.GetRequiredService<IModularDbClient>(), connString);
+            });
             services.AddAuthorization(options =>
             {
                 options.AddDefaultLocalizedContentAdminAuthorizationPolicy();
@@ -126,13 +131,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
 
             app.UseEndpoints(endpoints =>
             {
-                /*
-                endpoints.MapControllerRoute(
-                    name: "OverrideFieldAdmin",
-                    pattern: "Admin/OverrideField/{groupKey?}/{parentKey?}",
-                    defaults: new { Controller = "OverrideFieldAdmin", Action = "Index" },
-                    constraints: new { Controller = "Admin", Action = "Index" });
-                */
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
