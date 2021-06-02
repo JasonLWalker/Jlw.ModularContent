@@ -275,7 +275,7 @@
                             if (fieldData["maxlength"])
                                 props += 'maxlength="' + fieldData['maxlength'] + '"';
 
-                            obj = $('<div><label for="' + id + '">' + label + '</label><input type="text" name="' + name + '" value=""' + props + '/></div>');
+                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="text" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
                             break;
                         case 'date':
                             if (data["FieldClass"])
@@ -284,7 +284,7 @@
                             if (fieldData["pattern"])
                                 props += 'pattern="' + fieldData['pattern'] + '"';
 
-                            obj = $('<div><label for="' + id + '">' + label + '</label><input type="date" name="' + name + '" value=""' + props + '/></div>');
+                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="date" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
                             break;
                     }
                     break;
@@ -297,7 +297,7 @@
                 case 'html':
                     //Todo: Remove next line after debugging:
                     if (t.debugLevel >= 10) label = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + label;
-                    obj = $('<div>' + label + '</div>');
+                    obj = $('<div>' + wrapperStart + label + wrapperEnd + '</div>');
                     break;
             }
 
