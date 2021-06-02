@@ -438,7 +438,7 @@
             frmData["Step"] = frmData["Step"] || step;
 
             var prm = t.post(t.urlApiRoot + "/Save", frmData, null, t.ajaxFail).done(function (data, status, jqXhr) {
-                renderWizard(section, step, data);
+                t.renderWizard(section, step, data);
             });
             $("input,select,textarea", $('.wizard-form')).prop("disabled", true);
             return prm;
