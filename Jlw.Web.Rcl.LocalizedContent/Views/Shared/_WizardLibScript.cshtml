@@ -16,7 +16,6 @@
         t.initializeWizard = t.initializeWizard || initializeWizard;
 
         t.fnOnClickNav = t.fnOnClickNav || fnOnClickNav;
-        t.navToStep = t.navToStep || navToStep;
         t.fnOnClickBack = t.fnOnClickBack || fnOnClickBack;
         t.fnOnClickLink = t.fnOnClickLink || fnOnClickLink;
         t.fnOnClickSave = t.fnOnClickSave || fnOnClickSave;
@@ -25,6 +24,8 @@
         t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
 
         t.ajaxFail = t.ajaxFail || ajaxFail;
+        t.navToStep = t.navToStep || navToStep;
+        t.saveStep = t.saveStep || saveStep;
 
         if (initOptions)
             t.initializeWizard(initOptions);
@@ -429,6 +430,20 @@
             t.hidePleaseWait();
             return false;
         }
+
+        function saveStep(section, step) {
+
+            var frmData = t.serializeFormToJson($('.wizard-form'));
+            frmData["Section"] = frmData["Section"] || section;
+            frmData["Step"] = frmData["Step"] || step;
+
+            var prm = t.post(t.urlApiRoot + "/Save", frmData, null, t.ajaxFail).done(function (data, status, jqXhr) {
+                renderWizard(section, step, data);
+            });
+            $("input,select,textarea", $('.wizard-form')).prop("disabled", true);
+            return prm;
+        }
+
 
 
         function debug(level) {

@@ -37,6 +37,10 @@
     <EmbeddedResource Include="resources\**\*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+  </ItemGroup>
+
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
