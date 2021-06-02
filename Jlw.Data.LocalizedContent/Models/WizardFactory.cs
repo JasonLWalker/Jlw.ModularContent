@@ -18,7 +18,7 @@ namespace Jlw.Data.LocalizedContent
             DataRepository = repository;
         }
 
-        public IWizardContent CreateWizardContent(string groupKey, object formData = null)
+        public virtual IWizardContent CreateWizardContent(string groupKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
             var wizard = fieldData?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
@@ -55,7 +55,7 @@ namespace Jlw.Data.LocalizedContent
             return content;
         }
 
-        public void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false)
+        public virtual void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false)
         {
             List<WizardContentField> embed = (List<WizardContentField>)DataRepository.GetFieldData(key);
             var wizard = embed?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
@@ -94,7 +94,7 @@ namespace Jlw.Data.LocalizedContent
             }
         }
 
-        public WizardFormData CreateWizardFormData(string formKey, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null)
+        public virtual WizardFormData CreateWizardFormData(string formKey, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null)
         {
             var data = fieldData?.ToList();
             var form = data?.FirstOrDefault(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase) && o.FieldKey.Equals(formKey, StringComparison.InvariantCultureIgnoreCase));
