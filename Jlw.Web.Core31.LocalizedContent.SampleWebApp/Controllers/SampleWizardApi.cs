@@ -29,7 +29,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         /// <summary>Saves the submitted data from the wizard.</summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Object.</returns>
-        [Route("Wizard/Save")]
+        [Route("Save")]
         [HttpPost]
         public virtual object Save(WizardInputModel model)
         {

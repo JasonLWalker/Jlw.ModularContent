@@ -147,6 +147,10 @@ namespace Jlw.Data.LocalizedContent
 
                 ((List<JToken>)(returnObject.Fields)).Add(field);
             }
+
+
+            strInput = form.FieldData?.Trim();
+            if (string.IsNullOrWhiteSpace(strInput)) return returnObject;
             if (strInput.StartsWith("{") && strInput.EndsWith("}"))
             {
                 try
