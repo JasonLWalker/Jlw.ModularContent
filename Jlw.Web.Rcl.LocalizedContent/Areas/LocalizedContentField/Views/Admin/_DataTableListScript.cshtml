@@ -36,9 +36,9 @@
                 // Add additional parameters here like this:
                 // d.SomeParameter = 'SomeValue';
                 d.GroupKey = '@(ViewData["groupKey"])';
-                d.FieldKey = '@(ViewData["parentKey"])';
+                //d.FieldKey = '@(ViewData["parentKey"])';
                 d.FieldType = '@(ViewData["fieldType"])';
-                //d.ParentKey = '@(ViewData["parentKey"])';
+                d.ParentKey = '@(ViewData["parentKey"])';
             }
             t.addDtRenderer(t.dtRenderButtons, [15]);
 
