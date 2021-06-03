@@ -90,7 +90,7 @@ namespace Jlw.Data.LocalizedContent
                     editButton.Action = new { type = "nav", section = DataUtility.ParseInt(data["section"]), step = DataUtility.ParseInt(data["step"]) };
                 }
 
-                ((List<WizardFormData>)content).Add(new WizardFormData(form.FieldKey, embed, editButton));
+                ((List<WizardFormData>)(content.Forms)).Add(CreateWizardFormData(form.FieldKey, embed, editButton));
             }
         }
 
