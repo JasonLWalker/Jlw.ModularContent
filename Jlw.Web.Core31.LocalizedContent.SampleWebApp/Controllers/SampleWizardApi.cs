@@ -80,10 +80,10 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Step { get; set; }
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             public Dictionary<string, string> ValidFields { get; } = new Dictionary<string, string>();
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             public Dictionary<string, string> InvalidFields { get; } = new Dictionary<string, string>();
 
             public WizardInputModel() => Initialize(null);

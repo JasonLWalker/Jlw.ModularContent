@@ -346,8 +346,8 @@
             }
 
             if (data["FormData"]) {
-                t.renderInvalidFormFields(data["FormData"]['invalidFields']);
-                t.renderValidFormFields(data["FormData"]['validFields']);
+                t.renderInvalidFormFields(data["FormData"]['InvalidFields']);
+                t.renderValidFormFields(data["FormData"]['ValidFields']);
                 section = data["FormData"]["Section"] || section;
                 step = data["FormData"]["Step"] || step;
             }
