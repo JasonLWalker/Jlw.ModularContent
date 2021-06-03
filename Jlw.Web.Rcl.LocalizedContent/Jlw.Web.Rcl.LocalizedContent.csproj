@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Jlw.Data.LocalizedContent" Version="1.0.7824.29072-rc" />
+    <PackageReference Include="Jlw.Data.LocalizedContent" Version="1.0.7824.36109" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
