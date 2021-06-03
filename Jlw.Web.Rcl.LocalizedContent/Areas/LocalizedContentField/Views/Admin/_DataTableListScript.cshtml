@@ -40,7 +40,12 @@
                 d.FieldType = '@(ViewData["fieldType"])';
                 d.ParentKey = '@(ViewData["parentKey"])';
             }
-            t.addDtRenderer(t.dtRenderButtons, [15]);
+            t.addDtRenderer(function(data, type, row) {
+                // Do not output content for these columns
+                row['WrapperHtmlStart'] = '';
+                row['WrapperHtmlEnd'] = '';
+                return t.dtRenderButtons(data, type, row);
+            }, [15]);
 
             t.addDtRenderer(function (data, type, row) {
                 switch (row["FieldType"].toUpperCase()) {
@@ -61,6 +66,11 @@
                 }
                 return data;
             }, [2]);
+            t.addDtRenderer(function(data, type, row) {
+                // Do not output content for these columns
+                return '';
+            }, [9,10]);
+
             var dt = t.initializeDataTable(t.sDtSelector);
 
             dt.on('error.dt',

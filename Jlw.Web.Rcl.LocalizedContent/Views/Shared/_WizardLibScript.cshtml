@@ -318,6 +318,7 @@
             var body = data["Body"] || "";
             var buttons = data["Buttons"];
             var forms = data["Forms"] || [];
+            var fieldData = data["FieldData"] || {};
             var usedFields = {};
             var i;
             //Todo: Remove next line after debugging:
@@ -347,8 +348,8 @@
             if (data["FormData"]) {
                 t.renderInvalidFormFields(data["FormData"]['invalidFields']);
                 t.renderValidFormFields(data["FormData"]['validFields']);
-                section = data["FormData"]["section"] || section;
-                step = data["FormData"]["step"] || step;
+                section = data["FormData"]["Section"] || section;
+                step = data["FormData"]["Step"] || step;
             }
             if (currSection != section || currStep != step) {
                 lastSection = currSection;
@@ -367,7 +368,10 @@
             $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
 
             t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
-
+            if (fieldData["onload"]) {
+                var fn = new Function('data', 'lib', 'form', 'try{ ' + fieldData['onload'] + '; } catch(ex) { if(console){console.log(ex)} }');
+                window.setTimeout(function() { fn(data, t, formBody); }, 1);
+            }
         }
 
         function renderValidFormFields(validFields) {
