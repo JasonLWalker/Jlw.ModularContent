@@ -132,7 +132,7 @@
             if (action['step']) data += ' data-step="' + action['step'] + '"';
             if (action['url']) data += ' data-url="' + action['url'] + '"';
             if (action['fnClick']) data += ' data-fnclick="' + action['fnClick'] + '"';
-            var btn = $('<button class="' + o["Class"] + '" ' + data + '>' + icon + o["Label"] + '</button>');
+            var btn = $('<button type="button" class="' + o["Class"] + '" ' + data + '>' + icon + o["Label"] + '</button>');
             col.append(btn);
             btn.on('click', fnOnClickAction);
             return col;
