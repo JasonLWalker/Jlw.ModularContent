@@ -61,6 +61,11 @@
                 }
                 return data;
             }, [2]);
+            t.addDtRenderer(function(data, type, row) {
+                // Do not output content for these columns
+                return '';
+            }, [9,10]);
+
             var dt = t.initializeDataTable(t.sDtSelector);
 
             dt.on('error.dt',
