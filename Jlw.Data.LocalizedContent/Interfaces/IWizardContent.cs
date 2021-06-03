@@ -11,6 +11,9 @@ namespace Jlw.Data.LocalizedContent
         object FormData { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        object FieldData { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         string GroupKey { get; set; }
 
