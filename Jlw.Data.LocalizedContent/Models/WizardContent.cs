@@ -13,6 +13,9 @@ namespace Jlw.Data.LocalizedContent
 
         public string Heading { get; set; }
         public string Body { get; set; }
+
+        public object FieldData { get; set; }
+
         public IEnumerable<WizardButtonData> Buttons { get; set; } = new List<WizardButtonData>();
 
         public IEnumerable<WizardFormData> Forms { get; set; } = new List<WizardFormData>();
@@ -23,6 +26,7 @@ namespace Jlw.Data.LocalizedContent
             var data = fieldData?.ToList();
             var wizard = data?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
             FormData = formData ?? new object();
+            FieldData = null;
             GroupKey = wizard?.GroupKey ?? data?.FirstOrDefault()?.GroupKey ?? "";
             if (wizard == null)
             {
@@ -34,6 +38,17 @@ namespace Jlw.Data.LocalizedContent
             Heading = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase))?.Label ?? "";
             Body = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase))?.Label ?? "";
 
+            if (!string.IsNullOrWhiteSpace(wizard.FieldData))
+            {
+                try
+                {
+                    FieldData = JObject.Parse(wizard.FieldData);
+                }
+                catch
+                {
+                    // Do Nothing
+                }
+            }
 
             var buttons = fields.Where(o => o.FieldType.Equals("Button", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             foreach (var btnField in buttons)
