@@ -29,7 +29,8 @@ namespace Jlw.Data.LocalizedContent
             JToken data;
             try
             {
-                data = JToken.Parse(FieldData);
+                string jScript = string.IsNullOrWhiteSpace(FieldData) ? "{}" : FieldData;
+                data = JToken.Parse(jScript);
                 data["props"] += " disabled=\"disabled\"";
                 FieldData = JsonConvert.SerializeObject(data);
             }
