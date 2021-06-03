@@ -348,8 +348,8 @@
             if (data["FormData"]) {
                 t.renderInvalidFormFields(data["FormData"]['invalidFields']);
                 t.renderValidFormFields(data["FormData"]['validFields']);
-                section = data["FormData"]["section"] || section;
-                step = data["FormData"]["step"] || step;
+                section = data["FormData"]["Section"] || section;
+                step = data["FormData"]["Step"] || step;
             }
             if (currSection != section || currStep != step) {
                 lastSection = currSection;
