@@ -20,14 +20,55 @@
         @if (canEdit) {
         <text>
             t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
+
+            t.showDialog = function (oData, frmEdit, sTitle, btns) {
+                var onClose = function(o) { t.destroyWysiwyg($(o.delegateTarget)); };
+                if (!btns) { btns = {}; }
+                if (!btns["no"]) { btns['no'] = { label: '<div class="text-left"><i class="fas fa-arrow-left"></i> Close</div>', className: 'btn btn-outline-danger', callback: onClose }; }
+                var oFrm = bootbox.dialog({ title: sTitle, message: frmEdit, onEscape: false, size: "large", buttons: btns });
+                t.populateFormData(oData, oFrm); $(".modal-lg", oFrm).addClass("modal-xl"); t.setModalOnTop(oFrm);
+                oFrm.data('parentLib', t);
+                t.initWysiwyg(oFrm);
+                return oFrm;
+            }
+
+
+
             function onEditLanguage(o) {
                 var elem = $(o);
                 var data = t.getParentData(o);
                 window.location = '@adminTextUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
             }
 
+            function onEditField(oBtn, fnOnShow) {
+                t.onEditRecord(oBtn, function (oFrm, oData) {
+                    //console.log(oFrm);
+                    console.log(oFrm.modal());
+                    $('.expand-element-control', oFrm).off().on("click", function(evt) {
+                        var ctrl = $(this);
+                        var p = ctrl.parent();
+                        var row = p.parent();
+                        if (p.hasClass('col-sm-12')) {
+                            p.removeClass('col-sm-12');
+                            p.addClass('col-sm-4');
+                            $('.col-sm-4', row).removeClass('d-none');
+                            ctrl.html('<span class="fa fa-fw fa-expand text-secondary"></span>');
+                            $('textarea', p).prop('rows', 3);
+                        } else {
+                            p.removeClass('col-sm-4');
+                            p.addClass('col-sm-12');
+                            $('.col-sm-4', row).addClass('d-none');
+                            ctrl.html('<span class="fa fa-fw fa-compress text-secondary"></span>');
+                            $('textarea', p).prop('rows', 10);
+                        }
+
+                    });
+
+                });
+            }
+
             t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
-            t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', t.onEditRecord);
+            t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', onEditField);
         </text>}
 
             t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
@@ -98,6 +139,7 @@
             t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', t.onAddRecord);
             t.dtRenderFooterButtons();
             $('.btn-newrecord').off('click').on('click', t.onAddRecord);
+
         }
     }
 </script>

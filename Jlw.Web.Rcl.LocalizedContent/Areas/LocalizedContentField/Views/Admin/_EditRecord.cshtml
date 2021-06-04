@@ -1,6 +1,6 @@
 <div id='jlwEditFormLocalizedContentField'> 
     <form class='jlw-editform-localizedcontentfield'> 
-        <div class="form-group-sm"> 
+        <div class="form-group-sm">
             <div class="row">
 
                 <input type="hidden" name="Id" value="" class="form-control" placeholder="Id" />
@@ -13,23 +13,23 @@
                 <div class="col-sm-3 px-2">
                     <label class="control-label">Field Type</label>
                     @*<input type="text" name="FieldType" value="" class="form-control" placeholder="Field Type" />*@
-                <select name="FieldType" class="form-control">
-                    <option value="">[Please Select]</option>
-                    <option value="BODY">Body</option>
-                    <option value="BUTTON">Button</option>
-                    <option value="EMBED">Embed</option>
-                    <option value="EMAIL">Email</option>
-                    <option value="FORM">Form</option>
-                    <option value="HEADING">Heading</option>
-                    <option value="HTML">Html</option>
-                    <option value="INPUT">Input</option>
-                    <option value="SELECT">Select</option>
-                    <option value="SEPARATOR">Separator Bar</option>
-                    <option value="SUBJECT">Subject</option>
-                    <option value="TEXT">Text</option>
-                    <option value="TEXTAREA">Text Area Input</option>
-                    <option value="WIZARD">Wizard</option>
-                </select>
+                    <select name="FieldType" class="form-control">
+                        <option value="">[Please Select]</option>
+                        <option value="BODY">Body</option>
+                        <option value="BUTTON">Button</option>
+                        <option value="EMBED">Embed</option>
+                        <option value="EMAIL">Email</option>
+                        <option value="FORM">Form</option>
+                        <option value="HEADING">Heading</option>
+                        <option value="HTML">Html</option>
+                        <option value="INPUT">Input</option>
+                        <option value="SELECT">Select</option>
+                        <option value="SEPARATOR">Separator Bar</option>
+                        <option value="SUBJECT">Subject</option>
+                        <option value="TEXT">Text</option>
+                        <option value="TEXTAREA">Text Area Input</option>
+                        <option value="WIZARD">Wizard</option>
+                    </select>
                 </div>
                 <div class="col-sm-3 px-2">
                     <label class="control-label">Parent Key</label><input type="text" name="ParentKey" value="" class="form-control" placeholder="Parent Key" />
@@ -46,16 +46,22 @@
                 <div class="col-sm-12 px-2">
                     <label class="control-label">Default Label</label><input type="text" name="DefaultLabel" value="" class="form-control" placeholder="Default Label" />
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-4 px-2">
+                    <div class="expand-element-control float-right"><span class="fa fa-fw fa-expand text-secondary"></span></div>
                     <label class="control-label">Field Data</label><textarea name="FieldData" class="form-control" placeholder="Field Data" cols="40" rows="3"></textarea>
                 </div>
                 <div class="col-sm-4 px-2">
-                    <label class="control-label">Wrapper Html Start</label><textarea name="WrapperHtmlStart" value="" class="form-control" placeholder="Wrapper Html Start" cols="40" rows="3"></textarea>
+                    <div class="expand-element-control float-right"><span class="fa fa-fw fa-expand text-secondary"></span></div>
+                    <label class="control-label">Wrapper Html Start </label><textarea name="WrapperHtmlStart" value="" class="form-control" placeholder="Wrapper Html Start" cols="40" rows="3"></textarea>
                 </div>
                 <div class="col-sm-4 px-2">
+                    <div class="expand-element-control float-right"><span class="fa fa-fw fa-expand text-secondary"></span></div>
                     <label class="control-label">Wrapper Html End</label><textarea name="WrapperHtmlEnd" value="" class="form-control" placeholder="Wrapper Html End" cols="40" rows="3"></textarea>
                 </div>
-                
+            </div>
+            <div class="row">
                 <div class="col-sm-4 px-2 d-none">
                     <label class="control-label">Audit Change Type</label><input type="hidden" name="AuditChangeType" value="" class="form-control" placeholder="Audit Change Type" />
                 </div>
@@ -65,8 +71,8 @@
                 <div class="col-sm-4 px-2 d-none">
                     <label class="control-label">Audit Change Date</label><input type="hidden" name="AuditChangeDate" value="" class="form-control" placeholder="Audit Change Date" />
                 </div>
-                
-            </div> 
+
+            </div>
         </div> 
         <input type="hidden" name="EditToken" value="" /> 
     </form> 
