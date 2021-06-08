@@ -1,24 +1,146 @@
-@{ 
+@{
     bool isAdmin = true;
     bool canView = isAdmin || true;
     bool canAdd = isAdmin || true;
     bool canEdit = isAdmin || true;
     bool canDelete = isAdmin || true;
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
-    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index",new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
+    string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminOverrideUrl"]?.ToString();
     string adminTextUrl = (string.IsNullOrWhiteSpace(ViewData["adminTextOverrideUrl"]?.ToString())) ? Url.Action("Index", new { Area = "LocalizedContentText", groupKey = (string)null, parentKey = (string)null }) : ViewData["adminTextOverrideUrl"]?.ToString();
     string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
     string emailUrl = (string.IsNullOrWhiteSpace(ViewData["emailOverrideUrl"]?.ToString())) ? Url.Action("Email", new { Area = "LocalizedContentField", groupKey = (string)null, parentKey = (string)null }) : ViewData["wizardOverrideUrl"]?.ToString();
-} 
+}
+<link href="~/LocalizedContent/css/prism-vs.min.css" rel="stylesheet" type="text/css" />
+<script src="~/LocalizedContent/js/prism.min.js"></script>
+<style>
+    pre.highlighting *, code.highlighting-content *, textarea.editing * {
+        font-family: monospace !important;
+    }
+
+    textarea.editing, pre.highlighting {
+        /*border: none !important;*/
+        margin: 0;
+        padding: .5rem .8rem !important;
+        width: inherit;
+        height: inherit;
+    }
+    textarea.editing, pre.highlighting, pre.highlighting * {
+        /* Also add text styles to highlighing tokens */
+        font-size: 13pt !important;
+        font-family: monospace !important;
+        line-height: 18pt !important;
+    }
+
+
+    textarea.editing, pre.highlighting {
+        /* In the same place */ 
+        position: absolute !important;
+        top: 0;
+        left: 0;
+    }
+
+
+    /* Move the textarea in front of the result */
+
+    textarea.editing {
+      z-index: 1;
+    }
+    pre.highlighting {
+      z-index: 0;
+    }
+
+    /* Make textarea almost completely transparent */
+    textarea.editing {
+      color: transparent !important;
+      background: transparent !important;
+      caret-color: black; /* Or choose your favourite color */
+    }
+
+    /* Can be scrolled */
+    textarea.editing, pre.highlighting {
+      overflow: auto;
+      white-space: nowrap; /* Allows textarea to scroll horizontally */
+    }
+
+    /* No resize on textarea */
+    textarea.editing {
+      resize: none;
+    }
+
+    /* Syntax Highlighting from prism.js starts below, partly modified: */
+    code[class*="language-"],
+    pre[class*="language-"] {
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+      overflow: auto;
+        border-left: initial;
+    }
+
+    code[class*="language"] {
+        margin: 0 !important;
+
+    }
+/* End of prism.js syntax highlighting*/
+</style>
 <script>
 
     if (!window.jlwLibLocalizedContentField) {
         window.jlwLibLocalizedContentField = function() {
             $.fn.dataTable.ext.errMode = 'none';
             var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-localizedcontentfield table.jlw-datatable-localizedcontentfield');
+            //t.reAmp = new RegExp("&", "g");
+            //t.reLt = new RegExp("<", "g");
 
-        @if (canEdit) {
-        <text>
+            // Syntax highlighting code from article at https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
+            window.prismSyntaxHighlight = function(text, ctrl) {
+                var p = $(ctrl).parent();
+                var elem = $('code.highlighting-content', p);
+                elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"));
+                console.log(text, elem);
+                Prism.highlightElement(elem[0]);
+            }
+            window.prismSyncScroll = function(element) {
+                /* Scroll result to scroll coords of event - sync with textarea */
+                var p = $(element).parent();
+                var result_element = $("pre.highlighting",p)[0];
+                // Get and set x and y
+                result_element.scrollTop = element.scrollTop;
+                result_element.scrollLeft = element.scrollLeft;
+            }
+
+            window.prismCheckTab = function(element, event) {
+                var code = element.value;
+                if (event.key == "Tab") {
+                    /* Tab key pressed */
+                    event.preventDefault(); // stop normal
+                    var before_tab = code.slice(0, element.selectionStart); // text before tab
+                    var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
+                    var cursor_pos = element.selectionEnd + 2; // after tab placed, where cursor moves to - 2 for 2 spaces
+                    element.value = before_tab + "  " + after_tab; // add tab char - 2 spaces
+                    // move cursor
+                    element.selectionStart = cursor_pos;
+                    element.selectionEnd = cursor_pos;
+                }
+            }
+
+            @if (canEdit)
+            {
+                <text>
             t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
 
             t.showDialog = function (oData, frmEdit, sTitle, btns) {
@@ -42,26 +164,33 @@
 
             function onEditField(oBtn, fnOnShow) {
                 t.onEditRecord(oBtn, function (oFrm, oData) {
-                    //console.log(oFrm);
-                    console.log(oFrm.modal());
-                    $('.expand-element-control', oFrm).off().on("click", function(evt) {
+                    
+                    function fnEditTextarea(evt) {
+                        window.prismSyntaxHighlight(this.value, this);
+                        console.log(evt, );
                         var ctrl = $(this);
-                        var p = ctrl.parent();
+                        var p = ctrl.parent().parent();
                         var row = p.parent();
-                        if (p.hasClass('col-sm-12')) {
-                            p.removeClass('col-sm-12');
-                            p.addClass('col-sm-4');
-                            $('.col-sm-4', row).removeClass('d-none');
-                            ctrl.html('<span class="fa fa-fw fa-expand text-secondary"></span>');
-                            $('textarea', p).prop('rows', 3);
+                        if (evt.type == 'blur') {
+                            $('.col-lg', row).removeClass('d-none');
+                            //ctrl.prop('rows', 3);
                         } else {
-                            p.removeClass('col-sm-4');
-                            p.addClass('col-sm-12');
-                            $('.col-sm-4', row).addClass('d-none');
-                            ctrl.html('<span class="fa fa-fw fa-compress text-secondary"></span>');
-                            $('textarea', p).prop('rows', 10);
+                            $('.col-lg', row).addClass('d-none');
+                            p.removeClass('d-none');
+                            //ctrl.prop('rows', 10);
                         }
+                        
+                    }
+                    
+                    $('textarea.editing', oFrm).off()
+                        .on("focus", fnEditTextarea)
+                        .on("blur", fnEditTextarea)
+                        .on("input", function () { window.prismSyntaxHighlight(this.value, this); })
+                        .on("scroll", function () { window.prismSyncScroll(this); })
+                        .on("keydown", function(evt){window.prismCheckTab(this, evt)});
 
+                    $('textarea.editing', oFrm).each(function() {
+                        window.prismSyntaxHighlight(this.value, this);
                     });
 
                 });
@@ -69,7 +198,8 @@
 
             t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
             t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', onEditField);
-        </text>}
+        </text>
+        }
 
             t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
 
