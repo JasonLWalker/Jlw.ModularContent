@@ -34,7 +34,17 @@
 		},
 		{
 			"library": "font-awesome@5.14.0",
-      "destination": "resources/LocalizedContent/font-awesome/"
-    }
+			"destination": "resources/LocalizedContent/font-awesome/"
+		},
+		{
+			"library": "prism@1.7.0",
+			"destination": "libman/prism/"
+		},
+		{
+			"provider": "jsdelivr",
+			"library": "prism-themes@1.7.0",
+			"destination": "libman/prism-themes/"
+		}
+
 	]
 }
