@@ -266,7 +266,7 @@
                             if (data["FieldClass"])
                                 props += 'class="' + data.FieldClass + '" ';
 
-                            obj = $('<div>' + wrapperStart + '<div class="form-check"><input type="radio" name="' + name + '" ' + props + '/><label class="form-check-label" for="' + id + '">' + label + '</label></div>' + wrapperEnd + '</div>');
+                            obj = $('<div>' + wrapperStart + '<div class="form-check"><label class="form-check-label" for="' + id + '"><input type="radio" name="' + name + '" ' + props + '/>' + label + '</label></div>' + wrapperEnd + '</div>');
                             break;
                         case 'text':
                             if (data["FieldClass"])
@@ -292,7 +292,8 @@
                     if (data["FieldClass"])
                         props += 'class="' + data.FieldClass + '" ';
 
-                    obj = $('<div>' + wrapperStart + '<textarea name="' + name + '" ' + props + '></textarea>' + wrapperEnd + '</div>');
+
+                    obj = $('<div>' + wrapperStart + (label ? '<label for="' + id + '">' + label + '</label>' : '') + '<textarea name="' + name + '" ' + props + '></textarea>' + wrapperEnd + '</div>');
                     break;
                 case 'html':
                     //Todo: Remove next line after debugging:
@@ -302,6 +303,13 @@
             }
 
             if (obj) {
+                $('input[id=""], input:not([id])', obj).each(function (i) {
+                        
+                    var id = $(this).prop("name") + '_' + i + '_' + (new Date()).valueOf();
+                    $(this).attr("id", id);
+                    //console.log(id);
+                });
+
                 if (wrapperClass)
                     obj.addClass(wrapperClass);
 
@@ -346,8 +354,8 @@
             }
 
             if (data["FormData"]) {
-                t.renderInvalidFormFields(data["FormData"]['invalidFields']);
-                t.renderValidFormFields(data["FormData"]['validFields']);
+                t.renderInvalidFormFields(data["FormData"]['InvalidFields']);
+                t.renderValidFormFields(data["FormData"]['ValidFields']);
                 section = data["FormData"]["Section"] || section;
                 step = data["FormData"]["Step"] || step;
             }
@@ -395,14 +403,26 @@
                 var nCount = 0;
                 for (var key in invalidFields) {
                     var feedback = invalidFields[key];
-                    var o = $('input[type!=hidden][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
-                    o.addClass('is-invalid');
+                    var o = $('input[type!=hidden][type!=radio][name=' + key + '], select[name=' + key + '], textarea[name=' + key + ']', $('.wizard-form')).first();
                     var id;
-                    if (o[0] && feedback) {
-                        id = o[0].id;
-                        o.attr('aria-describedby', id + "Feedback");
-                        o.parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
-                        nCount++;
+                    if (o.length > 0) {
+                        o.addClass('is-invalid');
+                        if (o[0] && feedback) {
+                            id = o[0].id;
+                            o.attr('aria-describedby', id + "Feedback");
+                            o.parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
+                            nCount++;
+                        }
+                    } else {
+                        o = $('input[type=radio][name=' + key + ']', $('.wizard-form')).first();
+                        o.addClass('is-invalid');
+                        if (o[0] && feedback) {
+                            id = o[0].id;
+                            o.attr('aria-describedby', id + "Feedback");
+                            o.parent().parent().parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback d-inline-block">' + feedback + '</div>'));
+                            nCount++;
+                        }
+
                     }
                 }
                 if (nCount > 0) {
