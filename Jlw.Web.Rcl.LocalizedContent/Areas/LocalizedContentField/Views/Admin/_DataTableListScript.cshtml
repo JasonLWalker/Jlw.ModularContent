@@ -64,7 +64,11 @@
 
     /* No resize on textarea */
     textarea.editing {
-      resize: none;
+        resize: none;
+        -moz-tab-size: 3;
+        -o-tab-size: 3;
+        tab-size: 3;
+
     }
 
     /* Syntax Highlighting from prism.js starts below, partly modified: */
@@ -75,9 +79,9 @@
       word-spacing: normal;
       word-break: normal;
       word-wrap: normal;
-      -moz-tab-size: 4;
-      -o-tab-size: 4;
-      tab-size: 4;
+      -moz-tab-size: 3;
+      -o-tab-size: 3;
+      tab-size: 3;
 
       -webkit-hyphens: none;
       -moz-hyphens: none;
@@ -111,7 +115,6 @@
                 var p = $(ctrl).parent();
                 var elem = $('code.highlighting-content', p);
                 elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"));
-                console.log(text, elem);
                 Prism.highlightElement(elem[0]);
             }
             window.prismSyncScroll = function(element) {
@@ -130,20 +133,27 @@
                     event.preventDefault(); // stop normal
                     var before_tab = code.slice(0, element.selectionStart); // text before tab
                     var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
-                    var cursor_pos = element.selectionEnd + 2; // after tab placed, where cursor moves to - 2 for 2 spaces
-                    element.value = before_tab + "  " + after_tab; // add tab char - 2 spaces
+                    var cursor_pos = element.selectionEnd + 1; // after tab placed, where cursor moves to - 1 for 1 tab char
+                    element.value = before_tab + "\t" + after_tab; // add tab char - 1 tab char
                     // move cursor
                     element.selectionStart = cursor_pos;
                     element.selectionEnd = cursor_pos;
+
+                    var p = $(element).parent();
+                    var text = element.value;
+                    var elem = $('code.highlighting-content', p);
+                    elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"));
+                    Prism.highlightElement(elem[0]);
                 }
             }
 
             @if (canEdit)
             {
-                <text>
+            <text>
             t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
 
-            t.showDialog = function (oData, frmEdit, sTitle, btns) {
+            t.showDialog = function (oData, frmEdit, sTitle, btns)
+            {
                 var onClose = function(o) { t.destroyWysiwyg($(o.delegateTarget)); };
                 if (!btns) { btns = {}; }
                 if (!btns["no"]) { btns['no'] = { label: '<div class="text-left"><i class="fas fa-arrow-left"></i> Close</div>', className: 'btn btn-outline-danger', callback: onClose }; }
@@ -153,8 +163,6 @@
                 t.initWysiwyg(oFrm);
                 return oFrm;
             }
-
-
 
             function onEditLanguage(o) {
                 var elem = $(o);
