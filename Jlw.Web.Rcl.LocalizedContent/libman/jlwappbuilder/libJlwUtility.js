@@ -400,7 +400,7 @@ function libJlwUtility(initOptions) {
 		var o = [];
 		var s = '';
 		// Empty Form Data
-		o = jQuery("input", oFrm).val("");
+		o = jQuery("input:not([type=radio])", oFrm).val("");
 		o = jQuery("select", oFrm).val("");
 		o = jQuery("textarea", oFrm).val("");
 		o = jQuery("input[type=checkbox]", oFrm).val("1").prop("checked", false);
@@ -418,7 +418,13 @@ function libJlwUtility(initOptions) {
 				if (o.prop('type') == 'checkbox') {
 					o.prop("checked", oData[i]);
 					o.data('origValue', o.val());
-				} else {
+				} else if (o.prop('type') == 'radio') {
+					s = (oData[i] ? oData[i].toString() : '');
+                    o.each(function (i, elem) {
+                        var rdo = jQuery(elem);
+						rdo.prop("checked", rdo.val() == s);
+                    });
+                } else {
 					s = (oData[i] ? oData[i].toString() : '');
 					o.val(s.trim());
 					o.data('origValue', o.val());
