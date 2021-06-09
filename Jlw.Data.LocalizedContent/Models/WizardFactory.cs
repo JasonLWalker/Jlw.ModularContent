@@ -52,6 +52,7 @@ namespace Jlw.Data.LocalizedContent
 
             }
 
+            ((List<WizardFormData>) content.Forms).OrderBy(o => o.Order);
             return content;
         }
 
