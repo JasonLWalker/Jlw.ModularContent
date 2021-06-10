@@ -107,45 +107,6 @@
         window.jlwLibLocalizedContentField = function() {
             $.fn.dataTable.ext.errMode = 'none';
             var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-localizedcontentfield table.jlw-datatable-localizedcontentfield');
-            //t.reAmp = new RegExp("&", "g");
-            //t.reLt = new RegExp("<", "g");
-
-            // Syntax highlighting code from article at https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
-            window.prismSyntaxHighlight = function(text, ctrl) {
-                var p = $(ctrl).parent();
-                var elem = $('code.highlighting-content', p);
-                elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"));
-                Prism.highlightElement(elem[0]);
-            }
-            window.prismSyncScroll = function(element) {
-                /* Scroll result to scroll coords of event - sync with textarea */
-                var p = $(element).parent();
-                var result_element = $("pre.highlighting",p)[0];
-                // Get and set x and y
-                result_element.scrollTop = element.scrollTop;
-                result_element.scrollLeft = element.scrollLeft;
-            }
-
-            window.prismCheckTab = function(element, event) {
-                var code = element.value;
-                if (event.key == "Tab") {
-                    /* Tab key pressed */
-                    event.preventDefault(); // stop normal
-                    var before_tab = code.slice(0, element.selectionStart); // text before tab
-                    var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
-                    var cursor_pos = element.selectionEnd + 1; // after tab placed, where cursor moves to - 1 for 1 tab char
-                    element.value = before_tab + "\t" + after_tab; // add tab char - 1 tab char
-                    // move cursor
-                    element.selectionStart = cursor_pos;
-                    element.selectionEnd = cursor_pos;
-
-                    var p = $(element).parent();
-                    var text = element.value;
-                    var elem = $('code.highlighting-content', p);
-                    elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"));
-                    Prism.highlightElement(elem[0]);
-                }
-            }
 
             @if (canEdit)
             {
@@ -170,42 +131,79 @@
                 window.location = '@adminTextUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
             }
 
-            function onEditField(oBtn, fnOnShow) {
-                t.onEditRecord(oBtn, function (oFrm, oData) {
-                    
-                    function fnEditTextarea(evt) {
-                        window.prismSyntaxHighlight(this.value, this);
-                        console.log(evt, );
-                        var ctrl = $(this);
-                        var p = ctrl.parent().parent();
-                        var row = p.parent();
-                        if (evt.type == 'blur') {
-                            $('.col-lg', row).removeClass('d-none');
-                            //ctrl.prop('rows', 3);
-                        } else {
-                            $('.col-lg', row).addClass('d-none');
-                            p.removeClass('d-none');
-                            //ctrl.prop('rows', 10);
-                        }
-                        
+
+            t.initTinyMce = t.initWysiwyg;
+            t.initWysiwyg = function (oFrm) {
+
+                function fnEditTextarea(evt) {
+                    prismSyntaxHighlight(this.value, this);
+                    var ctrl = $(this);
+                    var p = ctrl.parent().parent();
+                    var row = p.parent();
+                    if (evt.type == 'blur') {
+                        $('.col-lg', row).removeClass('d-none');
+                        //ctrl.prop('rows', 3);
+                    } else {
+                        $('.col-lg', row).addClass('d-none');
+                        p.removeClass('d-none');
+                        //ctrl.prop('rows', 10);
                     }
-                    
-                    $('textarea.editing', oFrm).off()
-                        .on("focus", fnEditTextarea)
-                        .on("blur", fnEditTextarea)
-                        .on("input", function () { window.prismSyntaxHighlight(this.value, this); })
-                        .on("scroll", function () { window.prismSyncScroll(this); })
-                        .on("keydown", function(evt){window.prismCheckTab(this, evt)});
 
-                    $('textarea.editing', oFrm).each(function() {
-                        window.prismSyntaxHighlight(this.value, this);
-                    });
+                }
 
+                function prismSyntaxHighlight(text, ctrl) {
+                    var p = $(ctrl).parent();
+                    var elem = $('code.highlighting-content', p);
+                    elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+                    Prism.highlightElement(elem[0]);
+                }
+                function prismSyncScroll(element) {
+                    /* Scroll result to scroll coords of event - sync with textarea */
+                    var p = $(element).parent();
+                    var result_element = $("pre.highlighting", p)[0];
+                    // Get and set x and y
+                    result_element.scrollTop = element.scrollTop;
+                    result_element.scrollLeft = element.scrollLeft;
+                }
+
+                function prismCheckTab(element, event) {
+                    var code = element.value;
+                    if (event.key == "Tab") {
+                        /* Tab key pressed */
+                        event.preventDefault(); // stop normal
+                        var before_tab = code.slice(0, element.selectionStart); // text before tab
+                        var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
+                        var cursor_pos = element.selectionEnd + 1; // after tab placed, where cursor moves to - 1 for 1 tab char
+                        element.value = before_tab + "\t" + after_tab; // add tab char - 1 tab char
+                        // move cursor
+                        element.selectionStart = cursor_pos;
+                        element.selectionEnd = cursor_pos;
+
+                        var p = $(element).parent();
+                        var text = element.value;
+                        var elem = $('code.highlighting-content', p);
+                        elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+                        Prism.highlightElement(elem[0]);
+                    }
+                }
+
+                $('textarea.editing', oFrm).off()
+                    .on("focus", fnEditTextarea)
+                    .on("blur", fnEditTextarea)
+                    .on("input", function () { prismSyntaxHighlight(this.value, this); })
+                    .on("scroll", function () { prismSyncScroll(this); })
+                    .on("keydown", function (evt) { prismCheckTab(this, evt) });
+
+                $('textarea.editing', oFrm).each(function () {
+                    prismSyntaxHighlight(this.value, this);
                 });
+
+                t.initTinyMce(oFrm);
             }
 
+
             t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
-            t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', onEditField);
+            t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', t.onEditRecord);
         </text>
         }
 
