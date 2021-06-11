@@ -225,7 +225,7 @@
             }, [15]);
 
             t.addDtRenderer(function (data, type, row) {
-                switch (row["FieldType"].toUpperCase()) {
+                switch ((row["FieldType"] || "").toUpperCase()) {
                 case 'WIZARD':
                 case 'EMAIL':
                     return '<a href="@wizardUrl/' + data + '">' + data + '</a>';
@@ -233,7 +233,7 @@
                 return data;
             }, [1]);
             t.addDtRenderer(function (data, type, row) {
-                switch (row["FieldType"].toUpperCase()) {
+                switch ((row["FieldType"] || "").toUpperCase()) {
                 case 'WIZARD':
                     return '<a href="@wizardUrl/' + row['GroupKey'] + '/' + data + '">' + data + '</a>';
                 case 'EMAIL':
