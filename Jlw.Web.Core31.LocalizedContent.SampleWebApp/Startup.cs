@@ -82,6 +82,9 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
             
             mvcBuilder.AddNewtonsoftJson(o =>
             {
+                // Added to test different naming resolver
+                o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
             
 
@@ -108,6 +111,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
 
 
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
