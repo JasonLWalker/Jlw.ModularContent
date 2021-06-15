@@ -12,6 +12,6 @@ namespace Jlw.Data.LocalizedContent
         public string FieldKey { get; set; }
         public string GroupKey { get; set; }
         public string ParentKey { get; set; }
-        public new string GroupFilter { get; set; }
+        public string GroupFilter { get; set; }
     }
 }
