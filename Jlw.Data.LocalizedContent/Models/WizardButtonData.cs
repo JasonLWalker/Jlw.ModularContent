@@ -1,33 +1,82 @@
-﻿using Jlw.Utilities.Data;
+﻿// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-27-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 06-15-2021
+// ***********************************************************************
+// <copyright file="WizardButtonData.cs" company="Jason L. Walker">
+//     Copyright ©2012-2021 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Data.LocalizedContent
 {
+    /// <summary>
+    /// Class WizardButtonData.
+    /// </summary>
+    /// TODO Edit XML Comment Template for WizardButtonData
     public class WizardButtonData
     {
+        /// <summary>
+        /// Gets or sets the label.
+        /// </summary>
+        /// <value>The label.</value>
+        /// TODO Edit XML Comment Template for Label
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Label { get; set; }
 
+        /// <summary>
+        /// Gets or sets the class.
+        /// </summary>
+        /// <value>The class.</value>
+        /// TODO Edit XML Comment Template for Class
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Class { get; set; }
 
+        /// <summary>
+        /// Gets or sets the icon.
+        /// </summary>
+        /// <value>The icon.</value>
+        /// TODO Edit XML Comment Template for Icon
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Icon { get; set; }
 
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        /// TODO Edit XML Comment Template for Action
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         public object Action { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wrapper.
+        /// </summary>
+        /// <value>The wrapper.</value>
+        /// TODO Edit XML Comment Template for Wrapper
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Wrapper { get; set; }
 
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for #ctor
         public WizardButtonData() : this(null) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WizardButtonData"/> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// TODO Edit XML Comment Template for #ctor
         public WizardButtonData(IWizardContentField data)
         {
             Label = data?.Label ?? "";

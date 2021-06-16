@@ -1,38 +1,63 @@
+// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-20-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 06-16-2021
+// ***********************************************************************
+// <copyright file="LocalizedContentText.cs" company="Jason L. Walker">
+//     Copyright ©2012-2021 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System;
 using Jlw.Utilities.Data;
 
 namespace Jlw.Data.LocalizedContent 
-{ 
-	/// <summary> 
-	/// Class to encapsulate a row from the [LocalizedContentText] database table 
-	/// </summary> 
-	public class LocalizedContentText : ILocalizedContentText 
-	{ 
- 
-		/// Member for [GroupKey] Database Column 
-		public string GroupKey { get; protected set; }      
- 
-		/// Member for [FieldKey] Database Column 
-		public string FieldKey { get; protected set; }      
- 
-		/// Member for [Language] Database Column 
-		public string Language { get; protected set; }      
- 
-		/// Member for [Text] Database Column 
-		public string Text { get; protected set; }      
- 
-		/// Member for [AuditChangeType] Database Column 
-		public string AuditChangeType { get; protected set; }      
- 
-		/// Member for [AuditChangeBy] Database Column 
-		public string AuditChangeBy { get; protected set; }      
- 
-		/// Member for [AuditChangeDate] Database Column 
-		public DateTime AuditChangeDate { get; protected set; }
+{
+    /// <summary>
+    /// Class to encapsulate a row from the [LocalizedContentText] database table
+    /// </summary>
+    public class LocalizedContentText : ILocalizedContentText 
+	{
 
-		public LocalizedContentText() => Initialize(null);
-        public LocalizedContentText (object o) => Initialize(o); 
+        /// <inheritdoc />
+        public string GroupKey { get; protected set; }
 
+        /// <inheritdoc />
+        public string FieldKey { get; protected set; }
+
+        /// <inheritdoc />
+        public string Language { get; protected set; }
+
+        /// <inheritdoc />
+        public string Text { get; protected set; }
+
+        /// <inheritdoc />
+        public string AuditChangeType { get; protected set; }
+
+        /// <inheritdoc />
+        public string AuditChangeBy { get; protected set; }
+
+        /// <inheritdoc />
+        public DateTime AuditChangeDate { get; protected set; }
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for #ctor
+        public LocalizedContentText() => Initialize(null);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LocalizedContentText"/> class.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// TODO Edit XML Comment Template for #ctor
+        public LocalizedContentText (object o) => Initialize(o);
+
+        /// <summary>
+        /// Initializes the specified o.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// TODO Edit XML Comment Template for Initialize
         public void Initialize(object o)
         {
             GroupKey = DataUtility.Parse<string>(o, "GroupKey");
