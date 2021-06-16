@@ -5,13 +5,8 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <Deterministic>False</Deterministic>
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
     <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
-    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <AssemblyName>Jlw.Web.Rcl.LocalizedContent</AssemblyName>
-    <RootNamespace>Jlw.Web.Rcl.LocalizedContent</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
     <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
@@ -19,8 +14,31 @@
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Product>Jlw.LocalizedContent</Product>
+    <AssemblyName>Jlw.Web.Rcl.LocalizedContent</AssemblyName>
+    <RootNamespace>Jlw.Web.Rcl.LocalizedContent</RootNamespace>
+    <Company>Jason L. Walker</Company>
+    <Authors>Jason L. Walker</Authors>
+    <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
+    <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
+    <AssemblyVersion>*</AssemblyVersion>
+    <FileVersion>*</FileVersion>
+
+    <AutoVersionPrefix>1.1</AutoVersionPrefix>
+    <AutoVersionSuffix>$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString(`####.####`))</AutoVersionSuffix>
+    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</Version>
+    <Version Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</Version>
+    <FileVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</FileVersion>
+    <FileVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</FileVersion>
+  </PropertyGroup>
+
+  
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -30,10 +48,10 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.14" />
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.0.7678.29298" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" >
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" >
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
@@ -50,4 +68,6 @@
       <PackageVersion>%(PackAssembly.Version)$(VersionSuffix)</PackageVersion>
     </PropertyGroup>
   </Target>
+
+
 </Project>

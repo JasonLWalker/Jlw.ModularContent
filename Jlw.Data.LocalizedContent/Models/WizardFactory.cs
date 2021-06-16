@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-27-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 06-15-2021
+// ***********************************************************************
+// <copyright file="WizardFactory.cs" company="Jason L. Walker">
+//     Copyright ©2012-2021 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Jlw.Utilities.Data;
@@ -6,18 +19,40 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
+    /// <summary>
+    /// Class WizardFactory.
+    /// Implements the <see cref="Jlw.Data.LocalizedContent.IWizardFactory" />
+    /// </summary>
+    /// <seealso cref="Jlw.Data.LocalizedContent.IWizardFactory" />
+    /// TODO Edit XML Comment Template for WizardFactory
     public class WizardFactory : IWizardFactory
     {
+        /// <summary>
+        /// Gets or sets the form data.
+        /// </summary>
+        /// <value>The form data.</value>
+        /// TODO Edit XML Comment Template for FormData
         public object FormData { get; set; }
 
 
+        /// <summary>
+        /// The data repository
+        /// </summary>
+        /// TODO Edit XML Comment Template for DataRepository
         protected IWizardFactoryRepository DataRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WizardFactory"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
+        /// TODO Edit XML Comment Template for #ctor
         public WizardFactory(IWizardFactoryRepository repository)
         {
             DataRepository = repository;
         }
 
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for CreateWizardContent
         public virtual IWizardContent CreateWizardContent(string groupKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
@@ -56,6 +91,15 @@ namespace Jlw.Data.LocalizedContent
             return content;
         }
 
+        /// <summary>
+        /// Adds the embedded form.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="content">The content.</param>
+        /// <param name="extraFields">The extra fields.</param>
+        /// <param name="isDisabled">if set to <c>true</c> [is disabled].</param>
+        /// <param name="hasEditButton">if set to <c>true</c> [has edit button].</param>
+        /// TODO Edit XML Comment Template for AddEmbeddedForm
         public virtual void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false)
         {
             List<WizardContentField> embed = (List<WizardContentField>)DataRepository.GetFieldData(key);
@@ -95,6 +139,14 @@ namespace Jlw.Data.LocalizedContent
             }
         }
 
+        /// <summary>
+        /// Creates the wizard form data.
+        /// </summary>
+        /// <param name="formKey">The form key.</param>
+        /// <param name="fieldData">The field data.</param>
+        /// <param name="editButton">The edit button.</param>
+        /// <returns>WizardFormData.</returns>
+        /// TODO Edit XML Comment Template for CreateWizardFormData
         public virtual WizardFormData CreateWizardFormData(string formKey, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null)
         {
             var data = fieldData?.ToList();
