@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-20-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 06-15-2021
+// ***********************************************************************
+// <copyright file="LocalizedContentFieldRepository.cs" company="Jason L. Walker">
+//     Copyright ©2012-2021 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,21 +21,59 @@ using Jlw.Utilities.Data.DbUtility;
 
 namespace Jlw.Data.LocalizedContent 
 {
+    /// <summary>
+    /// Class LocalizedContentFieldRepository.
+    /// Implements the <see cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
+    /// Implements the <see cref="Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository" />
+    /// </summary>
+    /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
+    /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository" />
+    /// TODO Edit XML Comment Template for LocalizedContentFieldRepository
     public class LocalizedContentFieldRepository : ModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>, ILocalizedContentFieldRepository 
     {
-        protected const string SpGetRecord = "sp_GetLocalizedContentFieldRecord"; 
-        protected const string SpSaveRecord = "sp_SaveLocalizedContentFieldRecord"; 
-        protected const string SpDeleteRecord = "sp_DeleteLocalizedContentFieldRecord"; 
-        protected const string SpListRecord = "sp_GetLocalizedContentFieldList"; 
- 
+        /// <summary>
+        /// The sp get record
+        /// </summary>
+        /// TODO Edit XML Comment Template for SpGetRecord
+        protected const string SpGetRecord = "sp_GetLocalizedContentFieldRecord";
+        /// <summary>
+        /// The sp save record
+        /// </summary>
+        /// TODO Edit XML Comment Template for SpSaveRecord
+        protected const string SpSaveRecord = "sp_SaveLocalizedContentFieldRecord";
+        /// <summary>
+        /// The sp delete record
+        /// </summary>
+        /// TODO Edit XML Comment Template for SpDeleteRecord
+        protected const string SpDeleteRecord = "sp_DeleteLocalizedContentFieldRecord";
+        /// <summary>
+        /// The sp list record
+        /// </summary>
+        /// TODO Edit XML Comment Template for SpListRecord
+        protected const string SpListRecord = "sp_GetLocalizedContentFieldList";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LocalizedContentFieldRepository"/> class.
+        /// </summary>
+        /// <param name="dbClient">The database client.</param>
+        /// <param name="connString">The connection string.</param>
+        /// TODO Edit XML Comment Template for #ctor
         public LocalizedContentFieldRepository(IModularDbClient dbClient, string connString) : base(dbClient, connString) 
         { 
             _sGetRecord = SpGetRecord; 
             _sDeleteRecord = SpDeleteRecord; 
             _sSaveRecord = SpSaveRecord; 
             _sGetAllRecords = SpListRecord; 
-        } 
- 
+        }
+
+        /// <summary>
+        /// Gets the parameters for SQL.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="sSql">The s SQL.</param>
+        /// <returns>IEnumerable&lt;KeyValuePair&lt;System.String, System.Object&gt;&gt;.</returns>
+        /// <exception cref="System.NotImplementedException">The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.</exception>
+        /// TODO Edit XML Comment Template for GetParamsForSql
         protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedContentField o, string sSql) 
         { 
             switch (sSql) 
@@ -65,6 +116,8 @@ namespace Jlw.Data.LocalizedContent
             throw new NotImplementedException($"The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.");
         }
 
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetDataTableList
         public object GetDataTableList(LocalizedContentFieldDataTablesInput o)
         {
             string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey, @sGroupFilter=@sGroupFilter";
