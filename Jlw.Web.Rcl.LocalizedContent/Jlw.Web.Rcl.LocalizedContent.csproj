@@ -5,7 +5,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetPackageVersionFromDataAssembly;ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
     <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
