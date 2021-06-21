@@ -10,11 +10,20 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
     <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <RestoreIgnoreFailedSource>true</RestoreIgnoreFailedSource>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RestoreIgnoreFailedSource>true</RestoreIgnoreFailedSource>
+    <RestoreAdditionalProjectSources>
+      $(MSBuildThisFileDirectory)/../Jlw.Data.LocalizedContent/bin/$(Configuration)/
+    </RestoreAdditionalProjectSources>
+
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,24 +34,14 @@
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
     <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
-    <AssemblyVersion>*</AssemblyVersion>
-    <FileVersion>*</FileVersion>
-
-    <AutoVersionPrefix>1.1</AutoVersionPrefix>
-    <AutoVersionSuffix>$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString(`####.####`))</AutoVersionSuffix>
-    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</AssemblyVersion>
-    <Version Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</Version>
-    <Version Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</Version>
-    <FileVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</FileVersion>
-    <FileVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LocalizedContentDataRootPath>..\Jlw.Data.LocalizedContent</LocalizedContentDataRootPath>
+  </PropertyGroup>
   
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Jlw.Data.LocalizedContent" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
@@ -69,5 +68,40 @@
     </PropertyGroup>
   </Target>
 
+  <!--
+    ============================================================
+    SetPackageVersionFromDataAssembly
+    Gathers the package version from the Data assembly and sets
+    NuGet version to match. Also sets the version for this
+    assembly and package to match version retrieved.
+    ============================================================
+  -->
+  <Target Name="SetPackageVersionFromDataAssembly" BeforeTargets="CollectPackageReferences" Condition="Exists('$(MSBuildThisFileDirectory)..\Jlw.Data.LocalizedContent\bin\$(Configuration)\netstandard2.0\Jlw.Data.LocalizedContent.dll')">
+    <GetAssemblyIdentity AssemblyFiles="$(MSBuildThisFileDirectory)..\Jlw.Data.LocalizedContent\bin\$(Configuration)\netstandard2.0\Jlw.Data.LocalizedContent.dll">
+      <Output TaskParameter="Assemblies" ItemName="DataPackAssembly" />
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <LocalizedContentDataPackageVersion>%(DataPackAssembly.Version)</LocalizedContentDataPackageVersion>
+      <Version>$(LocalizedContentDataPackageVersion)</Version>
+      <FileVersion>$(LocalizedContentDataPackageVersion)</FileVersion>
+      <AssemblyVersion>$(LocalizedContentDataPackageVersion)</AssemblyVersion>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Jlw.Data.LocalizedContent" Version="$(LocalizedContentDataPackageVersion)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    ============================================================
+    RestoreAgainBeforeCompile
+    Runs `dotnet restore` again to ensure that dependencies 
+    are picked up after being modified by 
+    SetPackageVersionFromDataAssembly before compilation starts.
+    ============================================================
+  -->
+  <Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile">
+    <Message Text="Restoring packages again to pick up updated dependency versions." />
+    <Exec Command="dotnet restore"/>
+  </Target>
 
 </Project>

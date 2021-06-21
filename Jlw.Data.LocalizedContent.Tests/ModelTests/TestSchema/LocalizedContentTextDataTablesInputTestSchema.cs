@@ -41,6 +41,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Language), language);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
+                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupFilter), groupFilter);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.draw), draw);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.start), start);
@@ -54,7 +55,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             AddProperty(typeof(string), "Language", Public, Public);
             AddProperty(typeof(string), "GroupKey", Public, Public);
             AddProperty(typeof(string), "FieldKey", Public, Public);
-            //AddProperty(typeof(string), "GroupFilter", Public, Public);
+            AddProperty(typeof(string), "GroupFilter", Public, Public);
             AddProperty(typeof(int), "draw", Public, Public);
             AddProperty(typeof(int), "start", Public, Public);
             AddProperty(typeof(int), "length", Public, Public);
