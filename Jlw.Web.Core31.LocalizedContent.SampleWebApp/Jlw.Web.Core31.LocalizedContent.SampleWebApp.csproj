@@ -15,6 +15,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <RestoreAdditionalProjectSources>
+      $(MSBuildThisFileDirectory)/../Jlw.Data.LocalizedContent/bin/$(Configuration)/
+    </RestoreAdditionalProjectSources>
+
+  </PropertyGroup>
+
+
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
