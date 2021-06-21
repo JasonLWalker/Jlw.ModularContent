@@ -57,6 +57,10 @@
     <EmbeddedResource Include="resources\**\*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+  </ItemGroup>
+
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
@@ -84,9 +88,9 @@
       <FileVersion>$(LocalizedContentDataPackageVersion)</FileVersion>
       <AssemblyVersion>$(LocalizedContentDataPackageVersion)</AssemblyVersion>
     </PropertyGroup>
-    <ItemGroup>
+    <!-- ItemGroup>
       <PackageReference Include="Jlw.Data.LocalizedContent" Version="$(LocalizedContentDataPackageVersion)$(VersionSuffix)" />
-    </ItemGroup>
+    </ItemGroup -->
   </Target>
 
   <!--
@@ -97,9 +101,9 @@
     SetPackageVersionFromDataAssembly before compilation starts.
     ============================================================
   -->
-  <Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile;Pack">
+  <!-- Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile;Pack">
     <Message Text="Restoring packages again to pick up updated dependency versions." />
-    <Exec Command="dotnet restore"/>
-  </Target>
+    <Exec Command="dotnet restore" />
+  </-->
 
 </Project>

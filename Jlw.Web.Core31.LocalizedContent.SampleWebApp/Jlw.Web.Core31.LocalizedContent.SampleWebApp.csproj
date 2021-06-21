@@ -15,34 +15,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <RestoreAdditionalProjectSources>
-      $(MSBuildThisFileDirectory)/../Jlw.Data.LocalizedContent/bin/$(Configuration)/
-    </RestoreAdditionalProjectSources>
-
-  </PropertyGroup>
-
 
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
 
+
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj" />
   </ItemGroup>
-
-  <!--
-    ============================================================
-    RestoreAgainBeforeCompile
-    Runs `dotnet restore` again to ensure that dependencies 
-    are picked up after being modified in dependent projects 
-    before compilation starts.
-    ============================================================
-  -->
-  <Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile">
-    <Message Text="Restoring packages again to pick up updated dependency versions." />
-    <Exec Command="dotnet restore"/>
-  </Target>
 
 
 </Project>
