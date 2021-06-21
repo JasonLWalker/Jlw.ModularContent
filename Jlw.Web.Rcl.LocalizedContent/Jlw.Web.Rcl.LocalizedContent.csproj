@@ -15,7 +15,6 @@
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-    <RestoreIgnoreFailedSource>true</RestoreIgnoreFailedSource>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -23,7 +22,6 @@
     <RestoreAdditionalProjectSources>
       $(MSBuildThisFileDirectory)/../Jlw.Data.LocalizedContent/bin/$(Configuration)/
     </RestoreAdditionalProjectSources>
-
   </PropertyGroup>
 
   <PropertyGroup>
@@ -99,7 +97,7 @@
     SetPackageVersionFromDataAssembly before compilation starts.
     ============================================================
   -->
-  <Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile">
+  <Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile;Pack">
     <Message Text="Restoring packages again to pick up updated dependency versions." />
     <Exec Command="dotnet restore"/>
   </Target>
