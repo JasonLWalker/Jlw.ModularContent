@@ -50,8 +50,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{B9C7434B-F
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7} = {A0329EAE-26A9-4407-B373-49DF6A7C43F7}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Core31.LocalizedContent.SampleWebApp", "Jlw.Web.Core31.LocalizedContent.SampleWebApp\Jlw.Web.Core31.LocalizedContent.SampleWebApp.csproj", "{272B7544-D897-445C-A19A-361D06BB64D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0329EAE-26A9-4407-B373-49DF6A7C43F7} = {A0329EAE-26A9-4407-B373-49DF6A7C43F7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
