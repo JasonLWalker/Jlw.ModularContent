@@ -13,7 +13,7 @@ if (-Not ($packageName)){
 
 dotnet build Jlw.Data.LocalizedContent --version-suffix=$versionSuffix --configuration $buildType
 
-#dotnet build Jlw.Data.LocalizedContent.Tests --version-suffix=$versionSuffix --configuration $buildType
+dotnet build Jlw.Data.LocalizedContent.Tests --version-suffix=$versionSuffix --configuration $buildType
 
 # Build with dotnet
 # dotnet build --version-suffix=$versionSuffix --configuration $buildType
@@ -21,6 +21,6 @@ dotnet build Jlw.Data.LocalizedContent --version-suffix=$versionSuffix --configu
 # Pack Nuget package
 dotnet build Jlw.Web.Rcl.LocalizedContent --version-suffix=$versionSuffix --configuration $buildType
 
-#dotnet build Jlw.Web.Core31.LocalizedContent.SampleWebApp --version-suffix=$versionSuffix --configuration $buildType
+dotnet build Jlw.Web.Core31.LocalizedContent.SampleWebApp --version-suffix=$versionSuffix --configuration $buildType
 
-dotnet build --version-suffix=$versionSuffix --configuration $buildType
+#dotnet build --version-suffix=$versionSuffix --configuration $buildType

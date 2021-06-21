@@ -51,6 +51,7 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+      <Reference Include="Jlw.Data.LocalizedContent" />
   </ItemGroup>
 
   <ItemGroup>
