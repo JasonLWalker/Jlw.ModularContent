@@ -51,7 +51,6 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-      <Reference Include="Jlw.Data.LocalizedContent" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,7 +85,7 @@
       <AssemblyVersion>$(LocalizedContentDataPackageVersion)</AssemblyVersion>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Jlw.Data.LocalizedContent" Version="$(LocalizedContentDataPackageVersion)" />
+      <PackageReference Include="Jlw.Data.LocalizedContent" Version="$(LocalizedContentDataPackageVersion)$(VersionSuffix)" />
     </ItemGroup>
   </Target>
 
