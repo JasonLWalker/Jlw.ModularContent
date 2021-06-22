@@ -5,16 +5,15 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
     <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
     <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,6 +24,8 @@
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
     <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
+    <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
+    <Version>$(VersionPrefix)$(VersionSuffix)</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,41 +47,7 @@
     <EmbeddedResource Include="resources\**\*" />
   </ItemGroup>
 
-
-  <PropertyGroup>
-    <SharedDataAssembly>Jlw.Data.LocalizedContent</SharedDataAssembly>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
   </ItemGroup>
-
-  <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
-    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
-      <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
-    </GetAssemblyIdentity>
-    <PropertyGroup>
-      <PackageVersion>%(PackAssembly.Version)$(VersionSuffix)</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
-  <!--
-    ============================================================
-    SetPackageVersionFromDataAssembly
-    Gathers the package version from the Data assembly and sets
-    NuGet version to match. Also sets the version for this
-    assembly and package to match version retrieved.
-    ============================================================
-  -->
-  <Target Name="SetPackageVersionFromDataAssembly" BeforeTargets="GenerateAssemblyInfo;GetAssemblyVersion">
-    <GetAssemblyIdentity AssemblyFiles="$(MSBuildThisFileDirectory)..\$(SharedDataAssembly)\bin\$(Configuration)\netstandard2.0\$(SharedDataAssembly).dll">
-      <Output TaskParameter="Assemblies" ItemName="DataPackAssembly" />
-    </GetAssemblyIdentity>
-    <PropertyGroup>
-      <LocalizedContentDataPackageVersion>%(DataPackAssembly.Version)$(VersionSuffix)</LocalizedContentDataPackageVersion>
-      <Version>$(LocalizedContentDataPackageVersion)</Version>
-      <PackageVersion>$(LocalizedContentDataPackageVersion)</PackageVersion>
-    </PropertyGroup>
-    <Message Text="Version: $(LocalizedContentDataPackageVersion)" Importance="high" />
-  </Target>
-
 </Project>
