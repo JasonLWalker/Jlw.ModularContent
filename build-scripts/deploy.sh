@@ -45,4 +45,4 @@ done
 
 echo "";
 echo "Creating Zip package : ${packageName}.${packageVersion}.zip";
-zip -r "${packageName}.${packageVersion}.zip" ./${packageName}/bin/$buildType/* README.md License.txt
+zip -r "${packageName}.${packageVersion}.zip" ./${packageName}/bin/$buildType/* README.md LICENSE
