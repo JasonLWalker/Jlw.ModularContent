@@ -23,17 +23,11 @@
     <Authors>Jason L. Walker</Authors>
     <Description>Shared Data Models and Data Repository to implement form and content creation.</Description>
     <Copyright>Copyright ©2012-2021 Jason L. Walker</Copyright>
-    <AssemblyVersion>*</AssemblyVersion>
-    <FileVersion>*</FileVersion>
-
+    <Version>0.0.0.1</Version>
     <AutoVersionPrefix>1.1</AutoVersionPrefix>
     <AutoVersionSuffix>$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString(`####.####`))</AutoVersionSuffix>
-    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</AssemblyVersion>
-    <Version Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</Version>
-    <Version Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</Version>
-    <FileVersion Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1</FileVersion>
-    <FileVersion Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)</FileVersion>
+    <Version Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1$(VersionSuffix)</Version>
+    <Version Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</Version>
   </PropertyGroup>
 
 
