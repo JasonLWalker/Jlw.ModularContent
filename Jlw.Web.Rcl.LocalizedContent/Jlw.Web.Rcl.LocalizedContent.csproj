@@ -27,10 +27,6 @@
     <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <LocalizedContentDataRootPath>..\Jlw.Data.LocalizedContent</LocalizedContentDataRootPath>
-  </PropertyGroup>
-  
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
@@ -50,13 +46,16 @@
     <EmbeddedResource Include="resources\**\*" />
   </ItemGroup>
 
+
+  <PropertyGroup>
+    <SharedDataAssembly>Jlw.Data.LocalizedContent</SharedDataAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
   </ItemGroup>
 
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
-    <!-- GetAssemblyIdentity AssemblyFiles="$(MSBuildThisFileDirectory)..\Jlw.Data.LocalizedContent\bin\$(Configuration)\netstandard2.0\Jlw.Data.LocalizedContent.dll" -->
       <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
     </GetAssemblyIdentity>
     <PropertyGroup>
@@ -73,30 +72,15 @@
     ============================================================
   -->
   <Target Name="SetPackageVersionFromDataAssembly" BeforeTargets="GenerateAssemblyInfo;GetAssemblyVersion">
-    <GetAssemblyIdentity AssemblyFiles="$(MSBuildThisFileDirectory)..\Jlw.Data.LocalizedContent\bin\$(Configuration)\netstandard2.0\Jlw.Data.LocalizedContent.dll">
+    <GetAssemblyIdentity AssemblyFiles="$(MSBuildThisFileDirectory)..\$(SharedDataAssembly)\bin\$(Configuration)\netstandard2.0\$(SharedDataAssembly).dll">
       <Output TaskParameter="Assemblies" ItemName="DataPackAssembly" />
     </GetAssemblyIdentity>
     <PropertyGroup>
       <LocalizedContentDataPackageVersion>%(DataPackAssembly.Version)$(VersionSuffix)</LocalizedContentDataPackageVersion>
       <Version>$(LocalizedContentDataPackageVersion)</Version>
+      <PackageVersion>$(LocalizedContentDataPackageVersion)</PackageVersion>
     </PropertyGroup>
     <Message Text="Version: $(LocalizedContentDataPackageVersion)" Importance="high" />
-    <!-- ItemGroup>
-      <PackageReference Include="Jlw.Data.LocalizedContent" Version="$(LocalizedContentDataPackageVersion)$(VersionSuffix)" />
-    </ItemGroup -->
   </Target>
-
-  <!--
-    ============================================================
-    RestoreAgainBeforeCompile
-    Runs `dotnet restore` again to ensure that dependencies 
-    are picked up after being modified by 
-    SetPackageVersionFromDataAssembly before compilation starts.
-    ============================================================
-  -->
-  <!-- Target Name="RestoreAgainBeforeCompile" BeforeTargets="CoreCompile;Pack">
-    <Message Text="Restoring packages again to pick up updated dependency versions." />
-    <Exec Command="dotnet restore" />
-  </-->
 
 </Project>

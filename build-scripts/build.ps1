@@ -23,4 +23,4 @@ if (-Not ($packageName)){
 
 #dotnet build Jlw.Web.Core31.LocalizedContent.SampleWebApp --version-suffix=$versionSuffix --configuration $buildType
 
-dotnet build --version-suffix=$versionSuffix --configuration $buildType
+dotnet build Jlw.Web.Rcl.LocalizedContent --version-suffix=$versionSuffix --configuration $buildType

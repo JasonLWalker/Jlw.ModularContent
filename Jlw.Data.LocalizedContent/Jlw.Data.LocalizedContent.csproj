@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
+    <!-- GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetPackageVersionFromDataAssembly</ -->
     <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -23,11 +24,10 @@
     <Authors>Jason L. Walker</Authors>
     <Description>Shared Data Models and Data Repository to implement form and content creation.</Description>
     <Copyright>Copyright ©2012-2021 Jason L. Walker</Copyright>
-    <Version>0.0.0.1</Version>
-    <AutoVersionPrefix>1.1</AutoVersionPrefix>
-    <AutoVersionSuffix>$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString(`####.####`))</AutoVersionSuffix>
-    <Version Condition=" '$(AutoVersionSuffix)' == '' ">$(AutoVersionPrefix).0.1$(VersionSuffix)</Version>
-    <Version Condition=" '$(AutoVersionSuffix)' != '' ">$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</Version>
+    <AutoVersionPrefix Condition="'$(AutoVersionPrefix)' == ''">1.1</AutoVersionPrefix>
+    <AutoVersionSuffix Condition="'$(AutoVersionSuffix)' == ''">$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString().SubString(0,9))</AutoVersionSuffix>
+    <Version Condition="'$(Version)' == ''">$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</Version>
+    <PackageVersion Condition="'$(PackageVersion)' == ''">$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</PackageVersion>
   </PropertyGroup>
 
 
@@ -44,7 +44,27 @@
     <PropertyGroup>
       <PackageVersion>%(PackAssembly.Version)$(VersionSuffix)</PackageVersion>
     </PropertyGroup>
+    <Message Text="Version: $(PackageVersion)" Importance="high" />
   </Target>
+
+  <!--
+    ============================================================
+    SetPackageVersionFromDataAssembly
+    Gathers the package version from the Data assembly and sets
+    NuGet version to match. Also sets the version for this
+    assembly and package to match version retrieved.
+    ============================================================
+  -->
+  <!-- Target Name="SetPackageVersionFromDataAssembly" BeforeTargets="GenerateAssemblyInfo;GetAssemblyVersion;">
+    <PropertyGroup>
+      <AutoVersionPrefix>1.1</AutoVersionPrefix>
+      <AutoVersionSuffix>$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString(`####.####`))</AutoVersionSuffix>
+      <Version>$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</Version>
+      <PackageVersion>$(AutoVersionPrefix).$(AutoVersionSuffix)$(VersionSuffix)</PackageVersion>
+    </PropertyGroup>
+    <Message Text="Version: $(Version)" Importance="high" />
+  </-->
+
 
 
 </Project>
