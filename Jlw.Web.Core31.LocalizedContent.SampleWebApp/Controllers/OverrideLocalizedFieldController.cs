@@ -50,10 +50,10 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             //ViewData["apiOverrideUrl"] = Url.Content("~/admin/ContentOverride/api/");
             //ViewData["apiOverrideUrl"] = Url.Action("Index", "OverrideLocalizedFieldApi", new { groupKey = (string)null, fieldKey = (string)null }) + "/";
             ViewData["apiOverrideUrl"] = Url.Content("~/admin/api/OverrideLocalizedField/");
-            ViewData["adminOverrideUrl"] = Url.Action("Index");
+            ViewData["adminOverrideUrl"] = Url.Action("Index", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["adminTextOverrideUrl"] = Url.Action("Index", "OverrideLocalizedText", new { groupKey = (string)null, fieldKey = (string)null });
-            ViewData["wizardOverrideUrl"] = Url.Action("Wizard");
-            ViewData["emailOverrideUrl"] = Url.Action("Email");
+            ViewData["wizardOverrideUrl"] = Url.Action("Email",new { groupKey = (string)null, fieldKey = (string)null });
+            ViewData["emailOverrideUrl"] = Url.Action("Email", new { groupKey = (string)null, fieldKey = (string)null });
             ViewData["fieldType"] = "EMAIL";
             ViewData["parentKey"] = parentKey;
             ViewData["PageTitle"] = "Email Override Admin";
