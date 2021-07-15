@@ -91,6 +91,12 @@ namespace Jlw.Data.LocalizedContent
             return content;
         }
 
+        public virtual WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null)
+        {
+            var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
+            return new WizardContentEmail(parentKey, fieldData, formData);
+        }
+
         /// <summary>
         /// Adds the embedded form.
         /// </summary>
