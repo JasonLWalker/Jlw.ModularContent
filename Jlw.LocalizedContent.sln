@@ -59,6 +59,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Core31.LocalizedCon
 		{A0329EAE-26A9-4407-B373-49DF6A7C43F7} = {A0329EAE-26A9-4407-B373-49DF6A7C43F7}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scripts", "{5590BE09-1B26-4C43-A6BF-BAA154472F98}"
+	ProjectSection(SolutionItems) = preProject
+		build-scripts\build-test.ps1 = build-scripts\build-test.ps1
+		build-scripts\build-wiki.ps1 = build-scripts\build-wiki.ps1
+		build-scripts\build-wiki.sh = build-scripts\build-wiki.sh
+		build-scripts\build.ps1 = build-scripts\build.ps1
+		build-scripts\deploy.sh = build-scripts\deploy.sh
+		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
+		build-scripts\setenv.sh = build-scripts\setenv.sh
+		build-scripts\test.ps1 = build-scripts\test.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +101,7 @@ Global
 		{AA3405BA-2841-42A0-B467-0DF5FFF1C086} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
 		{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
 		{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{5590BE09-1B26-4C43-A6BF-BAA154472F98} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE81A48A-3CA3-48FC-A5A2-E2C265718B6B}
