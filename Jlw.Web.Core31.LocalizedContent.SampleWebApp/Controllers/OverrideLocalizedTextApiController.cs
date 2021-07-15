@@ -11,6 +11,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         public OverrideLocalizedTextApiController(ILocalizedContentTextRepository repository) : base (repository)
         {
             _groupFilter = "Sample%";
+            _unlockApi = true;
         }
 
         /*
