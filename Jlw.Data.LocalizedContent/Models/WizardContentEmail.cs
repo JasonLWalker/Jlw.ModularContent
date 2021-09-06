@@ -37,7 +37,7 @@ namespace Jlw.Data.LocalizedContent
         }
         void ResolvePlaceholders(object o)
         {
-            JToken data = JToken.FromObject(o);
+            JToken data = JToken.FromObject(o ?? new object());
 
             foreach (var token in data)
             {
