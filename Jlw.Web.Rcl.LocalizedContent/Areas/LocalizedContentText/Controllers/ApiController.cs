@@ -1,5 +1,6 @@
 using System;
 using Jlw.Data.LocalizedContent;
+using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 {
     [Area("LocalizedContentText")]
     [ApiController]
-    //[Authorize("LocalizedContentUser")]
+    [Authorize]
     [Produces("application/json")]
     [Route("admin/[area]/[controller]")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -21,8 +22,9 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 	{ 
         private readonly ILocalizedContentTextRepository _repo;
         protected string _groupFilter;
+        protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
 
-        public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText 
+		public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText
 		{ 
 			public string EditToken { get; set; } 
 			public new string GroupKey  { get; set; } 
@@ -31,9 +33,10 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 			public new string Text  { get; set; } 
 			public new string AuditChangeType  { get; set; } 
 			public new string AuditChangeBy  { get; set; } 
-			public new DateTime AuditChangeDate  { get; set; } 
-		} 
- 
+			public new DateTime AuditChangeDate  { get; set; }
+            public string GroupFilter { get; set; }
+		}
+
 		public ApiController (ILocalizedContentTextRepository repository) 
         { 
             _repo = repository;
@@ -50,15 +53,21 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 		[HttpPost("DtList")] 
 		public virtual object DtList([FromForm]LocalizedContentTextDataTablesInput o) 
 		{
+            o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
+
             return JToken.FromObject(_repo.GetDataTableList(o));
         }
 
 		[HttpPost("Data")] 
 		public virtual object Data(LocalizedContentTextRecordInput o) 
 		{ 
-			ILocalizedContentText oResult; 
- 
-			try 
+			ILocalizedContentText oResult;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+            o.GroupFilter = _groupFilter;
+
+			try
 			{ 
 				oResult = _repo.GetRecord(o); 
 			} 
@@ -75,8 +84,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 		public virtual object Save(LocalizedContentTextRecordInput o) 
 		{ 
 			var bResult = false;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            o.GroupFilter = _groupFilter;
             o.AuditChangeBy = User.Identity.Name;
-			try 
+            try
 			{ 
 				var oResult = _repo.SaveRecord(o); 
                 bResult = oResult != null; 
@@ -100,6 +112,9 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 		{ 
 			var bResult = false;
 
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+			
+            o.GroupFilter = _groupFilter;
             o.AuditChangeBy = User.Identity.Name;
 			try 
 			{ 

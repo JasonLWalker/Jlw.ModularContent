@@ -145,9 +145,9 @@
                 t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
 
                 t.optionsWysiwyg = {
-                    useTinyMce: true,
-                    plugins: 'code',
-                    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | code',
+                    @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalOptions"]?.ToString()) ? ViewData["tinyMceAdditionalOptions"] + "," : "")useTinyMce: true,
+                    plugins: 'code @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalPlugins"]?.ToString()) ? ViewData["tinyMceAdditionalPlugins"] : "")',
+                    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | code @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalToolbar"]?.ToString()) ? ViewData["tinyMceAdditionalToolbar"] : "")',
                     menu: {
                         file: { title: 'File', items: 'newdocument restoredraft | preview | print ' },
                         edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
@@ -156,7 +156,7 @@
                         format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat' },
                         tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
                         table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
-                        help: { title: 'Help', items: 'help' }
+                        @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalMenu"]?.ToString()) ? ViewData["tinyMceAdditionalMenu"] + ", " : "")help: { title: 'Help', items: 'help' }
                     }
                 };
 

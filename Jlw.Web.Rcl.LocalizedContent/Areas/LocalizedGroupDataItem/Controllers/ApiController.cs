@@ -3,20 +3,26 @@ using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers 
 {
     [Area("LocalizedGroupDataItem")]
     [ApiController]
-    [Authorize("LocalizedContentUser")]
+    [Authorize]
     [Produces("application/json")] 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [Route("admin/[area]/[controller]")]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [JsonConverter(typeof(DefaultContractResolver))]
+    [JsonObject(NamingStrategyType = typeof(DefaultNamingStrategy))]
 	public class ApiController : ControllerBase 
 	{ 
-        private readonly ILocalizedGroupDataItemRepository _repo; 
-        
-        public class LocalizedGroupDataItemRecordInput : Data.LocalizedContent.LocalizedGroupDataItem 
+        private readonly ILocalizedGroupDataItemRepository _repo;
+        protected string _groupFilter;
+        protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
+
+		public class LocalizedGroupDataItemRecordInput : Data.LocalizedContent.LocalizedGroupDataItem 
 		{ 
 			public string EditToken { get; set; } 
 			public new long Id  { get; set; } 
@@ -27,9 +33,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
 			public new int Order  { get; set; } 
 			public new string Description  { get; set; } 
 			public new string Data  { get; set; } 
-            //public new string AuditChangeType { get; set; }
             public new string AuditChangeBy { get; set; }
-            //public new DateTime AuditChangeDate { get; set; }
+			public string GroupFilter { get; set; }
 		}
 
 		public ApiController(ILocalizedGroupDataItemRepository repository) 

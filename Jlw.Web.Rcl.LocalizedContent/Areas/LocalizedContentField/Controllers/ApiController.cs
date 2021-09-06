@@ -32,7 +32,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
     /// TODO Edit XML Comment Template for ApiController
     [Area("LocalizedContentField")]
     [ApiController]
-    [Authorize("LocalizedContentUser")]
+    [Authorize]
     [Produces("application/json")] 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] 
 	[Route("admin/[area]/[controller]")]
@@ -50,6 +50,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         /// for this class. This will be set in decendant classes to allow those classes to only modify a subset of database records.
         /// </summary>
         protected string _groupFilter;
+
+        protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
 
 
         /// <summary>
@@ -132,6 +134,9 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         public virtual object DtList([FromForm] LocalizedContentFieldDataTablesInput o)
         {
             o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
+
             return JToken.FromObject(_repo.GetDataTableList(o));
         }
 
@@ -146,6 +151,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             ILocalizedContentField oResult;
             o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             try
             {
@@ -173,6 +180,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             var bResult = false;
             o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             try
             {
@@ -205,6 +214,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         {
             var bResult = false;
             o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             try
             {

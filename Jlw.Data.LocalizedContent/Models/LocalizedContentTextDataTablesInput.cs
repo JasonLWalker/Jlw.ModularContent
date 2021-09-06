@@ -41,5 +41,7 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The language.</value>
         /// TODO Edit XML Comment Template for Language
         public string Language { get; set; }
+
+        public string GroupFilter { get; set; }
     }
 }

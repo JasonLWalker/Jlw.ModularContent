@@ -15,12 +15,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
 
+
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj" />
   </ItemGroup>
+
 
 </Project>

@@ -2,20 +2,31 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Deterministic>False</Deterministic>
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);ReadPackageVersionFromOutputAssembly</GenerateNuspecDependsOn>
-    <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
-    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <AssemblyName>Jlw.Data.LocalizedContent</AssemblyName>
-    <RootNamespace>Jlw.Data.LocalizedContent</RootNamespace>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>Jlw.LocalizedContent</Product>
     <PackageId>Jlw.Data.LocalizedContent</PackageId>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>$(PackageId)</AssemblyName>
+    <RootNamespace>$(PackageId)</RootNamespace>
+    <Company>Jason L. Walker</Company>
+    <Authors>Jason L. Walker</Authors>
+    <Description>Shared Data Models and Data Repository to implement form and content creation.</Description>
+    <Copyright>Copyright ©2012-2021 Jason L. Walker</Copyright>
+    <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
+    <Version>$(VersionPrefix)$(VersionSuffix)</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,15 +34,5 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.14" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
-
-  <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build">
-    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\$(AssemblyName).dll">
-      <Output TaskParameter="Assemblies" ItemName="PackAssembly" />
-    </GetAssemblyIdentity>
-    <PropertyGroup>
-      <PackageVersion>%(PackAssembly.Version)$(VersionSuffix)</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
 
 </Project>
