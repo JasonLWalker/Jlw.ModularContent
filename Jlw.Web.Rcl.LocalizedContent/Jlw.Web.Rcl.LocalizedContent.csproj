@@ -2,24 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <RazorLangVersion>3.0</RazorLangVersion>
-    <RepositoryUrl>https://github.com/JasonLWalker/Jlw.LocalizedContent.git</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IsPackable>true</IsPackable>
-    <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <AddRazorSupportForMvc>True</AddRazorSupportForMvc>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateEmbeddedFilesManifest>True</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
   <PropertyGroup>
     <Product>Jlw.LocalizedContent</Product>
-    <AssemblyName>Jlw.Web.Rcl.LocalizedContent</AssemblyName>
-    <RootNamespace>Jlw.Web.Rcl.LocalizedContent</RootNamespace>
+    <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>$(PackageId)</AssemblyName>
+    <RootNamespace>$(PackageId)</RootNamespace>
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
@@ -27,11 +31,12 @@
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.14" />
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.0.7678.29298" />
