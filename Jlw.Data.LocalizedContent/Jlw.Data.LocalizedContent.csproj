@@ -29,9 +29,17 @@
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Jlw.Utilities.Data" Version="4.0.7789.29087" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.14" />
+    <PackageReference Include="Jlw.Utilities.Data" Version="4.0.7897.7974" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.18" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
