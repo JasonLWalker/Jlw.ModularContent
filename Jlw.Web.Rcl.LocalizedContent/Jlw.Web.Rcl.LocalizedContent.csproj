@@ -30,6 +30,9 @@
     <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
@@ -37,9 +40,9 @@
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.14" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.14" />
-    <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.0.7678.29298" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.18" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.18" />
+    <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
