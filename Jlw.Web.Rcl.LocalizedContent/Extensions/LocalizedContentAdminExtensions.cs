@@ -40,13 +40,15 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<LocalizedContentFieldRepositoryOptions> options = null)
         {
-            
+            services.AddSingleton<ILanguageListModel>(provider =>
+            {
+                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
+                return new LanguageListModel(repo);
+            });
 
             services.ConfigureOptions(typeof(LocalizedContentAdminConfigureOptions));
             return services;
         }
-
-
 
         public static AuthorizationOptions AddDefaultLocalizedContentAdminAuthorizationPolicy(this AuthorizationOptions options)
         {
@@ -95,7 +97,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IApplicationBuilder UseDefaultLocalizedContentAdmin(this IApplicationBuilder app)
         {
-            return app.UseEndpoints(endpoints =>
+
+            app.UseEndpoints(endpoints =>
             {
                 // Localized Content Field Admin mapping
                 endpoints.MapControllerRoute(
@@ -130,6 +133,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedGroupDataItem" });
 
             });
+
+            return app;
         }
     }
 }
