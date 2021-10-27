@@ -1,17 +1,17 @@
- 
 @{ 
-    bool isAdmin = true; 
-    bool canView = isAdmin || true; 
-    bool canAdd = isAdmin || true; 
-    bool canEdit = isAdmin || true; 
-    bool canDelete = isAdmin || true; 
+    bool isAdmin = true;
+    bool canView = isAdmin || true;
+    bool canAdd = isAdmin || true;
+    bool canEdit = isAdmin || true;
+    bool canDelete = isAdmin || true;
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedGroupDataItem", groupKey = (string)null, parentKey = (string)null }) + " /" : ViewData["apiOverrideUrl"]?.ToString();
 } 
 <script>
 
     if (!window.jlwLibLocalizedGroupDataItem) {
-        window.jlwLibLocalizedGroupDataItem = function() {
+        window.jlwLibLocalizedGroupDataItem = function () {
             $.fn.dataTable.ext.errMode = 'none';
-            var t = new libJlwAppBuilder('@Url.Action("Index", "Api", new {Area="LocalizedGroupDataItem"})/', '.jlw-dtlist-localizedgroupdataitem table.jlw-datatable-localizedgroupdataitem');
+            var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-localizedgroupdataitem table.jlw-datatable-localizedgroupdataitem');
 
     @if (canEdit)
     {
@@ -51,7 +51,7 @@
             t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', t.onAddRecord);
             t.dtRenderFooterButtons();
             $('.btn-newrecord').off('click').on('click', t.onAddRecord);
-
+            
         }
     }
 </script> 

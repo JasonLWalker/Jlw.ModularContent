@@ -47,11 +47,14 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
 
         /// <summary>
         /// The primary group filter
-        /// for this class. This will be set in decendant classes to allow those classes to only modify a subset of database records.
+        /// for this class. This will be set in descendant classes to allow those classes to only modify a subset of database records.
         /// </summary>
         protected string _groupFilter;
 
-        protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
+        /// <summary>
+        /// Set this flag to true when overriding API in order to enable access to API methods
+        /// </summary>
+        protected bool _unlockApi = false; 
 
 
         /// <summary>

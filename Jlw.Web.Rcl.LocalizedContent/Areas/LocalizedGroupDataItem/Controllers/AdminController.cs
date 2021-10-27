@@ -7,11 +7,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>
     [Area("LocalizedGroupDataItem")]
     [Authorize("LocalizedContentUser")]
-    public class AdminController : Controller 
+    public abstract class AdminController : Controller 
     {
         /// <summary>Default route for admin</summary>
         /// <returns>ActionResult.</returns>
-        [HttpGet] 
+        [HttpGet]
         // GET: Default 
         public ActionResult Index() 
         { 

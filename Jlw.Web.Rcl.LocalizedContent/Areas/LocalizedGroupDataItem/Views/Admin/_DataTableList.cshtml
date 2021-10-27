@@ -1,25 +1,26 @@
+@using Jlw.Utilities.Data
  
 <div class="row jlw-dtlist-localizedgroupdataitem"> 
     <div class="col-sm-12"> 
-        <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-localizedgroupdataitem"  data-searching='false' data-ordering='false' width="100%"> 
+        <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-localizedgroupdataitem"  data-searching='true' data-ordering='true' width="100%"> 
             <thead> 
                 <tr> 
                      
-                    <th data-data="Id" >Id</th> 
+                    <th data-data="Id" @(DataUtility.ParseBool(ViewData, "hideId") ? "data-visible=false " : "")>Id</th> 
                      
-                    <th data-data="Language" >Language</th> 
+                    <th data-data="Language" @(DataUtility.ParseBool(ViewData, "hideLanguage") ? "data-visible=false " : "")>Language</th> 
                      
-                    <th data-data="GroupKey" >Group Key</th> 
+                    <th data-data="GroupKey" @(DataUtility.ParseBool(ViewData, "hideGroupKey") ? "data-visible=false " : "")>Group Key</th> 
                      
-                    <th data-data="Key" >Key</th> 
+                    <th data-data="Key" @(DataUtility.ParseBool(ViewData, "hideKey") ? "data-visible=false " : "")>Key</th> 
                      
-                    <th data-data="Value" >Value</th> 
+                    <th data-data="Value" @(DataUtility.ParseBool(ViewData, "hideValue") ? "data-visible=false " : "")>Value</th> 
                      
-                    <th data-data="Order" >Order</th> 
+                    <th data-data="Order" @(DataUtility.ParseBool(ViewData, "hideOrder") ? "data-visible=false " : "")>Order</th> 
                      
-                    <th data-data="Description" >Description</th> 
+                    <th data-data="Description" @(DataUtility.ParseBool(ViewData, "hideDescription") ? "data-visible=false " : "")>Description</th> 
                      
-                    <th data-data="Data" >Data</th> 
+                    <th data-data="Data" @(DataUtility.ParseBool(ViewData, "hideData") ? "data-visible=false " : "")>Data</th> 
                      
                     <th data-sortable="false" width="100">&nbsp;</th> 
                      

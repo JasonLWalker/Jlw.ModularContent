@@ -9,10 +9,12 @@
         {
             new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
             new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedGroupDataItem"}), "Configuration Settings"),
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedGroupDataItem"}), ViewData["PageTitle"].ToString())
         };
         ViewData["Breadcrumb"] = aBreadcrumb;
     }
+
+
 }
 @section Scripts { 
     <script>
@@ -32,6 +34,8 @@
         function onPageLoadInit() {
             function fnInit() {
                 window.jlwUtility.showPleaseWait();
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")"));
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
                 $.when(
                     window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,"@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
                     window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
@@ -41,7 +45,6 @@
 
                 ).done(function() {
                     bootbox.setDefaults({ centerVertical: true, scrollable: true });
-
                     window.jlwLibLocalizedGroupDataItem();
                     window.jlwUtility.hidePleaseWait();
 
@@ -78,16 +81,16 @@
     <div> 
         <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button> 
         <div class="jlw-header h3">
-            @ViewData["Title"]
+            @ViewData["PageTitle"]
         </div> 
     </div> 
     <br/> 
-    @Html.PartialAsync("_DataTableList").Result 
+    @Html.PartialAsync("~/Areas/LocalizedGroupDataItem/Views/Admin/_DataTableList.cshtml").Result 
 </div> 
 <div class="d-none hidden"> 
  
-    @Html.PartialAsync("_EditRecord").Result 
+    @Html.PartialAsync("~/Areas/LocalizedGroupDataItem/Views/Admin/_EditRecord.cshtml").Result 
  
 </div> 
  
-@Html.PartialAsync("_DataTableListScript").Result 
+@Html.PartialAsync("~/Areas/LocalizedGroupDataItem/Views/Admin/_DataTableListScript.cshtml").Result 
