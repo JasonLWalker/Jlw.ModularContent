@@ -11,6 +11,8 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using System.Collections.Generic;
 using Jlw.Utilities.Data.DbUtility;
 
 namespace Jlw.Data.LocalizedContent 
@@ -30,5 +32,8 @@ namespace Jlw.Data.LocalizedContent
         /// <returns>System.Object.</returns>
         /// TODO Edit XML Comment Template for GetDataTableList
         object GetDataTableList(LocalizedGroupDataItemDataTablesInput o);
+
+        T GetItemValue<T>(string groupKey, string key);
+        IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language = null);
     }
 } 

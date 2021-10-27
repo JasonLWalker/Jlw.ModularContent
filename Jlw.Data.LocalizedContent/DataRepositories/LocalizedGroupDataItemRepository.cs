@@ -13,6 +13,7 @@
 // ***********************************************************************
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using Jlw.Utilities.Data;
@@ -122,5 +123,47 @@ namespace Jlw.Data.LocalizedContent
             return dt.FetchQuery(_connString, sQuery);
         }
 
+        public T GetItemValue<T>(string groupKey, string key)
+        {
+            
+            if (_dbClient != null)
+            {
+                return _dbClient.GetRecordObject<T>(
+                    null,
+                    this._connString,
+                    new RepositoryMethodDefinition<T>("sp_GetLocalizedGroupDataItemValue",
+                        CommandType.StoredProcedure,
+                        new KeyValuePair<string, object>[]
+                        {
+                            new KeyValuePair<string, object>("groupKey", groupKey),
+                            new KeyValuePair<string, object>("key", key)
+                        }, o => DataUtility.Parse<T>(o, "Value")
+                    ));
+            }
+
+            return default;
+        }
+
+        public IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language=null)
+        {
+            if (_dbClient != null)
+            {
+                return _dbClient.GetRecordList<ILocalizedGroupDataItem>(
+                    null,
+                    this._connString,
+                    new RepositoryMethodDefinition<ILocalizedGroupDataItem>("sp_GetLocalizedGroupDataItems",
+                        CommandType.StoredProcedure,
+                        new KeyValuePair<string, object>[]
+                        {
+                            new KeyValuePair<string, object>("groupKey", groupKey ?? ""),
+                            new KeyValuePair<string, object>("lang", language ?? "")
+                        }, o =>
+                        {
+                            return new LocalizedGroupDataItem(o);
+                        }));
+            }
+
+            return new List<ILocalizedGroupDataItem>();
+        }
     }
 } 

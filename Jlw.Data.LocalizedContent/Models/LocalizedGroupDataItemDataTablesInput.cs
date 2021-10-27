@@ -23,6 +23,19 @@ namespace Jlw.Data.LocalizedContent
     /// TODO Edit XML Comment Template for LocalizedGroupDataItemDataTablesInput
     public class LocalizedGroupDataItemDataTablesInput : DataTablesInput
     {
+        /// <summary>
+        /// Gets or sets the group key.
+        /// </summary>
+        /// <value>The group key.</value>
+        /// TODO Edit XML Comment Template for GroupKey
+        public string GroupKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the field key.
+        /// </summary>
+        /// <value>The field key.</value>
+        /// TODO Edit XML Comment Template for FieldKey
+        public string FieldKey { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -30,5 +43,7 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The identifier.</value>
         /// TODO Edit XML Comment Template for Id
         public long Id { get; set; }
+        public string GroupFilter { get; set; }
+
     }
 }

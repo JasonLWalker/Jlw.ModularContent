@@ -1,32 +1,45 @@
-<div id='jlwEditFormLocalizedGroupDataItem'> 
-    <form class='jlw-editform-localizedgroupdataitem'> 
-        <div class="form-group-sm"> 
-            <div class="row"> 
-                
-				<input type="hidden" name="Id" value="" class="form-control" placeholder="Id" />
-				<div class="col-sm-12">
-					<label class="control-label">Language</label><input type="text" name="Language" value="" class="form-control" placeholder="Language" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Group Key</label><input type="text" name="GroupKey" value="" class="form-control" placeholder="Group Key" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Key</label><input type="text" name="Key" value="" class="form-control" placeholder="Key" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Value</label><input type="text" name="Value" value="" class="form-control" placeholder="Value" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Order</label><input type="number" name="Order" value="" class="form-control" placeholder="Order" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Description</label><input type="text" name="Description" value="" class="form-control" placeholder="Description" />
-				</div>
-				<div class="col-sm-12">
-					<label class="control-label">Data</label><textarea name="Data" class="form-control" placeholder="Data" cols="40" rows="3" ></textarea>
-				</div> 
-            </div> 
-        </div> 
-        <input type="hidden" name="EditToken" value="" /> 
-    </form> 
+@using Jlw.Utilities.Data
+@using Jlw.Web.Rcl.LocalizedContent
+@inject ILanguageListModel _languageList
+@{
+    bool hideLanguage = DataUtility.ParseBool(ViewData, "hideLanguage");
+    bool hideGroupKey = DataUtility.ParseBool(ViewData, "hideGroupKey");
+    bool hideKey = DataUtility.ParseBool(ViewData, "hideKey");
+    bool hideOrder = DataUtility.ParseBool(ViewData, "hideOrder");
+
+    int shownFieldCount = (hideLanguage ? 0 : 1) + (hideGroupKey ? 0 : 1) + (hideKey ? 0 : 1) + (hideOrder ? 0 : 1);
+}
+<div id='jlwEditFormLocalizedGroupDataItem'>
+    <form class='jlw-editform-localizedgroupdataitem'>
+        <div class="form-group-sm">
+            <div class="row">
+                <input type="hidden" name="Id" value="" class="form-control" placeholder="Id" />
+                <div class="col-sm-2@(hideLanguage ? " d-none" : "")">
+                    <label class="control-label">Language</label>
+                    @*<input type="text" name="Language" value="" class="form-control" placeholder="Language" maxlength="5" />*@
+                    <select name="Language" class="form-control" asp-items="_languageList.Items"></select>
+                </div>
+                <div class="col-sm@(hideGroupKey ? " d-none" : "")">
+                    <label class="control-label">Group Key</label><input type="text" name="GroupKey" value="" class="form-control" placeholder="Group Key" maxlength="40" />
+                </div>
+                <div class="col-sm@(hideKey ? " d-none" : "")">
+                    <label class="control-label">Key</label><input type="text" name="Key" value="" class="form-control" placeholder="Key" maxlength="40" />
+                </div>
+                <div class="col-sm-2@(hideOrder ? " d-none" : "")">
+                    <label class="control-label">Order</label><input type="number" name="Order" value="" class="form-control" placeholder="Order" />
+                </div>
+                <div class="@(shownFieldCount < 3 ? "d-none" : "col-sm-12")"></div>
+                <div class="col-sm@(DataUtility.ParseBool(ViewData, "hideValue") ? " d-none" : "")">
+                    <label class="control-label">Value</label><input type="text" name="Value" value="" class="form-control" placeholder="Value" maxlength="255" />
+                </div>
+                <div class="col-sm@(DataUtility.ParseBool(ViewData, "hideDescription") ? " d-none" : "")">
+                    <label class="control-label">Description</label><input type="text" name="Description" value="" class="form-control" placeholder="Description" maxlength="100" />
+                </div>
+                <div class="col-sm-12@(DataUtility.ParseBool(ViewData, "hideData") ? " d-none" : "")">
+                    <label class="control-label">Data</label><textarea name="Data" class="form-control" placeholder="Data" cols="40" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="EditToken" value="" />
+    </form>
 </div>

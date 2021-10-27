@@ -91,9 +91,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
             try
 			{ 
 				var oResult = _repo.SaveRecord(o); 
-                bResult = oResult != null; 
- 
-                //_LocalizedContentTextList.Refresh(); 
+                bResult = oResult != null;
             } 
 			catch (Exception ex) 
 			{ 
@@ -121,7 +119,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 				//bResult = 
                 var oResult = _repo.DeleteRecord(o); 
                 bResult = oResult != null; 
-                //_LocalizedContentTextList.Refresh(); 
             } 
 			catch (Exception ex) 
 			{ 

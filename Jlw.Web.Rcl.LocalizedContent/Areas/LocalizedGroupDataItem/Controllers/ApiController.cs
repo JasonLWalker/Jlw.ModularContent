@@ -1,9 +1,11 @@
 using System;
 using Jlw.Data.LocalizedContent;
+using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers 
@@ -16,11 +18,20 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [JsonConverter(typeof(DefaultContractResolver))]
     [JsonObject(NamingStrategyType = typeof(DefaultNamingStrategy))]
-	public class ApiController : ControllerBase 
-	{ 
+	public abstract class ApiController : ControllerBase 
+	{
+        /// <summary>
+        /// The data repository instance
+        /// </summary>
         private readonly ILocalizedGroupDataItemRepository _repo;
+
+        /// <summary>
+        /// The primary group filter
+        /// for this class. This will be set in descendant classes to allow those classes to only modify a subset of database records.
+        /// </summary>
         protected string _groupFilter;
         protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
+        protected string _forcedGroupKey = null;
 
 		public class LocalizedGroupDataItemRecordInput : Data.LocalizedContent.LocalizedGroupDataItem 
 		{ 
@@ -43,89 +54,96 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
         }
 
         [HttpPost]
-        public object Index()
+        public virtual object Index()
         {
             return new { };
         }
 
 	    [HttpPost("DtList")] 
-		public object GetDataTableList([FromForm]LocalizedGroupDataItemDataTablesInput o) 
+		public virtual object GetDataTableList([FromForm]LocalizedGroupDataItemDataTablesInput o) 
 		{
-            return _repo.GetDataTableList(o);
+            o.GroupFilter = _groupFilter;
+            o.GroupKey = _forcedGroupKey ?? o.GroupKey;
+
+            if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
+
+            return JToken.FromObject(_repo.GetDataTableList(o));
         }
 
 		[HttpPost("Data")] 
-		public object GetRecordData(LocalizedGroupDataItemRecordInput o) 
+		public virtual object GetRecordData(LocalizedGroupDataItemRecordInput o) 
 		{ 
-			ILocalizedGroupDataItem oResult; 
- 
-			try 
-			{ 
+			ILocalizedGroupDataItem oResult;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+            o.GroupFilter = _groupFilter;
+            o.GroupKey = _forcedGroupKey ?? o.GroupKey;
+
+            try
+            { 
 				oResult = _repo.GetRecord(o); 
 			} 
 			catch (Exception ex) 
 			{ 
 				return new ApiExceptionMessage("An error has occurred", ex); 
-			} 
- 
- 
-			return oResult; 
-		} 
- 
+			}
+
+
+            return JToken.FromObject(oResult);
+		}
+
 		[HttpPost("Save")] 
-		public object SaveRecordData(LocalizedGroupDataItemRecordInput o) 
-		{ 
-			var bResult = false;
+		public virtual object SaveRecordData(LocalizedGroupDataItemRecordInput o) 
+		{
+            var bResult = false;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            o.GroupFilter = _groupFilter;
             o.AuditChangeBy = User.Identity.Name;
-			try 
-			{ 
-				var oResult = _repo.SaveRecord(o); 
-                bResult = oResult != null; 
- 
-                //_LocalizedGroupDataItemList.Refresh(); 
-            } 
-			catch (Exception ex)
+            o.GroupKey = _forcedGroupKey ?? o.GroupKey;
+            try
             {
-                //return new {Message = "test", MessageType = DataUtility.ParseAs(typeof(int), ApiMessageType.Success)};
-                return new ApiExceptionMessage("An error has occurred", ex); 
+                var oResult = _repo.SaveRecord(o);
+                bResult = oResult != null;
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
             }
 
             if (bResult == true)
-            {
-                //_siteConfiguration.TransitionalTransferConfiguration.Initialize();
-                //_siteConfiguration.ChoiceProgramConfiguration.Initialize();
-                return new ApiStatusMessage("Record has been saved successfully.", "Record Saved", ApiMessageType.Success);
-            }
+                return JToken.FromObject(new ApiStatusMessage("Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
 
             // Else 
-			return new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger); 
+            return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
 		}
-        
-        [HttpPost("Delete")] 
-		public object DeleteRecordData(LocalizedGroupDataItemRecordInput o) 
-		{ 
-			var bResult = false; 
- 
-			try 
-			{ 
-				//bResult = 
-                var oResult = _repo.DeleteRecord(o); 
-                bResult = oResult != null; 
-                //_LocalizedGroupDataItemList.Refresh(); 
-            } 
-			catch (Exception ex) 
-			{ 
-				return new ApiExceptionMessage("An error has occurred", ex); 
-			} 
- 
-			if (bResult != true) 
-				return new ApiStatusMessage("Record has been successfully deleted.", "Record Deleted", 
-					ApiMessageType.Success); 
- 
-			// Else 
-			return new ApiStatusMessage("Unable to delete record. Please check the data and try again.", 
-				"Error while deleting", ApiMessageType.Danger); 
-		} 
- 
+
+		[HttpPost("Delete")] 
+		public virtual object DeleteRecordData(LocalizedGroupDataItemRecordInput o) 
+		{
+            var bResult = false;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            o.GroupFilter = _groupFilter;
+            o.GroupKey = _forcedGroupKey ?? o.GroupKey;
+            o.AuditChangeBy = User.Identity.Name;
+            try
+            {
+                //bResult = 
+                var oResult = _repo.DeleteRecord(o);
+                bResult = oResult != null;
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult != true)
+                return JToken.FromObject(new ApiStatusMessage("Record has been successfully deleted.", "Record Deleted", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
+		}
+
     } 
 }
