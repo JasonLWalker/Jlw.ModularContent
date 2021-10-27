@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jlw.Data.LocalizedContent.Tests.IntegrationTests
 {
-    [TestClass]
+    //[TestClass]
     public class AnonymousClient_RouteTests : WebAppIntegrationFixtureBase<Jlw.Web.Core31.LocalizedContent.SampleWebApp.Startup>
     {
 
