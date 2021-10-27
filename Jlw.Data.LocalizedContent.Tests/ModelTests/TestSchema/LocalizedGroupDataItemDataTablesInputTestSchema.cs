@@ -61,11 +61,11 @@ namespace Jlw.Data.LocalizedContent.Tests
         protected void InitProperties()
         {
             AddProperty(typeof(long), "Id", Public, Public);
-            //AddProperty(typeof(string), "GroupKey", Public, Public);
-            //AddProperty(typeof(string), "FieldKey", Public, Public);
+            AddProperty(typeof(string), "GroupKey", Public, Public);
+            AddProperty(typeof(string), "FieldKey", Public, Public);
             //AddProperty(typeof(string), "FieldType", Public, Public);
             //AddProperty(typeof(string), "ParentKey", Public, Public);
-            //AddProperty(typeof(string), "GroupFilter", Public, Public);
+            AddProperty(typeof(string), "GroupFilter", Public, Public);
             AddProperty(typeof(int), "draw", Public, Public);
             AddProperty(typeof(int), "start", Public, Public);
             AddProperty(typeof(int), "length", Public, Public);
