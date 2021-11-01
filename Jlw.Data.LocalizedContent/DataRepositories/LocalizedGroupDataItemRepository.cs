@@ -115,10 +115,12 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for GetDataTableList
         public object GetDataTableList(LocalizedGroupDataItemDataTablesInput o)
         {
-            string sQuery = $"EXEC [dbo].[sp_GetLocalizedGroupDataItemsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir";
+            string sQuery = $"EXEC [dbo].[sp_GetLocalizedGroupDataItemsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey=@sGroupKey, @sGroupFilter=@sGroupFilter";
             var dt = new DataTablesBase(o, _dbClient);
             dt.AddExtraParams("sSortCol", o?.columns?.ElementAtOrDefault(o?.order?.FirstOrDefault()?.column ?? 0)?.data);
             dt.AddExtraParams("sSortDir", o?.order?.FirstOrDefault()?.dir);
+            dt.AddExtraParams("sGroupKey", o.GroupKey);
+            dt.AddExtraParams("sGroupFilter", string.IsNullOrWhiteSpace(o.GroupFilter) ? null : o.GroupFilter);
             dt.SetDebug(false);
             return dt.FetchQuery(_connString, sQuery);
         }
