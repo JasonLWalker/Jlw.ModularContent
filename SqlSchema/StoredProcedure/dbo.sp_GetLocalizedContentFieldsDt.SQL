@@ -1,6 +1,13 @@
+DROP PROCEDURE IF EXISTS [dbo].[sp_GetLocalizedContentFieldsDt]
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_GetLocalizedContentFieldsDt]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[sp_GetLocalizedContentFieldsDt] AS' 
+END
 GO
  
 -- ============================================= 
@@ -104,16 +111,22 @@ BEGIN
         CASE @sSortDir WHEN 'DESC' THEN  
             CASE @sSortCol  
                 WHEN 'GroupKey' THEN [GroupKey]
+                WHEN 'FieldKey' THEN [FieldKey]
+                WHEN 'FieldType' THEN [FieldType]
+                WHEN 'DefaultLabel' THEN [DefaultLabel]
             END  
         END DESC, 
         CASE @sSortDir WHEN 'ASC' THEN 
             CASE @sSortCol  
                 WHEN 'GroupKey' THEN [GroupKey]  
+                WHEN 'FieldKey' THEN [FieldKey]
+                WHEN 'FieldType' THEN [FieldType]
+                WHEN 'DefaultLabel' THEN [DefaultLabel]
             END 
         END ASC,
         [Order]
     OFFSET  
-        IIF(@nPageSize < 1, 0m @nRowStart) ROWS 
+        IIF(@nPageSize < 1, 0, @nRowStart) ROWS 
     FETCH NEXT  
         IIF(@nPageSize < 1, 1000, @nPageSize) ROWS ONLY 
  
