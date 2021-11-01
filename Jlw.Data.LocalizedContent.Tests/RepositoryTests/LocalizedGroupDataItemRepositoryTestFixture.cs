@@ -134,7 +134,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var paramList = new MockDataParameterCollection();
-            var input = JsonConvert.DeserializeObject<LocalizedGroupDataItemDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false} }");
+            var input = JsonConvert.DeserializeObject<LocalizedGroupDataItemDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false},GroupKey:'group_key',GroupFilter:'group_filter' }");
             var output = new DataTablesOutput(input);
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(new DbConnectionStringBuilder());
             mockClient.Setup(m => m.GetConnection(It.IsAny<string>())).Returns((string connString) =>
@@ -170,7 +170,8 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "@nPageSize"), It.Is<int>(n => n == input.length), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sSortDir"), It.Is<string>(s => s == order.dir), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sSortCol"), It.Is<string>(s => s == colName), It.IsAny<IDbCommand>()));
-
+            mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sGroupKey"), It.Is<string>(s => s == input.GroupKey), It.IsAny<IDbCommand>()));
+            mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sGroupFilter"), It.Is<string>(s => s == input.GroupFilter), It.IsAny<IDbCommand>()));
             mockClient.VerifyNoOtherCalls();
         }
 
