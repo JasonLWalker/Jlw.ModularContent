@@ -1,54 +1,68 @@
 {
 	"version": "1.0",
 	"defaultProvider": "cdnjs",
-	"libraries": [
-		{
-			"library": "jquery@3.3.1",
-			"destination": "libman/jquery"
-		},
-		{
-			"library": "twitter-bootstrap@4.5.2",
-			"destination": "libman/bootstrap"
-		},
-		{
-			"library": "toastr.js@2.1.4",
-			"destination": "libman/toastr/"
-		},
-		{
-			"library": "datatables@1.10.21",
-			"destination": "libman/datatables/"
-		},
-		{
-			"library": "bootbox.js@5.4.0",
-			"destination": "libman/bootbox.js/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "@jasonlwalker/jlwutility@0.0.33",
-			"destination": "libman/jlwutility/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "@jasonlwalker/jlwappbuilder@0.0.23",
-			"destination": "libman/jlwappbuilder/"
-		},
-		{
-			"library": "font-awesome@5.14.0",
-			"destination": "resources/LocalizedContent/font-awesome/"
-		},
+  "libraries": [
+    {
+      "library": "jquery@3.3.1",
+      "destination": "libman/jquery"
+    },
+    {
+      "library": "twitter-bootstrap@4.5.2",
+      "destination": "libman/bootstrap"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "libman/toastr/"
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "libman/datatables/"
+    },
+    {
+      "library": "bootbox.js@5.4.0",
+      "destination": "libman/bootbox.js/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@jasonlwalker/jlwutility@0.0.33",
+      "destination": "libman/jlwutility/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@jasonlwalker/jlwappbuilder@0.0.23",
+      "destination": "libman/jlwappbuilder/"
+    },
+    {
+      "library": "font-awesome@5.14.0",
+      "destination": "resources/LocalizedContent/font-awesome/"
+    },
     {
       "library": "tinymce@5.8.1",
       "destination": "resources/LocalizedContent/tinymce/"
     },
-		{
-			"library": "prism@1.7.0",
-			"destination": "libman/prism/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "prism-themes@1.7.0",
-			"destination": "libman/prism-themes/"
-		}
-
-	]
+    {
+      "library": "jquery.fancytree@2.38.0",
+      "destination": "resources/LocalizedContent/fancytree/"
+    },
+    {
+      "library": "prism@1.7.0",
+      "destination": "libman/prism/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "prism-themes@1.7.0",
+      "destination": "libman/prism-themes/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "williammustaffa/jquery.dad.js@2.0.3",
+      "destination": "libman/jquery.dad.js/",
+      "files": [
+        "dist/jquery.dad.js",
+        "dist/jquery.dad.min.js",
+        "README.md",
+        "LICENSE.md"
+      ]
+    }
+  ]
 }

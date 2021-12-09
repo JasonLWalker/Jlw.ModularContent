@@ -50,6 +50,16 @@
     }
   },
   {
+    "outputFileName": "resources/LocalizedContent/js/jquery.dad.min.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/jquery.dad.js/dist/jquery.dad.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
     "outputFileName": "resources/LocalizedContent/js/bootstrap.min.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
