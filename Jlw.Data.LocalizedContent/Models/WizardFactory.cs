@@ -91,6 +91,46 @@ namespace Jlw.Data.LocalizedContent
             return content;
         }
 
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for CreateWizardContent
+        public virtual IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null)
+        {
+            var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
+            var wizard = fieldData?.FirstOrDefault(o => o.FieldType.Equals("Screen", StringComparison.InvariantCultureIgnoreCase) && o.FieldKey.Equals(screenKey, StringComparison.InvariantCultureIgnoreCase));
+            var model = formData ?? new object();
+            var content = new WizardScreenContent(screenKey, fieldData, formData);
+
+            var fields = fieldData.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            var formList = fields.Where(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
+            foreach (var form in formList)
+            {
+                ((List<WizardFormData>)content.Forms).Add(CreateWizardFormData(form.FieldKey, fieldData));
+            }
+
+            if (!string.IsNullOrWhiteSpace(embedData))
+            {
+                try
+                {
+                    JToken dta = JToken.Parse(embedData);
+                    JToken embedWiz = dta["embedWizard"];
+                    if (embedWiz is JArray)
+                    {
+                        foreach (var key in dta["embedWizard"])
+                        {
+                            AddEmbeddedForm(key.Value<string>(), content, null, DataUtility.ParseBool(dta["disabled"]?.ToString()), DataUtility.ParseBool(dta["editButton"]));
+
+                        }
+                    }
+                }
+                catch { }
+
+            }
+
+            ((List<WizardFormData>)content.Forms).Sort((o1, o2) => o1.Order - o2.Order);
+            return content;
+        }
+
         public virtual WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
