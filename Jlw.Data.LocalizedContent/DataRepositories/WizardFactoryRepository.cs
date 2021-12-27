@@ -41,7 +41,29 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<WizardContentField> GetFieldData(string groupKey)
         {
+            if (string.IsNullOrWhiteSpace(groupKey))
+                return new WizardContentField[] { };
+
             return _dbClient.GetRecordList<WizardContentField>(groupKey, _connString, new RepositoryMethodDefinition("sp_GetFormFields", CommandType.StoredProcedure, new[] { "groupKey" }));
         }
+
+        public IWizardContentField SaveFieldParentOrder(WizardContentField fieldData)
+        {
+            return _dbClient.GetRecordObject<WizardContentField>(fieldData, _connString, new RepositoryMethodDefinition("sp_SaveLocalizedContentFieldParentOrder", CommandType.StoredProcedure, new[] { "Id", "ParentKey", "Order", "AuditChangeBy" }));
+        }
+
+        public IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData)
+        {
+
+            return _dbClient.GetRecordObject<WizardContentField>(fieldData, _connString, new RepositoryMethodDefinition("sp_SaveLocalizedContentFieldData", CommandType.StoredProcedure, new[] { "Id", "FieldName", "FieldValue", "AuditChangeBy", "GroupFilter" }));
+        }
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<WizardContentField> GetWizardFields(string groupKey)
+        {
+            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey" }));
+        }
+
     }
-}
+} 
