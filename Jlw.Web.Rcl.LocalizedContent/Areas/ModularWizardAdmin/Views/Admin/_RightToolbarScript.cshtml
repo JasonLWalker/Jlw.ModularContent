@@ -1,0 +1,347 @@
+﻿@{
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+}
+<script>
+    function libJlwRightToolbarAdmin(t, $, initOptions, undefined) {
+        if (!t.urlApiRoot)
+            t.urlApiRoot = '@apiUrl';
+
+        function initMemberRegex() {
+            // Regular expressions
+            t.rxCols = /(?:(col(?:-sm|-md|-lg|-xl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
+            t.rxPadding = /(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxMargin = /(?:(m(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxDisplay = /(?:(d(?:-sm|-md|-lg|-xl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
+            t.rxBorder = /(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxButtons = /(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
+            t.rxIcon = /(fa(?:[\w\-\d]+)?|text-(primary|secondary|success|danger|warning|info|light|dark))/gi;
+        }
+        
+        function initMemberArrays() {
+            // Arrays
+            t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl'];
+            t.aSides = ['', 't', 'r', 'b', 'l'];
+            t.aSpacingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+            t.aColSize = {'-1':'', '0':'', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
+        }
+
+        function initMemberFunctions() {
+            // Add functions
+            t.parseColClass = parseColClass;
+            t.parsePaddingClass = parsePaddingClass;
+            t.parseWrapperClass = parseWrapperClass;
+            t.parseButtonClass = parseButtonClass;
+            t.parseButtonIcon = parseButtonIcon;
+            t.parseFieldClass = parseFieldClass;
+
+            t.loadProperties = loadProperties;
+
+            t.onChangeColBreakpoint = onChangeColBreakpoint;
+            t.onChangePaddingBreakpoint = onChangePaddingBreakpoint;
+        }
+
+        function initControls() {
+            $('input[name="ColSize"]', t.rightToolbar).data('display-values', t.aColSize);
+            $('.padding-p, .margin-m', t.rightToolbar).data('display-values', t.aSpacingSize);
+            $('.padding-p', t.rightToolbar).on('change', onChangePaddingSize);
+
+
+            $('input[name="ColSize"]', t.rightToolbar).on('change', onChangeColSpanSize);
+            $('input[name="ColBreakpoint"]', t.rightToolbar).on('change', onChangeColBreakpoint);
+            $('input[name="PaddingBreakpoint"]', t.rightToolbar).on('change', onChangePaddingBreakpoint);
+    
+
+            $('.form-control-range', t.rightToolbar).on('input',onChangeSlider);
+            $('.btn-toggle-thumb', t.rightToolbar).on('click',onTogglePanelButton);
+            $('.card-toggle-thumb', t.rightToolbar).on('click',onTogglePanelHeader);
+
+            $('select[name="buttonStyle"], input[name="buttonH100"], input[name="buttonOutline"], input[name="buttonBlock"]', t.rightToolbar).on('change', onChangeButtonClass);
+            $('', t.rightToolbar).on('change', onChangeButtonClass);
+            $('', t.rightToolbar).on('change', onChangeButtonClass);
+            $('', t.rightToolbar).on('change', onChangeButtonClass);
+
+        }
+
+
+        function getColSpanType() {
+            return $('input[name="ColBreakpoint"]:checked').val();
+        }
+
+        function getPaddingBreakpoint() {
+            return $('input[name="PaddingBreakpoint"]:checked').val();
+        }
+
+        function loadProperties(fieldId) {
+            t.get(t.urlApiRoot + '/');
+
+            console.log(fieldId);
+        }
+
+        function onChangeColBreakpoint() {
+            var type = getColSpanType();
+            var o = $('input[name="ColSize"]');
+            var data = o.data('col-data');
+            if (o.hasClass('updating') || !data) return;
+            o.addClass('updating');
+            o.val(data[type]);
+            onChangeColSpanSize({'target': o[0]});
+            data[type] = o.val();
+            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangePaddingBreakpoint() {
+            var type = getPaddingBreakpoint();
+            var o = $('input[name="PaddingSize"]');
+            var data = o.data('padding-data');
+            if (o.hasClass('updating') || !data) return;
+            o.addClass('updating');
+
+            var elem = o;
+            elem.val(data[elem.data('side') + type]);
+            onChangePaddingSize({'target': elem[0]});
+            data[elem.data('side') + type] = elem.val();
+        
+            elem = $('input[name="PaddingSizeTop"]');
+            elem.val(data[elem.data('side') + type]);
+            onChangePaddingSize({'target': elem[0]});
+            data[elem.data('side') + type] = elem.val();
+        
+            elem = $('input[name="PaddingSizeRight"]');
+            elem.val(data[elem.data('side') + type]);
+            onChangePaddingSize({'target': elem[0]});
+            data[elem.data('side') + type] = elem.val();
+
+            elem = $('input[name="PaddingSizeBottom"]');
+            elem.val(data[elem.data('side') + type]);
+            onChangePaddingSize({'target': elem[0]});
+            data[elem.data('side') + type] = elem.val();
+
+            elem = $('input[name="PaddingSizeLeft"]');
+            elem.val(data[elem.data('side') + type]);
+            onChangePaddingSize({'target': elem[0]});
+            data[elem.data('side') + type] = elem.val();
+
+            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangePaddingSize(evt) {
+            var o = $(evt.target);
+            var p = $('input[name=PaddingSize]');
+            var data = p.data('padding-data');
+            var type = o.data('side') + getPaddingBreakpoint();
+            if (!data || !type) return;
+            data[type] = o.val();
+            onChangeSlider(evt);
+            if (!p.hasClass('updating')) {
+                p.addClass('updating');
+                updateWrapperClass();
+                window.setTimeout(function() { p.removeClass('updating'); }, 10);
+            }
+        }
+
+        function onChangeColSpanSize(evt) {
+            var o = $(evt.target);
+            var data = o.data('col-data');
+            var type = getColSpanType();
+            if (!data || !type) return;
+            data[type] = o.val();
+            onChangeSlider(evt);
+            if (!o.hasClass('updating')) {
+                o.addClass('updating');
+                updateWrapperClass();
+                window.setTimeout(function() { o.removeClass('updating'); }, 10);
+            }
+        }
+
+        function onChangeSlider(evt) {
+            var o = $(evt.target);
+            var s = o.val() || '0';
+            var data = o.data('display-values');
+            s = data[s];
+            o.next('.range-value').html(s);
+        }
+
+        function onTogglePanelButton() {
+            var o = $(this);
+            var c = $('.fa-fw', o);
+            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? 'right' : 'down');
+            c.removeClass('fa-caret-down fa-caret-right');
+            c.addClass(s);
+        }
+
+        function onTogglePanelHeader() {
+            var o = $(this);
+            var c = $('.fa-fw', o);
+            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? 'left' : 'down');
+            c.removeClass('fa-caret-down fa-caret-left');
+            c.addClass(s);
+        }
+
+        function onChangeButtonClass() {
+            var oFieldClass = $('input[name=FieldClass]', t.rightToolbar);
+            var s = oFieldClass.val();
+            var btnStyle = $('select[name=buttonStyle]', t.rightToolbar).val();
+            var btnOutline = $('input[name=buttonOutline]', t.rightToolbar).is(':checked');
+            var btnLink = $('input[name=buttonLink]', t.rightToolbar).is(':checked');
+            var btnBlock = $('input[name=buttonBlock]', t.rightToolbar).is(':checked');
+            var btnH100 = $('input[name=buttonH100]', t.rightToolbar).is(':checked');
+            s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
+            s += ' btn';
+            if (btnStyle || btnOutline || btnLink)
+                s += ' btn-' + (btnOutline ? 'outline-': '');
+
+            if (btnStyle)
+                s += btnStyle;
+
+            if (btnLink) 
+                s += 'link';
+            
+
+            if (btnBlock)
+                s += ' btn-block';
+
+            if (btnH100)
+                s += ' h-100';
+
+            console.log(s);
+            oFieldClass.val(s);
+            t.saveFieldData({target:oFieldClass});
+        }
+
+
+        function parseColClass(s) {
+            var data = {
+                'col': -1,
+                'col-sm': -1,
+                'col-md': -1,
+                'col-lg': -1,
+                'col-xl': -1
+            };
+            var o = $('input[name="ColSize"]');
+            var matches = {};
+            while(matches = t.rxCols.exec(s)) {
+                var type = matches[1];
+                data[type] = matches[2] || '0';
+            }
+            o.data('col-data', data);
+        }
+
+        function parsePaddingClass(s) {
+            var data = {};
+            var si = '';
+            var bi = '';
+            // Initialize data
+            for(bi in t.aBreakpoints) {
+                for(si in t.aSides) {
+                    data['p' + t.aSides[si] + t.aBreakpoints[bi]] = -1;
+                }
+            }
+            var o = $('input[name="PaddingSize"]');
+            var matches = {};
+            while(matches = t.rxPadding.exec(s)) {
+                var type = matches[1];
+                switch(matches[2]) {
+                    case 'x':
+                        data[type.replace('px', 'pl')] = matches[3] || '0';
+                        data[type.replace('px', 'pr')] = matches[3] || '0';
+                        break;
+                    case 'y':
+                        data[type.replace('py', 'pl')] = matches[3] || '0';
+                        data[type.replace('py', 'pr')] = matches[3] || '0';
+                        break;
+                    default:
+                        data[type] = matches[3] || '0';
+                        break;
+                }
+            }
+            o.data('padding-data', data);
+        }
+
+        function parseWrapperClass(s) {
+            parseColClass(s);
+            parsePaddingClass(s);
+        }
+
+        function parseButtonClass(s) {
+            //var o = $('input[name="buttonOutline"]');
+            $('input[name="buttonOutline"],input[name="buttonBlock"],input[name="buttonH100"]').prop('checked', false);
+            var matches = {};
+            while(matches = t.rxButtons.exec(s)) {
+                //console.log(matches);
+
+                switch((matches[1]||"").toLowerCase()) {
+                    case 'outline':
+                        $('input[name="buttonOutline"]').prop('checked', true);
+                        break;
+                    case 'block':
+                        $('input[name="buttonBlock"]').prop('checked', true);
+                        break;
+                    case 'link':
+                        $('input[name="buttonLink"]').prop('checked', true);
+                        break;
+                    case '':
+                    case 'sm':
+                    case 'lg':
+                        break;
+                }
+
+                if (matches[2]) {
+                    $('select[name=buttonStyle]').val((matches[2] || "").toLowerCase());
+                }
+            }
+
+            if ((s || "").toLowerCase().indexOf('h-100') > -1) {
+                $('input[name="buttonH100"]').prop('checked', true);
+            }
+        }
+
+        function parseButtonIcon(s) {
+            //console.log(s);
+
+            var matches = {};
+            while(matches = t.rxIcon.exec(s)) {
+                
+                console.log(matches);
+
+                switch((matches[0]||"").toLowerCase()) {
+                    case 'fa':
+                    case 'fa-w':
+                        break;
+                    case 'text-success':
+                    case 'text-warning':
+                    case 'text-danger':
+                    case 'text-primary':
+                    case 'text-secondary':
+                    case 'text-info':
+                    case 'text-light':
+                    case 'text-dark':
+                        if (matches[2]) {
+                            $('select[name=buttonIconColor]').val((matches[2] || "").toLowerCase());
+                        }
+                        break;
+                    default:
+                        $('select[name=buttonIcon]').val(matches[0]);
+                        break;
+                }
+
+            }
+
+            //$('buttonIcon').val(o['icon']);
+        }
+
+        function parseFieldClass(s) {
+            //parseButtonClass(s);
+            //parsePaddingValues(s);
+        }
+
+
+        t.rightToolbar = $('#rightToolbar');
+
+        initMemberArrays();
+        initMemberRegex();
+        initMemberFunctions();
+        initControls();
+
+    }
+
+</script>

@@ -1,0 +1,217 @@
+@{
+    ViewData["Title"] = ViewData["PageTitle"];
+
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+
+    string jsRoot = "LocalizedContent";
+}
+
+<div class="row h-100">
+    <div class="d-none d-lg-inline-block wizard-nav-col col-lg-auto border-right">
+        <form method="post">
+            <input type="hidden" name="st" value="1" />
+            <div class="list-group wizard-nav">
+                <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
+                <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
+                <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md wizard-form">
+        <form method="post">
+            <div class="h3 wizard-heading">@(ViewData["Heading"] ?? ViewData["Title"])</div>
+            <div class="wizard-body">
+                <div class="p-0">
+                    <div class="h5"><span class="fa fa-exclamation-triangle text-warning"></span>&nbsp;No content loaded, please select a wizard from the toolbar at the left.</div>
+                    <input type="hidden" name="step" value="" />
+                    <input type="hidden" name="section" value="" />
+                </div>
+            </div>
+            <div class="wizard-buttons row">
+            </div>
+        </form>
+    </div>
+</div>
+@{
+    await Html.RenderPartialAsync("_WizardLibScript");
+}
+@section Scripts {
+    <style>
+        html, body, .container, main {
+            height: 100%;
+        }
+
+        .wizard-form .d-none {
+            display: block !important;
+            opacity: 0.3;
+        }
+
+        div[type=checkbox] {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            min-height: 0.95rem;
+            padding-left: 0.8rem;
+            border: 1px solid grey;
+            margin-left: -0.7rem;
+            margin-bottom: -1px;
+        }
+
+        [id^="jlwContainer-"], [id^="jlwElement-"] {
+            cursor: pointer;
+        }
+
+        
+        .hover-outline {
+            outline: 1px dashed darkred;
+        }
+        
+
+        [id^='jlwContainer-'].active,[id^='jlwElement-'].active {
+            outline: 1px dotted red;
+        }
+
+        .select-control::after {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 0.255em;
+            vertical-align: 0.255em;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+            position: absolute;
+            right: 1.25em;
+            bottom: 1em;        }
+    </style>
+    <script src="~/@jsRoot/js/libJlwUtility.min.js"></script>
+    <script src="~/@jsRoot/font-awesome/js/fontawesome.min.js"></script>
+    <script src="~/@jsRoot/font-awesome/js/solid.min.js"></script>
+    <script src="~/@jsRoot/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
+    <script>
+        // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
+        (function(a) {
+            a.fn.replaceTagName = function(f) {
+                var g = [],
+                    h = this.length;
+                while (h--) {
+                    var k = document.createElement(f),
+                        b = this[h],
+                        d = b.attributes;
+                    for (var c = d.length - 1; c >= 0; c--) {
+                        var j = d[c];
+                        k.setAttribute(j.name, j.value);
+                    }
+                    k.innerHTML = b.innerHTML;
+                    a(b).after(k).remove();
+                    g[h - 1] = k;
+                }
+                return a(g);
+            }
+        })(window.jQuery);
+    </script>
+    <script>
+        (function(cacheVer) {
+            var wizardData = {};
+
+            var libWizard = window.libJlwWizardBase(new window.libJlwUtility() || {},
+                window.jQuery,
+                {
+                    'urlRoot': '@Html.Raw(Url.Action("Index", "Home", new { Area = "" }))',
+                    'urlApiRoot': '@apiUrl',
+                    'onRenderWizardFormField': onRenderWizardFormField,
+                    'onRenderWizardElement': onRenderWizardElement,
+                    'wizardParent': '.wizard-form'
+                }
+            );
+
+            function onRenderWizardFormField(obj, data, parent) {
+                var o = $(obj);
+                o.data('wizard-data', data);
+                $('input, button', o).replaceTagName('div');
+                $('select', o).addClass('select-control');
+                $('select', o).replaceTagName('div');
+
+                return obj;
+            }
+
+            function onRenderWizardElement(obj, data, parent) {
+                var o = $(obj);
+                if (o.prop("tagName").toUpperCase() === 'BUTTON') {
+                    var id = o.prop('id');
+                    o.replaceTagName('div');
+                    o = $("#" + id, parent);
+                }
+
+                if (o.is("[id^='jlwContainer-'],[id^='jlwElement-']")) {
+                    o.off()
+                        .on('click', fnOnClickElement)
+                        .on('mouseover', fnOnMouseOverElement)
+                        .on('mouseout', fnOnMouseOutElement);
+                    o.data('wizard-data', data);
+                    o.data('tree-id', data['Id']);
+                } else {
+                    var p = o.parent('[id^="jlwContainer-"]');
+                    p.data('wizard-data', data);
+                    p.off()
+                        .on('click', fnOnClickElement)
+                        .on('mouseover', fnOnMouseOverElement)
+                        .on('mouseout', fnOnMouseOutElement);
+                    p.data('tree-id', data['Id']);
+                }
+                
+                return o;
+            }
+            
+            function fnOnClickElement(evt) {
+                var obj = $(evt.target).closest("[id^='jlwContainer-'],[id^='jlwElement-']");
+
+                if (obj.is("[id^='jlwContainer-'],[id^='jlwElement-']")) {
+                    $("[id ^= 'jlwContainer-'], [id ^= 'jlwElement-']").removeClass('active');
+                    obj.addClass('active');
+                    window.parent.postMessage({elementData:obj.data('wizard-data'), action:'click', 'elementId': obj.prop('id')});
+                }
+            };
+
+            function fnOnMouseOverElement(evt) {
+                var o = $(evt.target).closest("[id^='jlwContainer-'],[id^='jlwElement-']");
+                o.addClass('hover-outline');
+            };
+
+            function fnOnMouseOutElement(evt) {
+                var o = $(evt.target).closest("[id^='jlwContainer-'],[id^='jlwElement-']");
+                o.removeClass('hover-outline');
+            };
+
+
+            window.addEventListener('message',
+                function(event) {
+                    // IMPORTANT: Check the origin of the data!
+                    if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
+                        // The data has been sent from your site
+
+                        // The data sent with postMessage is stored in event.data
+                        var data = event.data["wizardData"];
+                        libWizard.renderWizard(0, 0, data);
+                        //var wizardData = data;
+                        var nodeData = event.data['nodeData'];
+                        var groupKey = nodeData['GroupKey'];
+                        var fieldKey = nodeData['FieldKey'];
+                        var fieldType = nodeData['FieldType'];
+                        var fieldId = nodeData['Id'];
+                        var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
+
+                        $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+                    } else {
+                        // The data hasn't been sent from your site!
+                        // Be careful! Do not use it.
+                        return;
+                    }
+                });
+
+        })('');
+    </script>
+}

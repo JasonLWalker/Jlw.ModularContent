@@ -1,0 +1,27 @@
+﻿<div class="col left-toolbar open p-0 flex-column" >
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a id="wizard-tab" class="nav-link p-0 px-2 active" href="#wizard-pane" data-toggle="tab" role="tab" aria-controls="wizard-pane" aria-selected="true"><small>Wizards</small></a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a id="component-tab" class="nav-link p-0 px-2" href="#component-pane" data-toggle="tab" role="tab" aria-controls="component-pane" ><small>Components</small></a>
+        </li>
+    </ul>
+    <div class="bg-light h-100 border border-top-0 overflow-auto">
+        <div class="tab-content h-100">
+            <div id="wizard-pane" class="tab-pane fade show active h-100 p-1" role="tabpanel" aria-labelledby="wizard-tab">
+                <div class="custom-control custom-switch button-outline">
+                    <input type="checkbox" class="custom-control-input" id="showWizardNav" checked>
+                    <label class="custom-control-label" for="showWizardNav"><small>Show Wizard Side Nav</small></label>
+                </div>
+                <select id="slctWizard" class="form-control form-control-sm mb-2"></select>
+                <div id="wizardtree" style="height: 1px;"></div>
+            </div>
+            <div id="component-pane" class="tab-pane fade p-1" role="tabpanel" aria-labelledby="component-tab">
+                <div id="componenttree" style="height: 1px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

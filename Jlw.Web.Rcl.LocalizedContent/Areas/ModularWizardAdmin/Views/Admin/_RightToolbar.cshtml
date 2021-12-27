@@ -1,0 +1,431 @@
+﻿<div id="rightToolbar" class="col right-toolbar open p-0 flex-column">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a id="fieldproperties-tab" class="nav-link p-0 px-2 active"  href="#fieldproperties-pane" data-toggle="tab" role="tab" aria-controls="fieldproperties-pane"><small>Field</small></a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a id="wrapperproperties-tab" class="nav-link p-0 px-2"  href="#wrapperproperties-pane" data-toggle="tab" role="tab" aria-controls="wrapperproperties-pane"><small>Wrapper</small></a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a id="properties-tab" class="nav-link p-0 px-2" href="#properties-pane" data-toggle="tab" role="tab" aria-controls="properties-pane" aria-selected="true"><small>Advanced</small></a>
+        </li>
+    </ul>
+    <div class="bg-light h-100 border border-top-0 overflow-auto">
+        <div class="tab-content h-100">
+
+            <div id="fieldproperties-pane" class="tab-pane fade show active h-100 p-1" role="tabpanel" aria-labelledby="advproperties-tab">
+                <div style="height: 1px; font-size: small;">
+                    <div class="card mb-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseCommonProperties" aria-expanded="true" aria-controls="collapseCommonProperties">
+                            <small class="font-weight-bold">Common Properties</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseCommonProperties">
+                            <div class="card-body px-2 pt-1 pb-2">
+                                <input name="Id" type="hidden" class="form-control form-control-sm w-100"/>
+                                <input name="GroupKey" type="hidden" class="form-control form-control-sm w-100"/>
+                                <input name="Order" type="hidden" class="form-control form-control-sm w-100"/>
+                                <input name="ParentKey" type="hidden" class="form-control form-control-sm w-100"/>
+                                <div class="form-group field-name">
+                                    <label>Name</label>
+                                    <input name="FieldKey" type="text" class="form-control form-control-sm w-100"/>
+                                </div>
+                                <div class="form-group field-label">
+                                    <label>Default Label</label>
+                                    <div class="input-group input-group-sm">
+                                        <input name="DefaultLabel" type="text" class="form-control">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary py-0" type="button"><span class="fa fa-language"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group field-class">
+                                    <label>Field Class</label>
+                                    <input name="FieldClass" type="text" class="form-control form-control-sm w-100"/>
+                                </div>
+                                <div class="form-group field-type">
+                                    <label>Field Type</label>
+                                    <select name="FieldType" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <option value="BUTTON">Button</option>
+                                        <option value="EMBED">Embed Form</option>
+                                        <option value="FORM">Form</option>
+                                        <option value="INPUT">Form Input</option>
+                                        <option value="HTML">HTML Text Block</option>
+                                        <option value="BODY">Page Body</option>
+                                        <option value="HEADING">Page Heading</option>
+                                        <option value="SEPARATOR">Separator Bar</option>
+                                        <option value="SELECT">Form Drop-down</option>
+                                        <option value="TEXTAREA">Text Area</option>
+                                        <option value="WIZARD">Wizard</option>
+                                        <option value="SCREEN">Wizard Screen</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card input-card d-none mb-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseInputProperties" aria-expanded="true" aria-controls="collapseInputProperties">
+                            <small class="font-weight-bold">Input Properties</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseInputProperties">
+                            <div class="card-body px-2 pt-1 pb-2">
+                                <div class="form-group input-type">
+                                    <label>Input Type</label>
+                                    <select name="InputType" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <optgroup label="Date/Time Inputs">
+                                            <option value="DATE">Date</option>
+                                            <option value="DATETIME-LOCAL">Date/Time</option>
+                                            <option value="MONTH">Month</option>
+                                            <option value="TIME">Time</option>
+                                            <option value="WEEK">Week</option>
+                                        </optgroup>
+                                        <optgroup label="Special Inputs">
+                                            <option value="COLOR">Color Picker</option>
+                                            <option value="CHECKBOX">Check box</option>
+                                            <option value="HIDDEN">Hidden</option>
+                                            <option value="RADIO">Radio button</option>
+                                            <option value="RANGE">Slider</option>
+                                        </optgroup>
+                                        <optgroup label="Textual Inputs">
+                                            <option value="TEXT">Text</option>
+                                            <option value="PASSWORD">Password</option>
+                                            <option value="TEL">Phone Number</option>
+                                            <option value="URL">URL Address</option>
+                                            <option value="EMAIL">Email</option>
+                                            <option value="NUMBER">Number</option>
+                                            <option value="SEARCH">Search</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card button-card d-none mb-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseButtonProperties" aria-expanded="true" aria-controls="collapseButtonProperties">
+                            <small class="font-weight-bold">Button Properties</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseButtonProperties">
+                            <div class="card-body px-2 pt-1 pb-2">
+                                <div class="form-group button-style">
+                                    <label>Button Style</label>
+                                    <select name="buttonStyle" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <option value="primary" class="bg-primary text-light py-2">Primary</option>
+                                        <option value="secondary" class="bg-secondary text-light py-2">Secondary</option>
+                                        <option value="success" class="bg-success text-light py-2">Success</option>
+                                        <option value="danger" class="bg-danger text-light py-2">Danger</option>
+                                        <option value="warning" class="bg-warning text-dark py-2">Warning</option>
+                                        <option value="info" class="bg-info text-light py-2">Info</option>
+                                        <option value="light" class="bg-light text-dark py-2">Light</option>
+                                        <option value="dark" class="bg-dark text-light py-2">Dark</option>
+                                        <option value="link" class="text-primary py-2">Link</option>
+                                    </select>
+                                </div>
+                                <div class="form-group button-style">
+                                    <label>Button Icon</label>
+                                    <select name="buttonIcon" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <option value="fa-check">&#10003; - Check</option>	
+                                        <option value="fa-times">&#215; - Times</option>	
+                                        <option value="fa-question">? - Question</option>
+                                        <option value="fa-exclamation-triangle">&#x26A0; - Warning</option>
+                                        <option value="fa-thumbs-up">&#x1F592; - Thumbs up</option>	
+                                        <option value="fa-thumbs-down">&#x1F593; - Thumbs down</option>
+                                    </select>
+                                </div>
+                                <div class="form-group button-style">
+                                    <label>Icon Color</label>
+                                    <select name="buttonIconColor" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <option value="primary" class="bg-primary text-light py-2">Primary</option>
+                                        <option value="secondary" class="bg-secondary text-light py-2">Secondary</option>
+                                        <option value="success" class="bg-success text-light py-2">Success</option>
+                                        <option value="danger" class="bg-danger text-light py-2">Danger</option>
+                                        <option value="warning" class="bg-warning text-dark py-2">Warning</option>
+                                        <option value="info" class="bg-info text-light py-2">Info</option>
+                                        <option value="light" class="bg-light text-dark py-2">Light</option>
+                                        <option value="dark" class="bg-dark text-light py-2">Dark</option>
+                                    </select>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="buttonOutline" id="buttonOutline">
+                                    <label class="custom-control-label" for="buttonOutline">Use Button Outline</label>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="buttonBlock" id="buttonBlock">
+                                    <label class="custom-control-label" for="buttonBlock">Use Button Block</label>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="buttonH100" id="buttonH100">
+                                    <label class="custom-control-label" for="buttonH100">100% Height</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card button-card mb-2 d-none">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseButtonAction" aria-expanded="true" aria-controls="collapseButtonAction">
+                            <small class="font-weight-bold">Button Action</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseButtonAction">
+                            <div class="card-body px-2 pt-1 pb-2">
+
+                                <div class="form-group button-style">
+                                    <label>Action Type</label>
+                                    <select name="buttonStyle" class="form-control form-control-sm w-100">
+                                        <option></option>
+                                        <option value="nav">Navigate to Section/Step</option>
+                                        <option value="navtoscreen">Navigate to Screen</option>
+                                        <option value="link">Link to URL</option>
+                                        <option value="save">Save Form Data</option>
+                                        <option value="back">Back to Previous Step</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card embed-card mb-2 d-none">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseEmbedProperties" aria-expanded="true" aria-controls="collapseEmbedProperties">
+                            <small class="font-weight-bold">Embed Form Properties</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseEmbedProperties">
+                            <div class="card-body px-2 pt-1 pb-2">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card form-card mb-2 d-none">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseFormProperties" aria-expanded="true" aria-controls="collapseFormProperties">
+                            <small class="font-weight-bold">Form Properties</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseFormProperties">
+                            <div class="card-body px-2 pt-1 pb-2">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+            <div id="wrapperproperties-pane" class="tab-pane fade h-100 p-1" role="tabpanel" aria-labelledby="advproperties-tab">
+                <div style="height: 1px; font-size: small;">
+                    <div class="form-group wrapper-class">
+                        <label>Wrapper Class</label>
+                        <input name="WrapperClass" type="text" class="form-control form-control-sm w-100"/>
+                    </div>
+                    <div class="card border mt-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseColumnSpan" aria-expanded="true" aria-controls="collapseColumnSpan">
+                            <small class="font-weight-bold">Column Span</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseColumnSpan">
+                            <div class="card-body px-2 pt-2 pb-0">
+                                <div class="form-group ">
+                                    <label class="d-none">Column Span</label>
+                                    <div>
+                                        <div class="btn-group btn-group-sm btn-group-toggle pb-2 w-100" data-toggle="buttons">
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="ColBreakpoint" value="col" autocomplete="off" checked title="Responsive"/>&nbsp;&nbsp;*&nbsp;&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="ColBreakpoint" value="col-sm" autocomplete="off"/>&nbsp;SM&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="ColBreakpoint" value="col-md" autocomplete="off"/>&nbsp;MD&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="ColBreakpoint" value="col-lg" autocomplete="off"/>&nbsp;LG&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="ColBreakpoint" value="col-xl" autocomplete="off"/>&nbsp;XL&nbsp;
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="d-none">Column Size</label>
+                                    <input type="range" class="form-control-range w-75 py-2 d-inline-block" value="-1" name="ColSize" min="-1" max="13">
+                                    <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border mt-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseWrapperPadding" aria-expanded="true" aria-controls="collapseWrapperPadding">
+                            <small class="font-weight-bold">Padding</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseWrapperPadding">
+                            <div class="card-body px-2 pt-2 pb-0">
+                                <div class="form-group ">
+                                    <div>
+                                        <div class="btn-group btn-group-sm btn-group-toggle pb-2 w-100" data-toggle="buttons">
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="PaddingBreakpoint" value="" autocomplete="off" checked title="Responsive"/>&nbsp;&nbsp;*&nbsp;&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="PaddingBreakpoint" value="-sm" autocomplete="off"/>&nbsp;SM&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="PaddingBreakpoint" value="-md" autocomplete="off"/>&nbsp;MD&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="PaddingBreakpoint" value="-lg" autocomplete="off"/>&nbsp;LG&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="PaddingBreakpoint" value="-xl" autocomplete="off"/>&nbsp;XL&nbsp;
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-sm float-left w-25 text-left btn-toggle-thumb" type="button" data-toggle="collapse" data-target="#collapsePadding" aria-expanded="false" aria-controls="collapsePadding"><span class="fa fa-caret-right fa-fw"></span></button>
+                                    <input type="range" class="form-control-range w-50 py-2 d-inline-block padding-p" value="-1" name="PaddingSize" data-side="p" min="-1" max="6">
+                                    <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                </div>
+                                <div class="collapse" id="collapsePadding">
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Top</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block padding-pt padding-py padding-p" value="-1" data-side="pt" name="PaddingSizeTop" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Right</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block padding-pr padding-px padding-p" value="-1" data-side="pr" name="PaddingSizeRight" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Bottom</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block padding-pb padding-py padding-p" value="-1" data-side="pb" name="PaddingSizeBottom" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Left</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block padding-pl padding-px padding-p" value="-1" data-side="pl" name="PaddingSizeLeft" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card border mt-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseWrapperMargin" aria-expanded="true" aria-controls="collapseWrapperMargin">
+                            <small class="font-weight-bold">Margin</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseWrapperMargin">
+                            <div class="card-body px-2 pt-2 pb-0">
+                                <div class="form-group ">
+                                    <div>
+                                        <div class="btn-group btn-group-sm btn-group-toggle pb-2 w-100" data-toggle="buttons">
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="MarginBreakpoint" value="" autocomplete="off" checked title="Responsive"/>&nbsp;&nbsp;*&nbsp;&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="MarginBreakpoint" value="-sm" autocomplete="off"/>&nbsp;SM&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="MarginBreakpoint" value="-md" autocomplete="off"/>&nbsp;MD&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="MarginBreakpoint" value="-lg" autocomplete="off"/>&nbsp;LG&nbsp;
+                                            </label>
+                                            <label class="btn btn-outline-primary p-0">
+                                                <input type="radio" name="MarginBreakpoint" value="-xl" autocomplete="off"/>&nbsp;XL&nbsp;
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-sm float-left w-25 text-left btn-toggle-thumb" type="button" data-toggle="collapse" data-target="#collapseMargin" aria-expanded="false" aria-controls="collapseMargin"><span class="fa fa-caret-right fa-fw"></span></button>
+                                    <input type="range" class="form-control-range w-50 py-2 d-inline-block margin-m" value="-1" name="MarginSize" data-side="m" min="-1" max="6">
+                                    <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                </div>
+                                <div class="collapse" id="collapseMargin">
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Top</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block margin-mt margin-my margin-m" value="-1" data-side="mt" name="MarginSizeTop" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Right</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block margin-mr margin-mx margin-m" value="-1" data-side="mr" name="MarginSizeRight" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Bottom</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block margin-mb margin-my margin-m" value="-1" data-side="mb" name="MarginSizeBottom" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-plaintext float-left w-25">Left</label>
+                                        <input type="range" class="form-control-range w-50 py-2 d-inline-block margin-ml margin-mx margin-m" value="-1" data-side="ml" name="MarginSizeLeft" min="-1" max="6">
+                                        <div class="form-control form-control-sm w-20 range-value d-inline-block float-right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card border mt-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseWrapperStart" aria-expanded="true" aria-controls="collapseWrapperStart">
+                            <small class="font-weight-bold">Wrapper HTML Start</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseWrapperStart">
+                            <div class="card-body p-2">
+                                <div class="form-group ">
+                                    <textarea name="WrapperHtmlStart" class="form-control p-1" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border mt-2">
+                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-toggle="collapse" role="button" data-target="#collapseWrapperEnd" aria-expanded="true" aria-controls="collapseWrapperEnd">
+                            <small class="font-weight-bold">Wrapper HTML End</small>
+                            <span class="fa fa-caret-down fa-fw mt-1 float-right"></span>
+                        </div>
+                        <div class="collapse show" id="collapseWrapperEnd">
+                            <div class="card-body p-2">
+                                <div class="form-group ">
+                                    <textarea name="WrapperHtmlEnd" class="form-control p-1" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div id="properties-pane" class="tab-pane fade h-100 p-1" role="tabpanel" aria-labelledby="properties-tab">
+                <div style="height: 1px; font-size: small;">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
