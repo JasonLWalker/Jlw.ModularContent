@@ -58,6 +58,11 @@ namespace Jlw.Data.LocalizedContent
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         string Heading { get; set; }
 
+        /// TODO Edit XML Comment Template for Heading
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        IWizardContentField HeadingData { get; set; }
+
+
         /// <summary>
         /// Gets or sets the body.
         /// </summary>
@@ -66,6 +71,11 @@ namespace Jlw.Data.LocalizedContent
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         string Body { get; set; }
+
+        /// TODO Edit XML Comment Template for Heading
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        IWizardContentField BodyData { get; set; }
+
 
         /// <summary>
         /// Gets or sets the buttons.
