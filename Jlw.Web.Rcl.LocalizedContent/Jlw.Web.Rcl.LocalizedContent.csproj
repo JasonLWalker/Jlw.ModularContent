@@ -46,15 +46,41 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.18" />
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
-      <PrivateAssets>all</PrivateAssets>
+		<PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="BundlerMinifier.Core" Version="3.2.449">
+		<PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113">
-      <PrivateAssets>all</PrivateAssets>
+	    <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="resources\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="resources\LocalizedContent\font-awesome\css\all.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\all.min.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\brands.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\brands.min.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\fontawesome.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\fontawesome.min.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\regular.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\regular.min.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\solid.css" />
+    <None Remove="resources\LocalizedContent\font-awesome\css\solid.min.css" />
+    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.js" />
+    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js" />
+    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js.map" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\icons-rtl.gif" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\icons.gif" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\loading.gif" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\ui.fancytree.css" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\ui.fancytree.min.css" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\vline-rtl.gif" />
+    <None Remove="resources\LocalizedContent\js\skin-lion\vline.gif" />
   </ItemGroup>
 
   <ItemGroup>
