@@ -8,63 +8,71 @@
 
         function initMemberRegex() {
             // Regular expressions
-            t.rxCols = /(?:(col(?:-sm|-md|-lg|-xl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
-            t.rxPadding = /(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxMargin = /(?:(m(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxDisplay = /(?:(d(?:-sm|-md|-lg|-xl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
-            t.rxBorder = /(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxButtons = /(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
-            t.rxIcon = /(fa(?:[\w\-\d]+)?|text-(primary|secondary|success|danger|warning|info|light|dark))/gi;
+            t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
+            t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
+            t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
+            t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
+            t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
         }
         
         function initMemberArrays() {
             // Arrays
             t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl'];
             t.aSides = ['', 't', 'r', 'b', 'l'];
-            t.aSpacingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
-            t.aColSize = {'-1':'', '0':'', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
+            t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+            t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+            t.aColSize = {'-1':'', '0':'*', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
         }
 
         function initMemberFunctions() {
             // Add functions
             t.parseColClass = parseColClass;
             t.parsePaddingClass = parsePaddingClass;
-            t.parseWrapperClass = parseWrapperClass;
             t.parseButtonClass = parseButtonClass;
-            t.parseButtonIcon = parseButtonIcon;
-            t.parseFieldClass = parseFieldClass;
+            t.parseButtonData = parseButtonData;
 
             t.loadProperties = loadProperties;
+            t.saveFieldData = saveFieldData;
 
-            t.onChangeColBreakpoint = onChangeColBreakpoint;
-            t.onChangePaddingBreakpoint = onChangePaddingBreakpoint;
         }
 
         function initControls() {
-            $('input[name="ColSize"]', t.rightToolbar).data('display-values', t.aColSize);
-            $('.padding-p, .margin-m', t.rightToolbar).data('display-values', t.aSpacingSize);
-            $('.padding-p', t.rightToolbar).on('change', onChangePaddingSize);
+            $('input[name="ColSize"]', t.oRightToolbar).data('display-values', t.aColSize);
+            $('.padding-p', t.oRightToolbar).data('display-values', t.aPaddingSize);
+            $('.margin-m', t.oRightToolbar).data('display-values', t.aMarginSize);
+            
+            $('.padding-p', t.oRightToolbar).on('change', onChangePaddingSize);
+            $('.margin-m', t.oRightToolbar).on('change', onChangeMarginSize);
 
 
-            $('input[name="ColSize"]', t.rightToolbar).on('change', onChangeColSpanSize);
-            $('input[name="ColBreakpoint"]', t.rightToolbar).on('change', onChangeColBreakpoint);
-            $('input[name="PaddingBreakpoint"]', t.rightToolbar).on('change', onChangePaddingBreakpoint);
+            $('input[name="ColSize"]', t.oRightToolbar).on('change', onChangeColSpanSize);
+            $('input[name="ColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
+            $('input[name="PaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
+            $('input[name="MarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
     
 
-            $('.form-control-range', t.rightToolbar).on('input',onChangeSlider);
-            $('.btn-toggle-thumb', t.rightToolbar).on('click',onTogglePanelButton);
-            $('.card-toggle-thumb', t.rightToolbar).on('click',onTogglePanelHeader);
 
-            $('select[name="buttonStyle"], input[name="buttonH100"], input[name="buttonOutline"], input[name="buttonBlock"]', t.rightToolbar).on('change', onChangeButtonClass);
-            $('', t.rightToolbar).on('change', onChangeButtonClass);
-            $('', t.rightToolbar).on('change', onChangeButtonClass);
-            $('', t.rightToolbar).on('change', onChangeButtonClass);
+            $('.form-control-range', t.oRightToolbar).on('input',onChangeSlider);
+            $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelButton);
+            $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelHeader);
+
+            $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
+            $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
+            $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
+
+            $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
+            $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
 
         }
 
-
         function getColSpanType() {
             return $('input[name="ColBreakpoint"]:checked').val();
+        }
+
+        function getMarginBreakpoint() {
+            return $('input[name="MarginBreakpoint"]:checked').val();
         }
 
         function getPaddingBreakpoint() {
@@ -72,83 +80,283 @@
         }
 
         function loadProperties(fieldId) {
-            t.get(t.urlApiRoot + '/');
+            t.post(t.urlApiRoot + '/GetField', { id: fieldId })
+                .done(function(data) {
+                    $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+                    var p = $('#propertylist');
+                    $('.form-group', p).addClass('d-none');
+                    $('input', p).val('');
 
-            console.log(fieldId);
+                    var o = {};
+                    var s = '';
+                    var fieldId = data['Id'];
+                    var groupKey = data['GroupKey'];
+                    var fieldKey = data['FieldKey'];
+                    var fieldType = (data['FieldType'] || '').toUpperCase();
+                    var fieldData = data['FieldData'];
+                    var fieldClass = data['FieldClass'];
+                    var fieldOrder = data['Order'];
+                    var parentKey = data['ParentKey'];
+
+                    if (!fieldId)
+                        return;
+
+                    $('.common-card', t.oRightToolbar).removeClass('d-none');
+
+
+                    if (typeof(fieldData) === 'string') {
+                        try {
+                            fieldData = $.parseJSON(fieldData);
+
+                        } catch (err) {
+                            // invalid json
+                            fieldData = {};
+                        }
+                    }
+
+                    var toolbar = $('.right-toolbar');
+                    $('input[name=Id]', toolbar).val(fieldId);
+                    $('input[name=GroupKey]', toolbar).val(groupKey);
+                    $('input[name=Order]', toolbar).val(fieldOrder);
+                    $('input[name=ParentKey]', toolbar).val(parentKey);
+
+
+                    s = data['FieldKey'];
+
+                    o = $('.field-name');
+                    o.removeClass('d-none');
+                    $('input', o).val(s);
+
+                    s = data['DefaultLabel'];
+                    o = $('.field-label');
+                    o.removeClass('d-none');
+                    $('input', o).val(s);
+
+
+                    s = data['FieldType'];
+                    o = $('.field-type');
+                    o.removeClass('d-none');
+                    $('select', o).val(s);
+
+                    s = JSON.stringify(fieldData);
+                    $('input[name=FieldData]', t.oRightToolbar).val(s);
+
+
+                    switch (fieldType) {
+                    case 'BUTTON':
+                        $('.button-card').removeClass('d-none');
+                        s = (fieldData['type'] || "").toUpperCase();
+                        $('select[buttonStyle]').val(s);
+                        o = $('input[buttonOutline]');
+                        o.removeClass('d-none');
+                        t.parseButtonClass(fieldClass);
+                        t.parseButtonData(fieldData);
+                        break;
+                    case 'INPUT':
+                        $('.input-card').removeClass('d-none');
+                        s = (fieldData['type'] || "").toUpperCase();
+                        $('select[name=InputType]').val(s);
+                        break;
+                    case 'SELECT':
+                        s = (fieldData['type'] || "").toUpperCase();
+                        o = $('.select-type');
+                        o.removeClass('d-none');
+                        $('select', o).val(s);
+                        break;
+                    }
+
+                    o = $('.field-class');
+                    $('input', o).val(fieldClass);
+
+                    s = data['WrapperClass'];
+                    o = $('.wrapper-class');
+                    o.addClass('updating');
+                    $('input', o).val(s);
+
+                    $('input[name="ColBreakpoint"]:checked').trigger('change');
+                    $('input[name="PaddingBreakpoint"]:checked').trigger('change');
+                    $('input[name="MarginBreakpoint"]:checked').trigger('change');
+                    window.setTimeout(function() { o.removeClass('updating'); }, 10);
+
+                    //$('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass]', toolbar).off().on('change', saveFieldData);
+                    //$('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', toolbar).off().on('change', saveFieldData);
+                })
+                .fail(function() {
+                    $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+                });
         }
 
         function onChangeColBreakpoint() {
             var type = getColSpanType();
-            var o = $('input[name="ColSize"]');
-            var data = o.data('col-data');
+            var o = $('input[name="ColSize"]', t.oRightToolbar);
+            var s = $('input[name="WrapperClass"]', t.oRightToolbar).val();
+            var data = parseColClass(s);
+
             if (o.hasClass('updating') || !data) return;
             o.addClass('updating');
             o.val(data[type]);
-            onChangeColSpanSize({'target': o[0]});
+            o.trigger('change');
             data[type] = o.val();
             window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
+        function onChangeMarginBreakpoint() {
+            var bp = getMarginBreakpoint();
+            var o = $('input[name="MarginSize"]', t.oRightToolbar);
+            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
+            var s = oWrapperClass.val();
+            var data = parseMarginClass(s);
+            var m = data['m' + bp];
+            var mt = data['mt' + bp];
+            var mb = data['mb' + bp];
+            var ml = data['ml' + bp];
+            var mr = data['mr' + bp];
+
+            if (o.hasClass('updating') || !data) return;
+            o.addClass('updating');
+            if (m != undefined && m != '-1') {
+                mt = mb = ml = mr = m;
+            }
+
+            var elem = o;
+            elem.val(m);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
+        
+            elem = $('input[name="MarginSizeTop"]');
+            elem.val(mt);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
+        
+            elem = $('input[name="MarginSizeRight"]');
+            elem.val(mr);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
+
+            elem = $('input[name="MarginSizeBottom"]');
+            elem.val(mb);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
+
+            elem = $('input[name="MarginSizeLeft"]');
+            elem.val(ml);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
+
+            $('.margin-m').each(function() {
+                $(this).trigger('input'); 
+            });
+            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangeMarginSize(evt) {
+            var o = $(evt.target);
+            var m = $('input[name=MarginSize]', t.oRightToolbar);
+            var coll;
+
+            if (!m.hasClass('updating')) {
+                m.addClass('updating');
+                
+                if (o.data('side') === 'm') {
+                    coll = $('.margin-m');
+                    coll.val(o.val());
+                    coll.each(function() {
+                        $(this).trigger('input'); 
+                    });
+                } else {
+                    m.val(-1);
+                    m.trigger('input'); 
+                }
+                updateMarginClass();
+                window.setTimeout(function() { m.removeClass('updating'); }, 10);
+            }
+        }
+
         function onChangePaddingBreakpoint() {
-            var type = getPaddingBreakpoint();
-            var o = $('input[name="PaddingSize"]');
-            var data = o.data('padding-data');
+            var bp = getPaddingBreakpoint();
+            var o = $('input[name="PaddingSize"]', t.oRightToolbar);
+            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
+            var s = oWrapperClass.val();
+            var data = parsePaddingClass(s);
+            var p = data['p' + bp];
+            var pt = data['pt' + bp];
+            var pb = data['pb' + bp];
+            var pl = data['pl' + bp];
+            var pr = data['pr' + bp];
+
             if (o.hasClass('updating') || !data) return;
             o.addClass('updating');
 
+            if (p != undefined && p != '-1') {
+                pt = pb = pl = pr = p;
+            }
+
             var elem = o;
-            elem.val(data[elem.data('side') + type]);
-            onChangePaddingSize({'target': elem[0]});
-            data[elem.data('side') + type] = elem.val();
+            elem.val(p);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
         
             elem = $('input[name="PaddingSizeTop"]');
-            elem.val(data[elem.data('side') + type]);
-            onChangePaddingSize({'target': elem[0]});
-            data[elem.data('side') + type] = elem.val();
+            elem.val(pt);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
         
             elem = $('input[name="PaddingSizeRight"]');
-            elem.val(data[elem.data('side') + type]);
-            onChangePaddingSize({'target': elem[0]});
-            data[elem.data('side') + type] = elem.val();
+            elem.val(pr);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
 
             elem = $('input[name="PaddingSizeBottom"]');
-            elem.val(data[elem.data('side') + type]);
-            onChangePaddingSize({'target': elem[0]});
-            data[elem.data('side') + type] = elem.val();
+            elem.val(pb);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
 
             elem = $('input[name="PaddingSizeLeft"]');
-            elem.val(data[elem.data('side') + type]);
-            onChangePaddingSize({'target': elem[0]});
-            data[elem.data('side') + type] = elem.val();
+            elem.val(pl);
+            elem.trigger('change');
+            data[elem.data('side') + bp] = elem.val();
 
+            $('.padding-p').each(function() {
+                $(this).trigger('input');
+            });
             window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangePaddingSize(evt) {
             var o = $(evt.target);
-            var p = $('input[name=PaddingSize]');
-            var data = p.data('padding-data');
-            var type = o.data('side') + getPaddingBreakpoint();
-            if (!data || !type) return;
-            data[type] = o.val();
-            onChangeSlider(evt);
+            var p = $('input[name=PaddingSize]', t.oRightToolbar);
+            var coll;
+
             if (!p.hasClass('updating')) {
                 p.addClass('updating');
-                updateWrapperClass();
+                
+                if (o.data('side') === 'p') {
+                    coll = $('.padding-p');
+                    coll.val(o.val());
+                    coll.each(function() {
+                        $(this).trigger('input'); 
+                    });
+                } else {
+                    p.val(-1);
+                    p.trigger('input'); 
+                }
+                updatePaddingClass();
                 window.setTimeout(function() { p.removeClass('updating'); }, 10);
             }
         }
 
         function onChangeColSpanSize(evt) {
             var o = $(evt.target);
-            var data = o.data('col-data');
+            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
+            var data = parseColClass(oWrapperClass.val());
             var type = getColSpanType();
             if (!data || !type) return;
             data[type] = o.val();
             onChangeSlider(evt);
             if (!o.hasClass('updating')) {
                 o.addClass('updating');
-                updateWrapperClass();
+                updateColClass();
+                oWrapperClass.trigger('change');
                 window.setTimeout(function() { o.removeClass('updating'); }, 10);
             }
         }
@@ -156,8 +364,8 @@
         function onChangeSlider(evt) {
             var o = $(evt.target);
             var s = o.val() || '0';
-            var data = o.data('display-values');
-            s = data[s];
+            var data = o.data('display-values') || [];
+            s = data[s] === undefined ? s : data[s];
             o.next('.range-value').html(s);
         }
 
@@ -178,13 +386,13 @@
         }
 
         function onChangeButtonClass() {
-            var oFieldClass = $('input[name=FieldClass]', t.rightToolbar);
+            var oFieldClass = $('input[name=FieldClass]', t.oRightToolbar);
             var s = oFieldClass.val();
-            var btnStyle = $('select[name=buttonStyle]', t.rightToolbar).val();
-            var btnOutline = $('input[name=buttonOutline]', t.rightToolbar).is(':checked');
-            var btnLink = $('input[name=buttonLink]', t.rightToolbar).is(':checked');
-            var btnBlock = $('input[name=buttonBlock]', t.rightToolbar).is(':checked');
-            var btnH100 = $('input[name=buttonH100]', t.rightToolbar).is(':checked');
+            var btnStyle = $('select[name=buttonStyle]', t.oRightToolbar).val();
+            var btnOutline = $('input[name=buttonOutline]', t.oRightToolbar).is(':checked');
+            var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
+            var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
+            var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
             s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
             s += ' btn';
             if (btnStyle || btnOutline || btnLink)
@@ -203,11 +411,61 @@
             if (btnH100)
                 s += ' h-100';
 
-            console.log(s);
             oFieldClass.val(s);
-            t.saveFieldData({target:oFieldClass});
+            oFieldClass.trigger('change');
         }
 
+        function onChangeButtonData(evt) {
+            var fieldData = {};
+
+            var icon = ($('select[name=buttonIcon]', t.oRightToolbar).val() || "").toLowerCase();
+            var color = ($('select[name=buttonIconColor]', t.oRightToolbar).val() || "").toLowerCase();
+            var action = ($('select[name=buttonActionType]', t.oRightToolbar).val() || "").toLowerCase();
+
+            if (icon) icon += ' ' + color;
+
+            if (icon) fieldData['icon'] = ('fa ' + icon).trim();
+
+            $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+            if (action) {
+                var oAction = { 'type': action };
+                var eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+                
+                if (eventClick) oAction['fnClick'] = eventClick;
+
+                switch((oAction['type'] || "").toLowerCase()) {
+                    case 'navtostep':
+                        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+                        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+                        break;
+                    case 'nav':
+                        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+                        break;
+                    case 'savestep':
+                        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+                        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+                        break;
+                    case 'save':
+                        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+                        break;
+                    case 'link':
+                        oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
+                        break;
+                }
+                $('.button-action-' + oAction['type'], t.oRightToolbar).removeClass('d-none');
+                fieldData['action'] = oAction;
+            }
+
+            var s = JSON.stringify(fieldData);
+            var o = $('input[name=FieldData]', t.oRightToolbar);
+
+            o.val(s);
+            o.trigger('change');
+        }
+
+        function onChangeInputData(evt) {
+
+        }
 
         function parseColClass(s) {
             var data = {
@@ -217,13 +475,14 @@
                 'col-lg': -1,
                 'col-xl': -1
             };
-            var o = $('input[name="ColSize"]');
             var matches = {};
             while(matches = t.rxCols.exec(s)) {
                 var type = matches[1];
                 data[type] = matches[2] || '0';
+                if (matches[2] == 'auto')
+                    data[type] = '13';
             }
-            o.data('col-data', data);
+            return data;
         }
 
         function parsePaddingClass(s) {
@@ -236,30 +495,75 @@
                     data['p' + t.aSides[si] + t.aBreakpoints[bi]] = -1;
                 }
             }
-            var o = $('input[name="PaddingSize"]');
             var matches = {};
             while(matches = t.rxPadding.exec(s)) {
                 var type = matches[1];
+                var val = matches[3] || '0';
+                val = val == 'auto' ? 6 : val;
                 switch(matches[2]) {
                     case 'x':
-                        data[type.replace('px', 'pl')] = matches[3] || '0';
-                        data[type.replace('px', 'pr')] = matches[3] || '0';
+                        data[type.replace('px', 'pl')] = val;
+                        data[type.replace('px', 'pr')] = val;
                         break;
                     case 'y':
-                        data[type.replace('py', 'pl')] = matches[3] || '0';
-                        data[type.replace('py', 'pr')] = matches[3] || '0';
+                        data[type.replace('py', 'pt')] = val;
+                        data[type.replace('py', 'pb')] = val;
                         break;
                     default:
-                        data[type] = matches[3] || '0';
+                        data[type] = val;
                         break;
                 }
             }
-            o.data('padding-data', data);
+            return data;
         }
 
-        function parseWrapperClass(s) {
-            parseColClass(s);
-            parsePaddingClass(s);
+        function parseMarginClass(s) {
+            var data = {};
+            var si = '';
+            var bi = '';
+            // Initialize data
+            for(bi in t.aBreakpoints) {
+                for(si in t.aSides) {
+                    data['m' + t.aSides[si] + t.aBreakpoints[bi]] = -1;
+                }
+            }
+            var matches = {};
+            while(matches = t.rxMargin.exec(s)) {
+                var type = matches[1];
+                var val = matches[3] || '0';
+                val = val == 'auto' ? 6 : val;
+                switch(val) {
+                    case 'n1':
+                        val = -2;
+                        break;
+                    case 'n2':
+                        val = -3;
+                        break;
+                    case 'n3':
+                        val = -4;
+                        break;
+                    case 'n4':
+                        val = -5;
+                        break;
+                    case 'n5':
+                        val = -6;
+                        break;
+                }
+                switch(matches[2]) {
+                case 'x':
+                    data[type.replace('mx', 'ml')] = val;
+                    data[type.replace('mx', 'mr')] = val;
+                    break;
+                case 'y':
+                    data[type.replace('my', 'mt')] = val;
+                    data[type.replace('my', 'mb')] = val;
+                    break;
+                default:
+                    data[type] = val;
+                    break;
+                }
+            }
+            return data;
         }
 
         function parseButtonClass(s) {
@@ -267,8 +571,6 @@
             $('input[name="buttonOutline"],input[name="buttonBlock"],input[name="buttonH100"]').prop('checked', false);
             var matches = {};
             while(matches = t.rxButtons.exec(s)) {
-                //console.log(matches);
-
                 switch((matches[1]||"").toLowerCase()) {
                     case 'outline':
                         $('input[name="buttonOutline"]').prop('checked', true);
@@ -295,14 +597,11 @@
             }
         }
 
-        function parseButtonIcon(s) {
-            //console.log(s);
-
+        function parseButtonData(data) {
+            var sIcon = data['icon'] || "";
+            var action = data['action'] || {};
             var matches = {};
-            while(matches = t.rxIcon.exec(s)) {
-                
-                console.log(matches);
-
+            while(matches = t.rxIcon.exec(sIcon)) {
                 switch((matches[0]||"").toLowerCase()) {
                     case 'fa':
                     case 'fa-w':
@@ -316,26 +615,243 @@
                     case 'text-light':
                     case 'text-dark':
                         if (matches[2]) {
-                            $('select[name=buttonIconColor]').val((matches[2] || "").toLowerCase());
+                            $('select[name=buttonIconColor]', t.oRightToolbar).val((matches[2] || "").toLowerCase());
                         }
                         break;
                     default:
-                        $('select[name=buttonIcon]').val(matches[0]);
+                        $('select[name=buttonIcon]', t.oRightToolbar).val(matches[0]);
                         break;
                 }
-
             }
 
-            //$('buttonIcon').val(o['icon']);
+            $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+            $('.button-action-' + (action["type"] || ""), t.oRightToolbar).removeClass('d-none');
+
+            $('input[name=buttonEventClick]', t.oRightToolbar).val(action["fnClick"]);
+            $('select[name=buttonActionType]', t.oRightToolbar).val(action["type"] || "");
+            $('input[name=buttonActionSection]', t.oRightToolbar).val(action["section"] || "");
+            $('input[name=buttonActionStep]', t.oRightToolbar).val(action["step"] || "");
+            $('input[name=buttonActionUrl]', t.oRightToolbar).val(action["url"] || "");
+            $('select[name=buttonActionScreen]', t.oRightToolbar).val(action["screen"] || "");
         }
 
-        function parseFieldClass(s) {
-            //parseButtonClass(s);
-            //parsePaddingValues(s);
+        function buildFieldUpdateJson(o) {
+            var toolbar = $('.right-toolbar');
+            var updateData = {
+                id: $('input[name=Id]', toolbar).val(),
+                fieldName: o.prop('name'),
+                fieldValue: o.val()
+            };
+
+            return updateData;
         }
 
+        function buildClassLookupString(data, lookup) {
+            var s = '';
+            var val = '';
+            var key = '';
+        
+            for (key in data) {
+                val = lookup[data[key]];
+                switch(data[key].toString()) {
+                case '-1':
+                    break;
+                default:
+                    if (val.length && val !== '*')
+                        s += ' ' + key + '-' + val;
+                    else
+                        s += ' ' + key;
+                    break;
+                }
+            }
+            return s;
+        }
 
-        t.rightToolbar = $('#rightToolbar');
+        function saveFieldData(evt) {
+            //var toolbar = $('#rightToolbar');
+            if (t.oRightToolbar.hasClass('updating')) 
+                return;
+
+            var o = $(evt.target);
+
+            t.oRightToolbar.addClass('updating');
+
+            var data = buildFieldUpdateJson(o);
+
+            t.post(t.urlApiRoot + '/SaveNode', data )
+                .done(function(data) {
+                })
+                .fail(function() {
+
+                })
+                .always(function() {
+                    var tree = $.ui.fancytree.getTree("#wizardtree");
+                    if (o.prop('name') == "FieldKey") {
+                        tree.reload()
+                            .always(function() {
+                                tree.activateKey(0, { activeVisible: true });
+                                if (data['id']) {
+                                    tree.activateKey(data['id'], { activeVisible: true });
+                                }
+                            });
+                    } else {
+                        tree.activateKey(0, {activeVisible:true});
+                        if (data['id']) {
+                            tree.activateKey(data['id'], {activeVisible:true});
+                        }
+
+                    }
+                    t.oRightToolbar.removeClass('updating');
+                });
+        }
+
+        function updateColClass() {
+            var o = $('input[name=WrapperClass]');
+            var s = o.val();
+            var colData = parseColClass(s);
+            var colBreakpoint = $('input[name=ColBreakpoint]:checked').val();
+
+            colData[colBreakpoint] = $('input[name=ColSize]').val();
+
+            s = s.replace(t.rxCols, '');
+            s = s.trim();
+            s += buildClassLookupString(colData, t.aColSize);
+            o.val(s);
+        }
+
+        function updatePaddingClass() {
+            var oWrapperClass = $('input[name=WrapperClass]', t.oRightToolbar);
+            var s = oWrapperClass.val();
+            var data = parsePaddingClass(s);
+            var breakPoint = getPaddingBreakpoint();
+            var p = $('input[name=PaddingSize]', t.oRightToolbar).val().toString();
+            var pt = $('input[name=PaddingSizeTop]', t.oRightToolbar).val().toString();
+            var pb = $('input[name=PaddingSizeBottom]', t.oRightToolbar).val().toString();
+            var pr = $('input[name=PaddingSizeRight]', t.oRightToolbar).val().toString();
+            var pl = $('input[name=PaddingSizeLeft]', t.oRightToolbar).val().toString();
+
+            data['p' + breakPoint] = p;
+            data['pt' + breakPoint] = pt;
+            data['pb' + breakPoint] = pb;
+            data['pl' + breakPoint] = pl;
+            data['pr' + breakPoint] = pr;
+
+            s = s.replace(t.rxPadding, '');
+            s = s.trim();
+            for (var i in t.aBreakpoints) {
+                var bp = t.aBreakpoints[i];
+                p = t.aPaddingSize[(data['p' + bp] || -1)];
+                pt = t.aPaddingSize[(data['pt' + bp] || -1)];
+                pb = t.aPaddingSize[(data['pb' + bp] || -1)];
+                pl = t.aPaddingSize[(data['pl' + bp] || -1)];
+                pr = t.aPaddingSize[(data['pr' + bp] || -1)];
+
+                if ((p !== undefined && p != '') || (new Set([pt, pb, pl, pr])).size === 1) {
+                    // general padding is set, ignore others
+                    if (p == '') p = pt;
+                    if (p != '') s += ' p' + bp + '-' + p;
+                } else {
+                    if (pt !== undefined && pt != '' && pt == pb) {
+                        // py is set
+                        s += ' py' + bp + '-' + pt;
+                    } else {
+                        // process pt and pb separately
+                        if (pt != undefined && pt != '') {
+                            s += ' pt' + bp + '-' + pt;
+                        }
+                        if (pb != undefined && pb != '') {
+                            s += ' pb' + bp + '-' + pb;
+                        }
+                    }
+
+                    if (pl !== undefined && pl != '' && pl == pr) {
+                        // px is set
+                        s += ' px' + bp + '-' + pl;
+                    } else {
+                        // process pl and pr separately
+                        if (pl != undefined && pl != '') {
+                            s += ' pl' + bp + '-' + pl;
+                        }
+                        if (pr != undefined && pr != '') {
+                            s += ' pr' + bp + '-' + pr;
+                        }
+                    }
+                }
+            }
+            oWrapperClass.val(s);
+            oWrapperClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+        }
+
+        function updateMarginClass() {
+            var oWrapperClass = $('input[name=WrapperClass]', t.oRightToolbar);
+            var s = oWrapperClass.val();
+            var data = parseMarginClass(s);
+            var breakPoint = getMarginBreakpoint();
+            var m = $('input[name=MarginSize]', t.oRightToolbar).val().toString();
+            var mt = $('input[name=MarginSizeTop]', t.oRightToolbar).val().toString();
+            var mb = $('input[name=MarginSizeBottom]', t.oRightToolbar).val().toString();
+            var mr = $('input[name=MarginSizeRight]', t.oRightToolbar).val().toString();
+            var ml = $('input[name=MarginSizeLeft]', t.oRightToolbar).val().toString();
+
+            data['m' + breakPoint] = m;
+            data['mt' + breakPoint] = mt;
+            data['mb' + breakPoint] = mb;
+            data['ml' + breakPoint] = ml;
+            data['mr' + breakPoint] = mr;
+
+            s = s.replace(t.rxMargin, '');
+            s = s.trim();
+            for (var i in t.aBreakpoints) {
+                var bp = t.aBreakpoints[i];
+                m = t.aMarginSize[(data['m' + bp] || -1)];
+                mt = t.aMarginSize[(data['mt' + bp] || -1)];
+                mb = t.aMarginSize[(data['mb' + bp] || -1)];
+                ml = t.aMarginSize[(data['ml' + bp] || -1)];
+                mr = t.aMarginSize[(data['mr' + bp] || -1)];
+
+                m = m.replace('-', 'n');
+                mt = mt.replace('-', 'n');
+                mb = mb.replace('-', 'n');
+                ml = ml.replace('-', 'n');
+                mr = mr.replace('-', 'n');
+
+                if ((m !== undefined && m != '') || (new Set([mt, mb, ml, mr])).size === 1) {
+                    // general margin is set, ignore others
+                    if (m == '') m = mt;
+                    if (m != '') s += ' m' + bp + '-' + m;
+                } else {
+                    if (mt !== undefined && mt != '' && mt == mb) {
+                        // my is set
+                        s += ' my' + bp + '-' + mt;
+                    } else {
+                        // process mt and mb separately
+                        if (mt != undefined && mt != '') {
+                            s += ' mt' + bp + '-' + mt;
+                        }
+                        if (mb != undefined && mb != '') {
+                            s += ' mb' + bp + '-' + mb;
+                        }
+                    }
+
+                    if (ml !== undefined && ml != '' && ml == mr) {
+                        // px is set
+                        s += ' mx' + bp + '-' + ml;
+                    } else {
+                        // process ml and mr separately
+                        if (ml != undefined && ml != '') {
+                            s += ' ml' + bp + '-' + ml;
+                        }
+                        if (mr != undefined && mr != '') {
+                            s += ' mr' + bp + '-' + mr;
+                        }
+                    }
+                }
+            }
+            oWrapperClass.val(s);
+            oWrapperClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+        }
+
+        t.oRightToolbar = $('#rightToolbar');
 
         initMemberArrays();
         initMemberRegex();

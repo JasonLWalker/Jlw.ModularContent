@@ -10,7 +10,7 @@
 function libJlwWizardAdmin(t, $, initOptions, undefined) {
 
     t.urlApiRoot = initOptions.urlApiRoot;
-    t.saveFieldData = saveFieldData;
+    //t.saveFieldData = saveFieldData;
 
     libJlwRightToolbarAdmin(t, $, initOptions, undefined);
 
@@ -51,6 +51,21 @@ function libJlwWizardAdmin(t, $, initOptions, undefined) {
         return $.ajax({
             url: t.urlApiRoot + "/Tree/" + $('#slctWizard').val(),
             dataType: "json"
+        }).done(function(data) {
+            var oScreen = $("select[name=buttonActionScreen]");
+            var actionScreen = oScreen.val();
+            oScreen.empty();
+            oScreen.append($('<option value=""></option>'));
+            for (var i in data) {
+                var nodes = (data[i] || []);
+                var children = (nodes['children'] || []);
+                for (var k in children) {
+                    var child = (children[k] || {});
+                    var fieldData = (child['field_data'] || {});
+                    oScreen.append($('<option value="' + fieldData['FieldKey'] + '">' + fieldData['FieldKey'] + '</option>'));
+                }
+            }
+            oScreen.val(actionScreen);
         });
     }
 
@@ -163,117 +178,6 @@ function libJlwWizardAdmin(t, $, initOptions, undefined) {
         });
     }
 
-
-    function updateWrapperClass() {
-        var o = $('input[name=WrapperClass]');
-        if (o.hasClass('updating')) return;
-        o.addClass('updating');
-        var s = o.val();
-        // Parse cols
-        s = s.replace(t.rxCols, '');
-        s = s.replace(t.rxPadding, '');
-        s = s.trim();
-        s += buildClassLookupString($('input[name="ColSize"]').data('col-data'), aColSize);
-        s += buildClassLookupString($('input[name="PaddingSize"]').data('padding-data'), aSpacingSize);
-        o.val(s);
-        saveFieldData({ target: o });
-        window.setTimeout(function() { o.removeClass('updating'); }, 10);
-    }
-
-    function buildClassLookupString(data, lookup) {
-        var s = '';
-        var val = '';
-        var key = '';
-        
-        for (key in data) {
-            val = lookup[data[key]];
-            switch(data[key].toString()) {
-            case '-1':
-                break;
-            default:
-                if (val.length)
-                    s += ' ' + key + '-' + val;
-                else
-                    s += ' ' + key;
-                break;
-            }
-        }
-        return s;
-    }
-
-    function saveFieldData(evt) {
-        var toolbar = $('#rightToolbar');
-        if (toolbar.hasClass('updating')) 
-            return;
-
-        var o = $(evt.target);
-
-        toolbar.addClass('updating');
-
-        var data = buildFieldUpdateData(o);
-
-        t.post(t.urlApiRoot + '/SaveNode', data )
-            .done(function(data) {
-            })
-            .fail(function() {
-
-            })
-            .always(function() {
-                var tree = $.ui.fancytree.getTree("#wizardtree");
-                tree.reload()
-                    .always(function() {
-                        tree.activateKey(0, {activeVisible:true});
-                        if (data['id']) {
-                            tree.activateKey(data['id'], {activeVisible:true});
-                        }
-                    });
-                toolbar.removeClass('updating');
-            });
-    }
-
-    function buildFieldUpdateData(o) {
-        var toolbar = $('.right-toolbar');
-        fieldData = {};
-        var data = {
-            id: $('input[name=Id]', toolbar).val()
-            ,groupkey: $('input[name=GroupKey]', toolbar).val()
-            ,fieldkey: $('input[name=FieldKey]', toolbar).val()
-            ,fieldtype: $('select[name=FieldType]', toolbar).val()
-            ,fielddata: ''
-            ,fieldclass: $('input[name=FieldClass]', toolbar).val()
-            ,parentkey: $('input[name=ParentKey]', toolbar).val()
-            ,defaultlabel: $('input[name=DefaultLabel]', toolbar).val()
-            ,wrapperclass: $('input[name=WrapperClass]', toolbar).val()
-            ,wrapperhtmlstart: $('textarea[name=WrapperHtmlStart]', toolbar).val()
-            ,wrapperhtmlend: $('textarea[name=WrapperHtmlEnd]', toolbar).val()
-            ,order: $('input[name=Order]', toolbar).val()
-        };
-        
-        switch(data['fieldtype'].toUpperCase()) {
-            case 'INPUT':
-                fieldData['type'] = ($('select[name=InputType]').val()||"").toLowerCase();
-                break;
-        }
-
-        data['fielddata'] = JSON.stringify(fieldData);
-
-        var updateData = {
-            id: data['id'],
-            fieldName: o.prop('name'),
-            fieldValue: o.val()
-        };
-
-        switch(updateData['fieldName']) {
-            case 'InputType':
-                updateData['fieldName'] = 'FieldData';
-                updateData['fieldValue'] = data['fielddata'];
-                break;
-        }
-
-        
-
-        return updateData;
-    }
 
     function onLoadTreeNode(event, data) {
         try {
