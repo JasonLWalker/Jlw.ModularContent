@@ -48,13 +48,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         }
 
         /// TODO Edit XML Comment Template for Data
-        [HttpPost("GetNode")]
-        public virtual object Data(long id)
+        [HttpPost("GetField")]
+        public virtual object GetFieldData(WizardField o)
         {
-            var o = new WizardInputModel(new { Id = id });
             ILocalizedContentField oResult;
             o.GroupFilter = _groupFilter;
-
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             try
@@ -69,7 +67,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             if (oResult == null || oResult.Id < 1)
                 return JToken.FromObject(new ApiStatusMessage("Unable to locate a matching record.", "Record not found", ApiMessageType.Danger));
 
-            return JToken.FromObject(oResult);
+            return new WizardField(oResult);
         }
 
 
