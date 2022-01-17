@@ -50,17 +50,6 @@
       "destination": "libman/prism-themes/"
     },
     {
-      "provider": "jsdelivr",
-      "library": "williammustaffa/jquery.dad.js@2.0.3",
-      "destination": "libman/jquery.dad.js/",
-      "files": [
-        "dist/jquery.dad.js",
-        "dist/jquery.dad.min.js",
-        "README.md",
-        "LICENSE.md"
-      ]
-    },
-    {
       "library": "jquery.fancytree@2.38.0",
       "destination": "resources/LocalizedContent/js/",
       "files": [
