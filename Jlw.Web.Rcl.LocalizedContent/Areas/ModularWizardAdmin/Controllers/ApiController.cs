@@ -28,9 +28,13 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
         protected int nMaxTreeDepth = 10;
 
-        public ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory) : base(repository, wizardFactory)
+
+        private ILocalizedContentFieldRepository _fieldRepository { get; set; }
+
+        public ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository) : base(repository, wizardFactory)
         {
             _groupFilter = "";
+            _fieldRepository = fieldRepository;
         }
 
         [HttpGet("")]
@@ -110,6 +114,72 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         }
 
 
+        /// <summary>
+        /// Saves the specified o.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <returns>System.Object.</returns>
+        /// TODO Edit XML Comment Template for Save
+        [HttpPost("SaveField")]
+        public virtual object SaveField(WizardField o)
+        {
+            var bResult = false;
+            //o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            ILocalizedContentField oResult = null;
+            try
+            {
+                o.AuditChangeBy = User.Identity.Name;
+                oResult = _fieldRepository.SaveRecord(new Data.LocalizedContent.LocalizedContentField(o));
+                bResult = oResult != null;
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult == true)
+                return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
+        }
+
+        /// <summary>
+        /// Deletes the specified o.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <returns>System.Object.</returns>
+        /// TODO Edit XML Comment Template for Delete
+        [HttpPost("DeleteField")]
+        public virtual object DeleteField(WizardField o)
+        {
+            var bResult = false;
+            o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            try
+            {
+                o.AuditChangeBy = User.Identity.Name;
+                //bResult = 
+                var oResult = _fieldRepository.DeleteRecord(o);
+                bResult = oResult != null;
+                //_LocalizedContentFieldList.Refresh(); 
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult != true)
+                return JToken.FromObject(new ApiStatusMessage("Record has been successfully deleted.", "Record Deleted", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
+        }
 
         [Route("SaveOrder")]
         [HttpPost]
@@ -150,13 +220,20 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return wizardList;
         }
 
-        [HttpGet("Tree/{groupKey?}")]
-        public virtual object GetWizardTree(string groupKey="")
+        [HttpGet("Components/{groupKey?}")]
+        public virtual object GetComponentList(string groupKey="")
         {
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
-            //WizardFactory.CreateWizardContent("");
-            var data = DataRepository.GetWizardFields(groupKey).Select(o=>new WizardField(o));
+            return DataRepository.GetComponentList(groupKey).Select(o=>new WizardField(o));  //GetWizardFields(groupKey);
+        }
+
+        [HttpGet("Tree/{groupKey?}")]
+        public virtual object GetWizardTree(string groupKey = "")
+        {
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            var data = DataRepository.GetWizardFields(groupKey).Select(o => new WizardField(o));
 
             var wizardList = new List<WizardTreeNode>();
 
@@ -166,16 +243,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
                 if (!string.IsNullOrWhiteSpace(groupKey))
                     wizardList.Add(GetWizardTreeNode(wizard, data));
             }
-            /*
-            if (!wizardList.Any())
-            {
-                wizardList.Add(new
-                {
-                    key = 0,
-                    title = "",
-                });
-            }
-            */
             return wizardList;
         }
 

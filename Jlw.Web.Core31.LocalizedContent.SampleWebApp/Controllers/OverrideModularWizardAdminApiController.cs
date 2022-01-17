@@ -8,7 +8,7 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
     [Route("admin/api/OverrideModularWizard/")]
     public class OverrideModularWizardAdminApiController : Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.ApiController
     {
-        public OverrideModularWizardAdminApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory) : base (repository, wizardFactory)
+        public OverrideModularWizardAdminApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository) : base (repository, wizardFactory, fieldRepository)
         {
             _groupFilter = "Sample%";
             _unlockApi = true;
