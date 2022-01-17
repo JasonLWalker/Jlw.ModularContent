@@ -24,28 +24,28 @@
                             </div>
                             <div class="btn-group btn-group-sm btn-group-toggle float-right p-1" data-toggle="buttons">
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="" autocomplete="off" checked title="Responsive" />&nbsp;&nbsp;*&nbsp;&nbsp;
+                                    <input type="radio" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked title="Responsive" />&nbsp;&nbsp;*&nbsp;&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xxs" autocomplete="off" title="extra extra small" />&nbsp;XXS&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />&nbsp;XXS&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xs" autocomplete="off" />&nbsp;XS&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />&nbsp;XS&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-sm" autocomplete="off" />&nbsp;SM&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />&nbsp;SM&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-md" autocomplete="off" />&nbsp;MD&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />&nbsp;MD&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-lg" autocomplete="off" />&nbsp;LG&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />&nbsp;LG&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xl" autocomplete="off" />&nbsp;XL&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XL&nbsp;
                                 </label>
                                 <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xxl" autocomplete="off" />&nbsp;XXL&nbsp;
+                                    <input type="radio" name="preview-size" value="preview-xxl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XXL&nbsp;
                                 </label>
                             </div>
                         </div>
@@ -57,138 +57,160 @@
     </div>
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
-
 @section Scripts {
-<style>
-    html,body,.container, main, .main { height: 100% !important; }
-    
-    .w-70 { width: 70% !important; }
-    .w-20 { width: 20% !important; }
+    <style>
+        html, body, .container, main, .main { height: 100% !important; }
 
-    #preview-frame-wrapper {
-        max-width: calc(100% - 20px);
-        max-height: calc(100% - 2.5em);
-        overflow: auto;
-        height: 100%;
-        width: 100%;
-        margin: 0 auto;
-    }
+        .w-70 { width: 70% !important; }
+        .w-20 { width: 20% !important; }
 
-    #preview-frame {
-        width: 100%;
-        height: 100%;
-        border: 0 !important;
-        margin: 0;
-    }
+        #deleteDropZone {
+            outline: 2px dashed #bbbbbb;
+        }
 
-    #preview-statusbar {
-        bottom: 0;
-        position: absolute;
-        width: calc(100% - 20px);
-        margin-left: 10px;
-    }
+        .dad-drop-zone {
+            background: #fff;
+            height: 3em;
+            margin: 0.5em;
+            padding: 0.75em;
+        }
 
-    #preview-frame-wrapper.preview-xxs { width: 322px !important; }
-    #preview-frame-wrapper.preview-xxs #preview-frame { width: 320px !important; }
+        #preview-frame-wrapper {
+            max-width: calc(100% - 20px);
+            max-height: calc(100% - 2.5em);
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    #preview-frame-wrapper.preview-xs {max-width: 482px !important;}
-    #preview-frame-wrapper.preview-xs #preview-frame {max-width: 480px; min-width: 320px !important;}
+        #preview-frame {
+            width: 100%;
+            height: 100%;
+            border: 0 !important;
+            margin: 0;
+        }
 
-    #preview-frame-wrapper.preview-sm {width: 578px !important;}
-    #preview-frame-wrapper.preview-sm #preview-frame {min-width: 576px !important;}
+        #preview-statusbar {
+            bottom: 0;
+            position: absolute;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+        }
 
-    #preview-frame-wrapper.preview-md {width: 770px !important;}
-    #preview-frame-wrapper.preview-md #preview-frame {min-width: 768px !important;}
+        #preview-frame-wrapper.preview-xxs { width: 322px !important; }
+        #preview-frame-wrapper.preview-xxs #preview-frame { width: 320px !important; }
 
-    #preview-frame-wrapper.preview-lg {width: 994px !important;}
-    #preview-frame-wrapper.preview-lg #preview-frame {min-width: 992px !important;}
+        #preview-frame-wrapper.preview-xs { max-width: 482px !important; }
+        #preview-frame-wrapper.preview-xs #preview-frame {max-width: 480px; min-width: 320px !important;}
 
-    #preview-frame-wrapper.preview-xl {width: 1202px !important;}
-    #preview-frame-wrapper.preview-xl #preview-frame {min-width: 1200px !important;}
+        #preview-frame-wrapper.preview-sm { width: 578px !important; }
+        #preview-frame-wrapper.preview-sm #preview-frame { min-width: 576px !important; }
 
-    #preview-frame-wrapper.preview-xxl {width: 1402px !important;}
-    #preview-frame-wrapper.preview-xxl #preview-frame {min-width: 1400px !important;}
+        #preview-frame-wrapper.preview-md { width: 770px !important; }
+        #preview-frame-wrapper.preview-md #preview-frame { min-width: 768px !important; }
 
+        #preview-frame-wrapper.preview-lg { width: 994px !important; }
+        #preview-frame-wrapper.preview-lg #preview-frame { min-width: 992px !important; }
 
-    .left-toolbar .nav-link, .right-toolbar .nav-link {
-        border-color: #dee2e6; 
-    }
+        #preview-frame-wrapper.preview-xl { width: 1202px !important; }
+        #preview-frame-wrapper.preview-xl #preview-frame { min-width: 1200px !important; }
 
-
-    .left-toolbar .nav-link.active, .right-toolbar .nav-link.active {
-        background-color: #f8f9fa !important;
-        border-color: #dee2e6 #dee2e6 #f8f9fa;
-    }
-
-    .left-toolbar, .right-toolbar {
-        display: none;
-    }
-
-    .left-toolbar.open, .right-toolbar.open {
-        display: flex;
-        max-width: 250px;
-        flex: 0 0 250px;
-    }
-
-    .right-toolbar .form-control, .right-toolbar label {
-        font-size: 0.8rem;
-    }
-    .right-toolbar label, .right-toolbar .form-group {
-        margin-bottom: 0;
-    }
+        #preview-frame-wrapper.preview-xxl { width: 1402px !important; }
+        #preview-frame-wrapper.preview-xxl #preview-frame { min-width: 1400px !important; }
 
 
-    ul.fancytree-container {
-        border: 1px solid gray;
-        width: 100%;
-        overflow: hidden;
-        /* The expand animations result in ugly focus outline artefacts, so hide those. */
-        outline: 0;
-    }
-    /* Display top level nodes as accordion header. */
-    ul.fancytree-container >li >.fancytree-node span.fancytree-title {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 4px;
-        margin: 0;
-        background-color: #ddd;
-        border: 1px solid #bbb;
-        font-weight: 550;
-    }
-    /* Hide  expanders for top-level nodes */
-    ul.fancytree-container >li >.fancytree-node .fancytree-expander {
-        display: none;
-    }
-    /* Don't indent level-2 nodes */
-    ul.fancytree-container >li >ul {
-        padding-left: 0;
-    }
-</style>
+        .left-toolbar .nav-link, .right-toolbar .nav-link {
+            border-color: #dee2e6;
+        }
+
+
+        .left-toolbar .nav-link.active, .right-toolbar .nav-link.active {
+            background-color: #f8f9fa !important;
+            border-color: #dee2e6 #dee2e6 #f8f9fa;
+        }
+
+        .left-toolbar, .right-toolbar {
+            display: none;
+        }
+
+        .left-toolbar.open, .right-toolbar.open {
+            display: flex;
+            max-width: 250px;
+            flex: 0 0 250px;
+        }
+
+        .right-toolbar .form-control, .right-toolbar label {
+            font-size: 0.8rem;
+        }
+        .right-toolbar label, .right-toolbar .form-group {
+            margin-bottom: 0;
+        }
+
+
+        ul.fancytree-container {
+            border: 1px solid gray;
+            width: 100%;
+            overflow: hidden;
+            /* The expand animations result in ugly focus outline artefacts, so hide those. */
+            outline: 0;
+        }
+        /* Display top level nodes as accordion header. */
+        ul.fancytree-container > li > .fancytree-node span.fancytree-title {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 4px;
+            margin: 0;
+            background-color: #ddd;
+            border: 1px solid #bbb;
+            font-weight: 550;
+        }
+        /* Hide  expanders for top-level nodes */
+        ul.fancytree-container > li > .fancytree-node .fancytree-expander {
+            display: none;
+        }
+        /* Don't indent level-2 nodes */
+        ul.fancytree-container > li > ul {
+            padding-left: 0;
+        }
+    </style>
 
     @{
         //await Html.RenderPartialAsync("_WizardLibScript");
     }
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result
     <script>
-        @*
-        function jlwDefer(fnCb) {
-            if (typeof fnCb != 'function')
-                return;
-            if (window.jQuery && window.jlwUtility) {
-                fnCb();
-            } else {
-                window.setTimeout(function() { jlwDefer(fnCb); }, 50);
+        // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
+        (function(a) {
+            a.fn.replaceTagName = function(f) {
+                var g = [],
+                    h = this.length;
+                while (h--) {
+                    var k = document.createElement(f),
+                        b = this[h],
+                        d = b.attributes;
+                    for (var c = d.length - 1; c >= 0; c--) {
+                        var j = d[c];
+                        k.setAttribute(j.name, j.value);
+                    }
+                    k.innerHTML = b.innerHTML;
+                    a(b).after(k).remove();
+                    g[h - 1] = k;
+                }
+                return a(g);
             }
-        }
-        *@
+        })(window.jQuery);
+    </script>
+    <script>
 
         (function(cacheVer) {
 
             function onPageLoadInit() {
-                function fnInit() {
 
+                function fnInit() {
                     // Fix Jquery get to always apply cross-domain to fix loading of js.map files as specified in https://stackoverflow.com/questions/690781/debugging-scripts-added-via-jquery-getscript-function/691661#answer-36479561
                     jQuery.extend({
-                        get: function (url, data, callback, type) {
+                        get: function(url, data, callback, type) {
                             // shift arguments if data argument was omitted
                             if (jQuery.isFunction(data)) {
                                 type = type || callback;
@@ -212,52 +234,27 @@
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/js/skin-lion/ui.fancytree.min.css")"));
                     $.when(
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.dad, "@Url.Content($"~/{jsRoot}/js/jquery.dad.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/js/jquery.fancytree-all-deps.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
+                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
                     ).done(function() {
-
-                        window.libJlwWizardAdmin(new window.libJlwUtility() || {}, window.jQuery, {
-                            'urlRoot': '@Html.Raw(Url.Action("Index", "Home",new {Area=""}))',
-                            'urlApiRoot': '@apiUrl'
-                        });
-
-                        document.getElementById('preview-frame').contentWindow.addEventListener('resize', function(evt){
-                            var o = $('#preview-frame');
-                            $('#preview-statusbar .resolution-status').html(o.width() + 'x' + o.height());
-                        });
-
-                        window.addEventListener('message',
-                            function(event) {
-                                // IMPORTANT: Check the origin of the data!
-                                if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
-                                    // The data has been sent from your site
-
-                                    // The data sent with postMessage is stored in event.data
-                                    var data = event.data["elementData"];
-                                    var tree = $.ui.fancytree.getTree("#wizardtree");
-                                    if (data['Id']) {
-                                        tree.activateKey(data['Id'], {activeVisible:true});
-                                    }
-                                } else {
-                                    // The data hasn't been sent from your site!
-                                    // Be careful! Do not use it.
-                                    return;
-                                }
+                        var t = new window.libJlwUtility() || {};
+                        window.libJlwWizardAdmin(t,
+                            window.jQuery,
+                            {
+                                'urlRoot': '@Html.Raw(Url.Action("Index", "Home", new { Area = "" }))',
+                                'urlApiRoot': '@apiUrl'
                             });
 
+                        document.getElementById('preview-frame').contentWindow.addEventListener('resize',
+                            function(evt) {
+                                var o = $('#preview-frame');
+                                $('#preview-statusbar .resolution-status').html(o.width() + 'x' + o.height());
+                            });
 
-                        $('#preview-statusbar input[name=preview-size]').on('change', function(){
-                            var lnk = $(this);
-                            var frm = $('#preview-frame-wrapper');
-                            var type = lnk.val();
-                            frm.removeClass('preview-xxs preview-xs preview-sm preview-md preview-lg preview-xl preview-xxl');
-                            frm.addClass(type);
-                        });
 
                         toastr.options = {
                             "closeButton": true,

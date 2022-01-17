@@ -1,0 +1,320 @@
+﻿<style>
+    .jlw-dad-placeholder {
+        background-color: #eee;
+        outline: 2px dashed #aaa;
+    }
+
+    .jlw-dad-dragging {
+        display: none;
+    }
+
+    .jlw-dad-drop-allowed {
+        cursor:pointer;
+        cursor:grabbing;
+    }
+
+    .jlw-dad-drop-not-allowed {
+        cursor:not-allowed;
+    }
+
+
+</style>
+<script>
+(function($) {
+    if ($ && $.fn && !$.fn.jlwDad) {
+        $.fn.jlwDad = function(opts) {
+            var t = this;
+            this.currentDragSource = undefined;
+            this.currentDragTarget = undefined;
+            var commonNamespace = 'jlwDad';
+
+            
+            function libDad(options, undefined) {
+                var libCallbackNamespace = '.' + commonNamespace + 'Lib';
+                var callbackNamespace = '.' + commonNamespace;
+                //var placeholder = $('<div class="jlw-dad-placeholder"></div>');
+
+                var validDropZones = [];
+
+                var settings = $.extend({
+                    elemParent: undefined,
+                    height: 0,
+                    width: 0,
+                    effectAllowed: 'all',
+                    dropEffect: 'move',
+                    showPlaceholder: true,
+                    elemPlaceholder: $('<div class="jlw-dad-placeholder"></div>'),
+                    addDropZone: addDropZone,
+                    addDragElement: addDragElement,
+                    isSourceInDropZone: isSourceInDropZone,
+                    validDropZones: validDropZones,
+                    getCurrentDragSource: getDragSource,
+                    getCurrentDragTarget: getDragTarget,
+
+                    onDragStart: fnOnDragStart, 
+                    onDragEnter: fnOnDragEnter,
+                    onDragOver: fnOnDragOver,
+                    onDragLeave: undefined,
+                    onDragEnd: fnOnDragEnd,
+                    onDrop: fnOnDrop,
+
+                    fnOnDragStart: fnOnDragStart, 
+                    fnOnDragEnter: fnOnDragEnter,
+                    fnOnDragOver: fnOnDragOver,
+                    fnOnDragEnd: fnOnDragEnd,
+                    fnOnDrop: fnOnDrop
+
+                }, options);
+                //bindLibEvent(settings.elemPlaceholder, 'drop', settings.onDrop);
+                //bindLibEvent(settings.elemPlaceholder, 'dragenter', settings.onDragEnter);
+                //bindLibEvent(settings.elemPlaceholder, 'dragover', settings.onDragOver);
+
+
+                setLibData(settings.elemPlaceholder, 'dropEffect', settings.dropEffect);
+                setLibData(settings.elemPlaceholder, 'effectAllowed', settings.effectAllowed);
+
+                function fnOnDragStart(evt) {
+                    var dragSource = setDragSource($(this));
+                    var target = $(settings.elemPlaceholder);
+                    setLibData(target, 'dropTarget', getLibData(dragSource, 'dropTarget'));
+                    target.css('padding', 0);
+                    target.css('margin', 0);
+                    target.css('height', dragSource.innerHeight());
+                    target.css('width', dragSource.innerWidth());
+
+                    var origEvt = evt.originalEvent;
+                    setTimeout(function() {
+                        target.insertAfter(dragSource);
+                        dragSource.addClass('jlw-dad-dragging');
+                    }, 0);
+                    origEvt.dataTransfer.effectAllowed = getLibData(dragSource, 'effectAllowed');
+                    origEvt.dataTransfer.dropEffect = getLibData(dragSource, 'dropEffect');
+                    $(this).trigger('onDragStart.jlwDad');
+                }
+
+                function fnOnDragEnter(evt) {
+                    var origEvt = evt.originalEvent;
+                    var dragSource = $(getDragSource());
+                    var dragTarget = $(getDragTarget()).get(0);
+                    var elem = $(this);
+                    if (evt.currentTarget === dragTarget) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                        return;
+                    }
+
+                    var oDad = $(dragSource).data(commonNamespace);
+
+                    if (!oDad || !oDad.isSourceInDropZone()) {
+                        origEvt.dataTransfer.dropEffect = 'none';
+                        origEvt.dataTransfer.effectAllowed = 'uninitialized';
+                        return;
+                    }
+
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    
+                    var target = evt.currentTarget;
+                    var sourcePlaceholder = $(oDad.elemPlaceholder);
+                    oDad = $(target).data(commonNamespace);
+                    //console.log($(target), oDad);
+                    if (oDad) {
+                        var targetPlaceholder = $(oDad.elemPlaceholder);
+                        if (target !== targetPlaceholder.get(0) && $(target).data('jlwDad.showPlaceholder')) {
+                            //var placeholder = $(oDad.elemPlaceholder);
+                            targetPlaceholder.css('padding', 0);
+                            targetPlaceholder.css('margin', 0);
+                            targetPlaceholder.css('height', sourcePlaceholder.innerHeight());
+                            targetPlaceholder.css('width', sourcePlaceholder.innerWidth());
+
+                            //console.log();
+                            window.setTimeout(function() {
+                                if (targetPlaceholder.next().get(0) === target) {
+                                    targetPlaceholder.insertAfter(target);
+                                } else {
+                                    targetPlaceholder.insertBefore(target);
+                                }
+                                console.log("enter", targetPlaceholder, oDad);
+                            }, 0);
+                        }
+                        origEvt.dataTransfer.dropEffect = oDad.dropEffect;
+                    }
+                    setDragTarget(evt.currentTarget);
+                }
+
+                function fnOnDragOver(evt) {
+                    var origEvt = evt.originalEvent;
+                    var dragSource = getDragSource();
+                    var oDad = $(dragSource).data(commonNamespace);
+                    if (!oDad || !oDad.isSourceInDropZone()) {
+                        origEvt.dataTransfer.dropEffect = 'none';
+                        origEvt.dataTransfer.effectAllowed = 'uninitialized';
+                        return;
+                    }
+
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    origEvt.dataTransfer.dropEffect = oDad.dropEffect;
+                }
+
+                /*
+                function fnOnDragLeave(evt) {
+                    var origEvt = evt.originalEvent;
+                    origEvt.preventDefault();
+                }
+                */
+
+                function fnOnDrop(evt) {
+                    var dragSource = getDragSource();
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    var origEvt = evt.originalEvent;
+                    var target = getLibData(origEvt.currentTarget, 'dropTarget');
+                    triggerCallbackEvent(target, 'dragdrop', [dragSource, origEvt]);
+                    return true;
+                }
+
+                function fnOnDragEnd(evt) {
+                    var dragSource = getDragSource();
+                    var dragTarget = getDragTarget();
+
+                    setTimeout(function() {
+                        var oDad = $(dragSource).data(commonNamespace);
+
+                        if (oDad && oDad.elemPlaceholder) 
+                            oDad.elemPlaceholder.detach();
+
+                        oDad = $(dragTarget).data(commonNamespace);
+                        if (oDad && oDad.elemPlaceholder) 
+                            oDad.elemPlaceholder.detach();
+                        if (dragSource)
+                            dragSource.removeClass('jlw-dad-dragging');
+
+                        $(evt.currentTarget).removeClass('jlw-dad-dragging');
+                    }, 0);
+                    
+                    setLibData(settings.elemPlaceholder, 'dropTarget', undefined);
+                    settings.elemPlaceholder.css('padding', 0);
+                    settings.elemPlaceholder.css('margin', 0);
+                    settings.elemPlaceholder.css('height', 0);
+                    settings.elemPlaceholder.css('width', 0);
+                    var args = [dragSource, dragTarget];
+                    setDragSource(undefined);
+                    setDragTarget(undefined);
+                    
+                    triggerCallbackEvent($(this), 'dragend', args);
+                }
+
+                function addDropZone(elem, dropEffect) {
+                    var o = $(elem);
+                    setLibData(o, 'dropTarget', o);
+                    setLibData(o, 'dropEffect', dropEffect || getLibData(o, 'dropEffect') || settings.dropEffect);
+                    var children = o.children('*[draggable=true]');
+                    if (!children.length) {
+                        bindLibEvent(elem, 'dragenter', settings.onDragEnter);
+                        bindLibEvent(elem, 'dragover', settings.onDragOver);
+                    }
+
+                    if (settings.onDrop)
+                        bindLibEvent(o, 'drop', settings.onDrop);
+
+                    if (validDropZones.indexOf(o.get(0)) === -1)
+                        validDropZones.push(o.get(0));
+                }
+
+                function addDragElement(elem, dropTarget, effectAllowed, dropEffect) {
+                    var o = $(elem);
+                    o.data(commonNamespace, settings);
+
+                    setLibData(o, 'dropTarget', dropTarget || getLibData(o, 'dropTarget') || settings.elemParent);
+                    setLibData(o, 'dropEffect', dropEffect || getLibData(o, 'dropEffect') || settings.dropEffect);
+                    setLibData(o, 'effectAllowed', dropEffect || getLibData(o, 'effectAllowed') || settings.effectAllowed);
+                    if (getLibData(o,'showPlaceholder') === undefined) {
+                        setLibData(o, 'showPlaceholder', settings.showPlaceholder);
+                    }
+                    if (settings.onDragStart)
+                        bindLibEvent(elem, 'dragstart', settings.onDragStart);
+
+                    if (settings.onDragEnter)
+                        bindLibEvent(elem, 'dragenter', settings.onDragEnter);
+
+                    if (settings.onDragOver)
+                        bindLibEvent(elem, 'dragover', settings.onDragOver);
+
+                    if (settings.onDragLeave)
+                        bindLibEvent(elem, 'dragleave', settings.onDragLeave);
+
+                    if (settings.onDragEnd)
+                        bindLibEvent(elem, 'dragend', settings.onDragEnd);
+                }
+
+                function isSourceInDropZone() {
+                    var dragSource = getDragSource();
+                    var dropZone = (getLibData(dragSource, 'dropTarget')||[undefined])[0];
+                    for (var i = 0; i < validDropZones.length; i++) {
+                        if (validDropZones[i] === dropZone)
+                            return true;
+                    }
+                    return false;
+                }
+                
+                function getDragSource() {
+                    return $.fn.jlwDad.currentDragSource;
+                }
+
+                function getDragTarget() {
+                    return $.fn.jlwDad.currentDragTarget;
+                }
+
+                function setDragSource(value) {
+                    return $.fn.jlwDad.currentDragSource = value;
+                }
+
+                function setDragTarget(value) {
+                    return $.fn.jlwDad.currentDragTarget = value;
+                }
+
+                function setLibData(elem, key, value) {
+                    $(elem).data(commonNamespace + '.' + key, value);
+                }
+
+                function getLibData(elem, key) {
+                    return $(elem).data(commonNamespace + '.' + key);
+                }
+
+                function bindLibEvent(elem, eventName, fnCallback) {
+                    $(elem)
+                        .off(eventName + libCallbackNamespace)
+                        .on(eventName + libCallbackNamespace, fnCallback);
+                }
+
+                function triggerCallbackEvent(elem, eventName, args) {
+                    $(elem).triggerHandler(eventName + callbackNamespace,args);
+                }
+
+                settings.elemParent = $(t);
+                //addDropZone(settings.elemPlaceholder);
+
+                return settings;
+            }
+            
+            var lib = $(this.get(0)).data(commonNamespace);
+
+            if (opts || !lib) {
+                lib = new libDad(opts);
+                this.data(commonNamespace, lib);
+            }
+
+            if ($(lib.elemParent).length) {
+                $(lib.elemParent).each(function(i,elem) {
+                    $(elem).children('*[draggable=true]').each(function(i, child) {
+                        lib.addDragElement(child, $(elem));
+                    });
+                    lib.addDropZone(elem);
+                });
+            }
+            return lib;
+        }
+    }
+})(jQuery);
+</script>

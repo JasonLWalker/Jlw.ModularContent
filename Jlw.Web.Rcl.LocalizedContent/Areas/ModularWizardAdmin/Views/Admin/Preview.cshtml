@@ -36,6 +36,7 @@
     await Html.RenderPartialAsync("_WizardLibScript");
 }
 @section Scripts {
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
     <style>
         html, body, .container, main {
             height: 100%;
@@ -46,6 +47,16 @@
             opacity: 0.3;
         }
 
+        .dad-placeholder {
+            background-color: #eee;
+            border: 2px dashed #aaa;
+        }
+
+        .card-body > .row {
+            min-height: 2em;
+        }
+
+        /*
         div[type=checkbox] {
             position: relative;
             z-index: 1;
@@ -56,41 +67,28 @@
             margin-left: -0.7rem;
             margin-bottom: -1px;
         }
+        */
 
         [id^="jlwContainer-"], [id^="jlwElement-"] {
             cursor: pointer;
         }
 
-        
         .hover-outline {
             outline: 1px dashed darkred;
         }
-        
 
-        [id^='jlwContainer-'].active,[id^='jlwElement-'].active {
+
+        [id^='jlwContainer-'].active, [id^='jlwElement-'].active {
             outline: 1px dotted red;
         }
 
-        .select-control::after {
-            display: inline-block;
-            width: 0;
-            height: 0;
-            margin-left: 0.255em;
-            vertical-align: 0.255em;
-            content: "";
-            border-top: 0.3em solid;
-            border-right: 0.3em solid transparent;
-            border-bottom: 0;
-            border-left: 0.3em solid transparent;
-            position: absolute;
-            right: 1.25em;
-            bottom: 1em;        }
     </style>
     <script src="~/@jsRoot/js/libJlwUtility.min.js"></script>
     <script src="~/@jsRoot/font-awesome/js/fontawesome.min.js"></script>
     <script src="~/@jsRoot/font-awesome/js/solid.min.js"></script>
     <script src="~/@jsRoot/js/toastr.min.js"></script>
     <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function(a) {
@@ -114,8 +112,17 @@
         })(window.jQuery);
     </script>
     <script>
+
+
         (function(cacheVer) {
             var wizardData = {};
+            var dragData = {
+                currElem: undefined,
+                dragOverElem: undefined,
+                height: 0,
+                width: 0,
+                placeholderElem: undefined
+            };
 
             var libWizard = window.libJlwWizardBase(new window.libJlwUtility() || {},
                 window.jQuery,
@@ -124,16 +131,41 @@
                     'urlApiRoot': '@apiUrl',
                     'onRenderWizardFormField': onRenderWizardFormField,
                     'onRenderWizardElement': onRenderWizardElement,
+                    'onRenderWizard': onRenderWizard,
                     'wizardParent': '.wizard-form'
                 }
             );
 
+            function onDragOver(evt) {
+                if (dragData.dragOverElem === evt.currentTarget)
+                    return;
+
+                var oEvt = evt.originalEvent;
+                dragData.dragOverElem = evt.currentTarget;
+
+                oEvt.dataTransfer.dropEffect = 'move';
+                $(dragData.placeholderElem).insertAfter($(dragData.dragOverElem));
+
+                //console.log("Dragged over", evt);
+            }
+
             function onRenderWizardFormField(obj, data, parent) {
                 var o = $(obj);
                 o.data('wizard-data', data);
-                $('input, button', o).replaceTagName('div');
-                $('select', o).addClass('select-control');
-                $('select', o).replaceTagName('div');
+                
+                var cntrl = $('input, button, textarea, select', o);
+                cntrl.attr('data-field-type', (data['FieldType']||"").toLowerCase());
+                $('input, button, textarea, select', o).replaceTagName('div');
+
+
+                var p = o.closest('[id^="jlwContainer-"]');
+                p.data('wizard-data', data);
+                p.off()
+                    .on('click', fnOnClickElement)
+                    .on('mouseover', fnOnMouseOverElement)
+                    .on('mouseout', fnOnMouseOutElement);
+                p.data('tree-id', data['Id']);
+                p.attr('data-tree-id', data['Id']);
 
                 return obj;
             }
@@ -153,6 +185,8 @@
                         .on('mouseout', fnOnMouseOutElement);
                     o.data('wizard-data', data);
                     o.data('tree-id', data['Id']);
+                    o.attr('data-tree-id', data['Id']);
+
                 } else {
                     var p = o.parent('[id^="jlwContainer-"]');
                     p.data('wizard-data', data);
@@ -161,18 +195,47 @@
                         .on('mouseover', fnOnMouseOverElement)
                         .on('mouseout', fnOnMouseOutElement);
                     p.data('tree-id', data['Id']);
+                    p.attr('data-tree-id', data['Id']);
+                    //p.attr('draggable', true);
                 }
+                //console.log(o, data);
+
+                o.attr('data-field-key', data['FieldKey']);
+                return o;
+            }
+
+            function onRenderWizard(obj, data, parent) {
+                var o = $(obj);
+
+                $('.wizard-form').attr('data-field-key', data['FieldKey']);
+                $('.wizard-form').attr('data-tree-id', data['Id']);
+
+                var msg = { 'action': 'onRenderWizard' };
+                window.parent.postMessage(msg);
+
                 
                 return o;
             }
-            
+
+            function fnOnDragDrop(evt, targetElement, origEvent) {
+                //console.log(evt, targetElement, origEvent);
+                var target = $(evt.currentTarget);
+                var nodes = [];
+                target.children().each(function(i) {
+                    nodes.push($(this).data('tree-id'));
+                });
+                var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': $(targetElement).data('tree-id') };
+                //console.log(msg);
+                window.parent.postMessage(msg);
+            }
+
             function fnOnClickElement(evt) {
                 var obj = $(evt.target).closest("[id^='jlwContainer-'],[id^='jlwElement-']");
 
                 if (obj.is("[id^='jlwContainer-'],[id^='jlwElement-']")) {
                     $("[id ^= 'jlwContainer-'], [id ^= 'jlwElement-']").removeClass('active');
                     obj.addClass('active');
-                    window.parent.postMessage({elementData:obj.data('wizard-data'), action:'click', 'elementId': obj.prop('id')});
+                    window.parent.postMessage({ elementData: obj.data('wizard-data'), action: 'click', 'elementId': obj.prop('id') });
                 }
             };
 
@@ -186,6 +249,16 @@
                 o.removeClass('hover-outline');
             };
 
+            /*
+            $('.wizard-buttons').dad({
+                exchangeable: false
+            });
+            $('.wizard-buttons').on('dadDrop', fnOnDragDrop);
+            $('.wizard-buttons').on('dadUpdate', function(a, b, c) {
+                console.log(a, b, c);
+            });
+            */
+            //$(".wizard-buttons").off('drop.jlwDad').on('drop.jlwDad', fnOnDragDrop);
 
             window.addEventListener('message',
                 function(event) {
@@ -193,18 +266,34 @@
                     if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
                         // The data has been sent from your site
 
-                        // The data sent with postMessage is stored in event.data
-                        var data = event.data["wizardData"];
-                        libWizard.renderWizard(0, 0, data);
-                        //var wizardData = data;
-                        var nodeData = event.data['nodeData'];
-                        var groupKey = nodeData['GroupKey'];
-                        var fieldKey = nodeData['FieldKey'];
-                        var fieldType = nodeData['FieldType'];
-                        var fieldId = nodeData['Id'];
-                        var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
+                        switch (event.data['action']) {
+                        case 'showSideNav':
+                            //console.log(event.data);
+                            if (event.data['value']) {
+                                //console.log('adding side nav');
+                                $('.wizard-nav-col').addClass('d-xl-block d-lg-inline-block');
+                            } else {
+                                //console.log('hiding side nav');
+                                $('.wizard-nav-col').addClass('d-none');
+                                $('.wizard-nav-col').removeClass('d-xl-block d-lg-inline-block');
+                            }
 
-                        $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+                            break;
+                        case 'loadWizard':
+                            // The data sent with postMessage is stored in event.data
+                            var data = event.data["wizardData"];
+                            libWizard.renderWizard(0, 0, data);
+                            //var wizardData = data;
+                            var nodeData = event.data['nodeData'];
+                            var groupKey = nodeData['GroupKey'];
+                            var fieldKey = nodeData['FieldKey'];
+                            var fieldType = nodeData['FieldType'];
+                            var fieldId = nodeData['Id'];
+                            var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
+
+                            $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+                            break;
+                        }
                     } else {
                         // The data hasn't been sent from your site!
                         // Be careful! Do not use it.

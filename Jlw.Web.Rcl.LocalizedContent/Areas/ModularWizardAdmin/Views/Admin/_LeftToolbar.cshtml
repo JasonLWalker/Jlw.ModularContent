@@ -1,4 +1,4 @@
-﻿<div class="col left-toolbar open p-0 flex-column" >
+﻿<div id="leftToolbar" class="col left-toolbar open p-0 flex-column" >
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a id="wizard-tab" class="nav-link p-0 px-2 active" href="#wizard-pane" data-toggle="tab" role="tab" aria-controls="wizard-pane" aria-selected="true"><small>Wizards</small></a>
@@ -6,9 +6,13 @@
         <li class="nav-item" role="presentation">
             <a id="component-tab" class="nav-link p-0 px-2" href="#component-pane" data-toggle="tab" role="tab" aria-controls="component-pane" ><small>Components</small></a>
         </li>
+        <li class="nav-item" role="presentation">
+            <a id="controls-tab" class="nav-link p-0 px-2" href="#controls-pane" data-toggle="tab" role="tab" aria-controls="controls-pane" ><small>Controls</small></a>
+        </li>
     </ul>
-    <div class="bg-light h-100 border border-top-0 overflow-auto">
-        <div class="tab-content h-100">
+    <div class="bg-light h-100 border border-top-0">
+        <div class="dad-drop-zone text-center" id="deleteDropZone"><span class="fa fa-trash"></span></div>
+        <div class="tab-content overflow-auto" style="height: 90%; height: calc(100% - 4em); outline: 1px solid lightgray;">
             <div id="wizard-pane" class="tab-pane fade show active h-100 p-1" role="tabpanel" aria-labelledby="wizard-tab">
                 <div class="custom-control custom-switch button-outline">
                     <input type="checkbox" class="custom-control-input" id="showWizardNav" checked>
@@ -17,8 +21,13 @@
                 <select id="slctWizard" class="form-control form-control-sm mb-2"></select>
                 <div id="wizardtree" style="height: 1px;"></div>
             </div>
-            <div id="component-pane" class="tab-pane fade p-1" role="tabpanel" aria-labelledby="component-tab">
-                <div id="componenttree" style="height: 1px;"></div>
+            <div id="component-pane" class="tab-pane fade h-100 p-0" role="tabpanel" aria-labelledby="component-tab">
+                <div id="componentlist" class="row ml-1 mr-3" style="height: 1px;">
+                </div>
+            </div>
+            <div id="controls-pane" class="tab-pane fade h-100 p-0" role="tabpanel" aria-labelledby="controls-tab">
+                <div id="controllist" class="row ml-1 mr-3" style="height: 1px;">
+                </div>
             </div>
         </div>
     </div>

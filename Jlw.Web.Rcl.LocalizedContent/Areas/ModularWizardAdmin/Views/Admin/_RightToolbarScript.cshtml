@@ -2,9 +2,14 @@
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
 }
 <script>
-    function libJlwRightToolbarAdmin(t, $, initOptions, undefined) {
+    function libJlwRightToolbarAdminExtension(t, $, initOptions, undefined) {
         if (!t.urlApiRoot)
             t.urlApiRoot = '@apiUrl';
+
+        var oRightToolbar = $('#rightToolbar');
+        var oFieldClass = $('input[name=FieldClass]', oRightToolbar);
+        var oFieldData = $('input[name=FieldData]', oRightToolbar);
+        t.oRightToolbar = oRightToolbar;
 
         function initMemberRegex() {
             // Regular expressions
@@ -35,7 +40,6 @@
 
             t.loadProperties = loadProperties;
             t.saveFieldData = saveFieldData;
-
         }
 
         function initControls() {
@@ -48,15 +52,15 @@
 
 
             $('input[name="ColSize"]', t.oRightToolbar).on('change', onChangeColSpanSize);
-            $('input[name="ColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
-            $('input[name="PaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
-            $('input[name="MarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
+            $('input[name="WrapperColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
+            $('input[name="FieldPaddingBreakpoint"],input[name="WrapperPaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
+            $('input[name="FieldMarginBreakpoint"], input[name="WrapperMarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
     
 
 
             $('.form-control-range', t.oRightToolbar).on('input',onChangeSlider);
-            $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelButton);
-            $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelHeader);
+            $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
+            $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
 
             $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
             $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
@@ -64,19 +68,10 @@
 
             $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
             $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
-
         }
 
-        function getColSpanType() {
-            return $('input[name="ColBreakpoint"]:checked').val();
-        }
-
-        function getMarginBreakpoint() {
-            return $('input[name="MarginBreakpoint"]:checked').val();
-        }
-
-        function getPaddingBreakpoint() {
-            return $('input[name="PaddingBreakpoint"]:checked').val();
+        function getParentBreakpoint(parent) {
+            return $(parent.data('breakpoint') + ':checked', parent).val();
         }
 
         function loadProperties(fieldId) {
@@ -139,7 +134,8 @@
                     $('select', o).val(s);
 
                     s = JSON.stringify(fieldData);
-                    $('input[name=FieldData]', t.oRightToolbar).val(s);
+                    //$('input[name=FieldData]', t.oRightToolbar).val(s);
+                    oFieldData.val(s);
 
 
                     switch (fieldType) {
@@ -173,38 +169,53 @@
                     o.addClass('updating');
                     $('input', o).val(s);
 
-                    $('input[name="ColBreakpoint"]:checked').trigger('change');
-                    $('input[name="PaddingBreakpoint"]:checked').trigger('change');
-                    $('input[name="MarginBreakpoint"]:checked').trigger('change');
-                    window.setTimeout(function() { o.removeClass('updating'); }, 10);
 
-                    //$('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass]', toolbar).off().on('change', saveFieldData);
-                    //$('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', toolbar).off().on('change', saveFieldData);
+                    /*
+                    var bp = $('#preview-statusbar input[name=preview-size]:checked').data('breakpoint');
+                    $('input[name=WrapperColBreakpoint][value="col' + bp + '"]').trigger('click');
+                    $('input[name=WrapperPaddingBreakpoint][value="' + bp + '"]').trigger('click');
+                    $('input[name=WrapperMarginBreakpoint][value="' + bp + '"]').trigger('click');
+                    $('input[name=FieldPaddingBreakpoint][value="' + bp + '"]').trigger('click');
+                    $('input[name=FieldMarginBreakpoint][value="' + bp + '"]').trigger('click');
+
+                    $('input[name="WrapperColBreakpoint"]:checked').trigger('change');
+                    $('input[name="FieldPaddingBreakpoint"]:checked').trigger('change');
+                    $('input[name="WrapperPaddingBreakpoint"]:checked').trigger('change');
+                    $('input[name="FieldMarginBreakpoint"]:checked').trigger('change');
+                    $('input[name="WrapperMarginBreakpoint"]:checked').trigger('change');
+                    */
+                    $('#preview-statusbar input[name=preview-size]:checked').trigger('change');
+                    window.setTimeout(function() { o.removeClass('updating'); }, 10);
                 })
                 .fail(function() {
                     $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
                 });
         }
 
-        function onChangeColBreakpoint() {
-            var type = getColSpanType();
-            var o = $('input[name="ColSize"]', t.oRightToolbar);
-            var s = $('input[name="WrapperClass"]', t.oRightToolbar).val();
+        function onChangeColBreakpoint(evt) {
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var bp = getParentBreakpoint(parent);
+            var o = $('input[name="ColSize"]', parent);
+            var s = updateClass.val();
             var data = parseColClass(s);
 
             if (o.hasClass('updating') || !data) return;
             o.addClass('updating');
-            o.val(data[type]);
+            o.val(data[bp]);
             o.trigger('change');
-            data[type] = o.val();
+            data[bp] = o.val();
             window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
-        function onChangeMarginBreakpoint() {
-            var bp = getMarginBreakpoint();
-            var o = $('input[name="MarginSize"]', t.oRightToolbar);
-            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
-            var s = oWrapperClass.val();
+        function onChangeMarginBreakpoint(evt) {
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var bp = getParentBreakpoint(parent);
+            var o = $('input[name="MarginSize"]', parent);
+            var s = updateClass.val();
             var data = parseMarginClass(s);
             var m = data['m' + bp];
             var mt = data['mt' + bp];
@@ -223,43 +234,44 @@
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="MarginSizeTop"]');
+            elem = $('input[name="MarginSizeTop"]', parent);
             elem.val(mt);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="MarginSizeRight"]');
+            elem = $('input[name="MarginSizeRight"]', parent);
             elem.val(mr);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="MarginSizeBottom"]');
+            elem = $('input[name="MarginSizeBottom"]', parent);
             elem.val(mb);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="MarginSizeLeft"]');
+            elem = $('input[name="MarginSizeLeft"]', parent);
             elem.val(ml);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            $('.margin-m').each(function() {
+            $('.margin-m', parent).each(function() {
                 $(this).trigger('input'); 
             });
             window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangeMarginSize(evt) {
-            var o = $(evt.target);
-            var m = $('input[name=MarginSize]', t.oRightToolbar);
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var m = $('input[name=MarginSize]', parent);
             var coll;
 
             if (!m.hasClass('updating')) {
                 m.addClass('updating');
                 
-                if (o.data('side') === 'm') {
-                    coll = $('.margin-m');
-                    coll.val(o.val());
+                if (target.data('side') === 'm') {
+                    coll = $('.margin-m', parent);
+                    coll.val(target.val());
                     coll.each(function() {
                         $(this).trigger('input'); 
                     });
@@ -267,16 +279,18 @@
                     m.val(-1);
                     m.trigger('input'); 
                 }
-                updateMarginClass();
+                updateMarginClass(parent);
                 window.setTimeout(function() { m.removeClass('updating'); }, 10);
             }
         }
 
-        function onChangePaddingBreakpoint() {
-            var bp = getPaddingBreakpoint();
-            var o = $('input[name="PaddingSize"]', t.oRightToolbar);
-            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
-            var s = oWrapperClass.val();
+        function onChangePaddingBreakpoint(evt) {
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var bp = getParentBreakpoint(parent);
+            var o = $('input[name="PaddingSize"]', parent);
+            var s = updateClass.val();
             var data = parsePaddingClass(s);
             var p = data['p' + bp];
             var pt = data['pt' + bp];
@@ -296,43 +310,44 @@
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="PaddingSizeTop"]');
+            elem = $('input[name="PaddingSizeTop"]', parent);
             elem.val(pt);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="PaddingSizeRight"]');
+            elem = $('input[name="PaddingSizeRight"]', parent);
             elem.val(pr);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="PaddingSizeBottom"]');
+            elem = $('input[name="PaddingSizeBottom"]', parent);
             elem.val(pb);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="PaddingSizeLeft"]');
+            elem = $('input[name="PaddingSizeLeft"]', parent);
             elem.val(pl);
             elem.trigger('change');
             data[elem.data('side') + bp] = elem.val();
 
-            $('.padding-p').each(function() {
+            $('.padding-p', parent).each(function() {
                 $(this).trigger('input');
             });
             window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangePaddingSize(evt) {
-            var o = $(evt.target);
-            var p = $('input[name=PaddingSize]', t.oRightToolbar);
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var p = $('input[name=PaddingSize]', parent);
             var coll;
 
             if (!p.hasClass('updating')) {
                 p.addClass('updating');
                 
-                if (o.data('side') === 'p') {
-                    coll = $('.padding-p');
-                    coll.val(o.val());
+                if (target.data('side') === 'p') {
+                    coll = $('.padding-p', parent);
+                    coll.val(target.val());
                     coll.each(function() {
                         $(this).trigger('input'); 
                     });
@@ -340,24 +355,24 @@
                     p.val(-1);
                     p.trigger('input'); 
                 }
-                updatePaddingClass();
+                updatePaddingClass(parent);
                 window.setTimeout(function() { p.removeClass('updating'); }, 10);
             }
         }
 
         function onChangeColSpanSize(evt) {
-            var o = $(evt.target);
-            var oWrapperClass = $('input[name="WrapperClass"]', t.oRightToolbar);
-            var data = parseColClass(oWrapperClass.val());
-            var type = getColSpanType();
-            if (!data || !type) return;
-            data[type] = o.val();
+            var target = $(evt.target);
+            var parent = $(target.data('container'), t.oRightToolbar);
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var data = parseColClass(updateClass.val());
+            var bp = getParentBreakpoint(parent);
+            if (!data || !bp) return;
+            data[bp] = target.val();
             onChangeSlider(evt);
-            if (!o.hasClass('updating')) {
-                o.addClass('updating');
-                updateColClass();
-                oWrapperClass.trigger('change');
-                window.setTimeout(function() { o.removeClass('updating'); }, 10);
+            if (!target.hasClass('updating')) {
+                target.addClass('updating');
+                updateColClass(parent);
+                window.setTimeout(function() { target.removeClass('updating'); }, 10);
             }
         }
 
@@ -369,24 +384,15 @@
             o.next('.range-value').html(s);
         }
 
-        function onTogglePanelButton() {
+        function onTogglePanelCaret(evt) {
             var o = $(this);
             var c = $('.fa-fw', o);
-            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? 'right' : 'down');
-            c.removeClass('fa-caret-down fa-caret-right');
-            c.addClass(s);
-        }
-
-        function onTogglePanelHeader() {
-            var o = $(this);
-            var c = $('.fa-fw', o);
-            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? 'left' : 'down');
-            c.removeClass('fa-caret-down fa-caret-left');
+            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? o.data('hidecaret') :  o.data('showcaret'));
+            c.removeClass('fa-caret-down fa-caret-right fa-caret-left fa-caret-up');
             c.addClass(s);
         }
 
         function onChangeButtonClass() {
-            var oFieldClass = $('input[name=FieldClass]', t.oRightToolbar);
             var s = oFieldClass.val();
             var btnStyle = $('select[name=buttonStyle]', t.oRightToolbar).val();
             var btnOutline = $('input[name=buttonOutline]', t.oRightToolbar).is(':checked');
@@ -457,10 +463,10 @@
             }
 
             var s = JSON.stringify(fieldData);
-            var o = $('input[name=FieldData]', t.oRightToolbar);
+            //var o = $('input[name=FieldData]', t.oRightToolbar);
 
-            o.val(s);
-            o.trigger('change');
+            oFieldData.val(s);
+            oFieldData.trigger('change');
         }
 
         function onChangeInputData(evt) {
@@ -567,7 +573,6 @@
         }
 
         function parseButtonClass(s) {
-            //var o = $('input[name="buttonOutline"]');
             $('input[name="buttonOutline"],input[name="buttonBlock"],input[name="buttonH100"]').prop('checked', false);
             var matches = {};
             while(matches = t.rxButtons.exec(s)) {
@@ -667,68 +672,32 @@
             return s;
         }
 
-        function saveFieldData(evt) {
-            //var toolbar = $('#rightToolbar');
-            if (t.oRightToolbar.hasClass('updating')) 
-                return;
-
-            var o = $(evt.target);
-
-            t.oRightToolbar.addClass('updating');
-
-            var data = buildFieldUpdateJson(o);
-
-            t.post(t.urlApiRoot + '/SaveNode', data )
-                .done(function(data) {
-                })
-                .fail(function() {
-
-                })
-                .always(function() {
-                    var tree = $.ui.fancytree.getTree("#wizardtree");
-                    if (o.prop('name') == "FieldKey") {
-                        tree.reload()
-                            .always(function() {
-                                tree.activateKey(0, { activeVisible: true });
-                                if (data['id']) {
-                                    tree.activateKey(data['id'], { activeVisible: true });
-                                }
-                            });
-                    } else {
-                        tree.activateKey(0, {activeVisible:true});
-                        if (data['id']) {
-                            tree.activateKey(data['id'], {activeVisible:true});
-                        }
-
-                    }
-                    t.oRightToolbar.removeClass('updating');
-                });
-        }
-
-        function updateColClass() {
-            var o = $('input[name=WrapperClass]');
-            var s = o.val();
+        function updateColClass(parent) {
+            //var oWrapperClass = $('input[name=WrapperClass]');
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
             var colData = parseColClass(s);
-            var colBreakpoint = $('input[name=ColBreakpoint]:checked').val();
+            var colBreakpoint = getParentBreakpoint(parent);
 
             colData[colBreakpoint] = $('input[name=ColSize]').val();
 
             s = s.replace(t.rxCols, '');
             s = s.trim();
             s += buildClassLookupString(colData, t.aColSize);
-            o.val(s);
+            updateClass.val(s);
+            updateClass.trigger('change');
         }
 
-        function updatePaddingClass() {
-            var oWrapperClass = $('input[name=WrapperClass]', t.oRightToolbar);
-            var s = oWrapperClass.val();
+        function updatePaddingClass(parent) {
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
             var data = parsePaddingClass(s);
-            var breakPoint = getPaddingBreakpoint();
-            var p = $('input[name=PaddingSize]', t.oRightToolbar).val().toString();
-            var pt = $('input[name=PaddingSizeTop]', t.oRightToolbar).val().toString();
-            var pb = $('input[name=PaddingSizeBottom]', t.oRightToolbar).val().toString();
-            var pr = $('input[name=PaddingSizeRight]', t.oRightToolbar).val().toString();
-            var pl = $('input[name=PaddingSizeLeft]', t.oRightToolbar).val().toString();
+            var breakPoint = getParentBreakpoint(parent);
+            var p = $('input[name=PaddingSize]', parent).val().toString();
+            var pt = $('input[name=PaddingSizeTop]', parent).val().toString();
+            var pb = $('input[name=PaddingSizeBottom]', parent).val().toString();
+            var pr = $('input[name=PaddingSizeRight]', parent).val().toString();
+            var pl = $('input[name=PaddingSizeLeft]', parent).val().toString();
 
             data['p' + breakPoint] = p;
             data['pt' + breakPoint] = pt;
@@ -778,20 +747,20 @@
                     }
                 }
             }
-            oWrapperClass.val(s);
-            oWrapperClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+            updateClass.val(s);
+            updateClass.trigger('change'); //saveFieldData({target: oWrapperClass});
         }
 
-        function updateMarginClass() {
-            var oWrapperClass = $('input[name=WrapperClass]', t.oRightToolbar);
-            var s = oWrapperClass.val();
+        function updateMarginClass(parent) {
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
             var data = parseMarginClass(s);
-            var breakPoint = getMarginBreakpoint();
-            var m = $('input[name=MarginSize]', t.oRightToolbar).val().toString();
-            var mt = $('input[name=MarginSizeTop]', t.oRightToolbar).val().toString();
-            var mb = $('input[name=MarginSizeBottom]', t.oRightToolbar).val().toString();
-            var mr = $('input[name=MarginSizeRight]', t.oRightToolbar).val().toString();
-            var ml = $('input[name=MarginSizeLeft]', t.oRightToolbar).val().toString();
+            var breakPoint = getParentBreakpoint(parent);
+            var m = $('input[name=MarginSize]', parent).val().toString();
+            var mt = $('input[name=MarginSizeTop]', parent).val().toString();
+            var mb = $('input[name=MarginSizeBottom]', parent).val().toString();
+            var mr = $('input[name=MarginSizeRight]', parent).val().toString();
+            var ml = $('input[name=MarginSizeLeft]', parent).val().toString();
 
             data['m' + breakPoint] = m;
             data['mt' + breakPoint] = mt;
@@ -847,11 +816,47 @@
                     }
                 }
             }
-            oWrapperClass.val(s);
-            oWrapperClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+            updateClass.val(s);
+            updateClass.trigger('change'); //saveFieldData({target: oWrapperClass});
         }
 
-        t.oRightToolbar = $('#rightToolbar');
+        function saveFieldData(evt) {
+            //var toolbar = $('#rightToolbar');
+            if (t.oRightToolbar.hasClass('updating')) 
+                return;
+
+            var o = $(evt.target);
+
+            t.oRightToolbar.addClass('updating');
+
+            var data = buildFieldUpdateJson(o);
+
+            t.post(t.urlApiRoot + '/SaveNode', data )
+                .done(function(data) {
+                })
+                .fail(function() {
+
+                })
+                .always(function() {
+                    var tree = $.ui.fancytree.getTree("#wizardtree");
+                    if (o.prop('name') == "FieldKey") {
+                        tree.reload()
+                            .always(function() {
+                                tree.activateKey(0, { activeVisible: true });
+                                if (data['id']) {
+                                    tree.activateKey(data['id'], { activeVisible: true });
+                                }
+                            });
+                    } else {
+                        tree.activateKey(0, {activeVisible:true});
+                        if (data['id']) {
+                            tree.activateKey(data['id'], {activeVisible:true});
+                        }
+
+                    }
+                    t.oRightToolbar.removeClass('updating');
+                });
+        }
 
         initMemberArrays();
         initMemberRegex();
