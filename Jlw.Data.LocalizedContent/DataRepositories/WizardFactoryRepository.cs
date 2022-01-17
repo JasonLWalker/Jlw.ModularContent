@@ -97,5 +97,12 @@ namespace Jlw.Data.LocalizedContent
             return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey" }));
         }
 
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<WizardContentField> GetComponentList(string groupKey)
+        {
+            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
+        }
+
     }
 } 

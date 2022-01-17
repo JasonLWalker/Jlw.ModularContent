@@ -39,5 +39,7 @@ namespace Jlw.Data.LocalizedContent
 
         IEnumerable<WizardContentField> GetWizardFields(string groupKey);
 
+        IEnumerable<WizardContentField> GetComponentList(string groupKey);
+
     }
 }
