@@ -1,0 +1,204 @@
+﻿<style>
+    div[data-field-type=textarea]  {
+        min-height: 4em;
+    }
+
+    .form-hidden span.d-none {
+        display: inline-block !important;
+        color: #bbb;
+    }
+
+    div[data-field-type=input],
+    div[data-field-type=select] {
+        position: relative;
+    }
+
+    div[data-field-type=input][type=password]::before
+    {
+        content: '********';
+        float: left;
+    }
+
+    div[data-field-type=input][type=phone]::before
+    {
+        content: '(000) 000-0000';
+        float: left;
+    }
+
+    div[data-field-type=input][type=phone]::after
+    {
+        content: '\01F4DE';
+        float: right;
+    }
+
+    div[data-field-type=input][type=url]::after
+    {
+        content: '\01F310';
+        float: right;
+    }
+
+    div[data-field-type=input][type=email]::after
+    {
+        content: '\01F582';
+        float: right;
+    }
+
+    div[data-field-type=input][type=search]::after
+    {
+        content: '\01F50D';
+        float: right;
+    }
+
+
+
+    div[data-field-type=input][type=color] {
+        padding: 0.25em;
+    }
+    div[data-field-type=input][type=color]::after
+    {
+        content: ' ';
+        float: left;
+        height: 100%;
+        width: 100%;
+        border: 1px solid #111;
+        border-radius: 3px;
+        background:blue;
+    }
+
+
+    div[data-field-type=input][type=month]::after
+    {
+        content: '\01F5D3';
+        float: right;
+    }
+
+    div[data-field-type=input][type=week]::after
+    {
+        content: '\01F4C6';
+        float: right;
+    }
+
+    div[data-field-type=input][type=time]::after 
+    {
+        content: '\01F553';
+        float: right;
+    }
+
+    div[data-field-type=input][type=date]::after, 
+    div[data-field-type=input][type=datetime-local]::after
+    {
+        content: '\01F4C5';
+        float: right;
+    }
+
+    div[data-field-type=input][type=number]::before {
+        content: '\01f891';
+        position: absolute;
+        font-size:medium;
+        right: 0.5em;
+        bottom: 0.8em;
+    }
+    div[data-field-type=input][type=number]::after {
+        content: '\01f893';
+        position: absolute;
+        font-size:medium;
+        right: 0.5em;
+        top: 0.8em;
+    }
+
+    div[data-field-type=input][type=checkbox],
+    div[data-field-type=input][type=radio] {
+        display: inline-block;
+        margin-left: -0.75em;
+    }
+
+    div[data-field-type=input][type=range] {
+        border: none !important;
+        padding: 0;
+    }
+
+    div[data-field-type=input][type=range]::before {
+        content: ' ';
+        position: absolute;
+        height: 10px;
+        width: 100%;
+        border: 1px solid;
+        margin: 10px 0;
+        top: 0;
+        border-radius: 5px;
+        background: #eee;
+    }
+    div[data-field-type=input][type=range]::after {
+        content: ' ';
+        position: absolute;
+        font-size: 20px;
+        top: 0;
+        height: 0;
+        line-height: 20px;
+        vertical-align: top;
+        display: block;
+        border: blue solid 10px;
+        width: 0;
+        border-radius: 10px;
+        margin-top: 5px;
+    }
+
+    div[data-field-type=input][type=radio]::before {
+        content: '\002b58';
+        font-size:large;
+        vertical-align: baseline;
+        display: inline-block;
+        /*
+        float: left;
+        font-size:medium;
+        margin-left: -1.15em;
+        margin-top: -2px;
+        */
+    }
+
+    div[data-field-type=input][type=checkbox]::before {
+        content: '\002610';
+        font-size:large;
+        vertical-align: baseline;
+        display: inline-block;
+        /*
+        float: left;
+        font-size:medium;
+        margin-left: -1.15em;
+        margin-top: -2px;
+        */
+    }
+
+    [id^="jlwContainer-"], [id^="jlwElement-"] {
+        cursor: pointer;
+        /*
+        margin: 1em .5em;
+        padding: 5px;
+        background: #fff;
+        outline: 1px dotted #ccc;
+        font-size: small;
+        */
+    }
+
+    /*
+    div[data-field-type=select] {
+        padding: 0;
+    }
+    */
+
+    div[data-field-type=select]::after {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.75rem;        
+    }
+</style>
