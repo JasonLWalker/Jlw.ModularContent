@@ -65,16 +65,13 @@
                     fnOnDrop: fnOnDrop
 
                 }, options);
-                //bindLibEvent(settings.elemPlaceholder, 'drop', settings.onDrop);
-                //bindLibEvent(settings.elemPlaceholder, 'dragenter', settings.onDragEnter);
-                //bindLibEvent(settings.elemPlaceholder, 'dragover', settings.onDragOver);
-
 
                 setLibData(settings.elemPlaceholder, 'dropEffect', settings.dropEffect);
                 setLibData(settings.elemPlaceholder, 'effectAllowed', settings.effectAllowed);
 
                 function fnOnDragStart(evt) {
                     var dragSource = setDragSource($(this));
+                    setDragTarget(undefined);
                     var target = $(settings.elemPlaceholder);
                     setLibData(target, 'dropTarget', getLibData(dragSource, 'dropTarget'));
                     target.css('padding', 0);
@@ -94,52 +91,175 @@
 
                 function fnOnDragEnter(evt) {
                     var origEvt = evt.originalEvent;
-                    var dragSource = $(getDragSource());
-                    var dragTarget = $(getDragTarget()).get(0);
-                    var elem = $(this);
-                    if (evt.currentTarget === dragTarget) {
+                    var $dragSource = $(getDragSource());
+                    var $dragTarget = $(getDragTarget());
+
+                    if ($dragTarget.is(evt.currentTarget)) {
                         evt.preventDefault();
                         evt.stopPropagation();
                         return;
                     }
 
-                    var oDad = $(dragSource).data(commonNamespace);
 
-                    if (!oDad || !oDad.isSourceInDropZone()) {
+                    var oDadSource = $dragSource.data(commonNamespace);
+
+
+                    if (!oDadSource || !oDadSource.isSourceInDropZone()) {
                         origEvt.dataTransfer.dropEffect = 'none';
                         origEvt.dataTransfer.effectAllowed = 'uninitialized';
                         return;
                     }
 
-                    evt.preventDefault();
-                    evt.stopPropagation();
-                    
-                    var target = evt.currentTarget;
-                    var sourcePlaceholder = $(oDad.elemPlaceholder);
-                    oDad = $(target).data(commonNamespace);
-                    //console.log($(target), oDad);
-                    if (oDad) {
-                        var targetPlaceholder = $(oDad.elemPlaceholder);
-                        if (target !== targetPlaceholder.get(0) && $(target).data('jlwDad.showPlaceholder')) {
-                            //var placeholder = $(oDad.elemPlaceholder);
-                            targetPlaceholder.css('padding', 0);
-                            targetPlaceholder.css('margin', 0);
-                            targetPlaceholder.css('height', sourcePlaceholder.innerHeight());
-                            targetPlaceholder.css('width', sourcePlaceholder.innerWidth());
 
-                            //console.log();
+                    var $target = $(evt.currentTarget);
+                    var oDadTarget = $target.data(commonNamespace);
+                    
+
+                    if (oDadTarget) {
+                        if (oDadTarget.showPlaceholder) {
                             window.setTimeout(function() {
-                                if (targetPlaceholder.next().get(0) === target) {
-                                    targetPlaceholder.insertAfter(target);
-                                } else {
-                                    targetPlaceholder.insertBefore(target);
+                                if ($(oDadTarget.elemParent).is($target)) {
+                                    //Target is same as elemParent
+                                    return;
                                 }
-                                console.log("enter", targetPlaceholder, oDad);
+
+
+                                var $targetPlaceholder = $(oDadTarget.elemPlaceholder);
+                                var $sourcePlaceholder = $(oDadSource.elemPlaceholder);
+                                var comp = compareSiblings($target, $targetPlaceholder);
+
+                                $targetPlaceholder.css('padding', 0);
+                                $targetPlaceholder.css('margin', 0);
+                                $targetPlaceholder.css('height', $sourcePlaceholder.innerHeight());
+                                $targetPlaceholder.css('width', $sourcePlaceholder.innerWidth());
+
+                                
+                                console.log('Target Compare: ', comp, $target, $targetPlaceholder);
+                                switch(comp) {
+                                    case 0:
+                                        // Target is Placeholder, do nothing
+                                        break;
+                                    case 1:
+                                        // Target is after Placeholder
+                                        /*
+                                        var $next = $targetPlaceholder.next();
+                                        if ($target.is($next)) {
+                                            $targetPlaceholder.insertAfter($target);
+                                            console.log('insert after target');
+                                            break;
+                                        }
+
+                                        if ($dragSource.is($next)) {
+                                            $targetPlaceholder.insertAfter($dragSource);
+                                            console.log('insert after drag source');
+                                            break;
+                                        }
+                                        */
+                                        $targetPlaceholder.insertAfter($target);
+                                        console.log('insert after target');
+
+                                        break;
+                                    case -1:
+                                        // Target is before Placeholder
+                                        var $prev = $targetPlaceholder.prev();
+                                        console.log('Target is before Placeholder', $prev.get(0));
+                                        if ($target.is($prev)) {
+                                            $targetPlaceholder.insertBefore($target);
+                                            console.log('insert before target');
+                                            break;
+                                        }
+                                        /*
+                                        if ($dragSource.is($prev)) {
+                                            $targetPlaceholder.insertBefore($dragSource);
+                                            console.log('insert before source');
+                                            break;
+                                        }
+                                        */
+                                        $targetPlaceholder.insertBefore($target);
+                                        console.log('insert before target');
+
+                                        break;
+                                    case null:
+                                        $targetPlaceholder.insertBefore($target);
+                                        break;
+                                }
+
                             }, 0);
                         }
-                        origEvt.dataTransfer.dropEffect = oDad.dropEffect;
+                        evt.preventDefault();
+                        evt.stopPropagation();
+
+
+                        /*
+                        if (target !== targetPlaceholder.get(0)){
+                            if (oDadTarget.showPlaceholder) {
+                                //var placeholder = $(oDad.elemPlaceholder);
+                                targetPlaceholder.css('padding', 0);
+                                targetPlaceholder.css('margin', 0);
+                                targetPlaceholder.css('height', sourcePlaceholder.innerHeight());
+                                targetPlaceholder.css('width', sourcePlaceholder.innerWidth());
+
+                                window.setTimeout(function() {
+                                        //console.log("enter", 'placeholder:', sourcePlaceholder, 'target:', target, oDadSource, dragSource, oDadTarget, dragTarget);
+                                        var parent = $(oDadTarget.elemParent);
+                                        var nextSibling = targetPlaceholder.next().get(0);
+                                        var prevSibling = targetPlaceholder.prev().get(0);
+                                        if (targetPlaceholder.parent().length > 0) {
+                                            console.log("Enter - placeholder in DOM", target, prevSibling, nextSibling);
+                                            //if (prevSibling)
+
+                                            if (nextSibling === target) {
+                                                //setDragTarget(targetPlaceholder);
+                                                targetPlaceholder.insertAfter(target);
+                                                console.log('insert after target');
+                                            } else {
+                                                if (prevSibling === target) {
+                                                    //setDragTarget(targetPlaceholder);
+                                                    targetPlaceholder.insertBefore(target);
+                                                    console.log('insert before target');
+                                                } else {
+                                                    if (prevSibling === source) {
+                                                        //setDragTarget(targetPlaceholder);
+                                                        targetPlaceholder.insertBefore(source);
+                                                        console.log('insert before source');
+                                                    } else {
+                                                        if (nextSibling === source) {
+                                                            //setDragTarget(targetPlaceholder);
+                                                            targetPlaceholder.insertAfter(source);
+                                                            console.log('insert after source');
+                                                        } else {
+                                                            targetPlaceholder.detach();
+                                                            setDragTarget(undefined);
+                                                            console.log('fell through', target, targetPlaceholder.prev(), targetPlaceholder.next());
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            console.log("Enter - no placeholder", parent, targetPlaceholder.parent(), oDadSource, dragSource, oDadTarget, dragTarget);
+                                            parent.each(function(i, elem) {
+                                                if (elem === target) {
+                                                    var oElem = $(elem);
+                                                    if (oElem.children().length > 0) {
+                                                        console.log('appending before first child');
+                                                        targetPlaceholder.insertBefore(oElem.children()[0]);
+                                                    } else {
+                                                        oElem.append(targetPlaceholder);
+                                                        console.log('appending to parent');
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    },
+                                    0);
+                                evt.preventDefault();
+                                evt.stopPropagation();
+                            }
+                        }
+                        */
+                        origEvt.dataTransfer.dropEffect = oDadSource.dropEffect;
                     }
-                    setDragTarget(evt.currentTarget);
+                    setDragTarget($target);
                 }
 
                 function fnOnDragOver(evt) {
@@ -159,8 +279,13 @@
 
                 /*
                 function fnOnDragLeave(evt) {
-                    var origEvt = evt.originalEvent;
-                    origEvt.preventDefault();
+                    //var origEvt = evt.originalEvent;
+                    //origEvt.preventDefault();
+                    window.setTimeout(function() {
+                        var $target = $(evt.currentTarget);
+                        var oDadTarget = $target.data(commonNamespace);
+                        //$(oDadTarget.elemPlaceholder).detach();
+                    },  0);
                 }
                 */
 
@@ -180,17 +305,29 @@
 
                     setTimeout(function() {
                         var oDad = $(dragSource).data(commonNamespace);
-
+                        // remove placeholders from source parent
+                        if (oDad && oDad.elemParent) 
+                            $(oDad.elemParent).closest('body').find('.jlw-dad-placeholder').detach();
+                        /*
                         if (oDad && oDad.elemPlaceholder) 
                             oDad.elemPlaceholder.detach();
+                        */
 
                         oDad = $(dragTarget).data(commonNamespace);
+                        // remove placeholders from target parent
+                        if (oDad && oDad.elemParent) 
+                            $(oDad.elemParent).closest('body').find('.jlw-dad-placeholder').detach();
+                        /*
                         if (oDad && oDad.elemPlaceholder) 
                             oDad.elemPlaceholder.detach();
+                        */
+
                         if (dragSource)
                             dragSource.removeClass('jlw-dad-dragging');
 
                         $(evt.currentTarget).removeClass('jlw-dad-dragging');
+
+
                     }, 0);
                     
                     setLibData(settings.elemPlaceholder, 'dropTarget', undefined);
@@ -248,6 +385,31 @@
                         bindLibEvent(elem, 'dragend', settings.onDragEnd);
                 }
 
+                function compareSiblings(a, b) {
+                    var $a = $(a);
+                    var $b = $(b);
+                    
+                    // Are they the same element?
+                    if ($a.is($b))
+                        return 0;
+
+                    var $parent = $a.parent();
+                    // If parents are not the same, then can't be siblings
+                    if (!$parent.is($b.parent()))
+                        return null;
+
+                    var $siblings = $parent.children();
+
+                    var idxA = -1;
+                    var idxB = -1;
+                    $siblings.each(function(i, elem) {
+                        idxA = $a.is(elem) ? i : idxA;
+                        idxB = $b.is(elem) ? i : idxB;
+                    });
+
+                    return idxA > idxB ? 1 : -1;
+                }
+
                 function isSourceInDropZone() {
                     var dragSource = getDragSource();
                     var dropZone = (getLibData(dragSource, 'dropTarget')||[undefined])[0];
@@ -297,7 +459,7 @@
 
                 return settings;
             }
-            
+
             var lib = $(this.get(0)).data(commonNamespace);
 
             if (opts || !lib) {
