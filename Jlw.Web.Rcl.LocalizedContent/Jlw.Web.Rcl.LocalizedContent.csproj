@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.18" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.18" />
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
@@ -61,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="resources\LocalizedContent\bootstrap-sketchy.less" />
     <None Remove="resources\LocalizedContent\font-awesome\css\all.css" />
     <None Remove="resources\LocalizedContent\font-awesome\css\all.min.css" />
     <None Remove="resources\LocalizedContent\font-awesome\css\brands.css" />
