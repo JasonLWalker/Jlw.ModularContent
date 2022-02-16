@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
+using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +28,16 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         protected string _groupFilter;
         protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
         protected int nMaxTreeDepth = 10;
+        private readonly ILocalizedContentTextRepository _languageRepository;
 
 
         private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 
-        public ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository) : base(repository, wizardFactory)
+        public ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository) : base(repository, wizardFactory)
         {
             _groupFilter = "";
             _fieldRepository = fieldRepository;
+            _languageRepository = languageRepository;
         }
 
         [HttpGet("")]
@@ -192,7 +195,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             {
                 node.AuditChangeBy = User.Identity.Name;
                 var result = DataRepository.SaveFieldParentOrder(node);
-                if (result.ParentKey != node.ParentKey || result.Order != node.Order)
+                if (result?.ParentKey != node.ParentKey || result?.Order != node.Order)
                     bSuccess = false;
             }
             if (bSuccess)
@@ -240,10 +243,20 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             var aWizards = data.Where(o => o.FieldType.Equals("WIZARD", StringComparison.InvariantCultureIgnoreCase));
             foreach (var wizard in aWizards)
             {
-                if (!string.IsNullOrWhiteSpace(groupKey))
+                if (!string.IsNullOrWhiteSpace(groupKey)) 
                     wizardList.Add(GetWizardTreeNode(wizard, data));
             }
             return wizardList;
+        }
+
+        [HttpPost("localization/DtList")]
+        public virtual object DtList([FromForm] LocalizedContentTextDataTablesInput o)
+        {
+            o.GroupFilter = _groupFilter;
+
+            if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
+
+            return JToken.FromObject(_languageRepository.GetDataTableList(o));
         }
 
         [NonAction]
@@ -251,14 +264,35 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         {
             var childList = fieldData.Where(o => o.GroupKey.Equals(currentNode.GroupKey, StringComparison.InvariantCultureIgnoreCase) && o.ParentKey.Equals(currentNode.FieldKey, StringComparison.InvariantCultureIgnoreCase));
             var childNodes = new List<WizardTreeNode>();
-
+            var buttonNodes = new List<WizardTreeNode>();
             if (nDepth > nMaxTreeDepth)
                 childList = new WizardField[]{};
 
             foreach (var child in childList)
             {
-                childNodes.Add(GetWizardTreeNode(child, fieldData, nDepth + 1));
+                if (nDepth == 1 && child.FieldType.Equals("BUTTON", StringComparison.InvariantCulture))
+                {
+                    buttonNodes.Add(GetWizardTreeNode(child, fieldData, nDepth + 1));
+                }
+                else
+                {
+                    childNodes.Add(GetWizardTreeNode(child, fieldData, nDepth + 1));
+                }
             }
+
+            if (nDepth == 1)
+            {
+                var buttonNode = new WizardTreeNode()
+                {
+                    key = -(currentNode.Id),
+                    title = "Buttons",
+                    field_data = new WizardField(new { GroupKey = currentNode.GroupKey, FieldType = "BUTTONGROUP", FieldKey = currentNode.FieldKey, Id = -(currentNode.Id), ParentKey = currentNode.ParentKey }),
+                    folder = true,
+                    children = buttonNodes
+                };
+                childNodes.Add(buttonNode);
+            }
+
 
             var oData = new WizardTreeNode()
             {
@@ -268,6 +302,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
                 folder = childNodes.Any() || currentNode.FieldType.Equals("FORM", StringComparison.InvariantCultureIgnoreCase) || currentNode.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase) || currentNode.FieldType.Equals("WIZARD", StringComparison.InvariantCultureIgnoreCase),
                 children = childNodes
             };
+
+
 
             return oData;
         }
