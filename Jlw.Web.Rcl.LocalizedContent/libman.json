@@ -1,6 +1,6 @@
 {
-	"version": "1.0",
-	"defaultProvider": "cdnjs",
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
   "libraries": [
     {
       "library": "jquery@3.3.1",
@@ -9,6 +9,10 @@
     {
       "library": "twitter-bootstrap@4.5.2",
       "destination": "libman/bootstrap"
+    },
+    {
+      "library": "bootswatch@4.5.2",
+      "destination": "libman/bootswatch/"
     },
     {
       "library": "toastr.js@2.1.4",
@@ -22,6 +26,16 @@
       "library": "bootbox.js@5.4.0",
       "destination": "libman/bootbox.js/"
     },
+    {
+      "library": "Sortable@1.14.0",
+      "destination": "libman/sortable"
+    },
+    /*
+    {
+      "library": "interact.js@1.10.11",
+      "destination": "libman/interact.js/"
+    },
+    */
     {
       "provider": "jsdelivr",
       "library": "@jasonlwalker/jlwutility@0.0.33",

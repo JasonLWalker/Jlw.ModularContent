@@ -1,0 +1,9 @@
+[
+  {
+    "outputFile": "resources/LocalizedContent/css/bootstrap-sketchy.css",
+    "inputFile": "libman/bootstrap-sketchy/bootstrap-sketchy.scss",
+    "minify": { "enabled": true },
+    "includeInProject": true,
+    "options": { "sourceMap": true }
+  }
+]

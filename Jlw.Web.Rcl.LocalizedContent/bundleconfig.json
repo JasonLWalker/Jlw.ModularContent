@@ -77,6 +77,30 @@
     }
   },
   {
+    "outputFileName": "resources/LocalizedContent/js/Sortable.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/sortable/Sortable.js"
+    ],
+    "sourceMap": true,
+    "minify": {
+      "enabled": true
+    }
+  },
+  /*
+  {
+    "outputFileName": "resources/LocalizedContent/js/interact.js",
+    // An array of relative input file path. Globbing patterns supported
+    "inputFiles": [
+      "libman/interact.js/interact.js"
+    ],
+    "sourceMap": true,
+    "minify": {
+      "enabled": true
+    }
+  },
+  */
+  {
     "outputFileName": "resources/LocalizedContent/js/toastr.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
@@ -94,7 +118,7 @@
       "libman/datatables/js/jquery.dataTables.min.js",
       "libman/datatables/js/dataTables.bootstrap4.min.js"
     ],
-    "sourceMap": true, 
+    "sourceMap": true,
     "minify": {
       "enabled": true
     }
