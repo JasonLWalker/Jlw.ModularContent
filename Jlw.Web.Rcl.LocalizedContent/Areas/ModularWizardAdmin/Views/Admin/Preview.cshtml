@@ -42,6 +42,10 @@
             height: 100%;
         }
 
+        .wizard-nav {
+            min-width: 195px;
+        }
+
         .wizard-form .d-none {
             display: block !important;
             opacity: 0.3;
@@ -50,9 +54,28 @@
         .dad-placeholder {
             background-color: #eee;
             border: 2px dashed #aaa;
+            outline: none;
         }
 
-        .card-body > .row {
+        .sortable-ghost {
+            background-color: #eee;
+            border: 2px dashed #aaa;
+            outline: none !important;
+        }
+        .sortable-ghost > * {
+            visibility: hidden; 
+        }
+
+        .sortable-chosen {
+
+        }
+
+        .sortable-drag {
+            outline: none !important;
+            border: none;
+        }
+
+        .card-body > div {
             min-height: 2em;
         }
 
@@ -81,14 +104,17 @@
         [id^='jlwContainer-'].active, [id^='jlwElement-'].active {
             outline: 1px dotted red;
         }
-
     </style>
+    
+    <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+
+
     <script src="~/@jsRoot/js/libJlwUtility.min.js"></script>
     <script src="~/@jsRoot/font-awesome/js/fontawesome.min.js"></script>
     <script src="~/@jsRoot/font-awesome/js/solid.min.js"></script>
     <script src="~/@jsRoot/js/toastr.min.js"></script>
     <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result
+    @*Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result*@
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function(a) {
@@ -112,8 +138,6 @@
         })(window.jQuery);
     </script>
     <script>
-
-
         (function(cacheVer) {
             var wizardData = {};
             var dragData = {
@@ -249,17 +273,6 @@
                 o.removeClass('hover-outline');
             };
 
-            /*
-            $('.wizard-buttons').dad({
-                exchangeable: false
-            });
-            $('.wizard-buttons').on('dadDrop', fnOnDragDrop);
-            $('.wizard-buttons').on('dadUpdate', function(a, b, c) {
-                console.log(a, b, c);
-            });
-            */
-            //$(".wizard-buttons").off('drop.jlwDad').on('drop.jlwDad', fnOnDragDrop);
-
             window.addEventListener('message',
                 function(event) {
                     // IMPORTANT: Check the origin of the data!
@@ -300,7 +313,12 @@
                         return;
                     }
                 });
-
         })('');
+    </script>
+    <script>
+        $(function() {
+            var msg = { 'action': 'onPreviewLoad' };
+            window.parent.postMessage(msg);
+        });
     </script>
 }
