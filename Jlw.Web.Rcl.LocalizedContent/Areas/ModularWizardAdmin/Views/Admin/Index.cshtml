@@ -5,7 +5,70 @@
 
     string jsRoot = "LocalizedContent";
 }
+<script>
+    var bPreviewFrameLoaded = false;
+    window.addEventListener('message', function(event) {
+        // IMPORTANT: Check the origin of the data!
+        if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
+            switch (event.data['action']) {
+                case 'onPreviewLoad':
+                    //console.log('setting preview initialized');
+                    var oFrame = document.getElementById('preview-frame');
+                    oFrame.setAttribute('data-preview-initialized', 1);
+                    bPreviewFrameLoaded = true;
+                    break;
+            }
+            //initDragDrop();
+            /*
+            oDadButtons.draggable({
+                //autoScroll: true,
+                //manualStart: true,
+                onmove: onMove,
+                onstart: onStart
+                listeners: {
+                    start(evt) {
+                        position.x = 0;
+                        position.y = 0;
+                        console.log(evt);
+                    },
+                    move(evt) {
+                        position.x += evt.dx;
+                        position.y += evt.dy;
 
+                        evt.target.style.transform = 'translate(' + position.x + 'px, ' + position.y + 'px)';
+                        console.log(evt);
+                    }
+                }
+
+            });/*
+                .on('move',
+                function(event) {
+                    var interaction = event.interaction;
+                    // if the pointer was moved while being held down
+                    // and an interaction hasn't started yet
+                    if (interaction.pointerIsDown && !interaction.interacting()) {
+                        var original = event.currentTarget,
+                            // create a clone of the currentTarget element
+                            clone = event.currentTarget.cloneNode(true);
+
+                        // insert the clone to the page
+                        // TODO: position the clone appropriately
+                        document.body.appendChild(clone);
+
+                        // start a drag interaction targeting the clone
+                        interaction.start({ name: 'drag' }, event.interactable, clone);
+                        console.log('move: ', event);
+                    }
+                });
+                */
+        } else {
+            // The data hasn't been sent from your site!
+            // Be careful! Do not use it.
+            return;
+        }
+    });
+
+</script>
 <div class="flex-fill d-flex justify-content-start" style="position: relative; left: calc(-1 * (100vw - 100%)/2); width: 100vw;">
     <div class="d-flex flex-row w-100 p-0 m-0">
         <div class="row w-100 p-0 m-0">
@@ -15,7 +78,7 @@
                     <div class="col p-0" style="max-width:calc(100vw - 500px)">
                         <div id="preview-frame-wrapper" class="">
                             <div class="m-0 p-0 border w-100 h-100">
-                                <iframe id="preview-frame" src="@Url.Action("Preview")" class=""></iframe>
+                                <iframe id="preview-frame" src="@Url.Action("Preview")" class="" data-preview-initialized="0"></iframe>
                             </div>
                         </div>
                         <div id="preview-statusbar" class="bg-light border text-left">
@@ -58,6 +121,7 @@
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
 @section Scripts {
+    <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
     <style>
         html, body, .container, main, .main { height: 100% !important; }
 
@@ -66,6 +130,12 @@
 
         #deleteDropZone {
             outline: 2px dashed #bbbbbb;
+        }
+
+        .switch-options {
+            margin: 0 0.5em;
+            padding: 0 0.75em;
+            height: 3.5em;
         }
 
         .dad-drop-zone {
@@ -174,11 +244,122 @@
             padding-left: 0;
         }
     </style>
+    <style>
+        .text-warning-hover:hover {
+            color: #ffc107 !important;
+        }
+        .text-danger-hover:hover {
+            color: #dc3545 !important;
+        }
+        .text-primary-hover:hover {
+            color: #007bff !important;
+        }
+        .text-dark-hover:hover {
+            color: #343a40 !important;
+        }
+        .text-info-hover:hover {
+            color: #17a2b8 !important;
+        }
+        .text-success-hover:hover {
+            color: #28a745 !important;
+        }
+        .text-light-hover:hover {
+            color: #f8f9fa !important;
+        }
+    </style>    
+<style>
+    pre.highlighting *, code.highlighting-content *, textarea.editing * {
+        font-family: monospace !important;
+    }
 
+    textarea.editing, pre.highlighting {
+        /*border: none !important;*/
+        margin: 0;
+        padding: .5rem .8rem !important;
+        width: inherit;
+        height: inherit;
+    }
+    textarea.editing, pre.highlighting, pre.highlighting * {
+        /* Also add text styles to highlighing tokens */
+        font-size: 13pt !important;
+        font-family: monospace !important;
+        line-height: 18pt !important;
+    }
+
+
+    textarea.editing, pre.highlighting {
+        /* In the same place */ 
+        position: absolute !important;
+        top: 0;
+        left: 0;
+    }
+
+
+    /* Move the textarea in front of the result */
+
+    textarea.editing {
+        z-index: 1;
+    }
+    pre.highlighting {
+        z-index: 0;
+    }
+
+    /* Make textarea almost completely transparent */
+    textarea.editing {
+        color: transparent !important;
+        background: transparent !important;
+        caret-color: black; /* Or choose your favourite color */
+    }
+
+    /* Can be scrolled */
+    textarea.editing, pre.highlighting {
+        overflow: auto;
+        white-space: nowrap; /* Allows textarea to scroll horizontally */
+    }
+
+    /* No resize on textarea */
+    textarea.editing {
+        resize: none;
+        -moz-tab-size: 3;
+        -o-tab-size: 3;
+        tab-size: 3;
+
+    }
+
+    /* Syntax Highlighting from prism.js starts below, partly modified: */
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        -moz-tab-size: 3;
+        -o-tab-size: 3;
+        tab-size: 3;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+        overflow: auto;
+        border-left: initial;
+    }
+
+    code[class*="language"] {
+        margin: 0 !important;
+
+    }
+/* End of prism.js syntax highlighting*/
+</style>
     @{
         //await Html.RenderPartialAsync("_WizardLibScript");
     }
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result
+    @*Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result*@
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function(a) {
@@ -231,6 +412,7 @@
                     window.jlwUtility.showPleaseWait();
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/js/skin-lion/ui.fancytree.min.css")"));
                     $.when(
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
@@ -239,6 +421,8 @@
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/js/jquery.fancytree-all-deps.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
                     ).done(function() {
                         var t = new window.libJlwUtility() || {};
@@ -275,6 +459,7 @@
                         };
 
                         window.jlwUtility.hidePleaseWait();
+
                     });
                 }
 
@@ -303,3 +488,8 @@
         })('');
     </script>
 }
+<div class="d-none hidden">
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
+</div>
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageListScript.cshtml").Result
