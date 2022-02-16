@@ -33,9 +33,9 @@
                                 <div class="form-group field-label">
                                     <label>Default Label</label>
                                     <div class="input-group input-group-sm">
-                                        <input name="DefaultLabel" type="text" class="form-control">
+                                        <input name="DefaultLabel" type="text" class="form-control border-secondary">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary py-0" type="button"><span class="fa fa-language"></span></button>
+                                            <button id="btn-update-language" class="btn btn-outline-primary border-secondary py-0" type="button"><span class="fa fa-language"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -45,21 +45,26 @@
                                 </div>
                                 <div class="form-group field-type">
                                     <label>Field Type</label>
-                                    <select name="FieldType" class="form-control form-control-sm w-100">
-                                        <option></option>
-                                        <option value="BUTTON">Button</option>
-                                        <option value="EMBED">Embed Form</option>
-                                        <option value="FORM">Form</option>
-                                        <option value="INPUT">Form Input</option>
-                                        <option value="HTML">HTML Text Block</option>
-                                        <option value="BODY">Page Body</option>
-                                        <option value="HEADING">Page Heading</option>
-                                        <option value="SEPARATOR">Separator Bar</option>
-                                        <option value="SELECT">Form Drop-down</option>
-                                        <option value="TEXTAREA">Text Area</option>
-                                        <option value="WIZARD">Wizard</option>
-                                        <option value="SCREEN">Wizard Screen</option>
-                                    </select>
+                                    <div class="input-group-sm">
+                                        <select name="FieldType" class="form-control form-control-sm border-secondary" disabled="disabled">
+                                            <option></option>
+                                            <option value="BUTTON">Button</option>
+                                            <option value="EMBED">Embed Form</option>
+                                            <option value="FORM">Form</option>
+                                            <option value="INPUT">Form Input</option>
+                                            <option value="HTML">HTML Text Block</option>
+                                            <option value="BODY">Page Body</option>
+                                            <option value="HEADING">Page Heading</option>
+                                            <option value="SEPARATOR">Separator Bar</option>
+                                            <option value="SELECT">Form Drop-down</option>
+                                            <option value="TEXTAREA">Text Area</option>
+                                            <option value="WIZARD">Wizard</option>
+                                            <option value="SCREEN">Wizard Screen</option>
+                                        </select>
+                                        <div class="input-group-append d-none">
+                                            <button id="new-wizard-edit" class="btn btn-outline-warning border-secondary text-dark py-0"><small><span class="fa fa-edit"></span></small></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -572,7 +577,7 @@
                                     <div class="input-group input-group-sm">
                                         <input name="FieldData" class="form-control p-1" />
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary py-0" type="button"><span class="fa fa-ellipsis-h"></span></button>
+                                            <button class="btn btn-outline-secondary py-0 btn-field-data" type="button"><span class="fa fa-ellipsis-h"></span></button>
                                         </div>
                                     </div>
                                 </div>

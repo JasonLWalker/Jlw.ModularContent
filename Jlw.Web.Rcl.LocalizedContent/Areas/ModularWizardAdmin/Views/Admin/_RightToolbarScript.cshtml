@@ -68,6 +68,9 @@
 
             $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
             $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
+
+            $('.btn-field-data').on('click', onClickBtnFieldData);
+            $('#btn-update-language').on('click', onClickBtnLanguage);
         }
 
         function getParentBreakpoint(parent) {
@@ -75,7 +78,7 @@
         }
 
         function loadProperties(fieldId) {
-            t.post(t.urlApiRoot + '/GetField', { id: fieldId })
+            t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
                 .done(function(data) {
                     $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
                     var p = $('#propertylist');
@@ -132,6 +135,8 @@
                     o = $('.field-type');
                     o.removeClass('d-none');
                     $('select', o).val(s);
+                    $('.input-group-sm', o).removeClass('input-group');
+                    $('.input-group-append', o).addClass('d-none');
 
                     s = JSON.stringify(fieldData);
                     //$('input[name=FieldData]', t.oRightToolbar).val(s);
@@ -152,12 +157,17 @@
                         $('.input-card').removeClass('d-none');
                         s = (fieldData['type'] || "").toUpperCase();
                         $('select[name=InputType]').val(s);
+                        o = $('.field-type');
+                        $('.input-group-sm', o).addClass('input-group');
+                        $('.input-group-append', o).removeClass('d-none');
                         break;
                     case 'SELECT':
                         s = (fieldData['type'] || "").toUpperCase();
                         o = $('.select-type');
                         o.removeClass('d-none');
                         $('select', o).val(s);
+                        $('.input-group-sm', o).addClass('input-group');
+                        $('.input-group-append', o).removeClass('d-none');
                         break;
                     }
 
@@ -471,6 +481,184 @@
 
         function onChangeInputData(evt) {
 
+        }
+
+        /*
+        function fnEditTextarea(evt) {
+            prismSyntaxHighlight(this.value, this);
+            var ctrl = $(this);
+            var p = ctrl.parent().parent();
+            var row = p.parent();
+            if (evt.type == 'blur') {
+                $('.col-lg', row).removeClass('d-none');
+                //ctrl.prop('rows', 3);
+            } else {
+                $('.col-lg', row).addClass('d-none');
+                p.removeClass('d-none');
+                //ctrl.prop('rows', 10);
+            }
+
+        }
+        */
+
+        function prismSyntaxHighlight(text, ctrl) {
+            var p = $(ctrl).parent();
+            var elem = $('code.highlighting-content', p);
+            elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+            Prism.highlightElement(elem.get(0));
+        }
+        function prismSyncScroll(element) {
+            /* Scroll result to scroll coords of event - sync with textarea */
+            var p = $(element).parent();
+            var result_element = $("pre.highlighting", p).get(0);
+            // Get and set x and y
+            result_element.scrollTop = element.scrollTop;
+            result_element.scrollLeft = element.scrollLeft;
+        }
+
+        function prismCheckTab(element, event) {
+            var code = element.value;
+            if (event.key == "Tab") {
+                /* Tab key pressed */
+                event.preventDefault(); // stop normal
+                var before_tab = code.slice(0, element.selectionStart); // text before tab
+                var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
+                var cursor_pos = element.selectionEnd + 1; // after tab placed, where cursor moves to - 1 for 1 tab char
+                element.value = before_tab + "\t" + after_tab; // add tab char - 1 tab char
+                // move cursor
+                element.selectionStart = cursor_pos;
+                element.selectionEnd = cursor_pos;
+
+                var p = $(element).parent();
+                var text = element.value;
+                var elem = $('code.highlighting-content', p);
+                elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+                Prism.highlightElement(elem.get(0));
+            }
+        }
+
+        function onClickBtnFieldData(evt) {
+            var re = /(["])((?:(?=(\\?))\3[\s\S])*?)\1/g;
+            var data = $('input[name=FieldData]').val();//.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t');
+            data = data.replace(re, function(match) {
+                return match.replace(/(\\r)?\\n/g, '\r\n').replace(/\\t/g, '\t');
+            });
+
+
+            var dialog = bootbox.dialog({
+                title: 'JSON Data for Field',
+                message: '<div class="row h-100"><div class="col h-100 mx-3"><textarea name="codeFieldData" class="w-100 h-100 form-control editing" spellcheck="false">' + data + '</textarea><pre aria-hidden="true" class="highlighting form-control"><code class="language-javascript highlighting-content"></code></pre></div></div>',
+                size: 'xl',
+                onShow: function(e) {
+                    $('.modal-content', e.currentTarget).css('height', '85%');
+                    $('.bootbox-body', e.currentTarget).addClass('h-100');
+                },
+                onShown: function(e) {
+                    //console.log(e);
+                    $('textarea.editing', e.currentTarget).off()
+                        .on("input", function() { prismSyntaxHighlight(this.value, this); })
+                        .on("scroll", function() { prismSyncScroll(this); })
+                        .on("keydown", function(evt) { prismCheckTab(this, evt) });
+
+                    $('.modal-body textarea.editing', e.currentTarget).each(function() {
+                        var val = this.value;
+                        this.value = val;
+                        prismSyntaxHighlight(this.value, this);
+                    });
+
+
+                },
+                buttons: {
+                    confirm: {
+                        label: 'Save',
+                        className: 'btn-success',
+                        callback: function(result) {
+                            // ...
+                            var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
+                            var jsonVal = {};
+                            val = val.replace(re, function(match) {
+                                //console.log(match);
+                                return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
+                            });
+                            try {
+                                // parse and serialize JSON for syntax check
+                                jsonVal = $.parseJSON(val);
+                                val = JSON.stringify(jsonVal);
+                            } catch(ex) {
+                                toastr.error(ex.message, 'An error occurred while parsing JSON data:');
+                                return false;
+                            }
+                            $('input[name=FieldData]').val(val);
+                            $('input[name=FieldData]').trigger('change');
+                        }
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+            });
+        }
+
+        function onClickBtnLanguage(evt) {
+            var content = $('#jlw-dtlist-localizedcontenttext').html() || '<div></div>';
+            var data = t.serializeFormToJson($(evt.currentTarget).closest('.card-body'));
+            console.log(data);
+            var dialog = bootbox.dialog({
+                title: 'Label / Content Localization',
+                message: content,
+                size: 'xl',
+                onShow: function(e) {
+                    $('.modal-content', e.currentTarget).css('height', '85%');
+                    $('.bootbox-body', e.currentTarget).addClass('h-100');
+                },
+                onShown: function(e) {
+                    console.log(e, evt);
+                    window.jlwLibLocalizedContentText($('table.jlw-datatable-localizedcontenttext', e.currentTarget), '@apiUrl/localization/', data, $);
+                    /*
+                    $('textarea.editing', e.currentTarget).off()
+                        .on("input", function() { prismSyntaxHighlight(this.value, this); })
+                        .on("scroll", function() { prismSyncScroll(this); })
+                        .on("keydown", function(evt) { prismCheckTab(this, evt) });
+
+                    $('.modal-body textarea.editing', e.currentTarget).each(function() {
+                        var val = this.value;
+                        this.value = val;
+                        prismSyntaxHighlight(this.value, this);
+                    });
+                    */
+
+                },
+                buttons: {
+                    confirm: {
+                        label: 'Save',
+                        className: 'btn-success',
+                        callback: function(result) {
+                            // ...
+                            var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
+                            var jsonVal = {};
+                            val = val.replace(re, function(match) {
+                                //console.log(match);
+                                return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
+                            });
+                            try {
+                                // parse and serialize JSON for syntax check
+                                jsonVal = $.parseJSON(val);
+                                val = JSON.stringify(jsonVal);
+                            } catch(ex) {
+                                toastr.error(ex.message, 'An error occurred while parsing JSON data:');
+                                return false;
+                            }
+                            $('input[name=FieldData]').val(val);
+                            $('input[name=FieldData]').trigger('change');
+                        }
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+            });
         }
 
         function parseColClass(s) {
