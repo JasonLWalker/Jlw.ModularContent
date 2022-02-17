@@ -136,50 +136,6 @@
                     var data = wizardData[i];
                     var elem = libControls.renderWizardFormField(data, parent);
                 }
-                //parent.sortable();
-
-                //console.log(parent, parent.children());
-
-                //parent.children().attr('draggable', true);
-                /*
-                var oDad = parent.jlwDad({
-                    dropEffect: 'copy',
-                    effectAllowed: 'all',
-                    onDragStart: onDragStartControl,
-                    showPlaceholder: false,
-                    onDrop: fnOnDragDrop,
-                    //onDragEnter: onDragEnterButtons,
-                    //onDragOver: onDragOverButtons,
-                    onDragEnd: onDragEndAll
-                });
-                
-                // Empty array
-                while (oDad.validDropZones.length) {
-                    oDad.validDropZones.pop();
-                }
-
-                //parent.data('jlwDad.effectAllowed', 'none');
-                //parent.children().data('jlwDad.effectAllowed', 'copy');
-
-                parent
-                    .off('dragdrop')
-                    .off('dragenter')
-                    .off('dragover');
-
-                parent.children()
-                    .off('dragdrop')
-                    .off('dragenter')
-                    .off('dragover');
-                
-                //var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
-                //var dropZone = clientFrameBody.find('.wizard-body > .card > .card-body > .row');;
-                //console.log(dropZone);
-                //oDad.addDropZone(dropZone, 'copy');
-                //dropZone = clientFrameBody.find('.wizard-body');
-                //oDad.addDropZone(dropZone, 'copy');
-                dropZone = clientFrameBody.find('.wizard-buttons');
-                oDad.addDropZone(dropZone, 'copy');
-                */
             });
         }
 
@@ -256,8 +212,9 @@
         }
 
         function onShowWireframe(evt) {
-            var tree = $.ui.fancytree.getTree("#wizardtree");
             var id = clientFrameBody.find('.wizard-form').data('tree-id');
+            
+            var tree = $.ui.fancytree.getTree("#wizardtree");
             if (tree) {
                 tree.activateKey(0, { activeVisible: true });
                 tree.activateKey(id, { activeVisible: true });
@@ -354,12 +311,15 @@
 
         function saveNodeOrder(nodeList, fieldKey) {
             t.post(t.urlApiRoot + "/SaveOrder", nodeList).always(function(data) {
+                window.postMessage({ 'action': 'updateTree', 'tree-id': fieldKey});
+                /*
                 var tree = $.ui.fancytree.getTree("#wizardtree");
                 if (tree) {
                     tree.reload().always(function(data) {
                         tree.activateKey(fieldKey, {activeVisible:true});
                     });
                 }
+                */
                 //onChangeWizard({});
             });
         }
@@ -420,7 +380,7 @@
                     var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': data['Id'] };
                     window.postMessage(msg);
                 })
-                .always(function() {
+                .always(function(data) {
                     t.hidePleaseWait();
                 });
         }
@@ -611,8 +571,10 @@
                         if (nodeList.length) {
                             t.post("@apiUrl/SaveOrder", nodeList).always(function(data) {
                                 //console.log(event.data['fieldKey']);
-                                window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey']});
+                                window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
                             });
+                        } else {
+                            window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
                         }
                     }
                     break;
@@ -628,6 +590,7 @@
                     // The data sent with postMessage is stored in event.data
                     var data = event.data["elementData"];
                     if (data['Id']) {
+                        //window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']});
                         tree.activateKey(data['Id'], { activeVisible: true });
                     }
                     break;
@@ -666,7 +629,7 @@
         function onNewScreen(event) {
             var dialog = bootbox.dialog({
                 title: 'Add new Screen',
-                message: '<div class="form-group"><label>Screen Name</label><input type="text" class="form-control" /></div>',
+                message: '<div class="form-group"><label>Screen Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
                 inputType: 'text',
                 size: 'md',
                 buttons: {
@@ -674,7 +637,26 @@
                         label: '<span class="fa fa-save"></span> Save',
                         className: 'btn-success',
                         callback: function(event) {
-                            console.log(event);
+                            var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['GroupKey'] = $('#slctWizard').val();
+                            formData["ParentKey"] = $('#slctWizard').val();
+                            t.post(t.urlApiRoot + "/NewScreen", formData)
+                                .always(function(data) {
+                                    var key = data['Id'];
+                                    if (key) {
+                                        window.postMessage({ 'action': 'updateTree', 'tree-id': key});
+                                        /*
+                                        var tree = $.ui.fancytree.getTree("#wizardtree");
+                                        if (tree) {
+                                            tree.reload().always(function(data) {
+                                                tree.activateKey(key, {activeVisible:true});
+                                            });
+                                        }
+                                        */
+
+                                    }
+                                });
+
                         }
                     },
                     cancel: {
@@ -689,7 +671,7 @@
         function onNewWizard(event) {
             var dialog = bootbox.dialog({
                 title: 'Add new Wizard',
-                message: '<div class="form-group"><label>Wizard Name</label><input type="text" class="form-control" /></div>',
+                message: '<div class="form-group"><label>Wizard Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
                 inputType: 'text',
                 size: 'md',
                 buttons: {
@@ -697,7 +679,28 @@
                         label: '<span class="fa fa-save"></span> Save',
                         className: 'btn-success',
                         callback: function(event) {
-                            console.log(event);
+                            var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['GroupKey'] = formData['FieldKey'];
+                            t.post(t.urlApiRoot + "/NewWizard", formData)
+                                .always(function(data) {
+                                    var key = data['GroupKey'];
+                                    if (key) {
+                                        t.get(t.urlApiRoot + "/List").done(function(data) {
+                                            var target = $('#slctWizard');
+                                            target.empty();
+
+                                            for (var i in data) {
+                                                var fieldData = data[i];
+                                                var opt = $('<option value="' + fieldData["GroupKey"] +'">' + fieldData["GroupKey"] + '</option>');
+                                                opt.attr('data-field-data', fieldData);
+                                                target.append(opt);
+                                            }
+                                            target.val(key);
+                                            target.trigger('change');
+                                        });
+                                    }
+                            });
+
                         }
                     },
                     cancel: {
