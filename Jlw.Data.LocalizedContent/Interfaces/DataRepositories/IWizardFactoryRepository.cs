@@ -37,7 +37,7 @@ namespace Jlw.Data.LocalizedContent
 
         IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData);
 
-        IEnumerable<WizardContentField> GetWizardFields(string groupKey);
+        IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null);
 
         IEnumerable<WizardContentField> GetComponentList(string groupKey);
 

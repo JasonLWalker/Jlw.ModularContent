@@ -92,9 +92,9 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
-        public IEnumerable<WizardContentField> GetWizardFields(string groupKey)
+        public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null)
         {
-            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey" }));
+            return _dbClient.GetRecordList<WizardContentField>(new {groupKey = groupKey ?? "", groupFilter }, _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey", "groupFilter" }));
         }
 
         /// <inheritdoc />
