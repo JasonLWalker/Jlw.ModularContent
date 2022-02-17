@@ -116,6 +116,93 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
         }
 
+        [HttpPost("NewWizard")]
+        public virtual object NewWizard(LocalizedContentField.Controllers.ApiController.LocalizedContentFieldRecordInput o)
+        {
+            var bResult = false;
+            o.GroupFilter = _groupFilter;
+            o.FieldType = "WIZARD";
+            o.FieldData ??= "{}";
+            o.FieldClass ??= "";
+            o.DefaultLabel ??= "";
+            o.WrapperClass ??= "";
+            o.WrapperHtmlEnd ??= "";
+            o.WrapperHtmlStart ??= "";
+            o.ParentKey ??= "";
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            ILocalizedContentField oResult = null;
+            try
+            {
+                o.AuditChangeBy = User.Identity.Name;
+                oResult = _fieldRepository.SaveRecord(o);
+                bResult = oResult != null;
+
+                //_LocalizedContentFieldList.Refresh(); 
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult == true)
+                return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
+        }
+
+        [HttpPost("NewScreen")]
+        public virtual object NewScreen(LocalizedContentField.Controllers.ApiController.LocalizedContentFieldRecordInput o)
+        {
+            var bResult = false;
+            o.GroupFilter = _groupFilter;
+            o.FieldType = "SCREEN";
+            o.FieldData ??= "{}";
+            o.FieldClass ??= "";
+            o.DefaultLabel ??= "";
+            o.WrapperClass ??= "";
+            o.WrapperHtmlEnd ??= "";
+            o.WrapperHtmlStart ??= "";
+            //o.ParentKey ??= "";
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            ILocalizedContentField oResult = null;
+            try
+            {
+                o.AuditChangeBy = User.Identity.Name;
+                oResult = _fieldRepository.SaveRecord(o);
+                bResult = oResult != null;
+                if (bResult)
+                {
+                    // Add the 2 special fields (Body and Heading)
+                    o.FieldType = "HEADING";
+                    o.FieldKey = "Heading";
+                    o.ParentKey = oResult.FieldKey;
+                    o.Order = 1;
+                    _fieldRepository.SaveRecord(o);
+                    o.FieldType = "HTML";
+                    o.FieldKey = "Body";
+                    o.ParentKey = oResult.FieldKey;
+                    o.Order = 2;
+                    _fieldRepository.SaveRecord(o);
+                }
+                //_LocalizedContentFieldList.Refresh(); 
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult == true)
+                return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
+        }
+
 
         /// <summary>
         /// Saves the specified o.
@@ -127,15 +214,18 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         public virtual object SaveField(WizardField o)
         {
             var bResult = false;
+            o.AuditChangeBy = User.Identity.Name;
             //o.GroupFilter = _groupFilter;
-
+            IWizardContentField field = o;
+            if (field.Id < 1)
+                field = InitNewWizardField(field);
+            
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             ILocalizedContentField oResult = null;
             try
             {
-                o.AuditChangeBy = User.Identity.Name;
-                oResult = _fieldRepository.SaveRecord(new Data.LocalizedContent.LocalizedContentField(o));
+                oResult = _fieldRepository.SaveRecord(new Data.LocalizedContent.LocalizedContentField(field));
                 bResult = oResult != null;
             }
             catch (Exception ex)
@@ -210,7 +300,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
             //WizardFactory.CreateWizardContent("");
-            var data = DataRepository.GetWizardFields(null);
+            var data = DataRepository.GetWizardFields(null, _groupFilter);
 
             List<Object> wizardList = new List<object>();
 
@@ -236,7 +326,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         {
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
-            var data = DataRepository.GetWizardFields(groupKey).Select(o => new WizardField(o));
+            var data = DataRepository.GetWizardFields(groupKey, _groupFilter).Select(o => new WizardField(o));
 
             var wizardList = new List<WizardTreeNode>();
 
@@ -308,6 +398,41 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return oData;
         }
 
+
+        [NonAction]
+        protected virtual IWizardContentField InitNewWizardField(IWizardContentField o)
+        {
+            switch (o.FieldType)
+            {
+                case nameof(WizardFieldTypes.EMBED):
+                case nameof(WizardFieldTypes.FORM):
+                    return new WizardContentField(new
+                    {
+                        o.Id,
+                        o.GroupKey,
+                        o.FieldKey,
+                        o.FieldType,
+                        FieldData = "{useCardLayout:1}",
+                        FieldClass = "row mx-n2",
+                        o.ParentKey,
+                        o.DefaultLabel,
+                        o.Label,
+                        WrapperClass = "col card card-border mb-3 px-0",
+                        o.WrapperHtmlStart,
+                        o.WrapperHtmlEnd,
+                        o.AuditChangeType,
+                        o.AuditChangeBy,
+                        o.AuditChangeDate,
+                        o.GroupFilter,
+                        o.Order
+                    });
+            }
+
+            return o;
+        }
+
+        //public class 
+        
         public class WizardTreeNode
         {
             public long key { get; set; }
