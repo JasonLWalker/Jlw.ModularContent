@@ -1,0 +1,23 @@
+@{
+    string libRoot = "LocalizedContent";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/@libRoot/css/bootstrap.min.css" />
+    @await RenderSectionAsync("Style", required: false)
+</head>
+<body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script language="javascript" src="~/@libRoot/js/jquery.min.js"></script>
+    <script language="javascript" src="~/@libRoot/js/bootstrap.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

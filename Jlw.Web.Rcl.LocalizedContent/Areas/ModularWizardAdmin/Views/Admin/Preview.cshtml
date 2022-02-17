@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = ViewData["PageTitle"];
+    Layout = "_EmptyLayout";
 
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
 
@@ -42,6 +43,11 @@
             height: 100%;
         }
 
+        .wizard-body, .wizard-buttons {
+            min-height: 30px;
+        }
+
+        
         .wizard-nav {
             min-width: 195px;
         }
