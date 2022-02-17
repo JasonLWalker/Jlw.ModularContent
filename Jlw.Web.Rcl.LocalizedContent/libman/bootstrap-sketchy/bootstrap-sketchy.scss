@@ -1,0 +1,41 @@
+﻿.bootstrap-sketchy {
+    @import 'variables';
+    $gray-800: #111 !default;
+
+    font-family: $font-family-sans-serif;
+
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: $headings-font-family;
+    }
+
+    .card, .form-control {
+        border-color: $gray-800;
+    }
+
+    div[data-field-type=input][type=checkbox]::before, div[data-field-type=input][type=radio]::before {
+        content: '';
+        font-size: unset;
+        vertical-align: unset;
+        display: inline-block;
+    }
+
+    div [data-field-type=input][type=range]::before {
+        border-radius: 31px 255px 219px 1px/23px 8px 4px 10px !important;
+        border: 1.8px solid !important;
+    }
+
+    div [data-field-type=input][type=range]::after {
+        height: 20px;
+        width: 19px;
+        background: #fff;
+        border: 2px solid #333;
+        border-radius: 50% 45% 40% 50%/40% 50% 50% 45%;
+    }
+
+    .form-check {
+        padding-left: 0;
+    }
+
+
+    @import 'bootswatch';
+}

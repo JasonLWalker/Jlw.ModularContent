@@ -1,54 +1,83 @@
 {
-	"version": "1.0",
-	"defaultProvider": "cdnjs",
-	"libraries": [
-		{
-			"library": "jquery@3.3.1",
-			"destination": "libman/jquery"
-		},
-		{
-			"library": "twitter-bootstrap@4.5.2",
-			"destination": "libman/bootstrap"
-		},
-		{
-			"library": "toastr.js@2.1.4",
-			"destination": "libman/toastr/"
-		},
-		{
-			"library": "datatables@1.10.21",
-			"destination": "libman/datatables/"
-		},
-		{
-			"library": "bootbox.js@5.4.0",
-			"destination": "libman/bootbox.js/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "@jasonlwalker/jlwutility@0.0.33",
-			"destination": "libman/jlwutility/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "@jasonlwalker/jlwappbuilder@0.0.23",
-			"destination": "libman/jlwappbuilder/"
-		},
-		{
-			"library": "font-awesome@5.14.0",
-			"destination": "resources/LocalizedContent/font-awesome/"
-		},
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.3.1",
+      "destination": "libman/jquery"
+    },
+    {
+      "library": "twitter-bootstrap@4.5.2",
+      "destination": "libman/bootstrap"
+    },
+    {
+      "library": "bootswatch@4.5.2",
+      "destination": "libman/bootswatch/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "libman/toastr/"
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "libman/datatables/"
+    },
+    {
+      "library": "bootbox.js@5.4.0",
+      "destination": "libman/bootbox.js/"
+    },
+    {
+      "library": "Sortable@1.14.0",
+      "destination": "libman/sortable"
+    },
+    /*
+    {
+      "library": "interact.js@1.10.11",
+      "destination": "libman/interact.js/"
+    },
+    */
+    {
+      "provider": "jsdelivr",
+      "library": "@jasonlwalker/jlwutility@0.0.33",
+      "destination": "libman/jlwutility/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@jasonlwalker/jlwappbuilder@0.0.23",
+      "destination": "libman/jlwappbuilder/"
+    },
+    {
+      "library": "font-awesome@5.14.0",
+      "destination": "resources/LocalizedContent/font-awesome/"
+    },
     {
       "library": "tinymce@5.8.1",
       "destination": "resources/LocalizedContent/tinymce/"
     },
-		{
-			"library": "prism@1.7.0",
-			"destination": "libman/prism/"
-		},
-		{
-			"provider": "jsdelivr",
-			"library": "prism-themes@1.7.0",
-			"destination": "libman/prism-themes/"
-		}
-
-	]
+    {
+      "library": "prism@1.7.0",
+      "destination": "libman/prism/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "prism-themes@1.7.0",
+      "destination": "libman/prism-themes/"
+    },
+    {
+      "library": "jquery.fancytree@2.38.0",
+      "destination": "resources/LocalizedContent/js/",
+      "files": [
+        "skin-lion/icons-rtl.gif",
+        "skin-lion/icons.gif",
+        "skin-lion/loading.gif",
+        "skin-lion/ui.fancytree.css",
+        "skin-lion/ui.fancytree.min.css",
+        "skin-lion/vline-rtl.gif",
+        "skin-lion/vline.gif",
+        "jquery.fancytree-all-deps.js",
+        "jquery.fancytree-all-deps.min.js",
+        "jquery.fancytree-all-deps.min.js.map"
+      ]
+    }
+  ]
 }

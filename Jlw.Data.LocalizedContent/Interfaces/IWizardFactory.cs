@@ -30,6 +30,8 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for CreateWizardContent
         IWizardContent CreateWizardContent(string groupKey, object formData = null);
 
+        IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null);
+
         WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null);
     }
 }

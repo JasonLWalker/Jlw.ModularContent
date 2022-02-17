@@ -25,7 +25,7 @@ namespace Jlw.Data.LocalizedContent
     /// </summary>
     /// <seealso cref="Jlw.Data.LocalizedContent.IWizardContent" />
     /// TODO Edit XML Comment Template for WizardContent
-    public class WizardContent : IWizardContent
+    public class WizardContent : WizardContentField, IWizardContent
     {
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FormData
@@ -37,9 +37,16 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Heading
         public string Heading { get; set; }
+
+        /// <inheritdoc />
+        public IWizardContentField HeadingData { get; set; }
+
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Body
         public string Body { get; set; }
+
+        /// <inheritdoc />
+        public IWizardContentField BodyData { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FieldData
@@ -60,10 +67,11 @@ namespace Jlw.Data.LocalizedContent
         /// <param name="fieldData">The field data.</param>
         /// <param name="formData">The form data.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public WizardContent(IEnumerable<IWizardContentField> fieldData, object formData = null)
+        public WizardContent(IEnumerable<IWizardContentField> fieldData, object formData = null) :base(null)
         {
             var data = fieldData?.ToList();
             var wizard = data?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
+            Initialize(wizard);
             FormData = formData ?? new object();
             FieldData = null;
             GroupKey = wizard?.GroupKey ?? data?.FirstOrDefault()?.GroupKey ?? "";
@@ -74,8 +82,10 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
-            Heading = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase))?.Label ?? "";
-            Body = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase))?.Label ?? "";
+            HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
+            Heading = HeadingData?.Label ?? "";
+            BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));
+            Body = BodyData?.Label ?? "";
 
             if (!string.IsNullOrWhiteSpace(wizard.FieldData))
             {

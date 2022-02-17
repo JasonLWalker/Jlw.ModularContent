@@ -186,10 +186,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
 
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
+            ILocalizedContentField oResult = null;
             try
             {
                 o.AuditChangeBy = User.Identity.Name;
-                var oResult = _repo.SaveRecord(o);
+                oResult = _repo.SaveRecord(o);
                 bResult = oResult != null;
 
                 //_LocalizedContentFieldList.Refresh(); 
@@ -200,7 +201,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
             }
 
             if (bResult == true)
-                return JToken.FromObject(new ApiStatusMessage("Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
+                return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
 
             // Else 
             return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
