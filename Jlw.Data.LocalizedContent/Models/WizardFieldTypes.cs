@@ -19,6 +19,7 @@ namespace Jlw.Data.LocalizedContent
         INPUT,
         SELECT,
         TEXTAREA,
-        SEPARATOR
+        SEPARATOR,
+        CUSTOM
     }
 }
