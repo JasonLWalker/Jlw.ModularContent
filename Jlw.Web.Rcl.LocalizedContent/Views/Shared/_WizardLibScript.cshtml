@@ -208,7 +208,7 @@
 
         function renderWizardForm(data, parent) {
             var wrapper = $("<div></div>");
-            var formBody = $('<div class=""></div>');
+            var formBody = $('<div class="form-body"></div>');
             var headingText = data["Label"];
             var fields = data['Fields'] || [];
             var i = 0;
@@ -541,6 +541,9 @@
             }
 
             var formBody = $(".wizard-body");
+            formBody.attr('class', 'wizard-body');
+            formBody.addClass(data['FieldClass']);
+
             for (i = 0; i < t.wizardFields.length; i++) {
                 if (!usedFields[t.wizardFields[i]])
                     formBody.append($('<input type="hidden" name="' + t.wizardFields[i] + '" value="" />'));

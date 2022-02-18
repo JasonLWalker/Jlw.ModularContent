@@ -493,7 +493,7 @@
                 onStart: onDragStart,
                 onAdd: onAddDrop,
                 onUpdate: onDragUpdate, 
-                filter: '.card-body > *',
+                filter: '.form-body',
                 handle: '.card-header',
                 animation: 100
             });
@@ -595,7 +595,7 @@
                     }
                     break;
                 case 'onRenderWizard':
-                    clientFrameBody.find('.wizard-body .card-body > div').each(function(i, el) {
+                    clientFrameBody.find('.wizard-body .form-body').each(function(i, el) {
                         if (el) {
                             Sortable.create(el, {
                                 group: {
