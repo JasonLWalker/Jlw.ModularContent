@@ -1,4 +1,5 @@
-﻿<div id="rightToolbar" class="col right-toolbar open p-0 flex-column">
+﻿@using Jlw.Data.LocalizedContent
+<div id="rightToolbar" class="col right-toolbar open p-0 flex-column">
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a id="fieldproperties-tab" class="nav-link p-0 px-2 active"  href="#fieldproperties-pane" data-toggle="tab" role="tab" aria-controls="fieldproperties-pane"><small>Field</small></a>
@@ -48,18 +49,19 @@
                                     <div class="input-group-sm">
                                         <select name="FieldType" class="form-control form-control-sm border-secondary" disabled="disabled">
                                             <option></option>
-                                            <option value="BUTTON">Button</option>
-                                            <option value="EMBED">Embed Form</option>
-                                            <option value="FORM">Form</option>
-                                            <option value="INPUT">Form Input</option>
-                                            <option value="HTML">HTML Text Block</option>
-                                            <option value="BODY">Page Body</option>
-                                            <option value="HEADING">Page Heading</option>
-                                            <option value="SEPARATOR">Separator Bar</option>
-                                            <option value="SELECT">Form Drop-down</option>
-                                            <option value="TEXTAREA">Text Area</option>
-                                            <option value="WIZARD">Wizard</option>
-                                            <option value="SCREEN">Wizard Screen</option>
+                                            <option value="@nameof(WizardFieldTypes.BUTTON)">Button</option>
+                                            <option value="@nameof(WizardFieldTypes.EMBED)">Embed Form</option>
+                                            <option value="@nameof(WizardFieldTypes.FORM)">Form</option>
+                                            <option value="@nameof(WizardFieldTypes.INPUT)">Form Input</option>
+                                            <option value="@nameof(WizardFieldTypes.HTML)">HTML Text Block</option>
+                                            <option value="@nameof(WizardFieldTypes.BODY)">Page Body</option>
+                                            <option value="@nameof(WizardFieldTypes.HEADING)">Page Heading</option>
+                                            <option value="@nameof(WizardFieldTypes.SEPARATOR)">Separator Bar</option>
+                                            <option value="@nameof(WizardFieldTypes.SELECT)">Form Drop-down</option>
+                                            <option value="@nameof(WizardFieldTypes.TEXTAREA)">Text Area</option>
+                                            <option value="@nameof(WizardFieldTypes.WIZARD)">Wizard</option>
+                                            <option value="@nameof(WizardFieldTypes.SCREEN)">Wizard Screen</option>
+                                            <option value="@nameof(WizardFieldTypes.CUSTOM)">Custom Control</option>
                                         </select>
                                         <div class="input-group-append d-none">
                                             <button id="new-wizard-edit" class="btn btn-outline-warning border-secondary text-dark py-0"><small><span class="fa fa-edit"></span></small></button>
