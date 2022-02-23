@@ -170,6 +170,7 @@
             var action = o["Action"] || {}
             var data = '';
             if (action['type']) data += ' data-type="' + action['type'] + '"';
+            if (action['screen']) data += ' data-screen="' + action['screen'] + '"';
             if (action['section']) data += ' data-section="' + action['section'] + '"';
             if (action['step']) data += ' data-step="' + action['step'] + '"';
             if (action['url']) data += ' data-url="' + action['url'] + '"';
