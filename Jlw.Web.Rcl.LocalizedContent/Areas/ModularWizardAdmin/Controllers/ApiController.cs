@@ -339,7 +339,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return wizardList;
         }
 
-        [HttpPost("localization/DtList")]
+        [HttpPost("Localization/DtList")]
         public virtual object DtList([FromForm] LocalizedContentTextDataTablesInput o)
         {
             o.GroupFilter = _groupFilter;
@@ -348,6 +348,79 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 
             return JToken.FromObject(_languageRepository.GetDataTableList(o));
         }
+
+        [HttpPost("Localization/Data")]
+        public virtual object Data(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+        {
+            ILocalizedContentText oResult;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+            o.GroupFilter = _groupFilter;
+
+            try
+            {
+                oResult = _languageRepository.GetRecord(o);
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+
+            return JToken.FromObject(oResult);
+        }
+
+        [HttpPost("Localization/Save")]
+        public virtual object Save(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+        {
+            var bResult = false;
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            o.GroupFilter = _groupFilter;
+            o.AuditChangeBy = User.Identity.Name;
+            try
+            {
+                var oResult = _languageRepository.SaveRecord(o);
+                bResult = oResult != null;
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult == true)
+                return JToken.FromObject(new ApiStatusMessage("Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to save record. Please check the data and try again.", "Error while saving", ApiMessageType.Danger));
+        }
+
+        [HttpPost("Localization/Delete")]
+        public virtual object Delete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+        {
+            var bResult = false;
+
+            if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+
+            o.GroupFilter = _groupFilter;
+            o.AuditChangeBy = User.Identity.Name;
+            try
+            {
+                //bResult = 
+                var oResult = _languageRepository.DeleteRecord(o);
+                bResult = oResult != null;
+            }
+            catch (Exception ex)
+            {
+                return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+            }
+
+            if (bResult != true)
+                return JToken.FromObject(new ApiStatusMessage("Record has been successfully deleted.", "Record Deleted", ApiMessageType.Success));
+
+            // Else 
+            return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
+        }
+
 
         [NonAction]
         protected WizardTreeNode GetWizardTreeNode(WizardField currentNode, IEnumerable<WizardField> fieldData, int nDepth = 0)
