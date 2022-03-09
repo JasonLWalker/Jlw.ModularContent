@@ -35,6 +35,7 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The field key.</value>
         /// TODO Edit XML Comment Template for FieldKey
         public string FieldKey { get; set; }
+        public string ParentKey { get; set; }
         /// <summary>
         /// Gets or sets the language.
         /// </summary>

@@ -45,6 +45,16 @@ namespace Jlw.Data.LocalizedContent
         string FieldKey { get; }
 
         /// <summary>
+        /// Gets the parent key.
+        /// </summary>
+        /// <value>The parent key.</value>
+        /// Member for ParentKey Database Column
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<string>))]
+        string ParentKey { get; }
+
+        /// <summary>
         /// Gets the language.
         /// </summary>
         /// <value>The language.</value>
