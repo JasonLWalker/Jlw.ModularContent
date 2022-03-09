@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = ViewData["PageTitle"];
-
+    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
 
     string jsRoot = "LocalizedContent";
@@ -494,7 +494,7 @@
             } else {
                 onPageLoadInit();
             }
-        })('');
+        })('@version');
     </script>
 }
 <div class="d-none hidden">
