@@ -83,6 +83,7 @@
     <None Remove="resources\LocalizedContent\js\skin-lion\ui.fancytree.min.css" />
     <None Remove="resources\LocalizedContent\js\skin-lion\vline-rtl.gif" />
     <None Remove="resources\LocalizedContent\js\skin-lion\vline.gif" />
+    <None Remove="libman\jlwappbuilder\package.json" />
   </ItemGroup>
 
   <ItemGroup>

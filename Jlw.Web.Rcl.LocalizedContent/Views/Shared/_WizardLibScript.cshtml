@@ -6,7 +6,7 @@
         var lastSection = 0;
         var lastStep = 0;
 
-        t.wizardFields = t.wizardFields || [ ];
+        t.wizardFields = t.wizardFields || [];
         t.wizardParent = $(window.document);
 
         t.debugLevel = t.debugLevel || 0;
@@ -25,6 +25,7 @@
         t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
 
         t.ajaxFail = t.ajaxFail || ajaxFail;
+        t.navTo = t.navTo || navTo;
         t.navToStep = t.navToStep || navToStep;
         t.navToScreen = t.navToScreen || navToScreen;
         t.navToWizardScreen = t.navToWizardScreen || navToWizardScreen;
@@ -92,19 +93,17 @@
         function fnOnClickAction(evt) {
             var btn = $(evt.target);
             switch (btn.data("type")) {
-                case 'nav':
-                    return t.fnOnClickNav(evt);
-                    break;
-                case 'save':
-                    return t.fnOnClickSave(evt);
-                    break;
-                case 'back':
-                    return t.fnOnClickBack(evt);
-                    break;
-                case 'link':
-                    return t.fnOnClickLink(evt);
-                    break;
+            case 'nav':
+                return t.fnOnClickNav(evt);
+            case 'save':
+                return t.fnOnClickSave(evt);
+            case 'back':
+                return t.fnOnClickBack(evt);
+            case 'link':
+                return t.fnOnClickLink(evt);
             }
+
+            return false;
         }
 
         function fnOnChange(evt) {
@@ -116,6 +115,24 @@
             return false;
         }
 
+        function navTo(screenId, wizard, section, step) {
+            var frmData = t.serializeFormToJson($('.wizard-form'));
+            frmData["Wizard"] = wizard || "";
+            frmData["Screen"] = screenId || "";
+            frmData["Section"] = frmData["Section"] || section || "";
+            frmData["Step"] = frmData["Step"] || step || "";
+            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail).done(function(data, status, jqXhr) { renderWizard(section || 0, step || 0, data); });
+            $("input,select,textarea", $('.wizard-form')).prop("disabled", true);
+            return prm;
+        }
+
+        function navToStep(section, step) { return navTo("", "", section, step); }
+
+        function navToWizardScreen(wizard, screenId) { return navTo(screenId, wizard, "", ""); }
+
+        function navToScreen(screenId) { return navTo(screenId, "", "", ""); }
+
+        @*
         function navToStep(section, step) {
 
             var frmData = t.serializeFormToJson($('.wizard-form'));
@@ -132,6 +149,18 @@
             return prm;
         }
 
+        function navToWizardScreen(wizard, screenId) {
+            var frmData = t.serializeFormToJson($('.wizard-form'));
+            frmData["Wizard"] = wizard;
+            frmData["Screen"] = screenId;
+            frmData["Section"] = "";
+            frmData["Step"] = "";
+            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail).done(function(data, status, jqXhr) { renderWizard(0, 0, data); });
+            $("input,select,textarea", $('.wizard-form')).prop("disabled",true);
+
+            return prm;
+        }
+
         function navToScreen(screenId) {
 
             var frmData = t.serializeFormToJson($('.wizard-form'));
@@ -139,30 +168,12 @@
             frmData["Screen"] = screenId;
             frmData["Section"] = "";
             frmData["Step"] = "";
-            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail)
-                .done(function(data, status, jqXhr) {
-                    renderWizard(0, 0, data);
-                });
+            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail).done(function(data, status, jqXhr) { renderWizard(0, 0, data); });
             $("input,select,textarea", $('.wizard-form')).prop("disabled",true);
 
             return prm;
         }
-
-        function navToWizardScreen(wizard, screenId) {
-
-            var frmData = t.serializeFormToJson($('.wizard-form'));
-            frmData["Wizard"] = wizard;
-            frmData["Screen"] = screenId;
-            frmData["Section"] = "";
-            frmData["Step"] = "";
-            var prm = t.post(t.urlApiRoot, frmData, null, ajaxFail)
-                .done(function(data, status, jqXhr) {
-                    renderWizard(0, 0, data);
-                });
-            $("input,select,textarea", $('.wizard-form')).prop("disabled",true);
-
-            return prm;
-        }
+        *@
 
         function renderButton(o) {
             var icon = o['Icon'] ? '<span class="' + o['Icon'] + '" /></span> ' : '';
@@ -272,14 +283,10 @@
         }
 
         // Callback when a form field is rendered
-        function onRenderWizardElement(obj, data, parent) {
-            return obj;
-        }
+        function onRenderWizardElement(obj, data, parent) { return obj; }
 
         // Callback when a wizard is rendered
-        function onRenderWizard(obj, data, parent) {
-            return obj;
-        }
+        function onRenderWizard(obj, data, parent) { return obj; }
 
         function renderWizardElement(data, parent, wizardData) {
             var obj = {};
@@ -593,7 +600,6 @@
             if (typeof(t.onRenderWizard) === 'function')
                 obj = t.onRenderWizard(obj, data, t.wizardParent);
             return obj;
-
         }
 
         function renderValidFormFields(validFields) {
