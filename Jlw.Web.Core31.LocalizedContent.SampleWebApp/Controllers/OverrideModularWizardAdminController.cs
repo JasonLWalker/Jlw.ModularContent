@@ -12,7 +12,6 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
     [Authorize("ContentOverrideAdmin")]
     public class OverrideModularWizardAdminController : Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController
     {
-
         [HttpGet]
         public override ActionResult Index()
         {
@@ -26,8 +25,6 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
 
             ViewData["Breadcrumb"] = aBreadcrumb;
             ViewData["apiOverrideUrl"] = adminApiUrl;
-
-
 
             return base.Index();
         }
