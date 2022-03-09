@@ -603,11 +603,13 @@
         function onClickBtnLanguage(evt) {
             var content = $('#jlw-dtlist-localizedcontenttext').html() || '<div></div>';
             var data = t.serializeFormToJson($(evt.currentTarget).closest('.card-body'));
-            console.log(data);
+            function fnOnClose(result) { window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']}); }
             var dialog = bootbox.dialog({
                 title: 'Label / Content Localization',
                 message: content,
                 size: 'xl',
+                closeButton: fnOnClose,
+                onEscape: fnOnClose,
                 onShow: function(e) {
                     $('.modal-content', e.currentTarget).css('height', '85%');
                     $('.bootbox-body', e.currentTarget).addClass('h-100');
@@ -615,49 +617,14 @@
                 onShown: function(e) {
                     console.log(e, evt);
                     window.jlwLibLocalizedContentText($('table.jlw-datatable-localizedcontenttext', e.currentTarget), '@apiUrl/localization/', data, $);
-                    /*
-                    $('textarea.editing', e.currentTarget).off()
-                        .on("input", function() { prismSyntaxHighlight(this.value, this); })
-                        .on("scroll", function() { prismSyncScroll(this); })
-                        .on("keydown", function(evt) { prismCheckTab(this, evt) });
-
-                    $('.modal-body textarea.editing', e.currentTarget).each(function() {
-                        var val = this.value;
-                        this.value = val;
-                        prismSyntaxHighlight(this.value, this);
-                    });
-                    */
-
                 },
                 buttons: {
-                    confirm: {
-                        label: 'Save',
-                        className: 'btn-success',
-                        callback: function(result) {
-                            // ...
-                            var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
-                            var jsonVal = {};
-                            val = val.replace(re, function(match) {
-                                //console.log(match);
-                                return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
-                            });
-                            try {
-                                // parse and serialize JSON for syntax check
-                                jsonVal = $.parseJSON(val);
-                                val = JSON.stringify(jsonVal);
-                            } catch(ex) {
-                                toastr.error(ex.message, 'An error occurred while parsing JSON data:');
-                                return false;
-                            }
-                            $('input[name=FieldData]').val(val);
-                            $('input[name=FieldData]').trigger('change');
-                        }
-                    },
                     cancel: {
-                        label: 'Cancel',
-                        className: 'btn-danger'
+                        label: 'Close',
+                        className: 'btn-sm btn-primary',
+                        callback: fnOnClose
                     }
-                }
+                },
             });
         }
 

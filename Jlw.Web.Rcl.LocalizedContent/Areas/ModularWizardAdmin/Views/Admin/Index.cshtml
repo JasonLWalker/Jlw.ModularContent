@@ -271,99 +271,103 @@
             color: #f8f9fa !important;
         }
     </style>    
-<style>
-    pre.highlighting *, code.highlighting-content *, textarea.editing * {
-        font-family: monospace !important;
-    }
+    <style>
+        .jlw-editform-localizedcontenttext .tox-tinymce {
+            height: 80vh !important;
+            height: calc(80vh - 200px) !important;
+        }
 
-    textarea.editing, pre.highlighting {
-        /*border: none !important;*/
-        margin: 0;
-        padding: .5rem .8rem !important;
-        width: inherit;
-        height: inherit;
-    }
-    textarea.editing, pre.highlighting, pre.highlighting * {
-        /* Also add text styles to highlighing tokens */
-        font-size: 13pt !important;
-        font-family: monospace !important;
-        line-height: 18pt !important;
-    }
+        pre.highlighting *, code.highlighting-content *, textarea.editing * {
+            font-family: monospace !important;
+        }
 
-
-    textarea.editing, pre.highlighting {
-        /* In the same place */ 
-        position: absolute !important;
-        top: 0;
-        left: 0;
-    }
+        textarea.editing, pre.highlighting {
+            /*border: none !important;*/
+            margin: 0;
+            padding: .5rem .8rem !important;
+            width: inherit;
+            height: inherit;
+        }
+        textarea.editing, pre.highlighting, pre.highlighting * {
+            /* Also add text styles to highlighing tokens */
+            font-size: 13pt !important;
+            font-family: monospace !important;
+            line-height: 18pt !important;
+        }
 
 
-    /* Move the textarea in front of the result */
+        textarea.editing, pre.highlighting {
+            /* In the same place */ 
+            position: absolute !important;
+            top: 0;
+            left: 0;
+        }
 
-    textarea.editing {
-        z-index: 1;
-    }
-    pre.highlighting {
-        z-index: 0;
-    }
 
-    /* Make textarea almost completely transparent */
-    textarea.editing {
-        color: transparent !important;
-        background: transparent !important;
-        caret-color: black; /* Or choose your favourite color */
-    }
+        /* Move the textarea in front of the result */
 
-    /* Can be scrolled */
-    textarea.editing, pre.highlighting {
-        overflow: auto;
-        white-space: nowrap; /* Allows textarea to scroll horizontally */
-    }
+        textarea.editing {
+            z-index: 1;
+        }
+        pre.highlighting {
+            z-index: 0;
+        }
 
-    /* No resize on textarea */
-    textarea.editing {
-        resize: none;
-        -moz-tab-size: 3;
-        -o-tab-size: 3;
-        tab-size: 3;
+        /* Make textarea almost completely transparent */
+        textarea.editing {
+            color: transparent !important;
+            background: transparent !important;
+            caret-color: black; /* Or choose your favourite color */
+        }
 
-    }
+        /* Can be scrolled */
+        textarea.editing, pre.highlighting {
+            overflow: auto;
+            white-space: nowrap; /* Allows textarea to scroll horizontally */
+        }
 
-    /* Syntax Highlighting from prism.js starts below, partly modified: */
-    code[class*="language-"],
-    pre[class*="language-"] {
-        text-align: left;
-        white-space: pre;
-        word-spacing: normal;
-        word-break: normal;
-        word-wrap: normal;
-        -moz-tab-size: 3;
-        -o-tab-size: 3;
-        tab-size: 3;
+        /* No resize on textarea */
+        textarea.editing {
+            resize: none;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
 
-        -webkit-hyphens: none;
-        -moz-hyphens: none;
-        -ms-hyphens: none;
-        hyphens: none;
-    }
+        }
 
-    /* Code blocks */
-    pre[class*="language-"] {
-        overflow: auto;
-        border-left: initial;
-    }
+        /* Syntax Highlighting from prism.js starts below, partly modified: */
+        code[class*="language-"],
+        pre[class*="language-"] {
+            text-align: left;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
 
-    code[class*="language"] {
-        margin: 0 !important;
+            -webkit-hyphens: none;
+            -moz-hyphens: none;
+            -ms-hyphens: none;
+            hyphens: none;
+        }
 
-    }
-/* End of prism.js syntax highlighting*/
+        /* Code blocks */
+        pre[class*="language-"] {
+            overflow: auto;
+            border-left: initial;
+        }
+
+        code[class*="language"] {
+            margin: 0 !important;
+
+        }
+    /* End of prism.js syntax highlighting*/
 </style>
     @{
         //await Html.RenderPartialAsync("_WizardLibScript");
     }
-    @*Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DragDropScript.cshtml").Result*@
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function(a) {
@@ -427,7 +431,8 @@
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/js/jquery.fancytree-all-deps.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
+                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.tinyMCE, "@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")")
                     ).done(function() {
                         var t = new window.libJlwUtility() || {};
                         window.libJlwWizardAdmin(t,
