@@ -34,10 +34,11 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 3)));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 4)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -83,10 +84,11 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@text"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 5)));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 6)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -109,10 +111,11 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
             mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 4)));
+            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 5)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -125,6 +128,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             var input = JsonConvert.DeserializeObject<LocalizedContentTextDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false} }");
             input.Language = DataUtility.GenerateRandom<string>();
             input.FieldKey = DataUtility.GenerateRandom<string>();
+            input.ParentKey = DataUtility.GenerateRandom<string>();
             input.GroupKey = DataUtility.GenerateRandom<string>();
             var output = new DataTablesOutput(input);
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(new DbConnectionStringBuilder());
@@ -164,6 +168,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sLanguage"), It.Is<string>(s => s == input.Language), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sFieldKey"), It.Is<string>(s => s == input.FieldKey), It.IsAny<IDbCommand>()));
+            mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sParentKey"), It.Is<string>(s => s == input.ParentKey), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sGroupKey"), It.Is<string>(s => s == input.GroupKey), It.IsAny<IDbCommand>()));
             mockClient.VerifyNoOtherCalls();
         }

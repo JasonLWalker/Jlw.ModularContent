@@ -14,6 +14,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             {
                 var groupKey = DataUtility.GenerateRandom<string>();
                 var fieldKey = DataUtility.GenerateRandom<string>();
+                var parentKey = DataUtility.GenerateRandom<string>();
 
                 var language = DataUtility.GenerateRandom<string>();
                 var text = DataUtility.GenerateRandom<string>();
@@ -27,6 +28,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 {
                     GroupKey = groupKey,
                     FieldKey = fieldKey,
+                    ParentKey = parentKey,
                     Language = language,
                     Text = text,
                     AuditChangeType = auditChangeType,
@@ -36,6 +38,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
+                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.ParentKey), parentKey);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Language), language);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Text), text);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeType), auditChangeType);
@@ -49,6 +52,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             AddProperty(typeof(string), "GroupKey", Public, Protected);
             AddProperty(typeof(string), "FieldKey", Public, Protected);
+            AddProperty(typeof(string), "ParentKey", Public, Protected);
             AddProperty(typeof(string), "Language", Public, Protected);
             AddProperty(typeof(string), "Text", Public, Protected);
             AddProperty(typeof(string), "AuditChangeType", Public, Protected);
