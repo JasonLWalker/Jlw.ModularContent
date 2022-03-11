@@ -78,13 +78,17 @@
             function initialize(opts) {
                 currApplicationId = opts["ApplicationId"];
                 var btn = $("nav .breadcrumb .breadcrumb-item>a[href$='\/Wizard']");
+                /*
                 btn.data('section', 0);
                 btn.data('step', 0);
-                btn.off().on('click', t.fnOnClickNav);
 
-                t.navToStep(opts['Section'], opts['Step']).done(function() {
-                    t.populateFormData(opts["FormData"] || {}, $('.wizard-form'));
+                btn.off().on('click', t.fnOnClickAction);
+                */
+                t.navToScreen(opts['screen']).done(function() {
+                    //$('.wizard-form .wizard-body').html('');
+                    t.populateFormData(opts["formData"] || {}, $('.wizard-form')); 
                 });
+
             }
 
         })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
