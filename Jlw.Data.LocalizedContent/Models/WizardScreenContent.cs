@@ -27,6 +27,10 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            
+            // Resolve Placeholders for field labels
+            fields.ForEach(o=>o.Label = o.ResolvePlaceholders(o.Label, formData));
+            
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));
@@ -44,6 +48,7 @@ namespace Jlw.Data.LocalizedContent
                 }
             }
             var buttons = fields.Where(o => o.FieldType.Equals("Button", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+
             foreach (var btnField in buttons)
             {
                 ((List<WizardButtonData>)Buttons).Add(new WizardButtonData(btnField));

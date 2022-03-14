@@ -128,6 +128,14 @@ namespace Jlw.Data.LocalizedContent
             }
 
             ((List<WizardFormData>)content.Forms).Sort((o1, o2) => o1.Order - o2.Order);
+            foreach (var wizardFormData in content.Forms)
+            {
+                foreach (var formField in wizardFormData.Fields)
+                {
+                    formField["Label"] = wizardFormData.ResolvePlaceholders(formField["Label"].ToString(), formData);
+                }
+            }
+
             return content;
         }
 

@@ -12,7 +12,9 @@
 // <summary></summary>
 // ***********************************************************************
 using System;
+using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent 
 {
@@ -126,6 +128,28 @@ namespace Jlw.Data.LocalizedContent
 			GroupFilter = DataUtility.Parse<string>(o, "GroupFilter");
 		}
 
-	} 
+        /// <inheritdoc/>
+        public virtual string ResolvePlaceholders(string sourceString, object replacementObject)
+        {
+            if (replacementObject is null) return sourceString;
+
+            JToken data = JToken.FromObject(replacementObject ?? new object());
+            string s = sourceString;
+
+
+            foreach (var token in data)
+            {
+                var re = new Regex(@"\[%\s*" + token.Path + @"\s*%\]", RegexOptions.CultureInvariant);
+
+                string val = data[token.Path].ToString();
+                {
+                    s = re.Replace(s, val);
+                }
+            }
+
+            return s;
+        }
+
+	}
 } 
  

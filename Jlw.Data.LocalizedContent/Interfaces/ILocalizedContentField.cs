@@ -150,7 +150,15 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The order.</value>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<int>))] 
-        int Order { get; } 
-         
-    } 
+        int Order { get; }
+
+        /// <summary>
+        /// Replace placeholders in sourceString with data from the replacementObject. Placeholders match the members of the replacementObject.
+        /// </summary>
+        /// <param name="sourceString"></param>
+        /// <param name="replacementObject"></param>
+        /// <returns>String</returns>
+        string ResolvePlaceholders(string sourceString, object replacementObject);
+
+    }
 } 

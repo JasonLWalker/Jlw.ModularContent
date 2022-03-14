@@ -82,6 +82,11 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            foreach (var field in fields)
+            {
+                field.Label = field.ResolvePlaceholders(field.Label, FormData);
+            }
+            
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));
