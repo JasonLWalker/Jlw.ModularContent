@@ -1,0 +1,51 @@
+﻿@{
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+}
+@{
+    await Html.RenderPartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_LeftToolbarScript.cshtml");
+    await Html.RenderPartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_RightToolbarScript.cshtml");
+    //await Html.RenderPartialAsync("_WizardLibScript");
+}
+
+<script>
+function libJlwWizardAdmin(t, $, initOptions, undefined) {
+    t.urlApiRoot = initOptions.urlApiRoot;
+    libJlwLeftToolbarAdminExtension(t, $, initOptions, undefined);
+    libJlwRightToolbarAdminExtension(t, $, initOptions, undefined);
+
+    function onChangePreviewSize(evt) {
+        var target = $(this);
+        var frm = $('#preview-frame-wrapper');
+        var size = target.val();
+        var bp = target.data('breakpoint');
+        var oFocus = $( document.activeElement );
+        
+        frm.removeClass('preview-xxs preview-xs preview-sm preview-md preview-lg preview-xl preview-xxl');
+        frm.addClass(size);
+
+
+        //$('input[name=WrapperColBreakpoint]').prop('checked', false);
+        $('input[name=WrapperColBreakpoint][value="col' + bp + '"]').trigger('click');
+        $('input[name=WrapperPaddingBreakpoint][value="' + bp + '"]').trigger('click');
+        $('input[name=WrapperMarginBreakpoint][value="' + bp + '"]').trigger('click');
+        $('input[name=FieldPaddingBreakpoint][value="' + bp + '"]').trigger('click');
+        $('input[name=FieldMarginBreakpoint][value="' + bp + '"]').trigger('click');
+
+        $('input[name="WrapperColBreakpoint"]:checked').trigger('change');
+        $('input[name="FieldPaddingBreakpoint"]:checked').trigger('change');
+        $('input[name="WrapperPaddingBreakpoint"]:checked').trigger('change');
+        $('input[name="FieldMarginBreakpoint"]:checked').trigger('change');
+        $('input[name="WrapperMarginBreakpoint"]:checked').trigger('change');
+        if (oFocus) oFocus.focus();
+
+        //target.focus().blur();
+    }
+
+    $('main').addClass('d-flex h-100 flex-column pb-2');
+    $('main').removeClass('pb-3');
+    $('nav ol.breadcrumb').addClass('mb-2');
+    bootbox.setDefaults({ centerVertical: true, scrollable: true });
+    $('#preview-statusbar input[name=preview-size]').on('change', onChangePreviewSize);
+}
+
+</script>

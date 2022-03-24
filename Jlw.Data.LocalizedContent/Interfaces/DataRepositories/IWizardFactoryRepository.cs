@@ -16,6 +16,7 @@ using Jlw.Utilities.Data.DbUtility;
 
 namespace Jlw.Data.LocalizedContent
 {
+
     /// <summary>
     /// Interface IWizardFactoryRepository
     /// Implements the <see cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
@@ -31,5 +32,14 @@ namespace Jlw.Data.LocalizedContent
         /// <returns>IEnumerable&lt;WizardContentField&gt;.</returns>
         /// TODO Edit XML Comment Template for GetFieldData
         IEnumerable<WizardContentField> GetFieldData(string groupKey);
+
+        IWizardContentField SaveFieldParentOrder(WizardContentField fieldData);
+
+        IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData);
+
+        IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null);
+
+        IEnumerable<WizardContentField> GetComponentList(string groupKey);
+
     }
 }

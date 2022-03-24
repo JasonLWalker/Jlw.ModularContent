@@ -1,0 +1,122 @@
+@{
+    bool isAdmin = true;
+    bool canView = isAdmin || true;
+    bool canAdd = isAdmin || true;
+    bool canEdit = isAdmin || true;
+    bool canDelete = isAdmin || true;
+//    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, parentKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+}
+<script>
+
+    if (!window.jlwLibLocalizedContentText) {
+        window.jlwLibLocalizedContentText = function($target, urlRoot, elemData, $) {
+            if (!$) $ = window.jQuery;
+
+            if (!elemData)
+                elemData = {};
+
+            $.fn.dataTable.ext.errMode = 'none';
+            var t = new libJlwAppBuilder(urlRoot, $target);
+
+        @if (canEdit)
+        {
+            <text>
+                t.frmEdit = $('#jlwEditFormLocalizedContentText').html();
+            </text>
+        }
+
+        @if (canEdit)
+        {
+            <text>
+                function fnOnAddRecord(fnOnShow) {
+                    function fnShow(o, data) {
+                        var oFrm = $(o);
+                        //console.log(oFrm);
+                        $('input[name=GroupKey]', oFrm).val(elemData['GroupKey']);
+                        $('input[name=FieldKey]', oFrm).val(elemData['FieldKey']);
+                        $('select[name=Language]', oFrm).val('EN');
+                        $('select[name=Language]', oFrm).attr('disabled', false);
+                        $('input[name=ParentKey]', oFrm).val(elemData['ParentKey']);
+                        $('select[name=Language]', oFrm).parent().removeClass('d-none');
+
+                        if (typeof fnOnShow == 'function')
+                            fnOnShow(o, data);
+                    }
+
+                    return t.onAddRecord(fnShow);
+                }
+
+                function fnOnEditRecord(oBtn, fnOnShow) {
+                    function fnShow(o, data) {
+                        var oFrm = $(o);
+                        $('input[name=GroupKey]', oFrm).val(elemData['GroupKey']);
+                        $('input[name=FieldKey]', oFrm).val(elemData['FieldKey']);
+                        $('select[name=Language]', oFrm).val('EN');
+                        $('select[name=Language]', oFrm).attr('disabled', false);
+                        $('input[name=ParentKey]', oFrm).val(elemData['ParentKey']);
+                        $('select[name=Language]', oFrm).parent().addClass('d-none');
+
+                        if (typeof fnOnShow == 'function')
+                            fnOnShow(o, data);
+                    }
+
+                    return t.onEditRecord(oBtn, fnShow);
+                }
+
+
+                t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
+
+                t.optionsWysiwyg = {
+                    @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalOptions"]?.ToString()) ? ViewData["tinyMceAdditionalOptions"] + "," : "")useTinyMce: true,
+                    plugins: 'code @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalPlugins"]?.ToString()) ? ViewData["tinyMceAdditionalPlugins"] : "")',
+                    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | code @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalToolbar"]?.ToString()) ? ViewData["tinyMceAdditionalToolbar"] : "")',
+                    menu: {
+                        file: { title: 'File', items: 'newdocument restoredraft | preview | print ' },
+                        edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
+                        view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen' },
+                        insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+                        format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat' },
+                        tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
+                        table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
+                        @Html.Raw(!string.IsNullOrWhiteSpace(ViewData["tinyMceAdditionalMenu"]?.ToString()) ? ViewData["tinyMceAdditionalMenu"] + ", " : "")help: { title: 'Help', items: 'help' }
+                    }
+                };
+
+                $(document).on('focusin', function(e) {
+                    if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
+                        e.stopImmediatePropagation();
+                    }
+                });
+            </text>
+        }
+
+            t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+
+            t.fnPostDtAjaxData = function(d) {
+                d.GroupKey = elemData["GroupKey"];
+                d.FieldKey = elemData["FieldKey"];
+                d.ParentKey = elemData["ParentKey"];
+                d.Language = 'EN';
+            }
+            t.addDtRenderer(t.dtRenderButtons, [7]);
+            var dt = t.initializeDataTable(t.sDtSelector);
+
+            dt.on('error.dt',
+                    function(e, settings, techNote, message) {
+                        if (console)
+                            console.log('An error has been reported by DataTables: ', message);
+                    })
+                .on('xhr.dt', function ( e, settings, json, xhr ) {
+                    var data = xhr["responseJSON"];
+                    t.checkAjaxMessage(data);
+                } );
+
+
+
+            t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
+            t.dtRenderFooterButtons();
+            $('.btn-newrecord').off('click').on('click', fnOnAddRecord);
+            return t;
+        }
+    }
+</script>

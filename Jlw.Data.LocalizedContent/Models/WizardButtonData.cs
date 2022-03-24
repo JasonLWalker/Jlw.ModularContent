@@ -22,8 +22,9 @@ namespace Jlw.Data.LocalizedContent
     /// Class WizardButtonData.
     /// </summary>
     /// TODO Edit XML Comment Template for WizardButtonData
-    public class WizardButtonData
+    public class WizardButtonData : WizardContentField
     {
+        /*
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
@@ -32,6 +33,7 @@ namespace Jlw.Data.LocalizedContent
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<string>))]
         public string Label { get; set; }
+        */
 
         /// <summary>
         /// Gets or sets the class.
@@ -77,7 +79,7 @@ namespace Jlw.Data.LocalizedContent
         /// </summary>
         /// <param name="data">The data.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public WizardButtonData(IWizardContentField data)
+        public WizardButtonData(IWizardContentField data) : base(data)
         {
             Label = data?.Label ?? "";
             Class = data?.FieldClass ?? "";

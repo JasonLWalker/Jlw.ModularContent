@@ -1,0 +1,756 @@
+﻿@{
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+}
+@{
+    await Html.RenderPartialAsync("_WizardLibScript");
+}
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
+<style>
+    [id^="jlwContainer-"], [id^="jlwElement-"] {
+        cursor: pointer;
+        margin: 0.5em;
+        padding: 5px;
+        background: #fff;
+        outline: 1px dotted #ccc;
+        font-size: small;
+    }
+
+    #leftToolbar .card {
+        padding: 0;
+    }
+
+    #leftToolbar .card-header {
+        padding: 0.5rem;
+    }
+
+    #leftToolbar .card-header .h5 {
+        margin: 0;
+        font-size: small;
+    }
+
+    .sortable-delete {
+        display: none;
+    }
+</style>
+<script>
+    function libJlwLeftToolbarAdminExtension(t, $, initOptions, undefined) {
+        if (!t.urlApiRoot)
+            t.urlApiRoot = '@apiUrl';
+        var reContainerId = /^(jlw[\w]+)-([\w\d_]+)-([\w]+)-([\w\d_]+)-([\d]+)$/i;
+        var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
+        var clientFrameBody = $(clientFrameWindow.document.body);
+        var validButtonTypes = ['button'];
+        var validFormTypes = ['embed','form'];
+        var validFormFieldTypes = ['input', 'select', 'separator', 'html', 'textarea'];
+
+        var placeholder = $('<div class="sortable-hidden-placeholder" style="display:none" />');
+
+        var libComponents = window.libJlwWizardBase(new window.libJlwUtility() || {},
+            window.jQuery,
+            {
+                'urlRoot': '@Html.Raw(Url.Action("Index", "Home", new { Area = "" }))',
+                'urlApiRoot': t.urlApiRoot,
+                'onRenderWizardFormField': onRenderWizardFormField,
+                'wizardParent': '#componentlist'
+            }
+        );
+
+        var libControls = window.libJlwWizardBase(new window.libJlwUtility() || {},
+            window.jQuery,
+            {
+                'urlRoot': '@Html.Raw(Url.Action("Index", "Home", new { Area = "" }))',
+                'urlApiRoot': t.urlApiRoot,
+                'onRenderWizardFormField': onRenderWizardFormField,
+                'wizardParent': '#controllist'
+            }
+        );
+
+        function onRenderWizardFormField(obj, data, parent) {
+            var o = $(obj);
+            if (o.attr('type') === 'hidden') {
+                var wrapper = $('<div class="col-12" draggable="true"></div>');
+                wrapper.attr('id', o.attr('id'));
+                o.attr('id', '');
+                o.attr('type', 'text');
+                o.replaceTagName('div');
+
+                parent.append(wrapper);
+                obj = wrapper;
+                o = wrapper;
+            }
+
+            o.data('wizard-data', data);
+            var cntrl = $('input, button, textarea, select', o);
+            cntrl.attr('data-field-type', (data['FieldType']||"").toLowerCase());
+            $('input, button, textarea, select', o).replaceTagName('div');
+
+
+            var p = o.closest('[id^="jlwContainer-"]');
+            p.data('wizard-data', data);
+            p.data('tree-id', data['Id']);
+            p.attr('data-tree-id', data['Id']);
+
+            return obj;
+        }
+
+        function onLoadComponentList(event) {
+            return $.ajax({
+                url: t.urlApiRoot + "/Components/" + $('#slctWizard').val(),
+                dataType: "json"
+            }).done(function(wizardData) {
+
+                var parent = $(libComponents.wizardParent);
+                
+                if ($('#showWireframe').is(':checked')) {
+                    parent.addClass('bootstrap-sketchy');
+                } else {
+                    parent.removeClass('bootstrap-sketchy');
+                }
+
+                
+                parent.empty();
+                for (var i in wizardData) {
+                    var data = wizardData[i];
+                    var elem = libComponents.renderWizardFormField(data, parent);
+                }
+                parent.children().attr('draggable', true);
+            });
+        }
+
+        function onLoadControlList(event) {
+            return $.ajax({
+                url: t.urlApiRoot + "/Components/jlwNativeHtmlControls",
+                dataType: "json"
+            }).done(function(wizardData) {
+
+                var parent = $(libControls.wizardParent);
+
+                if ($('#showWireframe').is(':checked')) {
+                    parent.addClass('bootstrap-sketchy');
+                } else {
+                    parent.removeClass('bootstrap-sketchy');
+                }
+
+                parent.empty();
+                for (var i in wizardData) {
+                    var data = wizardData[i];
+                    var elem = libControls.renderWizardFormField(data, parent);
+                }
+            });
+        }
+
+        function onLoadTree(event, data) {
+            return $.ajax({
+                url: t.urlApiRoot + "/Tree/" + $('#slctWizard').val(),
+                dataType: "json"
+            }).done(function(data) {
+                var oScreen = $("select[name=buttonActionScreen]");
+                var actionScreen = oScreen.val();
+                oScreen.empty();
+                oScreen.append($('<option value=""></option>'));
+                for (var i in data) {
+                    var nodes = (data[i] || []);
+                    var children = (nodes['children'] || []);
+                    for (var k in children) {
+                        var child = (children[k] || {});
+                        var fieldData = (child['field_data'] || {});
+                        oScreen.append($('<option value="' + fieldData['FieldKey'] + '">' + fieldData['FieldKey'] + '</option>'));
+                    }
+                }
+                oScreen.val(actionScreen);
+            });
+        }
+
+        function onLoadTreeNode(event, data) {
+            try {
+                var nodes = data.node.getParentList(false, true);
+                var node = nodes[1];
+                var nodeData = node.data["field_data"];
+                if ((nodeData.FieldType || "").toUpperCase() == "SCREEN") {
+                    var prm = t.post(t.urlApiRoot, {'Wizard': nodeData.GroupKey, 'Screen': nodeData.FieldKey}, null, t.ajaxFail)
+                        .done(function(resData,status,xhr) {
+                            var msg = {action:'loadWizard', wizardData:resData, nodeData:data.node.data['field_data']};
+                            var frame = clientFrameWindow;
+                            frame.postMessage(msg);
+                        });
+                }
+            } catch(ex) {
+                //
+            }
+            onLoadComponentList();
+            onLoadControlList();
+            t.loadProperties(data.node['key']);
+        }
+
+        function onLoadWizard(evt) {
+            t.get(t.urlApiRoot + "/List").done(function(data) {
+                var target = $('#slctWizard');
+                target.empty();
+
+                for (var i in data) {
+                    var fieldData = data[i];
+                    var opt = $('<option value="' + fieldData["GroupKey"] +'">' + fieldData["GroupKey"] + '</option>');
+                    opt.attr('data-field-data', fieldData);
+                    target.append(opt);
+                }
+
+                target.trigger('change');
+            });
+        }
+
+        function onChangeWizard(evt) {
+           window.postMessage({'action': 'updateTree'});
+        }
+
+        function onShowWizardNav(evt) {
+            var msg = {action:'showSideNav', value: false};
+            var frame = document.getElementById('preview-frame').contentWindow;
+            if ($('#showWizardNav').is(':checked')){
+                msg.value = true;
+            }
+            frame.postMessage(msg);
+        }
+
+        function onShowWireframe(evt) {
+            var id = clientFrameBody.find('.wizard-form').data('tree-id');
+            
+            var tree = $.ui.fancytree.getTree("#wizardtree");
+            if (tree) {
+                tree.activateKey(0, { activeVisible: true });
+                tree.activateKey(id, { activeVisible: true });
+            }
+        }
+
+        function initFancyTree(target) {
+            var rexNoDrag = /(^HEADING_HEADING$|^HEADING_TEXT$|^BODY_HTML$|_BUTTONGROUP$)/i;
+            var rexNoDrop = /(^HEADING_HEADING$|^HEADING_TEXT$|^BODY_HTML$)/i;
+            $(target).fancytree({
+                source: onLoadTree,
+                activeVisible: true, // Make sure, active nodes are visible (expanded)
+                aria: true, // Enable WAI-ARIA support
+                autoActivate: true, // Automatically activate a node when it is focused using keyboard
+                autoCollapse: true, // Automatically collapse all siblings, when a node is expanded
+                autoScroll: true, // Automatically scroll nodes into visible area
+                clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+                minExpandLevel: 2, // 
+                icon: function(event, data) {
+                    return !data.node.isTopLevel();
+                },
+                keydown: function(event, data) {
+                    switch ($.ui.fancytree.eventToString(data.originalEvent)) {
+                    case "return":
+                    case "space":
+                        data.node.toggleExpanded();
+                        break;
+                    }
+                },
+                extensions: ["dnd5"],
+                dnd5: {
+                    autoExpandMS: 1500, // Expand nodes after n milliseconds of hovering.
+                    dropEffectDefault: "move", // Default dropEffect ('copy', 'link', or 'move') 
+                    // when no modifier is pressed (overide in dragDrag, dragOver).
+                    multiSource: false, // true: Drag multiple (i.e. selected) nodes. 
+                    // Also a callback() is allowed to return a node list
+                    preventForeignNodes: true, // Prevent dropping nodes from another Fancytree
+                    preventLazyParents: true, // Prevent dropping items on unloaded lazy Fancytree nodes
+                    preventRecursion: true, // Prevent dropping nodes on own descendants when in move-mode
+                    preventVoidMoves: true, // Prevent moving nodes 'before self', etc.
+                    scroll: true, // Enable auto-scrolling while dragging
+                    scrollSensitivity: 20, // Active top/bottom margin in pixel
+                    scrollSpeed: 5, // Pixel per event
+                    dragStart: function(sourceNode, data) {
+                        if (sourceNode.data && sourceNode.data.field_data) {
+                            var fieldKey = (sourceNode.data.field_data.FieldKey || "") + '_' + (sourceNode.data.field_data.FieldType || "");
+                            //var fieldType = sourceNode.data.field_data.FieldType;
+                            //console.log(fieldKey, sourceNode, data);
+                            if (rexNoDrag.test(fieldKey)) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }, // Callback(sourceNode, data), return true, to enable dragging
+                    // Events (drop support)
+                    dragEnter: function(targetNode, data) {
+                        // Prevent moving over heading or body
+                        if (targetNode.data && targetNode.data.field_data) {
+                            var fieldKey = (targetNode.data.field_data.FieldKey || "") + '_' + (targetNode.data.field_data.FieldType || "");
+                            if (rexNoDrop.test(fieldKey)) {
+                                return false;
+                            }
+                        }
+
+                        if (data['node'] && data.node['folder'])
+                            return true;
+
+                        return ["before", "after"];
+                    }, // Callback(targetNode, data), return true, to enable dropping
+                    dragDrop: function(targetNode, data) {
+                        data.otherNode.moveTo(targetNode, data.hitMode);
+                        var p = data.otherNode.parent;
+                        var parentData = p.data["field_data"];
+                        var children = p.children;
+                        var aList = [];
+                        var order = 1;
+                        for (var i in children) {
+                            if (children[i].data["field_data"]) {
+                                var fieldData = children[i].data["field_data"];
+                                fieldData["Order"] = order++;
+                                fieldData["ParentKey"] = parentData["FieldKey"];
+                                if (fieldData["Id"] > 0) {
+                                    aList[i] = fieldData;
+                                }
+                            }
+                        }
+                        saveNodeOrder(aList, data.otherNode.key);
+                        return true;
+                    }, // Callback(targetNode, data)
+                    __: ''
+                }
+            }).on("fancytreeactivate", onLoadTreeNode);
+        }
+
+        function saveNodeOrder(nodeList, fieldKey) {
+            t.post(t.urlApiRoot + "/SaveOrder", nodeList).always(function(data) {
+                window.postMessage({ 'action': 'updateTree', 'tree-id': fieldKey});
+                /*
+                var tree = $.ui.fancytree.getTree("#wizardtree");
+                if (tree) {
+                    tree.reload().always(function(data) {
+                        tree.activateKey(fieldKey, {activeVisible:true});
+                    });
+                }
+                */
+                //onChangeWizard({});
+            });
+        }
+
+        function onDragStart(event) {
+            placeholder.detach();   // Detach any existing placeholder from the DOM
+            placeholder.insertAfter(event.item); // add placeholder to DOM so the element can be reverted if need be.
+        }
+
+        function onDragUpdate(event) {
+            var nodes = [];
+            var parent = $(event.to);
+            var source = $(event.item);
+            parent.children().each(function(i, elem) {
+                var id = $(elem).data('tree-id');
+                if (id) {
+                    nodes.push(id);
+                }
+            });
+            var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': source.data('tree-id') };
+            window.postMessage(msg);
+        }
+
+        function onAddDrop(event) {
+            placeholder.detach();
+            var target = $(event.to);
+            var source = $(event.item);
+            var isComponent = $('#componentlist').is($(event.from));
+            //console.log(event, isComponent);
+            var data = source.data('wizardData') || {};
+            var count = target.children().length;
+                    
+            data['WrapperClass'] = 'col';
+            data['FieldKey'] += (isComponent) ? '':count;
+            data['Label'] += (isComponent) ? '': ' ' + count;
+            data['DefaultLabel'] = data['Label'];
+            data['GroupKey'] = $('#slctWizard').val();
+            data['ParentKey'] = target.closest('[data-field-key]').attr('data-field-key');
+            data['Order'] = event.newIndex;
+            var obj = libControls.renderWizardFormField(data, target);
+            obj.insertAfter(source);
+            source.remove();
+
+            if (!data["ParentKey"])
+                return;
+
+            t.showPleaseWait();
+            t.post('@apiUrl/SaveField', data)
+                .done(function(data) {
+                    var nodes = [];
+                    obj.attr('data-tree-id', data['Id']);
+                    target.children().each(function(i, elem) {
+                        var id = $(elem).data('tree-id');
+                        if (id) {
+                            nodes.push(id);
+                        }
+                    });
+                    var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': data['Id'] };
+                    window.postMessage(msg);
+                })
+                .always(function(data) {
+                    t.hidePleaseWait();
+                });
+        }
+
+        function onControlPull(to, from, clone, event) {
+            var $source = $(clone);
+            var type = ($source.data('field-type') || "").toLowerCase();
+            var groupName = to.options.group['name'];
+            //console.log(to, from, clone, event, type, groupName);
+            switch(groupName) {
+                case 'wizardForms':
+                    if (validFormTypes.indexOf(type) >= 0) {
+                        return 'clone';
+                    }
+                    break;
+                case 'wizardFormFields':
+                    if (validFormFieldTypes.indexOf(type) >= 0) {
+                        return 'clone';
+                    }
+                    break;
+                case 'wizardButtons':
+                    if (validButtonTypes.indexOf(type) >= 0) {
+                        return 'clone';
+                    }
+                    break;
+            }
+            event.dataTransfer.effectAllowed = 'none';
+            event.dataTransfer.dropEffect = 'none';
+            return false;
+        }
+
+        function initDragDrop() {
+            clientFrameWindow = $('#preview-frame').get(0).contentWindow;
+            clientFrameBody = $(clientFrameWindow.document.body);
+            var elWizardButton = clientFrameBody.find('.wizard-buttons').get(0);
+            var elWizardBody = clientFrameBody.find('.wizard-body').get(0);
+            var elDeleteDropzone = $('#deleteDropZone').get(0);
+            var elControlList = $('#controllist').get(0);
+            var elComponentList = $('#componentlist').get(0);
+
+            if (!elWizardButton || !elDeleteDropzone || !elControlList || !elComponentList) {
+                //console.log("Drag Zones not ready. Delaying init.");
+                window.setTimeout(function() { initDragDrop(); },100);
+                return;
+            }
+
+            Sortable.create(elWizardButton, {
+                group: {
+                    name: 'wizardButtons',
+                    pull: ['deleteDropZone'],
+                    put: ['controlList', 'componentList']
+                },
+                onStart: onDragStart,
+                onAdd: onAddDrop,
+                onUpdate: onDragUpdate,
+                animation: 100
+            });
+
+            Sortable.create(elDeleteDropzone, {
+                group: {
+                    name: 'deleteDropZone',
+                    put: true
+                },
+                onAdd: function(event, origEvent) {
+                    var obj = $(event.item);
+                    //console.log('deleteDropZone: onAdd', event, obj);
+                    obj.addClass('sortable-delete');
+                    bootbox.confirm("Remove this field from the wizard? (Please note: this action cannot be undone)",
+                        function(val) {
+                            if (val) {
+                                var matches = reContainerId.exec(obj.attr('id'));
+                                if (matches && matches.length > 5) {
+                                    var data = { 'Id': obj.data('tree-id'), FieldType: matches[3], GroupKey: matches[2], FieldName: matches[4] };
+                                    t.post('@apiUrl/DeleteField', data)
+                                        .done(function(data) {
+                                            placeholder.detach();
+                                            obj.remove();
+
+                                        })
+                                        .fail(function() {
+                                            obj.removeClass('sortable-delete');
+                                            obj.insertBefore(placeholder);
+                                            placeholder.detach();
+                                        })
+                                        .always(function() {
+                                            window.postMessage({'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id')});
+                                            t.hidePleaseWait();
+                                        });
+                                }
+                            } else {
+                                obj.removeClass('sortable-delete');
+                                obj.insertBefore(placeholder);
+                                placeholder.detach();
+                            }
+                        });
+                    event.returnValue = false;
+                    return false;
+                },
+                ghostClass: 'sortable-delete',
+                animation: 0,
+                sort: false
+            });
+
+            Sortable.create(elWizardBody, {
+                group: {
+                    name: 'wizardForms',
+                    pull: ['deleteDropZone'],
+                    put: ['controlList', 'componentList']
+                },
+                onStart: onDragStart,
+                onAdd: onAddDrop,
+                onUpdate: onDragUpdate, 
+                filter: '.form-body',
+                handle: '.card-header',
+                animation: 100
+            });
+
+            Sortable.create(elControlList, {
+                group: {
+                    name: 'controlList',
+                    pull: onControlPull,
+                    revertClone: true
+                },
+                sort: false,
+                animation: 100
+            });
+
+            Sortable.create(elComponentList, {
+                group: {
+                    name: 'componentList',
+                    pull: onControlPull,
+                    revertClone: true
+                },
+                sort: false,
+                animation: 100
+            });
+
+        }
+
+        function processWindowMessages(event) {
+            // IMPORTANT: Check the origin of the data!
+            if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
+                // The data has been sent from your site
+                var tree = $.ui.fancytree.getTree("#wizardtree");
+                switch (event.data['action']) {
+                case 'updateOrder':
+                    //console.log('updateOrder', event);
+                    var nodeList = [];
+                    var nodes = event.data['nodeIds'];
+                    if (Array.isArray(nodes)) {
+                        // Find minimum order value
+                        var minOrder = undefined;
+                        var i;
+                        var key;
+                        var node;
+                        var fieldData;
+                        for (i = 0; i < nodes.length; i++) {
+                            key = nodes[i];
+                            if (key) {
+                                node = tree.getNodeByKey(key);
+                                if (node) {
+                                    fieldData = node.data['field_data'];
+                                    if (fieldData) {
+                                        if (typeof(minOrder) !== 'undefined') {
+                                            minOrder = Math.min(parseInt(fieldData.Order), minOrder);
+                                        } else {
+                                            minOrder = parseInt(fieldData.Order);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Reorder fields starting with the current minimum order value
+                        for (i = 0; i < nodes.length; i++) {
+                            key = nodes[i];
+                            if (key) {
+                                node = tree.getNodeByKey(key);
+                                if (node) {
+                                    fieldData = node.data['field_data'];
+                                    if (fieldData) {
+                                        fieldData.Order = minOrder + i;
+                                        nodeList.push(fieldData);
+                                    }
+                                }
+                            }
+                        }
+                        if (nodeList.length) {
+                            t.post("@apiUrl/SaveOrder", nodeList).always(function(data) {
+                                //console.log(event.data['fieldKey']);
+                                window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
+                            });
+                        } else {
+                            window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
+                        }
+                    }
+                    break;
+                case 'updateTree':
+                    if (tree) {
+                        tree.reload().always(function(data) {
+                            tree.activateKey(0, { activeVisible: true });
+                            tree.activateKey(event.data['tree-id'] || $(clientFrameBody.find('.wizard-form')).data('tree-id'), { activeVisible: true });
+                        });
+                    }
+                    break;
+                case 'click':
+                    // The data sent with postMessage is stored in event.data
+                    var data = event.data["elementData"];
+                    if (data['Id']) {
+                        //window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']});
+                        tree.activateKey(data['Id'], { activeVisible: true });
+                    }
+                    break;
+                case 'onRenderWizard':
+                    clientFrameBody.find('.wizard-body .form-body').each(function(i, el) {
+                        if (el) {
+                            Sortable.create(el, {
+                                group: {
+                                    name: 'wizardFormFields',
+                                    pull: ['deleteDropZone', 'wizardFormFields'],
+                                    put: ['controlList', 'componentList', 'wizardFormFields']
+                                },
+                                onStart: onDragStart,
+                                onAdd: onAddDrop, 
+                                onUpdate: onDragUpdate, 
+                                animation: 100
+                            });
+                        }
+                    });
+
+                    if ($('#showWireframe').is(':checked')) {
+                        clientFrameBody.addClass('bootstrap-sketchy');
+                    } else {
+                        clientFrameBody.removeClass('bootstrap-sketchy');
+                    }
+                    
+                    break;
+                }
+            } else {
+                // The data hasn't been sent from your site!
+                // Be careful! Do not use it.
+                return;
+            }
+        }
+
+        function onNewScreen(event) {
+            var dialog = bootbox.dialog({
+                title: 'Add new Screen',
+                message: '<div class="form-group"><label>Screen Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
+                inputType: 'text',
+                size: 'md',
+                buttons: {
+                    confirm: {
+                        label: '<span class="fa fa-save"></span> Save',
+                        className: 'btn-success',
+                        callback: function(event) {
+                            var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['GroupKey'] = $('#slctWizard').val();
+                            formData["ParentKey"] = $('#slctWizard').val();
+                            t.post(t.urlApiRoot + "/NewScreen", formData)
+                                .always(function(data) {
+                                    var key = data['Id'];
+                                    if (key) {
+                                        window.postMessage({ 'action': 'updateTree', 'tree-id': key});
+                                        /*
+                                        var tree = $.ui.fancytree.getTree("#wizardtree");
+                                        if (tree) {
+                                            tree.reload().always(function(data) {
+                                                tree.activateKey(key, {activeVisible:true});
+                                            });
+                                        }
+                                        */
+
+                                    }
+                                });
+
+                        }
+                    },
+                    cancel: {
+                        label: '<span class="fa fa-ban"></span> Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+
+            });
+        }
+
+        function onNewWizard(event) {
+            var dialog = bootbox.dialog({
+                title: 'Add new Wizard',
+                message: '<div class="form-group"><label>Wizard Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
+                inputType: 'text',
+                size: 'md',
+                buttons: {
+                    confirm: {
+                        label: '<span class="fa fa-save"></span> Save',
+                        className: 'btn-success',
+                        callback: function(event) {
+                            var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['GroupKey'] = formData['FieldKey'];
+                            t.post(t.urlApiRoot + "/NewWizard", formData)
+                                .always(function(data) {
+                                    var key = data['GroupKey'];
+                                    if (key) {
+                                        t.get(t.urlApiRoot + "/List").done(function(data) {
+                                            var target = $('#slctWizard');
+                                            target.empty();
+
+                                            for (var i in data) {
+                                                var fieldData = data[i];
+                                                var opt = $('<option value="' + fieldData["GroupKey"] +'">' + fieldData["GroupKey"] + '</option>');
+                                                opt.attr('data-field-data', fieldData);
+                                                target.append(opt);
+                                            }
+                                            target.val(key);
+                                            target.trigger('change');
+                                        });
+                                    }
+                            });
+
+                        }
+                    },
+                    cancel: {
+                        label: '<span class="fa fa-ban"></span> Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+
+            });
+
+        }
+
+        function onEditWizard(event) {
+            var dialog = bootbox.dialog({
+                title: 'Edit Wizard',
+                message: '<div class="form-group"><label>Wizard Name</label><input type="text" class="form-control" /></div>',
+                inputType: 'text',
+                size: 'md',
+                buttons: {
+                    confirm: {
+                        label: '<span class="fa fa-save"></span> Save',
+                        className: 'btn-success',
+                        callback: function(event) {
+                            console.log(event);
+                        }
+                    },
+                    cancel: {
+                        label: '<span class="fa fa-ban"></span> Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+
+            });
+
+        }
+
+        initFancyTree("#wizardtree");
+        $('#slctWizard').on('change', onChangeWizard);
+        $('#showWizardNav').on('change', onShowWizardNav);
+        $('#showWireframe').on('change', onShowWireframe);
+
+        window.addEventListener('message', processWindowMessages);
+
+        onLoadWizard({});
+
+        initDragDrop();
+
+        $('#new-wizard-btn').on('click', onNewWizard);
+        $('#edit-wizard-btn').on('click', onEditWizard);
+        $('#new-screen-btn').on('click', onNewScreen);
+
+    }
+</script>

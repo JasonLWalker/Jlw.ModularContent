@@ -1,0 +1,504 @@
+@{
+    ViewData["Title"] = ViewData["PageTitle"];
+    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+
+    string jsRoot = "LocalizedContent";
+}
+<script>
+    var bPreviewFrameLoaded = false;
+    window.addEventListener('message', function(event) {
+        // IMPORTANT: Check the origin of the data!
+        if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
+            switch (event.data['action']) {
+                case 'onPreviewLoad':
+                    //console.log('setting preview initialized');
+                    var oFrame = document.getElementById('preview-frame');
+                    oFrame.setAttribute('data-preview-initialized', 1);
+                    bPreviewFrameLoaded = true;
+                    break;
+            }
+            //initDragDrop();
+            /*
+            oDadButtons.draggable({
+                //autoScroll: true,
+                //manualStart: true,
+                onmove: onMove,
+                onstart: onStart
+                listeners: {
+                    start(evt) {
+                        position.x = 0;
+                        position.y = 0;
+                        console.log(evt);
+                    },
+                    move(evt) {
+                        position.x += evt.dx;
+                        position.y += evt.dy;
+
+                        evt.target.style.transform = 'translate(' + position.x + 'px, ' + position.y + 'px)';
+                        console.log(evt);
+                    }
+                }
+
+            });/*
+                .on('move',
+                function(event) {
+                    var interaction = event.interaction;
+                    // if the pointer was moved while being held down
+                    // and an interaction hasn't started yet
+                    if (interaction.pointerIsDown && !interaction.interacting()) {
+                        var original = event.currentTarget,
+                            // create a clone of the currentTarget element
+                            clone = event.currentTarget.cloneNode(true);
+
+                        // insert the clone to the page
+                        // TODO: position the clone appropriately
+                        document.body.appendChild(clone);
+
+                        // start a drag interaction targeting the clone
+                        interaction.start({ name: 'drag' }, event.interactable, clone);
+                        console.log('move: ', event);
+                    }
+                });
+                */
+        } else {
+            // The data hasn't been sent from your site!
+            // Be careful! Do not use it.
+            return;
+        }
+    });
+
+</script>
+<div id="wizard-toolbox" class="flex-fill d-flex justify-content-start" style="position: relative; left: calc(-1 * (100vw - 100%)/2); width: 100vw;">
+    <div class="d-flex flex-row w-100 p-0 m-0">
+        <div class="row w-100 p-0 m-0">
+            <div class="col-12">
+                <div class="row h-100">
+                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_LeftToolbar.cshtml").Result
+                    <div class="col p-0" style="max-width:calc(100vw - 500px)">
+                        <div id="preview-frame-wrapper" class="">
+                            <div class="m-0 p-0 border w-100 h-100">
+                                <iframe id="preview-frame" src="@Url.Action("Preview")" class="" data-preview-initialized="0"></iframe>
+                            </div>
+                        </div>
+                        <div id="preview-statusbar" class="bg-light border text-left">
+                            <div class="float-left">
+                                &nbsp;<small><span class="resolution-status"></span></small>
+                            </div>
+                            <div class="btn-group btn-group-sm btn-group-toggle float-right p-1" data-toggle="buttons">
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked title="Responsive" />&nbsp;&nbsp;*&nbsp;&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />&nbsp;XXS&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />&nbsp;XS&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />&nbsp;SM&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />&nbsp;MD&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />&nbsp;LG&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XL&nbsp;
+                                </label>
+                                <label class="btn btn-outline-primary p-0">
+                                    <input type="radio" name="preview-size" value="preview-xxl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XXL&nbsp;
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_RightToolbar.cshtml").Result
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
+@section Scripts {
+    <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+    <style>
+        html, body { height: 100% !important; }
+        
+        #wizard-toolbox {
+            height: calc(100vh - 48px);
+        }
+
+        .w-70 { width: 70% !important; }
+        .w-20 { width: 20% !important; }
+
+        #deleteDropZone {
+            outline: 2px dashed #bbbbbb;
+        }
+
+        .switch-options {
+            margin: 0 0.5em;
+            padding: 0 0.75em;
+            height: 3.5em;
+        }
+
+        .dad-drop-zone {
+            background: #fff;
+            height: 3em;
+            margin: 0.5em;
+            padding: 0.75em;
+        }
+
+        #preview-frame-wrapper {
+            max-width: calc(100% - 20px);
+            max-height: calc(100% - 2.5em);
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #preview-frame {
+            width: 100%;
+            height: 100%;
+            border: 0 !important;
+            margin: 0;
+        }
+
+        #preview-statusbar {
+            bottom: 0;
+            position: absolute;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+        }
+
+        #preview-frame-wrapper.preview-xxs { width: 322px !important; }
+        #preview-frame-wrapper.preview-xxs #preview-frame { width: 320px !important; }
+
+        #preview-frame-wrapper.preview-xs { max-width: 482px !important; }
+        #preview-frame-wrapper.preview-xs #preview-frame {max-width: 480px; min-width: 320px !important;}
+
+        #preview-frame-wrapper.preview-sm { width: 578px !important; }
+        #preview-frame-wrapper.preview-sm #preview-frame { min-width: 576px !important; }
+
+        #preview-frame-wrapper.preview-md { width: 770px !important; }
+        #preview-frame-wrapper.preview-md #preview-frame { min-width: 768px !important; }
+
+        #preview-frame-wrapper.preview-lg { width: 994px !important; }
+        #preview-frame-wrapper.preview-lg #preview-frame { min-width: 992px !important; }
+
+        #preview-frame-wrapper.preview-xl { width: 1202px !important; }
+        #preview-frame-wrapper.preview-xl #preview-frame { min-width: 1200px !important; }
+
+        #preview-frame-wrapper.preview-xxl { width: 1402px !important; }
+        #preview-frame-wrapper.preview-xxl #preview-frame { min-width: 1400px !important; }
+
+
+        .left-toolbar .nav-link, .right-toolbar .nav-link {
+            border-color: #dee2e6;
+        }
+
+
+        .left-toolbar .nav-link.active, .right-toolbar .nav-link.active {
+            background-color: #f8f9fa !important;
+            border-color: #dee2e6 #dee2e6 #f8f9fa;
+        }
+
+        .left-toolbar, .right-toolbar {
+            display: none;
+        }
+
+        .left-toolbar.open, .right-toolbar.open {
+            display: flex;
+            max-width: 250px;
+            flex: 0 0 250px;
+        }
+
+        .right-toolbar .form-control, .right-toolbar label {
+            font-size: 0.8rem;
+        }
+        .right-toolbar label, .right-toolbar .form-group {
+            margin-bottom: 0;
+        }
+
+
+        ul.fancytree-container {
+            border: 1px solid gray;
+            width: 100%;
+            overflow: hidden;
+            /* The expand animations result in ugly focus outline artefacts, so hide those. */
+            outline: 0;
+        }
+        /* Display top level nodes as accordion header. */
+        ul.fancytree-container > li > .fancytree-node span.fancytree-title {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 4px;
+            margin: 0;
+            background-color: #ddd;
+            border: 1px solid #bbb;
+            font-weight: 550;
+        }
+        /* Hide  expanders for top-level nodes */
+        ul.fancytree-container > li > .fancytree-node .fancytree-expander {
+            display: none;
+        }
+        /* Don't indent level-2 nodes */
+        ul.fancytree-container > li > ul {
+            padding-left: 0;
+        }
+    </style>
+    <style>
+        .text-warning-hover:hover {
+            color: #ffc107 !important;
+        }
+        .text-danger-hover:hover {
+            color: #dc3545 !important;
+        }
+        .text-primary-hover:hover {
+            color: #007bff !important;
+        }
+        .text-dark-hover:hover {
+            color: #343a40 !important;
+        }
+        .text-info-hover:hover {
+            color: #17a2b8 !important;
+        }
+        .text-success-hover:hover {
+            color: #28a745 !important;
+        }
+        .text-light-hover:hover {
+            color: #f8f9fa !important;
+        }
+    </style>    
+    <style>
+        .jlw-editform-localizedcontenttext .tox-tinymce {
+            height: 80vh !important;
+            height: calc(80vh - 200px) !important;
+        }
+
+        pre.highlighting *, code.highlighting-content *, textarea.editing * {
+            font-family: monospace !important;
+        }
+
+        textarea.editing, pre.highlighting {
+            /*border: none !important;*/
+            margin: 0;
+            padding: .5rem .8rem !important;
+            width: inherit;
+            height: inherit;
+        }
+        textarea.editing, pre.highlighting, pre.highlighting * {
+            /* Also add text styles to highlighing tokens */
+            font-size: 13pt !important;
+            font-family: monospace !important;
+            line-height: 18pt !important;
+        }
+
+
+        textarea.editing, pre.highlighting {
+            /* In the same place */ 
+            position: absolute !important;
+            top: 0;
+            left: 0;
+        }
+
+
+        /* Move the textarea in front of the result */
+
+        textarea.editing {
+            z-index: 1;
+        }
+        pre.highlighting {
+            z-index: 0;
+        }
+
+        /* Make textarea almost completely transparent */
+        textarea.editing {
+            color: transparent !important;
+            background: transparent !important;
+            caret-color: black; /* Or choose your favourite color */
+        }
+
+        /* Can be scrolled */
+        textarea.editing, pre.highlighting {
+            overflow: auto;
+            white-space: nowrap; /* Allows textarea to scroll horizontally */
+        }
+
+        /* No resize on textarea */
+        textarea.editing {
+            resize: none;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
+
+        }
+
+        /* Syntax Highlighting from prism.js starts below, partly modified: */
+        code[class*="language-"],
+        pre[class*="language-"] {
+            text-align: left;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
+
+            -webkit-hyphens: none;
+            -moz-hyphens: none;
+            -ms-hyphens: none;
+            hyphens: none;
+        }
+
+        /* Code blocks */
+        pre[class*="language-"] {
+            overflow: auto;
+            border-left: initial;
+        }
+
+        code[class*="language"] {
+            margin: 0 !important;
+
+        }
+    /* End of prism.js syntax highlighting*/
+</style>
+    @{
+        //await Html.RenderPartialAsync("_WizardLibScript");
+    }
+    <script>
+        // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
+        (function(a) {
+            a.fn.replaceTagName = function(f) {
+                var g = [],
+                    h = this.length;
+                while (h--) {
+                    var k = document.createElement(f),
+                        b = this[h],
+                        d = b.attributes;
+                    for (var c = d.length - 1; c >= 0; c--) {
+                        var j = d[c];
+                        k.setAttribute(j.name, j.value);
+                    }
+                    k.innerHTML = b.innerHTML;
+                    a(b).after(k).remove();
+                    g[h - 1] = k;
+                }
+                return a(g);
+            }
+        })(window.jQuery);
+    </script>
+    <script>
+
+        (function(cacheVer) {
+
+            function onPageLoadInit() {
+
+                function fnInit() {
+                    // Fix Jquery get to always apply cross-domain to fix loading of js.map files as specified in https://stackoverflow.com/questions/690781/debugging-scripts-added-via-jquery-getscript-function/691661#answer-36479561
+                    jQuery.extend({
+                        get: function(url, data, callback, type) {
+                            // shift arguments if data argument was omitted
+                            if (jQuery.isFunction(data)) {
+                                type = type || callback;
+                                callback = data;
+                                data = undefined;
+                            }
+
+                            return jQuery.ajax({
+                                url: url,
+                                type: "GET",
+                                dataType: type,
+                                data: data,
+                                success: callback,
+                                crossDomain: true
+                            });
+                        }
+                    });
+                    window.jlwUtility.showPleaseWait();
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/js/skin-lion/ui.fancytree.min.css")"));
+                    $.when(
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/js/jquery.fancytree-all-deps.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(window.tinyMCE, "@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")")
+                    ).done(function() {
+                        var t = new window.libJlwUtility() || {};
+                        window.libJlwWizardAdmin(t,
+                            window.jQuery,
+                            {
+                                'urlRoot': '@Html.Raw(Url.Action("Index", "Home", new { Area = "" }))',
+                                'urlApiRoot': '@apiUrl'
+                            });
+
+                        document.getElementById('preview-frame').contentWindow.addEventListener('resize',
+                            function(evt) {
+                                var o = $('#preview-frame');
+                                $('#preview-statusbar .resolution-status').html(o.width() + 'x' + o.height());
+                            });
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-center",
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "500",
+                            "timeOut": "2500",
+                            "extendedTimeOut": "250",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        window.jlwUtility.hidePleaseWait();
+
+                    });
+                }
+
+                if (typeof window.jlwUtility == 'undefined') {
+                    window.jlwUtility = new window.libJlwUtility({
+                        'cacheVersion': cacheVer,
+                        'libPaths': {},
+                        'fnInit': window.setTimeout(fnInit, 10)
+                    });
+                } else {
+                    fnInit();
+                }
+            };
+
+
+            if (typeof libJlwUtility == 'undefined') {
+                var headTag = document.getElementsByTagName("head")[0];
+                var jqTag = document.createElement('script');
+                jqTag.type = 'text/javascript';
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_v=' + cacheVer;
+                jqTag.onload = onPageLoadInit;
+                headTag.appendChild(jqTag);
+            } else {
+                onPageLoadInit();
+            }
+        })('@version');
+    </script>
+}
+<div class="d-none hidden">
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
+</div>
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageListScript.cshtml").Result
