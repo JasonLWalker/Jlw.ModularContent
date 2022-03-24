@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AddRazorSupportForMvc>True</AddRazorSupportForMvc>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <GenerateEmbeddedFilesManifest>True</GenerateEmbeddedFilesManifest>
@@ -43,8 +43,8 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.18" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.18" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.3" />
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
 		<PrivateAssets>all</PrivateAssets>

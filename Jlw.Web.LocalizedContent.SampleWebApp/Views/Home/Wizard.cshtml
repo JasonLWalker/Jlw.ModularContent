@@ -67,7 +67,7 @@
                 'ApplicationId',
                 'DigitalSignature'
             ];
-            t.initializeWizard = initialize;
+            //t.initializeWizard = initialize;
             t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
             t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
 
@@ -94,7 +94,8 @@
         })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
             'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
             'urlApiRoot': '@Html.Raw(Url.Action("Index", "SampleWizardApi"))',
-            'debugLevel':11
+            //'debugLevel':11,
+            'wizardParent': '.wizard-form'
         });
     </script>
 }

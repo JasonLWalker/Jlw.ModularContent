@@ -46,8 +46,12 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
         {
             var model = new WizardInputModel(inputModel);
 
-            string groupKey = $"{WizardPrefix}_{model.Section}.{model.Step}";
+            string groupKey = $"{WizardPrefix}";
+            string screenKey = string.IsNullOrWhiteSpace(model.Screen) ? "Screen_0" : model.Screen;
 
+            screenKey = "Screen_DoesNotExist";
+
+            /*
             switch (model.Section)
             {
                 case 0:
@@ -56,22 +60,36 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
                 case 1:
                     if (model.Step < 1)
                         groupKey = $"{WizardPrefix}_1.1";
+
+                    if (isSave)
+                    {
+                        model.Validate(ValidationOptions.PersonalInfo);
+                    }
+                    break;
+                case 3:
+                    if (isSave)
+                    {
+                        model.Validate(ValidationOptions.ApplicationOptions);
+                    }
+
                     break;
                 case 4:
                     if (model.Step < 1)
                         groupKey = $"{WizardPrefix}_4";
                     break;
             }
-
+            */
             //var fields = DataRepository.GetFieldData(groupKey);
 
 
-            return WizardFactory.CreateWizardContent(groupKey, model);
+            return WizardFactory.CreateWizardScreenContent(groupKey, screenKey, model);
         }
 
 
         public class WizardInputModel : IWizardModelBase
         {
+            public string SampleName => "John Doe";
+            
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Section { get; set; }
@@ -79,6 +97,11 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Step { get; set; }
+
+            public string Wizard { get; set; }
+
+            public string Screen { get; set; }
+
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             public Dictionary<string, string> ValidFields { get; } = new Dictionary<string, string>();
@@ -92,13 +115,25 @@ namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
 
             public void Validate(ValidationOptions opts)
             {
+                if ((opts & ValidationOptions.PersonalInfo) != 0)
+                {
+                    InvalidFields["StudentFirstName"] = "Please select a reason for this request";
+                }
 
+                if (opts == ValidationOptions.ApplicationOptions)
+                {
+                    InvalidFields["SchoolYear"] = "Please select a reason for this request";
+                    InvalidFields["TransferReason"] = "Please select a reason for this request";
+                    InvalidFields["TransferComments"] = "Please provide additional details for the reason of this request";
+                }
             }
 
             protected void Initialize(object o)
             {
                 Section = DataUtility.Parse<int>(o, "Section");
                 Step = DataUtility.Parse<int>(o, "Step");
+                Screen = DataUtility.ParseString(o, "Screen");
+                Wizard = DataUtility.ParseString(o, "Wizard");
                 //base.Initialize(o);
             }
         }
