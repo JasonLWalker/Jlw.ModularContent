@@ -29,6 +29,9 @@ namespace Jlw.Data.LocalizedContent
         public string FieldKey { get; protected set; }
 
         /// <inheritdoc />
+        public string ParentKey { get; protected set; }
+
+        /// <inheritdoc />
         public string Language { get; protected set; }
 
         /// <inheritdoc />
@@ -62,6 +65,7 @@ namespace Jlw.Data.LocalizedContent
         {
             GroupKey = DataUtility.Parse<string>(o, "GroupKey");
 			FieldKey = DataUtility.Parse<string>(o, "FieldKey");
+            ParentKey = DataUtility.Parse<string>(o, "ParentKey");
 			Language = DataUtility.Parse<string>(o, "Language");
 			Text = DataUtility.Parse<string>(o, "Text");
 			AuditChangeType = DataUtility.Parse<string>(o, "AuditChangeType");

@@ -82,6 +82,7 @@ namespace Jlw.Data.LocalizedContent
                     return new KeyValuePair<string, object>[] {
                         new KeyValuePair<string, object>("@groupKey", "GroupKey"),
                         new KeyValuePair<string, object>("@fieldKey", "FieldKey"),
+                        new KeyValuePair<string, object>("@parentKey", "ParentKey"),
                         new KeyValuePair<string, object>("@language", "Language"),
                         new KeyValuePair<string, object>("@text", "Text"),
                         new KeyValuePair<string, object>("@auditchangeby", "AuditChangeBy"),
@@ -91,6 +92,7 @@ namespace Jlw.Data.LocalizedContent
                     return new KeyValuePair<string, object>[] {
                         new KeyValuePair<string, object>("@groupKey", "GroupKey"),
                         new KeyValuePair<string, object>("@fieldKey", "FieldKey"),
+                        new KeyValuePair<string, object>("@parentKey", "ParentKey"),
                         new KeyValuePair<string, object>("@language", "language"),
                         new KeyValuePair<string, object>("@auditchangeby", "AuditChangeBy"),
                     };
@@ -98,6 +100,7 @@ namespace Jlw.Data.LocalizedContent
                     return new KeyValuePair<string, object>[] { 
                         new KeyValuePair<string, object>("@groupKey", "GroupKey"),
                         new KeyValuePair<string, object>("@fieldKey", "FieldKey"),
+                        new KeyValuePair<string, object>("@parentKey", "ParentKey"),
                         new KeyValuePair<string, object>("@language", "language"),
                     }; 
                 //case SpListRecord: 
@@ -116,17 +119,18 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for GetDataTableList
         public object GetDataTableList(LocalizedContentTextDataTablesInput o)
         {
-            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentTextDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey = @sGroupKey, @sFieldKey = @sFieldKey, @sLanguage = @sLanguage";
+            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentTextDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey = @sGroupKey, @sFieldKey = @sFieldKey, @sLanguage = @sLanguage, @sParentKey=@sParentKey";
             var dt = new DataTablesBase(o, _dbClient);
             if (!dt.UseOrderedPaging)
             {
-                sQuery = $"EXEC [dbo].[sp_GetLocalizedContentTextDt] @sSearch=@sSearch, @nRowStart=0, @nPageSize=1000, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey = @sGroupKey, @sFieldKey = @sFieldKey, @sLanguage = @sLanguage";
+                sQuery = $"EXEC [dbo].[sp_GetLocalizedContentTextDt] @sSearch=@sSearch, @nRowStart=0, @nPageSize=1000, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey = @sGroupKey, @sFieldKey = @sFieldKey, @sLanguage = @sLanguage, @sParentKey=@sParentKey";
             }
 
             dt.AddExtraParams("sSortCol", o?.columns?.ElementAtOrDefault(o?.order?.FirstOrDefault()?.column ?? 0)?.data);
             dt.AddExtraParams("sSortDir", o?.order?.FirstOrDefault()?.dir);
 
             dt.AddExtraParams("sFieldKey", o?.FieldKey);
+            dt.AddExtraParams("sParentKey", o?.ParentKey);
             dt.AddExtraParams("sGroupKey", o?.GroupKey);
             dt.AddExtraParams("sLanguage", o?.Language);
 

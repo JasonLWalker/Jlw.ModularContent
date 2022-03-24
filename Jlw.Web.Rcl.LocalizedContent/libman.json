@@ -38,12 +38,12 @@
     */
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwutility@0.0.33",
+      "library": "@jasonlwalker/jlwutility@0.0.34",
       "destination": "libman/jlwutility/"
     },
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwappbuilder@0.0.23",
+      "library": "@jasonlwalker/jlwappbuilder@0.0.34",
       "destination": "libman/jlwappbuilder/"
     },
     {
