@@ -63,8 +63,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.PKGVERSION }} 
-        release_name: Release ${{ env.PKGNAME }}
+        tag_name: RCL-${{ env.PKGVERSION }} 
+        release_name: RCL Release ${{ env.PKGNAME }}
         draft: true
         prerelease: true
     - name: Upload RCL Release Asset
@@ -87,8 +87,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.PKGVERSION }} 
-        release_name: Release ${{ env.PKGNAME }}
+        tag_name: REPO-${{ env.PKGVERSION }} 
+        release_name: DataRepo Release ${{ env.PKGNAME }}
         draft: true
         prerelease: true
     - name: Upload Release Asset
