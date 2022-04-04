@@ -23,6 +23,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 var fieldType = DataUtility.GenerateRandom<string>();
                 var parentKey = DataUtility.GenerateRandom<string>();
                 var groupFilter = DataUtility.GenerateRandom<string>();
+                var language = DataUtility.GenerateRandom<string>();
                 var draw = DataUtility.GenerateRandom<int>();
                 var start = DataUtility.GenerateRandom<int>();
                 var length = DataUtility.GenerateRandom<int>();
@@ -36,6 +37,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 json += $", ParentKey: '{parentKey}'";
                 json += $", GroupKey: '{groupKey}'";
                 json += $", GroupFilter: '{groupFilter}'";
+                json += $", Language: '{language}'";
 
                 json += "}";
 
@@ -51,14 +53,15 @@ namespace Jlw.Data.LocalizedContent.Tests
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.draw), draw);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.start), start);
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.length), length);
+                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Language), language);
 /*                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.DefaultLabel), defaultLabel);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperClass), wrapperClass);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlEnd), wrapperHtmlEnd);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeType), auditChangeType);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
-                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Order), order);*/
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperClass), wrapperClass);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlEnd), wrapperHtmlEnd);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeType), auditChangeType);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
+                                                                                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Order), order);*/
             }
         }
 
@@ -71,6 +74,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             AddProperty(typeof(string), "FieldType", Public, Public);
             AddProperty(typeof(string), "ParentKey", Public, Public);
             AddProperty(typeof(string), "GroupFilter", Public, Public);
+            AddProperty(typeof(string), "Language", Public, Public);
             AddProperty(typeof(int), "draw", Public, Public);
             AddProperty(typeof(int), "start", Public, Public);
             AddProperty(typeof(int), "length", Public, Public);

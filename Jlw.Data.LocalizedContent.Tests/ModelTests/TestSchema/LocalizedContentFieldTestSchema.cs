@@ -31,6 +31,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 var auditChangeDate = DataUtility.GenerateRandom<DateTime>();
                 var order = DataUtility.GenerateRandom<int>();
                 var groupFilter = DataUtility.GenerateRandom<string>();
+                var language = DataUtility.GenerateRandom<string>();
 
                 var sut = new TModel(new
                 {
@@ -49,7 +50,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                     AuditChangeBy = auditChangeBy,
                     AuditChangeDate = auditChangeDate,
                     Order = order,
-                    GroupFilter = groupFilter
+                    GroupFilter = groupFilter,
                 });
 
                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Id), id);
