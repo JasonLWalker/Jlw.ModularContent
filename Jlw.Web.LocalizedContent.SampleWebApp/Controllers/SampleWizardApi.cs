@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize]
     [ApiController]
