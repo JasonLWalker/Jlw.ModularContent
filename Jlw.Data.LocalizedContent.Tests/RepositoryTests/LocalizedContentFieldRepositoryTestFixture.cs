@@ -157,6 +157,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             input.ParentKey = DataUtility.GenerateRandom<string>();
             input.GroupKey = DataUtility.GenerateRandom<string>();
             input.GroupFilter = DataUtility.GenerateRandom<string>();
+            input.Language = DataUtility.GenerateRandom<string>();
             var output = new DataTablesOutput(input);
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(new DbConnectionStringBuilder());
             mockClient.Setup(m => m.GetConnection(It.IsAny<string>())).Returns((string connString)=>
@@ -198,6 +199,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sParentKey"), It.Is<string>(s => s == input.ParentKey), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sGroupKey"), It.Is<string>(s => s == input.GroupKey), It.IsAny<IDbCommand>()));
             mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sGroupFilter"), It.Is<string>(s => s == input.GroupFilter), It.IsAny<IDbCommand>()));
+            mockClient.Verify(m => m.AddParameterWithValue(It.Is<string>(s => s == "sLanguage"), It.Is<string>(s => s == input.Language), It.IsAny<IDbCommand>()));
             mockClient.VerifyNoOtherCalls();
         }
 

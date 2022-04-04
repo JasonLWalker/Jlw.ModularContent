@@ -1,0 +1,275 @@
+@using Newtonsoft.Json
+@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
+@{
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area, groupKey = (string)null, parentKey = (string)null }) + "/" : Model.ApiOverrideUrl;
+}
+@*
+<link href="~/LocalizedContent/css/prism-vs.min.css" rel="stylesheet" type="text/css" />
+<script src="~/LocalizedContent/js/prism.min.js"></script>
+<style>
+    pre.highlighting *, code.highlighting-content *, textarea.editing * {
+        font-family: monospace !important;
+    }
+
+    textarea.editing, pre.highlighting {
+        /*border: none !important;*/
+        margin: 0;
+        padding: .5rem .8rem !important;
+        width: inherit;
+        height: inherit;
+    }
+    textarea.editing, pre.highlighting, pre.highlighting * {
+        /* Also add text styles to highlighing tokens */
+        font-size: 13pt !important;
+        font-family: monospace !important;
+        line-height: 18pt !important;
+    }
+
+
+    textarea.editing, pre.highlighting {
+        /* In the same place */ 
+        position: absolute !important;
+        top: 0;
+        left: 0;
+    }
+
+
+    /* Move the textarea in front of the result */
+
+    textarea.editing {
+      z-index: 1;
+    }
+    pre.highlighting {
+      z-index: 0;
+    }
+
+    /* Make textarea almost completely transparent */
+    textarea.editing {
+      color: transparent !important;
+      background: transparent !important;
+      caret-color: black; /* Or choose your favourite color */
+    }
+
+    /* Can be scrolled */
+    textarea.editing, pre.highlighting {
+      overflow: auto;
+      white-space: nowrap; /* Allows textarea to scroll horizontally */
+    }
+
+    /* No resize on textarea */
+    textarea.editing {
+        resize: none;
+        -moz-tab-size: 3;
+        -o-tab-size: 3;
+        tab-size: 3;
+
+    }
+
+    /* Syntax Highlighting from prism.js starts below, partly modified: */
+    code[class*="language-"],
+    pre[class*="language-"] {
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      -moz-tab-size: 3;
+      -o-tab-size: 3;
+      tab-size: 3;
+
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+      overflow: auto;
+        border-left: initial;
+    }
+
+    code[class*="language"] {
+        margin: 0 !important;
+
+    }
+/* End of prism.js syntax highlighting*/
+</style>
+*@
+<script>
+
+    if (!window.jlwLibLocalizedContentField) {
+        window.jlwLibLocalizedContentField = function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            var t = new libJlwAppBuilder('@apiUrl', '.jlw-dtlist-wizardemail table.jlw-datatable-wizardemail');
+
+            @if (Model?.CanEdit ?? false)
+            {
+            <text>
+                t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
+
+                t.showDialog = function (oData, frmEdit, sTitle, btns)
+                {
+                    var onClose = function(o) { t.destroyWysiwyg($(o.delegateTarget)); };
+                    if (!btns) { btns = {}; }
+                    if (!btns["no"]) { btns['no'] = { label: '<div class="text-left"><i class="fas fa-arrow-left"></i> Close</div>', className: 'btn btn-outline-danger', callback: onClose }; }
+                    var oFrm = bootbox.dialog({ title: sTitle, message: frmEdit, onEscape: false, size: "large", buttons: btns });
+                    t.populateFormData(oData, oFrm); $(".modal-lg", oFrm).addClass("modal-xl"); t.setModalOnTop(oFrm);
+                    oFrm.data('parentLib', t);
+                    t.initWysiwyg(oFrm);
+                    if (oData && oData['Id']) {
+                        $('.group-info', oFrm).addClass('d-none');
+                    }
+                    return oFrm;
+                }
+
+                function onEditLanguage(o) {
+                    var elem = $(o);
+                    var data = t.getParentData(o);
+                    window.location = '@Model?.AdminUrl/' + data['GroupKey'] + '/' + data['FieldKey'];
+                }
+
+
+                t.optionsWysiwyg = @Html.Raw(JsonConvert.SerializeObject(Model?.TinyMceSettings ?? new object()));
+
+                t.initTinyMce = t.initWysiwyg; // Save original initialization
+                t.initWysiwyg = function (oFrm) {
+                    t.initTinyMce(oFrm);
+                }
+
+                $(document).on('focusin', function(e) {
+                    if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
+                        e.stopImmediatePropagation();
+                    }
+                });
+
+                @if (string.IsNullOrWhiteSpace(Model.GroupKey) || string.IsNullOrWhiteSpace(Model.FieldKey))
+                {
+                    @:t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary', onEditLanguage);
+                }
+                t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', t.onEditRecord);
+            </text>
+        }
+
+            @if (Model?.CanDelete ?? false)
+            {
+                <text>
+                function onDeleteRecord(oBtn) {
+                    var oData = t.getParentData(oBtn);
+                    @if (!string.IsNullOrWhiteSpace(Model?.GroupKey) && !string.IsNullOrWhiteSpace(Model?.FieldKey))
+                    {
+                        @:oData["LanguageFilter"] = oData["Language"];
+                    }
+
+                    function fnOnSuccessCallback(o) { return true; }
+                    function fnDlgCallback(result) {
+                        if (result) {
+                            t.showPleaseWait();
+                            t.post(t.sUrlRoot + "Delete", oData, fnOnSuccessCallback).always(t.redrawTable);
+                        }
+                    }
+                    oData.EditToken = 'Edit';
+                    var oFrm = bootbox.confirm("Are you sure you want to delete this record?", fnDlgCallback);
+                    t.setModalOnTop(oFrm);
+                }
+
+                t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', onDeleteRecord);
+                </text>
+            }
+
+            t.fnPostDtAjaxData = function(d) {
+                d.GroupKey = '@Model?.GroupKey';
+                d.FieldKey = '@Model?.FieldKey';
+                d.FieldType = 'EMAIL';
+                d.Language = d.Language || '@Model?.Language';
+                d.ParentKey = '@Model?.ParentKey';
+            }
+
+            t.addDtRenderer(function(data, type, row) {
+                return '<a href="@Model?.AdminUrl/' + data + '">' + data + '</a>';
+            }, [1]);
+
+            t.addDtRenderer(function(data, type, row) {
+                return '<a href="@Model?.AdminUrl/'+ row['GroupKey'] + '/' + data + '">' + data + '</a>';
+            }, [2]);
+
+            t.addDtRenderer(function(data, type, row) {
+                var s = '<a href="@Model?.AdminUrl/'+ row['GroupKey'] + '">' + row['GroupKey']+ '</a> &gt; ';
+                s += '<a href="@Model?.AdminUrl/'+ row['GroupKey'] + '/' + row["FieldKey"] + '">' + row['FieldKey'] + '</a> &gt; ';
+                s += row['Language'] + " - ";
+                s +=  row['Label'] + "<hr />";
+                s += '<b>Email Subject:</b> ' + row['Subject'] + "<br />";
+                s += '<div><strong>Email Body:</strong><br />' + row['Body'] + "</div>";
+                return s;
+            }, [4]);
+
+            t.addDtRenderer(function(data, type, row) {
+                // Do not output content for these columns
+                row['WrapperHtmlStart'] = '';
+                row['WrapperHtmlEnd'] = '';
+                return t.dtRenderButtons(data, type, row);
+            }, [19]);
+
+            /*
+            t.addDtRenderer(function(data, type, row) {
+                // Do not output content for these columns
+                return '';
+            }, [9,10]);
+            */
+            var dt = t.initializeDataTable(t.sDtSelector);
+
+            dt.on('error.dt',
+                    function(e, settings, techNote, message) {
+                        if (console)
+                            console.log('An error has been reported by DataTables: ', message);
+                    })
+                .on('xhr.dt', function ( e, settings, json, xhr ) {
+                    var data = xhr["responseJSON"];
+                    t.checkAjaxMessage(data);
+                })
+                .on('draw.dt', function(e, settings) {
+                    var a = $('.btn-localize');
+                    a.each(function(i, elem) {
+                        var o = $(elem);
+                        var data = t.getParentData(o);
+                        o.append($('<span class="fa-layers fa-fw"><span class="fas fa-language"></span><span class="fa-layers-counter"  data-fa-transform="shrink-11 up-10 right-10" style="background:#0062cccc; font-size:2rem; top:-5px; right:-5px;">' + data['LocalizedCount'] + '</span></span>'));
+
+                    });
+                });
+
+
+
+            @if (Model?.CanInsert ?? false)
+            {
+                @:t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', t.onAddRecord);
+            }
+            t.dtRenderFooterButtons();
+            @if (Model?.CanInsert ?? false) {
+                <text>
+                    function onAddRecord(fnOnShow) {
+                        function onShow(frm, data) {
+                            if (typeof fnOnShow == "function") {
+                                fnOnShow(frm, data);
+                            }
+                            $('input[name=GroupKey]', frm).val('@(Model?.GroupKey)');
+                            if ($('input[name=GroupKey]', frm).val())
+                                $('input[name=GroupKey]', frm).prop('disabled', true);
+
+                            $('input[name=FieldKey]', frm).val('@(Model?.FieldKey)');
+                            if ($('input[name=FieldKey]', frm).val())
+                                $('input[name=FieldKey]', frm).prop('disabled', true);
+
+                            $('input[name=FieldType]', frm).val('EMAIL');
+                            $('select[name=Language]', frm).val('EN');
+                            $('input[name=ParentKey]', frm).val('@(Model?.ParentKey)');
+                        }
+                        t.onAddRecord(onShow);
+                    }
+
+                    $('.btn-newrecord').off('click').on('click', onAddRecord);
+                </text>
+            }
+
+        }
+    }
+</script>

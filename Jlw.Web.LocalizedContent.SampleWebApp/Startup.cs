@@ -1,28 +1,21 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Jlw.Data.LocalizedContent;
+using Jlw.Extensions.Identity.Mock;
 using Jlw.Utilities.Data.DbUtility;
 using MartinCostello.SqlLocalDb;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Jlw.Extensions.Identity.Mock;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
 
-namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp
+namespace Jlw.Web.LocalizedContent.SampleWebApp
 {
     public class Startup
     {

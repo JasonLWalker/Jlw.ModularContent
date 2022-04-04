@@ -120,7 +120,7 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for GetDataTableList
         public object GetDataTableList(LocalizedContentFieldDataTablesInput o)
         {
-            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey, @sGroupFilter=@sGroupFilter";
+            string sQuery = $"EXEC [dbo].[sp_GetLocalizedContentFieldsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sFieldType = @sFieldType, @sFieldKey=@sFieldKey, @sGroupKey=@sGroupKey, @sParentKey=@sParentKey, @sLanguage=@sLanguage, @sGroupFilter=@sGroupFilter";
             var dt = new DataTablesBase(o, _dbClient);
 //            if (!dt.UseOrderedPaging)
 //            {
@@ -134,6 +134,7 @@ namespace Jlw.Data.LocalizedContent
             dt.AddExtraParams("sFieldKey", o.FieldKey);
             dt.AddExtraParams("sGroupKey", o.GroupKey);
             dt.AddExtraParams("sParentKey", o.ParentKey);
+            dt.AddExtraParams("sLanguage", o.Language);
             dt.AddExtraParams("sGroupFilter", string.IsNullOrWhiteSpace(o.GroupFilter) ? null : o.GroupFilter);
 
             dt.SetDebug(false);
