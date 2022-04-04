@@ -30,9 +30,9 @@ namespace Jlw.Data.LocalizedContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.IWizardFactoryRepository" />
     /// TODO Edit XML Comment Template for WizardFactoryRepository
-    public class WizardFactoryRepository : ModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>, IWizardFactoryRepository
+    public class WizardFactoryRepository : ModularDataRepositoryBase<IWizardContentField, WizardContentField>, IWizardFactoryRepository
     {
-        protected const string SpGetRecord = "sp_GetLocalizedContentFieldRecord";
+        protected const string SpGetRecord = "sp_GetWizardContentFieldRecord";
 
 
         /// <summary>
@@ -49,13 +49,14 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetParamsForSql
-        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedContentField o, string sSql)
+        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IWizardContentField o, string sSql)
         {
             switch (sSql)
             {
                 case SpGetRecord:
                     return new KeyValuePair<string, object>[] {
                         new KeyValuePair<string, object>("@id", "Id"),
+                        new KeyValuePair<string, object>("@language", "Language"),
                         new KeyValuePair<string, object>("@groupfilter", "GroupFilter"),
                     };
                     //case SpListRecord: 
@@ -92,10 +93,18 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
-        public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null)
+        public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string parentKey, string language, string groupFilter)
         {
-            return _dbClient.GetRecordList<WizardContentField>(new {groupKey = groupKey ?? "", groupFilter }, _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey", "groupFilter" }));
+            return _dbClient.GetRecordList<WizardContentField>(new {groupKey = groupKey ?? "", parentKey, groupFilter, language }, _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey", "parentKey", "language", "groupFilter" }));
         }
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null) => GetWizardFields(groupKey, null, null, groupFilter);
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string language, string groupFilter) => GetWizardFields(groupKey, null, language, groupFilter);
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
@@ -103,6 +112,28 @@ namespace Jlw.Data.LocalizedContent
         {
             return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
         }
+
+        public WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null)
+        {
+            return _dbClient.GetRecordObject<WizardContentField>(
+                null, 
+                _connString, 
+                new RepositoryMethodDefinition(
+                    "sp_DeleteWizardFieldRecursive", 
+                    CommandType.StoredProcedure, 
+                    new KeyValuePair<string, object>[]
+                    {
+                        new KeyValuePair<string, object>("id", fieldData.Id),
+                        new KeyValuePair<string, object>("baseType", fieldData.FieldType),
+                        new KeyValuePair<string, object>("auditchangeby", fieldData.AuditChangeBy),
+                        new KeyValuePair<string, object>("groupfilter", fieldData.GroupFilter),
+                        new KeyValuePair<string, object>("recurseDepth", recurseDepth),
+                        new KeyValuePair<string, object>("langFilter", langFilter)
+                    }
+                )
+            );
+        }
+
 
     }
 } 

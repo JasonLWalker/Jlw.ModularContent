@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.Core31.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideModularWizard/")]

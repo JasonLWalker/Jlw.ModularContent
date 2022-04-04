@@ -23,7 +23,7 @@ namespace Jlw.Data.LocalizedContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// TODO Edit XML Comment Template for IWizardFactoryRepository
-    public interface IWizardFactoryRepository : IModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>
+    public interface IWizardFactoryRepository : IModularDataRepositoryBase<IWizardContentField, WizardContentField>
     {
         /// <summary>
         /// Gets the field data.
@@ -39,7 +39,12 @@ namespace Jlw.Data.LocalizedContent
 
         IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null);
 
+        IEnumerable<WizardContentField> GetWizardFields(string groupKey, string language, string groupFilter);
+
+        IEnumerable<WizardContentField> GetWizardFields(string groupKey, string parentKey, string language, string groupFilter);
+
         IEnumerable<WizardContentField> GetComponentList(string groupKey);
 
+        WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null);
     }
 }
