@@ -57,6 +57,12 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for ParentKey
         public string ParentKey { get; set; }
         /// <summary>
+        /// Gets or sets the Language.
+        /// </summary>
+        /// <value>The Language.</value>
+        /// TODO Edit XML Comment Template for Language
+        public string Language { get; set; }
+        /// <summary>
         /// Gets or sets the group filter.
         /// </summary>
         /// <value>The group filter.</value>
