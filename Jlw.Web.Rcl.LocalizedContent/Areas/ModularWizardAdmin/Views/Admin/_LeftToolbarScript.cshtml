@@ -219,6 +219,13 @@
                 tree.activateKey(0, { activeVisible: true });
                 tree.activateKey(id, { activeVisible: true });
             }
+
+            if ($('#showWireframe').is(':checked')) {
+                clientFrameBody.addClass('bootstrap-sketchy');
+            } else {
+                clientFrameBody.removeClass('bootstrap-sketchy');
+            }
+
         }
 
         function initFancyTree(target) {

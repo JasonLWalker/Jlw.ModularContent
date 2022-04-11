@@ -56,10 +56,10 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             public bool CanInsert { get; set; }
 
             public bool UseWysiwyg { get; set; } = true;
-            public bool UseSidebar { get; set; } = true;
-            public bool UseMockup { get; set; } = true;
-            public bool SidebarDefault { get; set; } = false;
-            public bool MockupDefault { get; set; } = false;
+            public bool ShowSideNav { get; set; } = true;
+            public bool ShowWireFrame { get; set; } = true;
+            public bool SideNavDefault { get; set; } = true;
+            public bool WireFrameDefault { get; set; } = false;
 
             public JToken TinyMceSettings { get; set; }
             public string PageTitle { get; set; }

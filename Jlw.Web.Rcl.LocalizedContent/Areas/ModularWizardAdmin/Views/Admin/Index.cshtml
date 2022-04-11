@@ -16,6 +16,17 @@
                     var oFrame = document.getElementById('preview-frame');
                     oFrame.setAttribute('data-preview-initialized', 1);
                     bPreviewFrameLoaded = true;
+
+                    document.getElementById('preview-frame')
+                        .contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
+
+                    var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
+                    var clientFrameBody = $(clientFrameWindow.document.body);
+                    if ($('#showWireframe').is(':checked')) {
+                        clientFrameBody.addClass('bootstrap-sketchy');
+                    } else {
+                        clientFrameBody.removeClass('bootstrap-sketchy');
+                    }
                     break;
             }
         } else {
@@ -323,6 +334,7 @@
         }
     /* End of prism.js syntax highlighting*/
 </style>
+    <style>@Html.Raw(Model?.ExtraCss)</style>
     @{
         //await Html.RenderPartialAsync("_WizardLibScript");
     }
@@ -454,6 +466,7 @@
             }
         })('@version');
     </script>
+    @Html.Raw(Model?.ExtraScript)
 }
 <div class="d-none hidden">
     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
