@@ -23,6 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public class LocalDbInstanceOptions
         {
             public string InstanceName { get; set; }
+            public string DatabaseName { get; set; }
 
 
         }
@@ -82,11 +83,16 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<Server>(provider =>
             {
+                var options = provider.GetService<IOptions<TOptions>>() ?? new OptionsWrapper<TOptions>(provider.GetRequiredService<TOptions>());
+
                 var instance = provider.GetRequiredService<ISqlLocalDbInstanceInfo>();
                 string connString = instance.GetConnectionString();
-                var conn = new SqlConnection(connString);
-                var server = new Server(new ServerConnection(conn));
+                //var conn = new SqlConnection(connString);
+                var builder = instance.CreateConnectionStringBuilder();
+                builder.InitialCatalog = options?.Value.DatabaseName ?? "";
+                var conn = new SqlConnection(builder.ConnectionString);
 
+                var server = new Server(new ServerConnection(conn));
                 return server;
             });
 
@@ -98,24 +104,43 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IApplicationBuilder UseSqlLocalDbInstance(this IApplicationBuilder app)
         {
             var server = app.ApplicationServices.GetRequiredService<Server>();
+            
             var dbClient = app.ApplicationServices.GetRequiredService<IModularDbClient>();
 
+            // Import Databases
             ImportSqlObject("dbo.DatabaseAuditTrail", server, dbClient);
             ImportSqlObject("dbo.LocalizedContentFields", server, dbClient);
             ImportSqlObject("dbo.LocalizedContentText", server, dbClient);
             ImportSqlObject("dbo.LocalizedGroupDataItems", server, dbClient);
+
+            // Import Audit trail Stored Procs
+            ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentText", server, dbClient);
+            ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentField", server, dbClient);
+
+            // Import Content Field Stored Procs
             ImportSqlObject("dbo.sp_GetLocalizedContentFieldsDt", server, dbClient);
             ImportSqlObject("dbo.sp_SaveLocalizedContentFieldRecord", server, dbClient);
-            ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentField", server, dbClient);
+
+            /*
+            ImportSqlObject("dbo.sp_GetLocalizedContentFieldsDt", server, dbClient);
             ImportSqlObject("dbo.sp_GetLocalizedContentFieldRecord", server, dbClient);
             ImportSqlObject("dbo.sp_DeleteLocalizedContentFieldRecord", server, dbClient);
 
             ImportSqlObject("dbo.sp_GetLocalizedContentTextDt", server, dbClient);
-            ImportSqlObject("dbo.sp_SaveLocalizedContentTextRecord", server, dbClient);
-            ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentText", server, dbClient);
             ImportSqlObject("dbo.sp_GetLocalizedContentTextRecord", server, dbClient);
             ImportSqlObject("dbo.sp_DeleteLocalizedContentTextRecord", server, dbClient);
+            */
 
+            // Import Content Text record
+            ImportSqlObject("dbo.sp_SaveLocalizedContentTextRecord", server, dbClient);
+
+
+            // Import Wizard Stored Procs
+            ImportSqlObject("dbo.sp_DeleteWizardFieldRecursive", server, dbClient);
+            ImportSqlObject("dbo.sp_GetFormFields", server, dbClient);
+            ImportSqlObject("dbo.sp_GetWizardFields", server, dbClient);
+            ImportSqlObject("dbo.sp_GetWizardContentFieldRecord", server, dbClient);
+            ImportSqlObject("dbo.sp_GetComponentList", server, dbClient);
 
             return app;
         }
