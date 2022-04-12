@@ -120,19 +120,14 @@ namespace Microsoft.Extensions.DependencyInjection
             // Import Content Field Stored Procs
             ImportSqlObject("dbo.sp_GetLocalizedContentFieldsDt", server, dbClient);
             ImportSqlObject("dbo.sp_SaveLocalizedContentFieldRecord", server, dbClient);
-
-            /*
-            ImportSqlObject("dbo.sp_GetLocalizedContentFieldsDt", server, dbClient);
-            ImportSqlObject("dbo.sp_GetLocalizedContentFieldRecord", server, dbClient);
+            ImportSqlObject("dbo.sp_SaveLocalizedContentFieldData", server, dbClient);
             ImportSqlObject("dbo.sp_DeleteLocalizedContentFieldRecord", server, dbClient);
 
+            // Import Content Text Stored Procs
+            ImportSqlObject("dbo.sp_SaveLocalizedContentTextRecord", server, dbClient);
             ImportSqlObject("dbo.sp_GetLocalizedContentTextDt", server, dbClient);
             ImportSqlObject("dbo.sp_GetLocalizedContentTextRecord", server, dbClient);
             ImportSqlObject("dbo.sp_DeleteLocalizedContentTextRecord", server, dbClient);
-            */
-
-            // Import Content Text record
-            ImportSqlObject("dbo.sp_SaveLocalizedContentTextRecord", server, dbClient);
 
 
             // Import Wizard Stored Procs
