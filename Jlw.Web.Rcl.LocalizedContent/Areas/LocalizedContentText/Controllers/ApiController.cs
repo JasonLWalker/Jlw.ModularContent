@@ -26,14 +26,49 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
 
 		public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText
 		{ 
-			public string EditToken { get; set; } 
-			public new string GroupKey  { get; set; } 
-			public new string FieldKey  { get; set; } 
-			public new string Language  { get; set; } 
-			public new string Text  { get; set; } 
-			public new string AuditChangeType  { get; set; } 
-			public new string AuditChangeBy  { get; set; } 
-			public new DateTime AuditChangeDate  { get; set; }
+			public string EditToken { get; set; }
+
+            public new string GroupKey
+            {
+                get => base.GroupKey; 
+                set => base.GroupKey = value;
+            }
+
+            public new string FieldKey
+            {
+                get => base.FieldKey; 
+                set => base.FieldKey = value;
+            }
+
+            public new string Language
+            {
+                get => base.Language; 
+                set => base.Language = value;
+            }
+
+            public new string Text
+            {
+                get => base.Text; 
+                set => base.Text = value;
+            }
+
+            public new string AuditChangeType
+            {
+                get => base.AuditChangeType; 
+                set => base.AuditChangeType = value;
+            }
+
+            public new string AuditChangeBy
+            {
+                get => base.AuditChangeBy; 
+                set => base.AuditChangeBy = value;
+            }
+
+            public new DateTime AuditChangeDate
+            {
+                get => base.AuditChangeDate; 
+                set => base.AuditChangeDate = value;
+            }
             public string GroupFilter { get; set; }
 		}
 
