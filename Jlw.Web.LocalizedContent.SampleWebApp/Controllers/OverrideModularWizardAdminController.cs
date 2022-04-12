@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 
@@ -18,6 +19,11 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             //DefaultSettings.ShowSideNav = false;
             //DefaultSettings.SideNavDefault = false;
             //DefaultSettings.ShowWireFrame = false;
+            DefaultSettings.IsAdmin = true;
+            DefaultSettings.CanEdit = true;
+            DefaultSettings.CanInsert = true;
+            DefaultSettings.CanDelete = true;
+            DefaultSettings.LanguageList.Add(new SelectListItem("Chinese", "CN"));
         }
 
         [HttpGet]
