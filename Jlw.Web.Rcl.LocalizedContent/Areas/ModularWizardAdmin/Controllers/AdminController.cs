@@ -10,8 +10,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 {
     public abstract class AdminController : Controller
     {
-        private WizardAdminSettings _defaultSettings = new WizardAdminSettings();
-        protected WizardAdminSettings DefaultSettings => _defaultSettings;
+        protected WizardAdminSettings DefaultSettings { get; } = new WizardAdminSettings();
 
 
         /// <summary>Default route for admin</summary>
