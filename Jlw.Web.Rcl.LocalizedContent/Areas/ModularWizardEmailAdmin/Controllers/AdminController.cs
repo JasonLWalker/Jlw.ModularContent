@@ -10,8 +10,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>
     public abstract class AdminController : Controller 
     {
-        protected readonly IDictionary<string, string> _languageList = new Dictionary<string, string>() { { "EN", "English" } };
-
         /// <summary>Email Admin UI page</summary>
         /// <param name="groupKey">The group key to filter by.</param>
         /// <param name="parentKey">The parent key to filter by.</param>
