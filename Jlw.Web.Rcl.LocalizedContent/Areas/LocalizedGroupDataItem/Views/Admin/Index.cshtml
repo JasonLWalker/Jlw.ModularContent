@@ -1,7 +1,7 @@
+@model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings
 @{
-    ViewData["Title"] = "Configuration Settings Admin";
-    string jsRoot = "LocalizedContent";
-    //int nCount = 0; 
+    ViewData["Title"] = Model?.PageTitle ?? "Configuration Settings Admin";
+    string jsRoot = Model?.Area ?? "LocalizedContent";
 
     if (!(ViewData["Breadcrumb"] is IEnumerable<KeyValuePair<string, string>>))
     {
@@ -9,12 +9,10 @@
         {
             new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
             new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedGroupDataItem"}), ViewData["PageTitle"].ToString())
+            new KeyValuePair<string, string>(Url.Action("Index", "Admin", new {Area = "LocalizedGroupDataItem"}), Model?.PageTitle?.ToString())
         };
         ViewData["Breadcrumb"] = aBreadcrumb;
     }
-
-
 }
 @section Scripts { 
     <script>
@@ -41,8 +39,8 @@
                     window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
                     window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
                     window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
-                    window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")")
-
+                    window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
+                    window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
                 ).done(function() {
                     bootbox.setDefaults({ centerVertical: true, scrollable: true });
                     window.jlwLibLocalizedGroupDataItem();
@@ -81,7 +79,7 @@
     <div> 
         <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button> 
         <div class="jlw-header h3">
-            @ViewData["PageTitle"]
+            @(Model?.PageTitle ?? ViewData["PageTitle"])
         </div> 
     </div> 
     <br/> 

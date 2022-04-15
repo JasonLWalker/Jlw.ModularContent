@@ -116,6 +116,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // Import Audit trail Stored Procs
             ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentText", server, dbClient);
             ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedContentField", server, dbClient);
+            ImportSqlObject("dbo.sp_AuditTrailSave_LocalizedGroupDataItems", server, dbClient);
 
             // Import Content Field Stored Procs
             ImportSqlObject("dbo.sp_GetLocalizedContentFieldsDt", server, dbClient);
@@ -128,6 +129,13 @@ namespace Microsoft.Extensions.DependencyInjection
             ImportSqlObject("dbo.sp_GetLocalizedContentTextDt", server, dbClient);
             ImportSqlObject("dbo.sp_GetLocalizedContentTextRecord", server, dbClient);
             ImportSqlObject("dbo.sp_DeleteLocalizedContentTextRecord", server, dbClient);
+
+            // Import Content Text Stored Procs
+            ImportSqlObject("dbo.sp_GetLocalizedGroupDataItems", server, dbClient);
+            ImportSqlObject("dbo.sp_GetLocalizedGroupDataItemsDt", server, dbClient);
+            ImportSqlObject("dbo.sp_GetLocalizedGroupDataItemRecord", server, dbClient);
+            ImportSqlObject("dbo.sp_SaveLocalizedGroupDataItemRecord", server, dbClient);
+            ImportSqlObject("dbo.sp_DeleteLocalizedGroupDataItemRecord", server, dbClient);
 
 
             // Import Wizard Stored Procs
