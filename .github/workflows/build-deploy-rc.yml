@@ -20,8 +20,8 @@ jobs:
       with:
         name: ${{ env.PKGNAME }}
         path: |
-          **/bin/Release
-          **/obj/Release
+          **/bin/Debug
+          **/obj/Debug
 
   test:
     needs: build
