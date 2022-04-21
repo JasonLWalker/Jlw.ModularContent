@@ -56,7 +56,7 @@ jobs:
         name: ${{ env.PKGNAME }}
     - name: Publish RCL to github (using curl)
       run: |
-        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent"
+        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent" -b "Debug"
     - name: Create RCL Release
       id: create_rcl_release
       uses: actions/create-release@latest
