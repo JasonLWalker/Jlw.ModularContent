@@ -15,13 +15,13 @@ jobs:
         ./build-scripts/setenv.ps1
     - name: Run build script
       run: |
-        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Release" "-alpha"
+        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Debug" "-alpha"
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKGNAME }}
         path: |
-          **/bin/Release
-          **/obj/Release
+          **/bin/Debug
+          **/obj/Debug
 
   test:
     needs: build
@@ -39,7 +39,7 @@ jobs:
         name: ${{ env.PKGNAME }}
     - name: Run Tests
       run: |
-        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Release"
+        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Debug"
 
   deploy:
     needs: test
@@ -56,7 +56,7 @@ jobs:
         name: ${{ env.PKGNAME }}
     - name: Publish RCL to github (using curl)
       run: |
-        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent"
+        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent" -b "Debug"
     - name: Create RCL Release
       id: create_rcl_release
       uses: actions/create-release@latest

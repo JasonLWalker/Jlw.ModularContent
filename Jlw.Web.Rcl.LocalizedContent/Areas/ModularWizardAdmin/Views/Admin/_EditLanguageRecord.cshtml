@@ -1,9 +1,4 @@
-@{
-    var langs = new List<SelectListItem>()
-    {
-		new SelectListItem("English", "EN")
-    };
-}
+@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
 <div id='jlwEditFormLocalizedContentText'> 
     <form class='jlw-editform-localizedcontenttext'> 
         <div class="form-group-sm"> 
@@ -12,7 +7,7 @@
                     <input type="hidden" name="GroupKey" value="" class="form-control" placeholder="Group Key" />
                     <input type="hidden" name="FieldKey" value="" class="form-control" placeholder="Field Key" />
                     <input type="hidden" name="ParentKey" value="" class="form-control" placeholder="Parent Key" />
-                    <label class="control-label">Language</label><select name="Language" class="form-control" asp-items="langs"></select>
+                    <label class="control-label">Language</label><select name="Language" class="form-control" asp-items="Model.LanguageList"></select>
                 </div>
 				<div class="col-sm-12">
                     <label class="control-label">Text</label>

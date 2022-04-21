@@ -11,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
@@ -42,18 +43,30 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp
                 options.AutomaticallyDeleteInstanceFiles = true;
                 options.StopTimeout = TimeSpan.FromMinutes(1);
             });
+
             services.AddSqlLocalDbInstance(options =>
             {
                 options.InstanceName = Configuration.GetConnectionString("LocalDbInstanceName");
+                options.DatabaseName = Configuration.GetConnectionString("LocalDatabaseName");
             });
+
+            // local variable to hold connection string. Will be initialized with the IModularDbClient
             string connString = "";
+
             services.AddSingleton<IModularDbClient>( provider =>
             {
+                var options = provider.GetService<IOptions<SqlLocalDbInstanceExtensions.LocalDbInstanceOptions>>() ?? new OptionsWrapper<SqlLocalDbInstanceExtensions.LocalDbInstanceOptions>(provider.GetRequiredService<SqlLocalDbInstanceExtensions.LocalDbInstanceOptions>());
                 var dbInstanceInfo = provider.GetRequiredService<ISqlLocalDbInstanceInfo>();
-                connString = dbInstanceInfo.GetConnectionString();
+                var builder = dbInstanceInfo.CreateConnectionStringBuilder();
+                builder.InitialCatalog = options?.Value.DatabaseName ?? "";
+                
+                // Initialize connection string variable
+                connString = builder.ConnectionString;
+
                 return new ModularDbClient<SqlConnection, SqlCommand, SqlParameter, SqlConnectionStringBuilder>();
             });
 
+            
             services.AddLocalizedContentFieldRepository(options => options.ConnectionString = connString);
             services.AddLocalizedContentTextRepository(options => options.ConnectionString = connString);
             services.AddLocalizedGroupDataItemRepository(options => options.ConnectionString = connString);

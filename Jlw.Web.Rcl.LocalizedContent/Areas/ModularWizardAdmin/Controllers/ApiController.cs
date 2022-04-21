@@ -343,6 +343,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         public virtual object DtList([FromForm] LocalizedContentTextDataTablesInput o)
         {
             o.GroupFilter = _groupFilter;
+            o.Language = null;
 
             if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
 

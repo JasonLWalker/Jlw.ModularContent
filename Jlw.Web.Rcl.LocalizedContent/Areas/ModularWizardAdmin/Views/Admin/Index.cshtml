@@ -1,7 +1,8 @@
+@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
 @{
-    ViewData["Title"] = ViewData["PageTitle"];
+    ViewData["Title"] = @Model.PageTitle;
     string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
-    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
 }
@@ -12,55 +13,22 @@
         if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
             switch (event.data['action']) {
                 case 'onPreviewLoad':
-                    //console.log('setting preview initialized');
                     var oFrame = document.getElementById('preview-frame');
                     oFrame.setAttribute('data-preview-initialized', 1);
                     bPreviewFrameLoaded = true;
+
+                    document.getElementById('preview-frame')
+                        .contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
+
+                    var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
+                    var clientFrameBody = $(clientFrameWindow.document.body);
+                    if ($('#showWireframe').is(':checked')) {
+                        clientFrameBody.addClass('bootstrap-sketchy');
+                    } else {
+                        clientFrameBody.removeClass('bootstrap-sketchy');
+                    }
                     break;
             }
-            //initDragDrop();
-            /*
-            oDadButtons.draggable({
-                //autoScroll: true,
-                //manualStart: true,
-                onmove: onMove,
-                onstart: onStart
-                listeners: {
-                    start(evt) {
-                        position.x = 0;
-                        position.y = 0;
-                        console.log(evt);
-                    },
-                    move(evt) {
-                        position.x += evt.dx;
-                        position.y += evt.dy;
-
-                        evt.target.style.transform = 'translate(' + position.x + 'px, ' + position.y + 'px)';
-                        console.log(evt);
-                    }
-                }
-
-            });/*
-                .on('move',
-                function(event) {
-                    var interaction = event.interaction;
-                    // if the pointer was moved while being held down
-                    // and an interaction hasn't started yet
-                    if (interaction.pointerIsDown && !interaction.interacting()) {
-                        var original = event.currentTarget,
-                            // create a clone of the currentTarget element
-                            clone = event.currentTarget.cloneNode(true);
-
-                        // insert the clone to the page
-                        // TODO: position the clone appropriately
-                        document.body.appendChild(clone);
-
-                        // start a drag interaction targeting the clone
-                        interaction.start({ name: 'drag' }, event.interactable, clone);
-                        console.log('move: ', event);
-                    }
-                });
-                */
         } else {
             // The data hasn't been sent from your site!
             // Be careful! Do not use it.
@@ -126,7 +94,7 @@
         html, body { height: 100% !important; }
         
         #wizard-toolbox {
-            height: calc(100vh - 48px);
+            height: @(string.IsNullOrWhiteSpace(Model?.ToolboxHeight) ? "90vh" : Model.ToolboxHeight );
         }
 
         .w-70 { width: 70% !important; }
@@ -151,7 +119,7 @@
 
         #preview-frame-wrapper {
             max-width: calc(100% - 20px);
-            max-height: calc(100% - 2.5em);
+            max-height: calc(100% - 40px);
             overflow: auto;
             height: 100%;
             width: 100%;
@@ -161,6 +129,7 @@
         #preview-frame {
             width: 100%;
             height: 100%;
+            height: calc(100% - 6px);
             border: 0 !important;
             margin: 0;
         }
@@ -365,6 +334,7 @@
         }
     /* End of prism.js syntax highlighting*/
 </style>
+    <style>@Html.Raw(Model?.ExtraCss)</style>
     @{
         //await Html.RenderPartialAsync("_WizardLibScript");
     }
@@ -496,6 +466,7 @@
             }
         })('@version');
     </script>
+    @Html.Raw(Model?.ExtraScript)
 }
 <div class="d-none hidden">
     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
