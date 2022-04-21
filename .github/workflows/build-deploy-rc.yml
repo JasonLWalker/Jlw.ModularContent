@@ -15,7 +15,7 @@ jobs:
         ./build-scripts/setenv.ps1
     - name: Run build script
       run: |
-        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Release" "-rc"
+        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Debug" "-rc"
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKGNAME }}
@@ -39,7 +39,7 @@ jobs:
         name: ${{ env.PKGNAME }}
     - name: Run Tests
       run: |
-        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Release"
+        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Debug"
 
   deploy:
     needs: test
