@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
@@ -135,19 +136,17 @@ namespace Jlw.Data.LocalizedContent
 
             JToken data = JToken.FromObject(replacementObject ?? new object());
             string s = sourceString;
+            var re = new Regex(@"\[%([\w\d\-_\s]*)%\]", RegexOptions.CultureInvariant);
 
-
-            foreach (var token in data)
+            return re.Replace(s, (match) =>
             {
-                var re = new Regex(@"\[%\s*" + token.Path + @"\s*%\]", RegexOptions.CultureInvariant);
-
-                string val = data[token.Path].ToString();
+                if (match?.Groups.Count > 1 && data?.SelectToken(match?.Groups[1].Value) != null)
                 {
-                    s = re.Replace(s, val);
+                    return data.SelectToken(match?.Groups[1].Value)?.ToString();
                 }
-            }
 
-            return s;
+                return match?.Value;
+            });
         }
 
 	}
