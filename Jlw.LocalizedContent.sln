@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
 		.github\workflows\GenerateRelease.yml = .github\workflows\GenerateRelease.yml
+		.github\workflows\new-build-deploy.yml = .github\workflows\new-build-deploy.yml
 		.github\workflows\sonnarbuild.yml = .github\workflows\sonnarbuild.yml
 	EndProjectSection
 EndProject
@@ -71,6 +72,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scri
 		build-scripts\test.ps1 = build-scripts\test.ps1
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SqlSchema", "SqlSchema\", "{607EB726-5F3B-4A9C-9CE4-0DF10CB36D97}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54459"
+		Debug.AspNetCompiler.PhysicalPath = "SqlSchema\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54459\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54459"
+		Release.AspNetCompiler.PhysicalPath = "SqlSchema\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54459\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54459"
+		SlnRelativePath = "SqlSchema\"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent.Tests", "Jlw.Web.Rcl.LocalizedContent.Tests\Jlw.Web.Rcl.LocalizedContent.Tests.csproj", "{64C43480-A926-400A-9F51-B7DFF5512541}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{E0743293-A239-472C-A917-301454B68070}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\templates\build-test-deploy-template.yml = .github\workflows\templates\build-test-deploy-template.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +122,12 @@ Global
 		{272B7544-D897-445C-A19A-361D06BB64D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{272B7544-D897-445C-A19A-361D06BB64D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{272B7544-D897-445C-A19A-361D06BB64D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{607EB726-5F3B-4A9C-9CE4-0DF10CB36D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{607EB726-5F3B-4A9C-9CE4-0DF10CB36D97}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C43480-A926-400A-9F51-B7DFF5512541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C43480-A926-400A-9F51-B7DFF5512541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C43480-A926-400A-9F51-B7DFF5512541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C43480-A926-400A-9F51-B7DFF5512541}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +137,7 @@ Global
 		{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
 		{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
 		{5590BE09-1B26-4C43-A6BF-BAA154472F98} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{E0743293-A239-472C-A917-301454B68070} = {AA3405BA-2841-42A0-B467-0DF5FFF1C086}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE81A48A-3CA3-48FC-A5A2-E2C265718B6B}

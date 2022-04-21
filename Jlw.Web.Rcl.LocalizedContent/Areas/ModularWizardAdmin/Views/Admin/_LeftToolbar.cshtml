@@ -1,4 +1,5 @@
-﻿<div id="leftToolbar" class="col left-toolbar open p-0 flex-column" >
+﻿@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+<div id="leftToolbar" class="col left-toolbar open p-0 flex-column" >
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a id="wizard-tab" class="nav-link p-0 px-2 active" href="#wizard-pane" data-toggle="tab" role="tab" aria-controls="wizard-pane" aria-selected="true"><small>Wizards</small></a>
@@ -13,12 +14,12 @@
     <div class="bg-light h-100 border border-top-0">
         <div class="dad-drop-zone text-center" id="deleteDropZone"><span class="fa fa-trash"></span></div>
         <div class="switch-options">
-            <div class="custom-control custom-switch button-outline">
-                <input type="checkbox" class="custom-control-input" id="showWizardNav" checked />
+            <div class="custom-control custom-switch button-outline@(Model?.ShowSideNav ?? false ? "" : " d-none")">
+                <input type="checkbox" class="custom-control-input" id="showWizardNav"@(Model?.SideNavDefault ?? false ? " checked" : "") />
                 <label class="custom-control-label" for="showWizardNav"><small>Show Wizard Side Nav</small></label>
             </div>
-            <div class="custom-control custom-switch button-outline">
-                <input type="checkbox" class="custom-control-input" id="showWireframe" />
+            <div class="custom-control custom-switch button-outline@(Model?.ShowWireFrame ?? false ? "" : " d-none")">
+                <input type="checkbox" class="custom-control-input" id="showWireframe"@(Model?.WireFrameDefault ?? false ? " checked" : "") />
                 <label class="custom-control-label" for="showWireframe"><small>Mockup Style</small></label>
             </div>
         </div>
@@ -41,7 +42,7 @@
                 </div>
             </div>
             <div id="controls-pane" class="tab-pane fade h-100 p-0" role="tabpanel" aria-labelledby="controls-tab">
-                <div id="controllist" class="row ml-1 mr-3 bootstrap-sketchy" style="height: 1px;">
+                <div id="controllist" class="row ml-1 mr-3" style="height: 1px;">
                 </div>
             </div>
         </div>

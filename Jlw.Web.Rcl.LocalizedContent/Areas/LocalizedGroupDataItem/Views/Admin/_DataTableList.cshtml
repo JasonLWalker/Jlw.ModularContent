@@ -1,26 +1,26 @@
 @using Jlw.Utilities.Data
- 
+@model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings 
 <div class="row jlw-dtlist-localizedgroupdataitem"> 
     <div class="col-sm-12"> 
-        <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-localizedgroupdataitem"  data-searching='true' data-ordering='true' width="100%"> 
+        <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-localizedgroupdataitem @(Model?.DataTableClass)" @(Model?.DataTablePaging ?? false ? "" : "data-paging=false ")@(Model?.DataTableSearch ?? false ? "" : "data-searching=false ")@(Model?.DataTableInfo ?? false ? "" : "data-info=false ")@(Model?.DataTableAttributes)> 
             <thead> 
                 <tr> 
                      
-                    <th data-data="Id" @(DataUtility.ParseBool(ViewData, "hideId") ? "data-visible=false " : "")>Id</th> 
+                    <th data-data="Id" @(DataUtility.ParseNullableBool(ViewData, "hideId") ?? !(Model?.ShowId ?? false) ? "data-visible=false " : "")>Id</th> 
                      
-                    <th data-data="Language" @(DataUtility.ParseBool(ViewData, "hideLanguage") ? "data-visible=false " : "")>Language</th> 
+                    <th data-data="Language" @(DataUtility.ParseNullableBool(ViewData, "hideLanguage") ?? !(Model?.ShowLanguage ?? false) ? "data-visible=false " : "")>Language</th> 
                      
-                    <th data-data="GroupKey" @(DataUtility.ParseBool(ViewData, "hideGroupKey") ? "data-visible=false " : "")>Group Key</th> 
+                    <th data-data="GroupKey" @(DataUtility.ParseNullableBool(ViewData, "hideGroupKey") ?? !(Model?.ShowGroupKey ?? false) ? "data-visible=false " : "")>Group Key</th> 
                      
-                    <th data-data="Key" @(DataUtility.ParseBool(ViewData, "hideKey") ? "data-visible=false " : "")>Key</th> 
+                    <th data-data="Key" @(DataUtility.ParseNullableBool(ViewData, "hideKey") ?? !(Model?.ShowKey ?? false) ? "data-visible=false " : "")>Key</th> 
                      
-                    <th data-data="Value" @(DataUtility.ParseBool(ViewData, "hideValue") ? "data-visible=false " : "")>Value</th> 
+                    <th data-data="Value" @(DataUtility.ParseNullableBool(ViewData, "hideValue") ?? !(Model?.ShowValue ?? false) ? "data-visible=false " : "")>Value</th> 
                      
-                    <th data-data="Order" @(DataUtility.ParseBool(ViewData, "hideOrder") ? "data-visible=false " : "")>Order</th> 
+                    <th data-data="Order" @(DataUtility.ParseNullableBool(ViewData, "hideOrder") ?? !(Model?.ShowOrder ?? false) ? "data-visible=false " : "")>Order</th> 
                      
-                    <th data-data="Description" @(DataUtility.ParseBool(ViewData, "hideDescription") ? "data-visible=false " : "")>Description</th> 
+                    <th data-data="Description" @(DataUtility.ParseNullableBool(ViewData, "hideDescription") ?? !(Model?.ShowDescription ?? false) ? "data-visible=false " : "")>Description</th> 
                      
-                    <th data-data="Data" @(DataUtility.ParseBool(ViewData, "hideData") ? "data-visible=false " : "")>Data</th> 
+                    <th data-data="Data" @(DataUtility.ParseNullableBool(ViewData, "hideData")  ?? !(Model?.ShowData ?? false)? "data-visible=false " : "")>Data</th> 
                      
                     <th data-sortable="false" width="100">&nbsp;</th> 
                      

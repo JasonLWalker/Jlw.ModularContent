@@ -1,5 +1,6 @@
-﻿@{
-    string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedContentText", groupKey = (string)null, fieldKey = (string)null }) + "/" : ViewData["apiOverrideUrl"]?.ToString();
+﻿@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+@{
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 }
 <script>
     function libJlwRightToolbarAdminExtension(t, $, initOptions, undefined) {
