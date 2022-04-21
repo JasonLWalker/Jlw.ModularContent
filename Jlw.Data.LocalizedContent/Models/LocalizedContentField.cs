@@ -140,9 +140,10 @@ namespace Jlw.Data.LocalizedContent
 
             return re.Replace(s, (match) =>
             {
-                if (match?.Groups.Count > 1 && data?.SelectToken(match?.Groups[1].Value) != null)
+                string key;
+                if (match?.Groups.Count > 1 && data?.SelectToken(key = match?.Groups[1].Value.Trim()) != null)
                 {
-                    return data.SelectToken(match?.Groups[1].Value)?.ToString();
+                    return data.SelectToken(key)?.ToString();
                 }
 
                 return match?.Value;
