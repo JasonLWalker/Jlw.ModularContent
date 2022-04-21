@@ -47,9 +47,9 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             var model = new WizardInputModel(inputModel);
 
             string groupKey = $"{WizardPrefix}";
-            string screenKey = string.IsNullOrWhiteSpace(model.Screen) ? "Screen_0" : model.Screen;
+            string screenKey = string.IsNullOrWhiteSpace(model.Screen) ? "Screen_Start" : model.Screen;
 
-            screenKey = "Screen_DoesNotExist";
+            //screenKey = "Screen_DoesNotExist";
 
             /*
             switch (model.Section)
