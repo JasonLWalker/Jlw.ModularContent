@@ -1,0 +1,103 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+parameters:
+- name: buildConfiguration
+  type: string
+  default: Debug
+- name: buildPlatform 
+  type: string
+  default: Any CPU
+- name: solution
+  type: string
+  default: '**/*.sln'
+- name: versionSuffix
+  type: string
+  default: '-alpha'
+- name: repositoryProject
+  type: string
+- name: rclProject
+  type: string
+- name: notificationServiceProject
+  type: string
+- name: publishProfile
+  type: string
+
+jobs:
+- job: "Build_Test_Deploy"
+  workspace:
+    clean: all
+  steps:
+  - checkout: self
+    clean: true
+    persistCredentials: true
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: 'sdk'
+      version: '5.0.x'
+  - task: NuGetToolInstaller@1
+    inputs:
+      versionSpec: '5.9.1'
+    displayName: "Install NuGet Tools"
+  - task: NuGetAuthenticate@0
+    displayName: "Authenticate NuGet"
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      feedsToUse: 'select'
+      vstsFeed: 'de448d86-4d22-4800-9f45-4397d1d3c86d'
+    displayName: "Restore NuGet Packages"
+  - powershell: $(Build.SourcesDirectory)/build-scripts/build.ps1 -buildType "${{ parameters.buildConfiguration }}"  -versionSuffix "${{ parameters.versionSuffix }}"
+    displayName: "Build / Pack"
+  - task: DotNetCoreCLI@2
+    displayName: "Test"
+    inputs:
+      command: 'test'
+      arguments: '--no-build --no-restore --configuration ${{ parameters.buildConfiguration }} --filter "FullyQualifiedName!~Sps.BusRegistration.BusRegistrationTestWebApp.Tests.IntegrationTests"'
+#  - task: DotNetCoreCLI@2
+#    displayName: Publish Notification Service to artifact directory
+#    inputs:
+#      command: 'publish'
+#      publishWebProjects: false
+#      projects: '**/${{ parameters.notificationServiceProject }}.csproj'
+#      arguments: '--output $(Build.ArtifactStagingDirectory) /p:publishProfile="${{ parameters.publishProfile }}" /p:Version="$(releaseVersion)"'
+#      modifyOutputPath: false
+#      zipAfterPublish: true  
+#  - powershell: |
+#      Rename-Item -Path "$(Build.ArtifactStagingDirectory)\a.zip" -NewName "$(Build.ArtifactStagingDirectory)\${{ parameters.notificationServiceProject }}.$(releaseVersion).zip"
+#    displayName: Rename Notification Service Artifact
+  - powershell: |
+      Get-ChildItem -Path "$(Build.SourcesDirectory)\**.nupkg" -Recurse | Copy-Item -Destination "$(Build.ArtifactStagingDirectory)"
+      Get-ChildItem -Path "$(Build.SourcesDirectory)\**.snupkg" -Recurse | Copy-Item -Destination "$(Build.ArtifactStagingDirectory)"
+    displayName: Stage Release Nupkg Archives
+  - task: PublishPipelineArtifact@1
+    displayName: Publish release artifact to Pipeline
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+      artifact: 'Release-$(releaseVersion)'
+      publishLocation: 'pipeline'
+  - powershell: $(Build.SourcesDirectory)/build-scripts/deploy.ps1 -packageName "${{ parameters.repositoryProject }}" -buildType "$(buildConfiguration)" -token "AzureArtifacts"
+    displayName: 'Deploy Data Repository Nupkg'
+  - powershell: $(Build.SourcesDirectory)/build-scripts/deploy.ps1 -packageName "${{ parameters.rclProject }}" -buildType "$(buildConfiguration)" -token "AzureArtifacts"
+    displayName: 'Deploy RCL Nupkg'
+  - powershell: |
+      cd $(Build.SourcesDirectory)
+      git checkout $(Build.SourceBranchName)
+      git config --global user.name "$(Build.RequestedFor)"
+      git config --global user.email "$(Build.RequestedForEmail)"
+      git config pull.rebase false
+      git pull origin staging
+      git pull origin main
+      $(Build.SourcesDirectory)/build-scripts/generate-readme.ps1 -buildPath "$(Build.SourcesDirectory)\"
+      git add readme.md
+      git commit -m "$(Build.BuildId) - Generated README.md from template"
+      git push origin $(Build.SourceBranchName)
+    displayName: Generate README.md
+  - powershell: |
+      Remove-Item $(Build.ArtifactStagingDirectory)/* -Recurse -Force
+      Remove-Item $(Build.BinariesDirectory)/* -Recurse -Force
+      Remove-Item $(Build.SourcesDirectory)/* -Recurse -Force
+    displayName: "Clean up working directories"
+    condition: always() # this step will always run, even if the pipeline is canceled

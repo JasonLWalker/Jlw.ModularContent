@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
 		.github\workflows\GenerateRelease.yml = .github\workflows\GenerateRelease.yml
+		.github\workflows\new-build-deploy.yml = .github\workflows\new-build-deploy.yml
 		.github\workflows\sonnarbuild.yml = .github\workflows\sonnarbuild.yml
 	EndProjectSection
 EndProject
@@ -92,7 +93,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SqlSchema", "SqlSchema\", "
 		SlnRelativePath = "SqlSchema\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jlw.Web.Rcl.LocalizedContent.Tests", "Jlw.Web.Rcl.LocalizedContent.Tests\Jlw.Web.Rcl.LocalizedContent.Tests.csproj", "{64C43480-A926-400A-9F51-B7DFF5512541}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent.Tests", "Jlw.Web.Rcl.LocalizedContent.Tests\Jlw.Web.Rcl.LocalizedContent.Tests.csproj", "{64C43480-A926-400A-9F51-B7DFF5512541}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{E0743293-A239-472C-A917-301454B68070}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\templates\build-test-deploy-template.yml = .github\workflows\templates\build-test-deploy-template.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +137,7 @@ Global
 		{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
 		{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
 		{5590BE09-1B26-4C43-A6BF-BAA154472F98} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{E0743293-A239-472C-A917-301454B68070} = {AA3405BA-2841-42A0-B467-0DF5FFF1C086}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE81A48A-3CA3-48FC-A5A2-E2C265718B6B}
