@@ -144,7 +144,8 @@ namespace Microsoft.Extensions.DependencyInjection
             ImportSqlObject("dbo.sp_GetWizardFields", server, dbClient);
             ImportSqlObject("dbo.sp_GetWizardContentFieldRecord", server, dbClient);
             ImportSqlObject("dbo.sp_GetComponentList", server, dbClient);
-
+            ImportSqlObject("dbo.sp_SaveLocalizedContentFieldParentOrder", server, dbClient);
+            
             return app;
         }
 

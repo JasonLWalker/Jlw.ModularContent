@@ -236,9 +236,7 @@
         }
 
         // Callback when a form field is rendered
-        function onRenderWizardFormField(obj, data, parent) {
-            return obj;
-        }
+        function onRenderWizardFormField(obj, data, parent) { return obj; }
 
         // Callback when a form field is rendered
         function onRenderWizardElement(obj, data, parent) { return obj; }
@@ -290,7 +288,11 @@
             var id = group + '-' + field + '-' + name + '-' +(data['Id']||(new Date()).valueOf());
             id = (id).replace(/[^\w\d-_]/i, '');
 
-            var props = ' id="' + id + '" ';
+            var props = '';
+            
+            if (type.toLowerCase() != 'radio') {
+                props += ' id="' + id + '" ';
+            }
 
             if (fieldData["props"])
                 props += fieldData['props'] + ' ';
@@ -376,15 +378,17 @@
                             if (data["FieldClass"])
                                 props += 'class="' + data.FieldClass + '" ';
                             
-                            var html = '<div>' + wrapperStart + '<div class="form-check">';
+                            var html = '<div>' + wrapperStart;
                             if (Object.keys(values).length > 0) {
+                                var nCount = 1;
                                 for(var key in values) {
-                                    html += '<label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '"/>' + values[key] + '</label>';
+                                    html += '<div class="form-check"><label class="form-check-label" for="' + id + '_' + nCount + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '" id="' + id + '_' + nCount + '" />' + values[key] + '</label></div>';
+                                    nCount++;
                                 }
                             } else {
-                                html += '<label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + '/>' + label + '</label>';
+                                html += '<div class="form-check"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' id="' + id + '" />' + label + '</label></div>';
                             }
-                            html += '</div>' + wrapperEnd + '</div>';
+                            html += wrapperEnd + '</div>';
                             obj = $(html);
                             break;
                         case 'checkbox':

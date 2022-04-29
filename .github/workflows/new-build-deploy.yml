@@ -2,120 +2,81 @@ name: New Build and Deploy (Alpha)
 
 on:
   workflow_dispatch:
+    inputs:
+        buildConfig:
+            description: 'Build Configuration'
+            required: true
+            default: 'Debug'
+            type: string
+        versionPrefix:
+            description: 'Version Number'
+            required: false
+            default: ''
+            type: string
+        versionSuffix:
+            description: 'Version Suffix'
+            required: false
+            default: '-alpha'
+            type: string
+
 
 jobs:
-  build:
+  build-test-deploy:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x' ]
+    env:
+      BUILD_WORKSPACE_PATH: ${{ github.workspace }}
+      INPUT_BUILD_CONFIG: ${{ github.event.inputs.buildConfig }}
+      INPUT_VERSION_PREFIX: ${{ github.event.inputs.versionPrefix }}
+      INPUT_VERSION_SUFFIX: ${{ github.event.inputs.versionSuffix }}
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
-        ./build-scripts/setenv.ps1
-    - name: Run build script
-      run: |
-        ./build-scripts/build.ps1 "Jlw.Data.LocalizedContent" "Debug" "-alpha"
-    - uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.PKGNAME }}
-        path: |
-          **/bin/Debug
-          **/obj/Debug
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget
+      - name: Set version number
+        run: |
+          ${{ env.BUILD_WORKSPACE_PATH }}/build-scripts/set-version-property.ps1 '${{ env.INPUT_BUILD_CONFIG }}' '${{ env.INPUT_VERSION_SUFFIX }}' '${{ env.INPUT_VERSION_PREFIX }}'
+          "BUILD_VERSION=$vPrefix$vSuffix" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "BUILD_VERSION_PREFIX=$vPrefix" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "BUILD_VERSION_SUFFIX=$vSuffix" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        shell: pwsh
+      #- name: Output environment variables
+      #  run: |
+      #    Invoke-Expression "dir env:"
+      #  shell: pwsh
+      - name: Build / Pack
+        shell: pwsh
+        run: ${{ env.BUILD_WORKSPACE_PATH }}/build-scripts/build.ps1 -buildType '${{ env.INPUT_BUILD_CONFIG }}' -versionSuffix '${{ env.BUILD_VERSION_SUFFIX }}' -versionPrefix '${{ env.BUILD_VERSION_PREFIX }}'
+      - name: Test
+        shell: pwsh
+        run: dotnet test --no-build --no-restore --configuration '${{ env.INPUT_BUILD_CONFIG }}' --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+      - name: Publish the packages to GPR
+        run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.nupkg  -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -k ${{secrets.GITHUB_TOKEN }} --skip-duplicate
+      - name: Publish the source packages to GPR
+        run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.snupkg -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -k ${{secrets.GITHUB_TOKEN }} --skip-duplicate
 
-  test:
-    needs: build
-    runs-on: windows-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
-        ./build-scripts/setenv.ps1
-    - name: Download artifacts from build step
-      uses: actions/download-artifact@v2
-      with:
-        name: ${{ env.PKGNAME }}
-    - name: Run Tests
-      run: |
-        ./build-scripts/test.ps1 "Jlw.Data.LocalizedContent.Tests" "Debug"
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        dotnet nuget add source https://nuget.pkg.github.com/${{ secrets.NUGET_USER }}/index.json --store-password-in-clear-text --name=github --username=${{ secrets.NUGET_USER }} --password=${{ secrets.GPR_TOKEN }}
-        /bin/bash ./build-scripts/setenv.sh
-    - uses: actions/download-artifact@v2
-      with:
-        name: ${{ env.PKGNAME }}
-    - name: Publish RCL to github (using curl)
-      run: |
-        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Web.Rcl.LocalizedContent" -b "Debug"
-    - name: Create RCL Release
-      id: create_rcl_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: RCL-${{ env.PKGVERSION }} 
-        release_name: RCL Release ${{ env.PKGNAME }}
-        draft: true
-        prerelease: true
-    - name: Upload RCL Release Asset
-      id: upload-rcl-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_rcl_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: "./${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
-        asset_name: "${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
-        asset_content_type: application/zip
-
-    - name: Publish Data Repo to github (using curl)
-      run: |
-        /bin/bash ./build-scripts/deploy.sh -u ${{ secrets.NUGET_USER }} -t ${{ secrets.GITHUB_TOKEN }} -p "Jlw.Data.LocalizedContent"
-    - name: Create DataRepo Release
-      id: create_datarepo_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: REPO-${{ env.PKGVERSION }} 
-        release_name: DataRepo Release ${{ env.PKGNAME }}
-        draft: true
-        prerelease: true
-    - name: Upload Release Asset
-      id: upload-datarepo-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_datarepo_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: "./${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
-        asset_name: "${{ env.PKGNAME }}.${{ env.PKGVERSION }}.zip"
-        asset_content_type: application/zip
-    
-    
-  cleanup:
-    needs: deploy
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Config Environment Variables
-      run: |
-        /bin/bash ./build-scripts/setenv.sh
-    - name: Delete Artifacts
-      uses: geekyeggo/delete-artifact@v1
-      with:
-        name: ${{ env.PKGNAME }}
-        failOnError: false
-
+      - name: Publish the packages to NuGet
+        run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.nupkg  -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY }} --skip-duplicate
+      - name: Publish the source packages to NuGet
+        run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.snupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY }} --skip-duplicate

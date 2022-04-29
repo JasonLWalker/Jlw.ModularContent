@@ -67,6 +67,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scri
 		build-scripts\build-wiki.sh = build-scripts\build-wiki.sh
 		build-scripts\build.ps1 = build-scripts\build.ps1
 		build-scripts\deploy.sh = build-scripts\deploy.sh
+		build-scripts\set-version-property.ps1 = build-scripts\set-version-property.ps1
 		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
 		build-scripts\setenv.sh = build-scripts\setenv.sh
 		build-scripts\test.ps1 = build-scripts\test.ps1

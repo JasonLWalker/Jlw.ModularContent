@@ -36,12 +36,7 @@ if [ $GITHUB_ENV ]; then
     echo "BUILDTYPE=$buildType" >> $GITHUB_ENV
 fi
 
-echo "Uploading package to Github"
-for f in ./$packageName/bin/$buildType/*.nupkg
-do
-    echo "  Uploading package $f"
-    curl -vX PUT -u "$githubUser:$githubToken" -F package=@$f https://nuget.pkg.github.com/$githubUser/
-done
+
 
 echo "";
 echo "Creating Zip package : ${packageName}.${packageVersion}.zip";
