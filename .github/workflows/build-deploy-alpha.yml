@@ -5,17 +5,12 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - uses: ./.github/workflows/templates/build-test-deploy-template.yml
-      with:
-        buildConfig: ${{ github.event.inputs.buildConfig }}
-        versionPrefix: ${{ github.event.inputs.versionPrefix }}
-        versionSuffix: ${{ github.event.inputs.versionSuffix }}
-      secrets:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
-        NUGET_KEY: ${{secrets.NUGET_KEY }}
+    uses: ./.github/workflows/build-test-deploy-template.yml
+    with:
+        buildConfig: "Debug"
+        versionPrefix: ""
+        versionSuffix: "-alpha"
+    secrets:
+        NUGET_KEY: ${{ secrets.NUGET_KEY }}
 
 
