@@ -19,8 +19,6 @@ on:
             default: '-alpha'
             type: string
     secrets:
-        GITHUB_TOKEN:
-            required: true
         NUGET_KEY: 
             required: true
 
