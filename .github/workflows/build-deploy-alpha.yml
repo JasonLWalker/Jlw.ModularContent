@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/templates/build-test-deploy-template.yml
+    uses: ./.github/workflows/build-test-deploy-template.yml
     with:
         buildConfig: ${{ github.event.inputs.buildConfig }}
         versionPrefix: ${{ github.event.inputs.versionPrefix }}
