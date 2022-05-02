@@ -32,6 +32,8 @@ jobs:
       INPUT_VERSION_PREFIX: ${{ inputs.versionPrefix }}
       INPUT_VERSION_SUFFIX: ${{ inputs.versionSuffix }}
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
       - name: Setup dotnet
         uses: actions/setup-dotnet@v2
         with:
