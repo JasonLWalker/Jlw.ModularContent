@@ -11,7 +11,7 @@ jobs:
         versionPrefix: ${{ github.event.inputs.versionPrefix }}
         versionSuffix: ${{ github.event.inputs.versionSuffix }}
     secrets:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN }}
-        NUGET_KEY: ${{secrets.NUGET_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NUGET_KEY: ${{ secrets.NUGET_KEY }}
 
 
