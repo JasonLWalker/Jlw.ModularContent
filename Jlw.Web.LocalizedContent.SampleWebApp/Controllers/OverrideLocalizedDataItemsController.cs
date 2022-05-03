@@ -28,6 +28,10 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             var settings = new AdminSettings()
             {
                 ApiOverrideUrl = Url.Content("~/admin/api/OverrideLocalizedDataItems/"),
+                IsAdmin = false,
+                CanEdit = true,
+                CanAdd = true,
+                CanDelete = true,
                 ShowId = false,
                 ShowLanguage = false,
                 ShowGroupKey = false,

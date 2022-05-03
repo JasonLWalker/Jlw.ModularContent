@@ -22,7 +22,7 @@
                      
                     <th data-data="Data" @(DataUtility.ParseNullableBool(ViewData, "hideData")  ?? !(Model?.ShowData ?? false)? "data-visible=false " : "")>Data</th> 
                      
-                    <th data-sortable="false" width="100">&nbsp;</th> 
+                    <th data-sortable="false" width="100" @((Model?.CanView ?? false) || (Model?.CanEdit ?? false) || (Model?.CanDelete ?? false) ? "" : "data-visible=false")>&nbsp;</th> 
                      
                 </tr> 
             </thead> 
