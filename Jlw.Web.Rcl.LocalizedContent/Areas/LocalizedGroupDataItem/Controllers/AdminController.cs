@@ -43,6 +43,13 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
             public string PageTitle { get; set; }
             public string Area { get; set; } = null;
             public string ApiOverrideUrl { get; set; } = null;
+            public bool IsAdmin { get; set; } = false;
+            public bool CanAdd { get; set; } = false;
+            public bool CanEdit { get; set; } = false;
+            public bool CanDelete { get; set; } = false;
+            public bool CanView { get; set; } = false;
+
+
 
             public bool ShowId { get; set; } = false;
             public bool ShowLanguage { get; set; } = false;

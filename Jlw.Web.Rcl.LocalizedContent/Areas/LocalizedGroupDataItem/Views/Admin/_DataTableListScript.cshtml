@@ -1,11 +1,10 @@
 @model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings 
 @{ 
-    bool isAdmin = true;
-    bool canView = isAdmin || true;
-    bool canAdd = isAdmin || true;
-    bool canEdit = isAdmin || true;
-    bool canDelete = isAdmin || true;
-    //string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new { Area = "LocalizedGroupDataItem", groupKey = (string)null, parentKey = (string)null }) + " /" : ViewData["apiOverrideUrl"]?.ToString();
+    bool isAdmin = Model?.IsAdmin ?? false;
+    bool canView = isAdmin || (Model?.CanView ?? false);
+    bool canAdd = isAdmin || (Model?.CanAdd ?? false);
+    bool canEdit = isAdmin || (Model?.CanEdit ?? false);
+    bool canDelete = isAdmin || (Model?.CanDelete ?? false);
     string apiUrl = string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl) ? Url.Action("Index", "Api", new { Area = Model?.Area, groupKey = (string)null, parentKey = (string)null }) + " /" : Model?.ApiOverrideUrl;
 } 
 <script>
@@ -90,7 +89,10 @@
                     t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
                 </text>
             }
-            t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+            @if (canDelete)
+            {
+                @:t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
+            }
 
             t.fnPostDtAjaxData = function(d) {
                 // Add additional parameters here like this:
@@ -112,8 +114,10 @@
 
 
             t.dtRenderFooterButtons();
-            $('.btn-newrecord').off('click').on('click', fnOnAddRecord);
-            
+            @if (canAdd)
+            {
+                @:$('.btn-newrecord').off('click').on('click', fnOnAddRecord);
+            }
         }
     }
 </script> 
