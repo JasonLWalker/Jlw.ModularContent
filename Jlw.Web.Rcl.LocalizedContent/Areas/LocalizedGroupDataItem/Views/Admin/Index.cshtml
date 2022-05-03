@@ -76,11 +76,14 @@
 } 
  
 <div class="col-xs-12"> 
-    <div> 
-        <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button> 
+    <div>
+        @if (Model?.CanAdd ?? false)
+        {
+            <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
+        }
         <div class="jlw-header h3">
             @(Model?.PageTitle ?? ViewData["PageTitle"])
-        </div> 
+        </div>
     </div> 
     <br/> 
     @Html.PartialAsync("~/Areas/LocalizedGroupDataItem/Views/Admin/_DataTableList.cshtml").Result 
