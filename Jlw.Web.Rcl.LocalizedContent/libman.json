@@ -11,6 +11,10 @@
       "destination": "libman/bootstrap"
     },
     {
+      "library": "popper.js@1.16.1",
+      "destination": "libman/popper.js"
+    },
+    {
       "library": "bootswatch@4.5.2",
       "destination": "libman/bootswatch/"
     },
