@@ -65,6 +65,14 @@
 
             $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
             $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
+
+            $('select[name=buttonIcon] option', t.oRightToolbar).each(function() {
+                var elem = $(this);
+                var val = elem.val();
+                $('.button-icon .dropdown-menu', t.oRightToolbar).append('<a href="#" class="dropdown-item small" data-icon=' + val + '>' + (val == "" ? '' : '<span class="fa fa-fw ' + val + '"></span> - ') + elem.text() + '</a>');
+            });
+
+            $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
             $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
 
             $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
@@ -432,6 +440,11 @@
             oFieldClass.trigger('change');
         }
 
+        function onChangeButtonIcon(evt) {
+            var oItem = $(this);
+            $('select[name=buttonIcon]', t.oRightToolbar).val(oItem.data("icon")).trigger('change');
+        }
+
         function onChangeButtonData(evt) {
             var fieldData = {};
 
@@ -441,35 +454,63 @@
 
             if (icon) icon += ' ' + color;
 
-            if (icon) fieldData['icon'] = ('fa ' + icon).trim();
+            if (icon) {
+                fieldData['icon'] = ('fa ' + icon).trim();
+                while(matches = t.rxIcon.exec(icon)) {
+                    switch((matches[0]||"").toLowerCase()) {
+                    case 'fa':
+                    case 'fa-w':
+                        break;
+                    default:
+                        if (matches[1].startsWith('fa-') ) {
+                            var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
+                            if (menuItem.length) {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
+                            } else {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+                            }
+                        }
+                        break;
+                    }
+                }
+            } else {
+                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+            }
+
 
             $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+            var oAction = {};
+            var eventClick;
             if (action) {
-                var oAction = { 'type': action };
-                var eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
-                
+                oAction['type'] = action;
+                eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+
                 if (eventClick) oAction['fnClick'] = eventClick;
 
-                switch((oAction['type'] || "").toLowerCase()) {
-                    case 'navtostep':
-                        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
-                        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
-                        break;
-                    case 'nav':
-                        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
-                        break;
-                    case 'savestep':
-                        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
-                        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
-                        break;
-                    case 'save':
-                        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
-                        break;
-                    case 'link':
-                        oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
-                        break;
+                switch ((oAction['type'] || "").toLowerCase()) {
+                case 'navtostep':
+                    oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+                    oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+                    break;
+                case 'nav':
+                    oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+                    break;
+                case 'savestep':
+                    oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+                    oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+                    break;
+                case 'save':
+                    oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+                    break;
+                case 'link':
+                    oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
+                    break;
                 }
                 $('.button-action-' + oAction['type'], t.oRightToolbar).removeClass('d-none');
+                fieldData['action'] = oAction;
+            } else {
+                eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+                if (eventClick) oAction['fnClick'] = eventClick;
                 fieldData['action'] = oAction;
             }
 
@@ -625,7 +666,7 @@
                         className: 'btn-sm btn-primary',
                         callback: fnOnClose
                     }
-                },
+                }
             });
         }
 
@@ -762,8 +803,9 @@
             var sIcon = data['icon'] || "";
             var action = data['action'] || {};
             var matches = {};
-            while(matches = t.rxIcon.exec(sIcon)) {
-                switch((matches[0]||"").toLowerCase()) {
+            if (sIcon) {
+                while (matches = t.rxIcon.exec(sIcon)) {
+                    switch ((matches[0] || "").toLowerCase()) {
                     case 'fa':
                     case 'fa-w':
                         break;
@@ -780,9 +822,20 @@
                         }
                         break;
                     default:
-                        $('select[name=buttonIcon]', t.oRightToolbar).val(matches[0]);
+                        $('select[name=buttonIcon]', t.oRightToolbar).val(matches[1]);
+                        if (matches[1].startsWith('fa-')) {
+                            var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
+                            if (menuItem.length) {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
+                            } else {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+                            }
+                        }
                         break;
+                    }
                 }
+            } else {
+                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
             }
 
             $('.button-action-opts', t.oRightToolbar).addClass('d-none');

@@ -58,6 +58,7 @@
     "outputFileName": "resources/LocalizedContent/js/bootstrap.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
+      "libman/popper.js/umd/popper.min.js",
       "libman/bootstrap/js/bootstrap.js"
     ],
     "sourceMap": true,
