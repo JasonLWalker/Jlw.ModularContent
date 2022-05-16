@@ -61,16 +61,6 @@
 
   <ItemGroup>
     <None Remove="resources\LocalizedContent\bootstrap-sketchy.less" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\all.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\all.min.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\brands.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\brands.min.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\fontawesome.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\fontawesome.min.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\regular.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\regular.min.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\solid.css" />
-    <None Remove="resources\LocalizedContent\font-awesome\css\solid.min.css" />
     <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.js" />
     <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js" />
     <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js.map" />
@@ -86,5 +76,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="resources\LocalizedContent\font-awesome\" />
   </ItemGroup>
 </Project>
