@@ -4,6 +4,8 @@ on:
   push:
     branches:           # Automatically run when pushing only to main branch
       [ main ]
+    paths-ignore:       # Do not automatically run if changes are only in the following files/directories
+      [ '**.md' ]
   workflow_dispatch:    # Run on demand
 
 env:
