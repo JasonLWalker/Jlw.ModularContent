@@ -14,9 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\build-deploy-wiki.yml = .github\workflows\build-deploy-wiki.yml
 		.github\workflows\build-deploy.yml = .github\workflows\build-deploy.yml
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
-		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
 		.github\workflows\generate-readme.yml = .github\workflows\generate-readme.yml
-		.github\workflows\GenerateRelease.yml = .github\workflows\GenerateRelease.yml
 		.github\workflows\sonnarbuild.yml = .github\workflows\sonnarbuild.yml
 	EndProjectSection
 EndProject
