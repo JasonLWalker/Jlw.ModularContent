@@ -19,7 +19,6 @@
 |Target Framework|netstandard2.1|
 |Author(s)|Jason L. Walker|
 |Copyright|Copyright ©2012-2021 Jason L. Walker|
-|Version|3.1.8172.8467-alpha|
 
 
 ## Dependencies
@@ -41,7 +40,6 @@
 |Target Framework|net6.0|
 |Author(s)|Jason L. Walker|
 |Copyright|Copyright ©2019-2021 Jason L. Walker|
-|Version|3.1.8172.8467-alpha|
 
 
 ## Back-End Dependencies
