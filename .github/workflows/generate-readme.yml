@@ -29,6 +29,7 @@ jobs:
         shell: pwsh
         run: |
           cd ${{ github.workspace }}
+          dotnet build
           git checkout ${{ env.GITHUB_REF_NAME }}
           git config --global user.name "${{ env.GITHUB_REPOSITORY }} Continuous Integration"
           git config --global user.email "${{ env.GITHUB_ACTOR }}@users.noreply.github.com"
