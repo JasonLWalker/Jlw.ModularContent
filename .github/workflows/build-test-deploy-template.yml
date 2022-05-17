@@ -126,3 +126,18 @@ jobs:
         run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.nupkg  -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY }} --skip-duplicate
       #- name: Publish the source packages to NuGet
       #  run: dotnet nuget push ${{ env.BUILD_WORKSPACE_PATH }}/**/*.snupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY }} --skip-duplicate
+
+      - name: Generate README.md
+        shell: pwsh
+        run: |
+          cd ${{ env.BUILD_WORKSPACE_PATH }}
+          git checkout ${{ env.GITHUB_REF_NAME }}
+          #git config --global user.name "${{ env.GITHUB_ACTOR }}"
+          #git config --global user.email "$(Build.RequestedForEmail)"
+          git config pull.rebase false
+          git pull origin staging
+          git pull origin main
+          ${{ env.BUILD_WORKSPACE_PATH }}/build-scripts/generate-readme.ps1 -buildPath "${{ env.BUILD_WORKSPACE_PATH }}\"
+          git add README.md
+          git commit -m "${{ env.GITHUB_RUN_ID }} - Generated README.md from template"
+          git push origin ${{ env.GITHUB_REF_NAME }}
