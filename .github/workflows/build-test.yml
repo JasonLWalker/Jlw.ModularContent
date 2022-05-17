@@ -13,7 +13,7 @@ on:
       [ 'Help/**', 'docs/**', 'wiki/**', '.github/**', 'build-scripts/**' ]
   workflow_dispatch:    # Run on demand
 jobs:
-  build:
+  build-test:
     uses: ./.github/workflows/build-test-template.yml
     with:
         buildConfig: "Debug"

@@ -24,7 +24,7 @@ on:
 
 
 jobs:
-  build-test:
+  build-test-workflow:
     runs-on: windows-latest
     strategy:
       matrix:
