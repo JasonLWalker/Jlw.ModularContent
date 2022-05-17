@@ -34,12 +34,6 @@
       "library": "Sortable@1.14.0",
       "destination": "libman/sortable"
     },
-    /*
-    {
-      "library": "interact.js@1.10.11",
-      "destination": "libman/interact.js/"
-    },
-    */
     {
       "provider": "jsdelivr",
       "library": "@jasonlwalker/jlwutility@0.0.34",

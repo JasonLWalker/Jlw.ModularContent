@@ -102,6 +102,12 @@
                 return t.fnOnClickBack(evt);
             case 'link':
                 return t.fnOnClickLink(evt);
+            default:
+                var fn = btn.data('fnclick');
+                if (fn && typeof t[fn] == 'function') {
+                    t[fn](evt);
+                }
+                break;
             }
 
             return false;

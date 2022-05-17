@@ -13,5 +13,5 @@ if (-Not ($versionPrefix)){
 }
 
 # Build with dotnet
-dotnet build -p:VersionPrefix=$versionPrefix --version-suffix=$versionSuffix --configuration $buildType
+dotnet build -p:VersionPrefix=$versionPrefix -p:VersionSuffix=$versionSuffix -p:Configuration=$buildType
 

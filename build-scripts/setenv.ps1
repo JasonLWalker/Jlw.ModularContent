@@ -9,7 +9,7 @@ if (-Not ($packageName)){
 }
 
 # Export GitHub Environment variables
-if ($ENV:GITHUB_ENV) {
+if ($env:GITHUB_ENV) {
 	"PKGNAME=$packageName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 	"REPO_PKGNAME=Jlw.Data.LocalizedContent" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 	"RCL_PKGNAME=Jlw.Web.Rcl.LocalizedContent" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append

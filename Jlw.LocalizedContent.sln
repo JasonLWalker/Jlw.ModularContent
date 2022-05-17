@@ -7,19 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent.Tests", "Jlw.Data.LocalizedContent.Tests\Jlw.Data.LocalizedContent.Tests.csproj", "{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{4500102C-AECD-4C3A-B025-68EA29A985A5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{AA3405BA-2841-42A0-B467-0DF5FFF1C086}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-deploy-alpha.yml = .github\workflows\build-deploy-alpha.yml
 		.github\workflows\build-deploy-rc.yml = .github\workflows\build-deploy-rc.yml
 		.github\workflows\build-deploy-wiki.yml = .github\workflows\build-deploy-wiki.yml
 		.github\workflows\build-deploy.yml = .github\workflows\build-deploy.yml
-		.github\workflows\build-test-deploy-template.yml = .github\workflows\build-test-deploy-template.yml
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\cron-artifact-cleanup.yml = .github\workflows\cron-artifact-cleanup.yml
 		.github\workflows\GenerateRelease.yml = .github\workflows\GenerateRelease.yml
-		.github\workflows\new-build-deploy.yml = .github\workflows\new-build-deploy.yml
 		.github\workflows\sonnarbuild.yml = .github\workflows\sonnarbuild.yml
 	EndProjectSection
 EndProject
@@ -27,11 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scri
 	ProjectSection(SolutionItems) = preProject
 		build-scripts\build-test.ps1 = build-scripts\build-test.ps1
 		build-scripts\build-wiki.ps1 = build-scripts\build-wiki.ps1
-		build-scripts\build-wiki.sh = build-scripts\build-wiki.sh
 		build-scripts\build.ps1 = build-scripts\build.ps1
-		build-scripts\deploy.sh = build-scripts\deploy.sh
+		build-scripts\generate-readme.ps1 = build-scripts\generate-readme.ps1
+		build-scripts\set-version-property.ps1 = build-scripts\set-version-property.ps1
 		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
-		build-scripts\setenv.sh = build-scripts\setenv.sh
 		build-scripts\test.ps1 = build-scripts\test.ps1
 	EndProjectSection
 EndProject
@@ -44,11 +39,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8}"
 	ProjectSection(SolutionItems) = preProject
+		wiki\Home.md = wiki\Home.md
+		wiki\Jlw.Data.LocalizedContent.md = wiki\Jlw.Data.LocalizedContent.md
 		wiki\_config.yml = wiki\_config.yml
 		wiki\_Footer.md = wiki\_Footer.md
 		wiki\_Sidebar.md = wiki\_Sidebar.md
-		wiki\Home.md = wiki\Home.md
-		wiki\Jlw.Data.LocalizedContent.md = wiki\Jlw.Data.LocalizedContent.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
@@ -59,19 +54,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.LocalizedContent.SampleWebApp", "Jlw.Web.LocalizedContent.SampleWebApp\Jlw.Web.LocalizedContent.SampleWebApp.csproj", "{272B7544-D897-445C-A19A-361D06BB64D8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A0329EAE-26A9-4407-B373-49DF6A7C43F7} = {A0329EAE-26A9-4407-B373-49DF6A7C43F7}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-scripts", "build-scripts", "{5590BE09-1B26-4C43-A6BF-BAA154472F98}"
-	ProjectSection(SolutionItems) = preProject
-		build-scripts\build-test.ps1 = build-scripts\build-test.ps1
-		build-scripts\build-wiki.ps1 = build-scripts\build-wiki.ps1
-		build-scripts\build-wiki.sh = build-scripts\build-wiki.sh
-		build-scripts\build.ps1 = build-scripts\build.ps1
-		build-scripts\deploy.sh = build-scripts\deploy.sh
-		build-scripts\set-version-property.ps1 = build-scripts\set-version-property.ps1
-		build-scripts\setenv.ps1 = build-scripts\setenv.ps1
-		build-scripts\setenv.sh = build-scripts\setenv.sh
-		build-scripts\test.ps1 = build-scripts\test.ps1
 	EndProjectSection
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SqlSchema", "SqlSchema\", "{607EB726-5F3B-4A9C-9CE4-0DF10CB36D97}"
@@ -96,6 +78,18 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SqlSchema", "SqlSchema\", "
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent.Tests", "Jlw.Web.Rcl.LocalizedContent.Tests\Jlw.Web.Rcl.LocalizedContent.Tests.csproj", "{64C43480-A926-400A-9F51-B7DFF5512541}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{7FEB76DD-F81B-4F4B-B55B-69B05687A773}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-test-deploy-template.yml = .github\workflows\build-test-deploy-template.yml
+		.github\workflows\build-test-template.yml = .github\workflows\build-test-template.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{355D93EE-669A-4DCD-A226-B9B1A55302AA}"
+	ProjectSection(SolutionItems) = preProject
+		build-scripts\templates\ReadmeGenerationUtilities.psm1 = build-scripts\templates\ReadmeGenerationUtilities.psm1
+		build-scripts\templates\ReadmeTemplate.md = build-scripts\templates\ReadmeTemplate.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,10 +124,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AA3405BA-2841-42A0-B467-0DF5FFF1C086} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{AA3405BA-2841-42A0-B467-0DF5FFF1C086} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
 		{7DF552F6-8AC0-41B6-B30C-E4EE685B70C0} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
-		{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
-		{5590BE09-1B26-4C43-A6BF-BAA154472F98} = {4500102C-AECD-4C3A-B025-68EA29A985A5}
+		{B9C7434B-F4FC-4D4E-8AD1-14A03C1EADE8} = {57CC95E7-95B5-4CEB-BA7E-56DA8124551D}
+		{7FEB76DD-F81B-4F4B-B55B-69B05687A773} = {AA3405BA-2841-42A0-B467-0DF5FFF1C086}
+		{355D93EE-669A-4DCD-A226-B9B1A55302AA} = {7DF552F6-8AC0-41B6-B30C-E4EE685B70C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE81A48A-3CA3-48FC-A5A2-E2C265718B6B}
