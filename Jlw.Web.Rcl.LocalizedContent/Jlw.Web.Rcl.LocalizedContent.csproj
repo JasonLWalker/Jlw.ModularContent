@@ -10,7 +10,6 @@
   <PropertyGroup>
     <Product>Jlw.LocalizedContent</Product>
     <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
-    <RazorLangVersion>3.0</RazorLangVersion>
     <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
@@ -41,15 +40,9 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.3" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.4" /> 
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
-		<PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="BundlerMinifier.Core" Version="3.2.449">
-		<PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.161">
 	    <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -60,25 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="resources\LocalizedContent\bootstrap-sketchy.less" />
-    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.js" />
-    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js" />
-    <None Remove="resources\LocalizedContent\js\jquery.fancytree-all-deps.min.js.map" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\icons-rtl.gif" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\icons.gif" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\loading.gif" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\ui.fancytree.css" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\ui.fancytree.min.css" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\vline-rtl.gif" />
-    <None Remove="resources\LocalizedContent\js\skin-lion\vline.gif" />
-    <None Remove="libman\jlwappbuilder\package.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="resources\LocalizedContent\font-awesome\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="resources\LocalizedContent\font-awesome\" />
+	</ItemGroup>
 </Project>
