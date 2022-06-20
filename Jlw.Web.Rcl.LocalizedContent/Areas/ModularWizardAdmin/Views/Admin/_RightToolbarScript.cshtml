@@ -14,18 +14,18 @@
 
         function initMemberRegex() {
             // Regular expressions
-            t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
-            t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
-            t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
-            t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
+            t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+            t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
+            t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-xxl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
+            t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
             t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
             t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
         }
         
         function initMemberArrays() {
             // Arrays
-            t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl'];
+            t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl', '-xxl'];
             t.aSides = ['', 't', 'r', 'b', 'l'];
             t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
             t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
@@ -59,7 +59,7 @@
     
 
 
-            $('.form-control-range', t.oRightToolbar).on('input',onChangeSlider);
+            $('.form-range', t.oRightToolbar).on('input',onChangeSlider);
             $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
             $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
 
@@ -406,7 +406,9 @@
         function onTogglePanelCaret(evt) {
             var o = $(this);
             var c = $('.fa-fw', o);
-            var s = 'fa-caret-' + ($(o.data('target')).hasClass('show') ? o.data('hidecaret') :  o.data('showcaret'));
+            var target = $(o.data('bs-target'));
+            var hasClass = c.hasClass('fa-caret-' + o.data('showcaret'));
+            var s = 'fa-caret-' + (hasClass ? o.data('hidecaret') :  o.data('showcaret'));
             c.removeClass('fa-caret-down fa-caret-right fa-caret-left fa-caret-up');
             c.addClass(s);
         }
@@ -604,6 +606,15 @@
 
                     $('.modal-body textarea.editing', e.currentTarget).each(function() {
                         var val = this.value;
+                        try {
+	                        // parse and serialize JSON for syntax check
+	                        var jsonVal = $.parseJSON(val);
+	                        val = JSON.stringify(jsonVal, null, '\t');
+                        } catch(ex) {
+	                        toastr.error(ex.message, 'An error occurred while parsing JSON data:');
+	                        return false;
+                        }
+
                         this.value = val;
                         prismSyntaxHighlight(this.value, this);
                     });
@@ -676,7 +687,8 @@
                 'col-sm': -1,
                 'col-md': -1,
                 'col-lg': -1,
-                'col-xl': -1
+                'col-xl': -1,
+                'col-xxl': -1
             };
             var matches = {};
             while(matches = t.rxCols.exec(s)) {

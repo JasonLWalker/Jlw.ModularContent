@@ -15,7 +15,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
         public OverrideModularWizardAdminController(LinkGenerator linkGenerator) : base()
         {
             DefaultSettings.ApiOverrideUrl = linkGenerator.GetPathByAction("Index", "OverrideModularWizardAdminApi", new { Area = "" });
-            DefaultSettings.ToolboxHeight = "calc(100vh - 48px)";
+            DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
             //DefaultSettings.ShowSideNav = false;
             //DefaultSettings.SideNavDefault = false;
             //DefaultSettings.ShowWireFrame = false;
