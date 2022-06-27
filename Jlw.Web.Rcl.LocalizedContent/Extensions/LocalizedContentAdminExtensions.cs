@@ -46,6 +46,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new LanguageListModel(repo);
             });
 
+            services.AddSingleton<ICommonControlListModel>(provider =>
+            {
+                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
+                return new CommonControlListModel(repo);
+            });
+
             services.ConfigureOptions(typeof(LocalizedContentAdminConfigureOptions));
             return services;
         }

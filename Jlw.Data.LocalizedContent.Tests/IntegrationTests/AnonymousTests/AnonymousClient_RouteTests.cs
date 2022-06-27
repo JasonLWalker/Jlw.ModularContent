@@ -106,7 +106,7 @@ namespace Jlw.Data.LocalizedContent.Tests.IntegrationTests
         [TestMethod]
         #region URI Data
         [DataRow("/LocalizedContent/css/bootstrap.min.css")]
-        [DataRow("/LocalizedContent/css/dataTables.bootstrap4.min.css")]
+        [DataRow("/LocalizedContent/css/dataTables.bootstrap5.min.css")]
         [DataRow("/LocalizedContent/css/jquery.dataTables.min.css")]
         [DataRow("/LocalizedContent/js/bootbox.min.js")]
         [DataRow("/LocalizedContent/js/bootstrap.min.js")]

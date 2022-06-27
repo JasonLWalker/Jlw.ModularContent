@@ -53,43 +53,7 @@ BEGIN
 
     DECLARE @count int = 0;
 
-IF (@groupKey = 'jlwNativeHtmlControls') 
-BEGIN
-    SET @tableName = @groupKey;
-    --SET @count = @count + 1;
-    INSERT INTO 
-        @controlValues 
-        (TABLE_NAME, COLUMN_NAME, LABEL, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, ORDINAL_POSITION) 
-    VALUES 
-        (@tableName, 'Button' , 'Button', 'button', null, 0 )
-        ,(@tableName, 'EmbedForm' , 'Embeded Form', 'EMBED', null, 0 )
-        ,(@tableName, 'Form' , 'Form', 'FORM', null, 0 )
-        ,(@tableName, 'HtmlBlock' , 'HTML Text Block. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'HTML', null, 0 )
-        ,(@tableName, 'Separator' , 'Separator', 'SEPARATOR', null, 0 )
-        ,(@tableName, 'DropDownSelect' , 'Form Drop-down', 'SELECT', null, 0 )
-        ,(@tableName, 'TextArea' , 'Multi-line Form Input', 'TEXTAREA', null, 0 )
-
-        ,(@tableName, 'DateInput' , 'Date Input', 'date', null, 0 )
-        ,(@tableName, 'DateTimeInput' , 'Date/Time Input', 'datetime', null, 0 )
-        ,(@tableName, 'MonthInput' , 'Month Input', 'month', null, 0 )
-        ,(@tableName, 'TimeInput' , 'Time Input', 'time', null, 0 )
-        ,(@tableName, 'WeekInput' , 'Week Input', 'week', null, 0 )
-        
-        ,(@tableName, 'ColorInput' , 'Color Input', 'color', null, 0 )
-        ,(@tableName, 'CheckbboxInput' , 'Checkbox Input', 'bit', null, 0 )
-        ,(@tableName, 'HiddenInput' , 'Hidden Input', 'hidden', null, 0 )
-        ,(@tableName, 'RadioInput' , 'Radio Button Input', 'radio', null, 0 )
-        ,(@tableName, 'SliderInput' , 'Slider Input', 'range', null, 0 )
-        
-        ,(@tableName, 'TextInput' , 'Text Input', 'varchar', 40, 0 )
-        ,(@tableName, 'PasswordInput' , 'Password Input', 'password', 40, 0 )
-        ,(@tableName, 'PhoneInput' , 'Phone Input', 'phone', 20, 0 )
-        ,(@tableName, 'UrlInput' , 'Url Input', 'url', 100, 0 )
-        ,(@tableName, 'EmailInput' , 'Email Input', 'email', 100, 0 )
-        ,(@tableName, 'NumberInput' , 'Number Input', 'int', 40, 0 )
-        ,(@tableName, 'SearchInput' , 'Search Input', 'search', 40, 0 )
-END
-ELSE
+IF (@groupKey != 'jlwNativeHtmlControls') 
 BEGIN
     INSERT INTO @controlValues
     SELECT 

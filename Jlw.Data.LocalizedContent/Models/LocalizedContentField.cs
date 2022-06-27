@@ -57,11 +57,11 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for WrapperHtmlStart
-        public string WrapperHtmlStart { get; protected set; }
+        public string WrapperHtmlStart { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for WrapperHtmlEnd
-        public string WrapperHtmlEnd { get; protected set; }
+        public string WrapperHtmlEnd { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for AuditChangeType
