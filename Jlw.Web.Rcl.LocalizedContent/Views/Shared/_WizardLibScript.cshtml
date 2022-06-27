@@ -494,6 +494,9 @@
             var buttons = data["Buttons"];
             var forms = data["Forms"] || [];
             var fieldData = data["FieldData"] || {};
+            var wizardWrapperStart = data["WrapperHtmlStart"] || "";
+            var wizardWrapperEnd = data["WrapperHtmlEnd"] || "";
+
             var usedFields = {};
             var i;
             //Todo: Remove next line after debugging:
@@ -503,8 +506,16 @@
             if (typeof(heading) === 'string')
                 data["Heading"] = heading = { 'GroupKey':data["GroupKey"], 'FieldKey':'Heading', 'FieldType':'HEADING', 'Label': heading };
 
+            //var wizardFormHtml = wizardWrapperStart + $('.wizard-form > form').html() + wizardWrapperEnd;
+            $('.wizard-header').remove();
+            $('.wizard-body').remove();
+            $('.wizard-buttons').remove();
+            $('.wizard-form > form').empty().html(wizardWrapperStart + "<div class='h3 wizard-heading'></div><div class='wizard-body'></div><div class='wizard-buttons row'></div>" + wizardWrapperEnd);
+
+
             heading["FieldType"] = "@nameof(WizardFieldTypes.HEADING)";
-            $('.wizard-body').html('');
+
+
             renderWizardElement(heading, t.wizardParent, data);
 
             if (typeof(body) === 'string')
@@ -568,6 +579,9 @@
             var obj = $('.wizard-form');
             if (typeof(t.onRenderWizard) === 'function')
                 obj = t.onRenderWizard(obj, data, t.wizardParent);
+
+
+
             return obj;
         }
 

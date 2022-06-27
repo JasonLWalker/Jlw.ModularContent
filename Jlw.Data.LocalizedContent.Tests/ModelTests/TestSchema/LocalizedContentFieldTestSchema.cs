@@ -84,8 +84,8 @@ namespace Jlw.Data.LocalizedContent.Tests
             AddProperty(typeof(string), "ParentKey", Public, Protected);
             AddProperty(typeof(string), "DefaultLabel", Public, Protected);
             AddProperty(typeof(string), "WrapperClass", Public, Protected);
-            AddProperty(typeof(string), "WrapperHtmlStart", Public, Protected);
-            AddProperty(typeof(string), "WrapperHtmlEnd", Public, Protected);
+            AddProperty(typeof(string), "WrapperHtmlStart", Public, Public);
+            AddProperty(typeof(string), "WrapperHtmlEnd", Public, Public);
             AddProperty(typeof(string), "AuditChangeType", Public, Protected);
             AddProperty(typeof(string), "AuditChangeBy", Public, Protected);
             AddProperty(typeof(DateTime), "AuditChangeDate", Public, Protected);

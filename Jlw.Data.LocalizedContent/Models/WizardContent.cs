@@ -81,12 +81,19 @@ namespace Jlw.Data.LocalizedContent
                 Body = "I'm sorry, but I was unable to retrieve the wizard content at this time. Please try again later.";
                 return;
             }
+
+            wizard.Label = wizard.ResolvePlaceholders(wizard.Label, FormData);
+            wizard.WrapperHtmlStart = wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, FormData);
+            wizard.WrapperHtmlEnd = wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, FormData);
+
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             foreach (var field in fields)
             {
                 field.Label = field.ResolvePlaceholders(field.Label, FormData);
+                field.WrapperHtmlStart = field.ResolvePlaceholders(field.WrapperHtmlStart, FormData);
+                field.WrapperHtmlEnd = field.ResolvePlaceholders(field.WrapperHtmlEnd, FormData);
             }
-            
+
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));
