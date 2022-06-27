@@ -102,7 +102,7 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The wrapper HTML start.</value>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string WrapperHtmlStart { get; }
+        string WrapperHtmlStart { get; set; }
 
         /// <summary>
         /// Matches the [WrapperHtmlEnd] column of the [LocalizedContentFields] table in the database.
@@ -110,7 +110,7 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The wrapper HTML end.</value>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string WrapperHtmlEnd { get; }
+        string WrapperHtmlEnd { get; set; }
 
         /// <summary>
         /// Matches the [AuditChangeType] column of the [LocalizedContentFields] table in the database.
