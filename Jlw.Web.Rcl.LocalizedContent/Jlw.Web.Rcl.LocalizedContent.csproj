@@ -43,9 +43,6 @@
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.4" /> 
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.161">
-	    <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -59,4 +56,38 @@
 	<ItemGroup>
 		<Folder Include="resources\LocalizedContent\font-awesome\" />
 	</ItemGroup>
+
+
+	<!-- Workaround https://github.com/aspnet/LibraryManager/issues/370 -->
+	<Target Name="RestoreFrontEndLibraries" BeforeTargets="BeforeBuild">
+		<Exec Command="dotnet tool restore" />
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="true" Condition="$(ErrorCode) != '0'">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Exec Command="dotnet tool run libman restore" LogStandardErrorAsError="true" ContinueOnError="false" Condition="$(ErrorCode) != '0'" />
+	</Target>
 </Project>
