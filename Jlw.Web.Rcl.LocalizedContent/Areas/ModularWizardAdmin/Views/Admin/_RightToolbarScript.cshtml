@@ -104,6 +104,8 @@
                     var fieldClass = data['FieldClass'];
                     var fieldOrder = data['Order'];
                     var parentKey = data['ParentKey'];
+                    var wrapperHtmlStart = data["WrapperHtmlStart"];
+                    var wrapperHtmlEnd = data["WrapperHtmlEnd"];
 
                     if (!fieldId)
                         return;
@@ -126,6 +128,9 @@
                     $('input[name=GroupKey]', toolbar).val(groupKey);
                     $('input[name=Order]', toolbar).val(fieldOrder);
                     $('input[name=ParentKey]', toolbar).val(parentKey);
+
+                    $('textarea[name=WrapperHtmlStart]', toolbar).val(wrapperHtmlStart);
+                    $('textarea[name=WrapperHtmlEnd]', toolbar).val(wrapperHtmlEnd);
 
 
                     s = data['FieldKey'];
@@ -188,21 +193,6 @@
                     o.addClass('updating');
                     $('input', o).val(s);
 
-
-                    /*
-                    var bp = $('#preview-statusbar input[name=preview-size]:checked').data('breakpoint');
-                    $('input[name=WrapperColBreakpoint][value="col' + bp + '"]').trigger('click');
-                    $('input[name=WrapperPaddingBreakpoint][value="' + bp + '"]').trigger('click');
-                    $('input[name=WrapperMarginBreakpoint][value="' + bp + '"]').trigger('click');
-                    $('input[name=FieldPaddingBreakpoint][value="' + bp + '"]').trigger('click');
-                    $('input[name=FieldMarginBreakpoint][value="' + bp + '"]').trigger('click');
-
-                    $('input[name="WrapperColBreakpoint"]:checked').trigger('change');
-                    $('input[name="FieldPaddingBreakpoint"]:checked').trigger('change');
-                    $('input[name="WrapperPaddingBreakpoint"]:checked').trigger('change');
-                    $('input[name="FieldMarginBreakpoint"]:checked').trigger('change');
-                    $('input[name="WrapperMarginBreakpoint"]:checked').trigger('change');
-                    */
                     $('#preview-statusbar input[name=preview-size]:checked').trigger('change');
                     window.setTimeout(function() { o.removeClass('updating'); }, 10);
                 })
