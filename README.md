@@ -18,7 +18,7 @@
 |Namespace|Jlw.Data.LocalizedContent|
 |Target Framework|netstandard2.1|
 |Author(s)|Jason L. Walker|
-|Copyright|Copyright ©2012-2021 Jason L. Walker|
+|Copyright|Copyright Â©2012-2021 Jason L. Walker|
 
 
 ## Dependencies
@@ -39,7 +39,7 @@
 |Namespace|Jlw.Web.Rcl.LocalizedContent|
 |Target Framework|net6.0|
 |Author(s)|Jason L. Walker|
-|Copyright|Copyright ©2019-2021 Jason L. Walker|
+|Copyright|Copyright Â©2019-2021 Jason L. Walker|
 
 
 ## Back-End Dependencies
