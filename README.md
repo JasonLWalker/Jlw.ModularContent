@@ -47,12 +47,9 @@
 |Dependency|Version|License|Purpose|
 |-----|-----|-----|-----|
 |BuildWebCompiler|1.12.405|[...](https://github.com/madskristensen/WebCompiler/blob/master/LICENSE)||
-|[Microsoft.Extensions.FileProviders.Composite](https://dot.net/)|6.0.0|[MIT](https://licenses.nuget.org/MIT)||
-|[Microsoft.Extensions.FileProviders.Embedded](https://asp.net/)|6.0.3|[MIT](https://licenses.nuget.org/MIT)||
-|Jlw.Utilities.WebApiUtility|1.5.7928.8091|[MIT](https://licenses.nuget.org/MIT)||
 |BuildBundlerMinifier|3.2.449|[...](https://github.com/madskristensen/BundlerMinifier/blob/master/LICENSE)||
-|BundlerMinifier.Core|3.2.449|[...](https://github.com/madskristensen/BundlerMinifier/blob/master/LICENSE)||
-|[Microsoft.Web.LibraryManager.Build](https://github.com/aspnet/LibraryManager)|2.1.161|[License.txt](https://aka.ms/deprecateLicenseUrl)||
+|[Microsoft.Extensions.FileProviders.Embedded](https://asp.net/)|6.0.4|[MIT](https://licenses.nuget.org/MIT)||
+|Jlw.Utilities.WebApiUtility|1.5.7928.8091|[MIT](https://licenses.nuget.org/MIT)||
 
 
 ## Front-end Dependencies
@@ -60,19 +57,20 @@
 |-----|-----|-----|-----|
 |@jasonlwalker/jlwappbuilder|[0.0.34](https://github.com/JasonLWalker/Jlw.Package.Releases.git)|MIT||
 |@jasonlwalker/jlwutility|[0.0.34](https://github.com/JasonLWalker/Jlw.Package.Releases.git)|MIT||
-|[bootbox.js](http://bootboxjs.com)|[5.4.0](https://github.com/makeusabrew/bootbox.git)|MIT||
-|[bootswatch](http://bootswatch.com/)|[4.5.2](https://github.com/thomaspark/bootswatch.git)|MIT||
-|[datatables](http://datatables.net)|[1.10.21](https://github.com/DataTables/DataTables.git)|MIT|Display tables in user-friendly way|
+|[bootbox.js](http://bootboxjs.com)|[5.5.3](https://github.com/makeusabrew/bootbox.git)|MIT||
+|[bootswatch](http://bootswatch.com/)|[5.1.3](https://github.com/thomaspark/bootswatch.git)|MIT||
+|[datatables.net](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables.git)|MIT||
+|[datatables.net-bs5](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables-Bootstrap5.git)|MIT||
 |[font-awesome](https://fontawesome.com/)|[5.15.4](https://github.com/FortAwesome/Font-Awesome.git)|(OFL-1.1 OR MIT OR CC-BY-4.0)||
 |jquery.fancytree|[2.38.0](https://github.com/mar10/fancytree)|MIT||
 |[jquery](http://jquery.com/)|[3.3.1](https://github.com/jquery/jquery.git)|MIT|Framework library used by other libraries for HTML, DOM, Event, and AJAX manipulation|
-|[popper.js](https://popper.js.org/)|[1.16.1](https://github.com/popperjs/popper-core.git)|MIT||
+|[popper.js](https://popper.js.org/)|[2.11.5](https://github.com/popperjs/popper-core.git)|MIT||
 |[prism](http://prismjs.com/)|[1.7.0](https://github.com/PrismJS/prism.git)|MIT||
 |[prism-themes](https://github.com/prismjs/prism-themes#readme)|[1.7.0](https://github.com/prismjs/prism-themes.git)|MIT||
 |[Sortable](http://rubaxa.github.io/Sortable/)|[1.14.0](https://github.com/rubaxa/Sortable.git)|MIT||
 |[tinymce](http://www.tinymce.com)|[5.8.1](https://github.com/tinymce/tinymce.git)|LGPL-2.0||
 |[toastr.js](http://www.toastrjs.com)|[2.1.4](https://github.com/CodeSeven/toastr.git)|MIT||
-|[twitter-bootstrap](http://getbootstrap.com/)|[4.5.2](https://github.com/twbs/bootstrap)|MIT|Responsive UI, layout, and design framework|
+|[twitter-bootstrap](http://getbootstrap.com/)|[5.1.3](https://github.com/twbs/bootstrap)|MIT|Responsive UI, layout, and design framework|
 
 
 <!--  -->
