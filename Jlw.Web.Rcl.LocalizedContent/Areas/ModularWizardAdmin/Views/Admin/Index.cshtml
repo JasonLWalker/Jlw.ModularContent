@@ -1,7 +1,7 @@
 @model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
-    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    string version = DateTime.Now.Ticks.ToString();//typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
@@ -43,41 +43,40 @@
             <div class="col-12">
                 <div class="row h-100">
                     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_LeftToolbar.cshtml").Result
-                    <div class="col p-0" style="max-width:calc(100vw - 500px)">
+                    <div class="col p-0 position-relative" style="max-width:calc(100vw - 500px)">
                         <div id="preview-frame-wrapper" class="">
                             <div class="m-0 p-0 border w-100 h-100">
                                 <iframe id="preview-frame" src="@Url.Action("Preview")" class="" data-preview-initialized="0"></iframe>
                             </div>
                         </div>
                         <div id="preview-statusbar" class="bg-light border text-left">
-                            <div class="float-left">
+                            <div class="float-start">
                                 &nbsp;<small><span class="resolution-status"></span></small>
                             </div>
-                            <div class="btn-group btn-group-sm btn-group-toggle float-right p-1" data-toggle="buttons">
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked title="Responsive" />&nbsp;&nbsp;*&nbsp;&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />&nbsp;XXS&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />&nbsp;XS&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />&nbsp;SM&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />&nbsp;MD&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />&nbsp;LG&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XL&nbsp;
-                                </label>
-                                <label class="btn btn-outline-primary p-0">
-                                    <input type="radio" name="preview-size" value="preview-xxl" data-breakpoint="-xl" autocomplete="off" />&nbsp;XXL&nbsp;
-                                </label>
+                            <div class="btn-group btn-group-sm float-end p-1"  role="group" aria-label="Screen Size">
+                                <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
+                                <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-xxs" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />
+                                <label for="preview-size-xxs" class="btn btn-outline-primary p-0">&nbsp;XXS&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-xs" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />
+                                <label for="preview-size-xs" class="btn btn-outline-primary p-0">&nbsp;XS&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-sm" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />
+                                <label for="preview-size-sm" class="btn btn-outline-primary p-0">&nbsp;SM&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-md" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />
+                                <label for="preview-size-md" class="btn btn-outline-primary p-0">&nbsp;MD&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-lg" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />
+                                <label for="preview-size-lg" class="btn btn-outline-primary p-0">&nbsp;LG&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-xl" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />
+                                <label for="preview-size-xl" class="btn btn-outline-primary p-0">&nbsp;XL&nbsp;</label>
+
+                                <input type="radio" class="btn-check" id="preview-size-xxl" name="preview-size" value="preview-xxl" data-breakpoint="-xxl" autocomplete="off" />
+                                <label for="preview-size-xxl" class="btn btn-outline-primary p-0">&nbsp;XXL&nbsp;</label>
                             </div>
                         </div>
                     </div>
@@ -183,13 +182,40 @@
             flex: 0 0 250px;
         }
 
-        .right-toolbar .form-control, .right-toolbar label {
-            font-size: 0.8rem;
-        }
-        .right-toolbar label, .right-toolbar .form-group {
-            margin-bottom: 0;
+        .close {
+            border: none;
+            background: transparent;
         }
 
+        .right-toolbar .form-floating>.form-control-sm+label, .right-toolbar .form-floating>.form-select-sm+label {
+            padding: 0.5rem;
+        }
+
+        .right-toolbar .form-floating>.form-control-sm, .right-toolbar .form-floating>.form-select-sm {
+	        padding: 0.25rem 0.5rem;
+            height: calc(2.5rem + 2px);
+            line-height: 3;
+        }
+
+        .right-toolbar .form-floating>.form-control:focus, .right-toolbar .form-floating>.form-control:not(:placeholder-shown) {
+            padding-top: 1rem;
+            padding-bottom: 0.425rem;
+        }
+
+        .right-toolbar .form-floating > .dropdown {
+	        padding: 0;
+        }
+
+        .right-toolbar .form-floating > textarea.form-control-sm {
+            line-height: 1.2;
+        }
+
+        .right-toolbar .form-floating > .dropdown > button {
+	        padding: 1rem 0.5rem 0.1rem;
+	        text-align: left;
+	        font-size: revert;
+	        margin-top: -0.3rem;
+        }
 
         ul.fancytree-container {
             border: 1px solid gray;
@@ -388,7 +414,7 @@
                         }
                     });
                     window.jlwUtility.showPleaseWait();
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/js/skin-lion/ui.fancytree.min.css")"));

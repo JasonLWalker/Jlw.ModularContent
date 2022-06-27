@@ -299,7 +299,15 @@ function Get-SqlSchemaTable {
         $files = Get-ChildItem -Path $path -Include *.sql
 
         foreach($file in $files){
-    	    $tableString += "|{0}|{1}|[{2}]($($env:System_CollectionUri)_git/$($env:System_TeamProject)/?path=$filePath/{2}.sql)|{3}|`r`n" -f $dbServer, $dbName, [System.IO.Path]::GetFileNameWithoutExtension($file), $purposes[$file]
+            $purpose = $purposes[$file]
+            
+            if (!$purpose) {
+                $filedata = [Io.File]::ReadAllText($file)
+                
+                $purpose = [regex]::match($filedata, '(?i)\s*--\s*description\s*:[ \t]*([^\n\r]+)').Groups[1].Value
+            }
+
+    	    $tableString += "|{0}|{1}|[{2}]($($env:System_CollectionUri)_git/$($env:System_TeamProject)/?path=$filePath/{2}.sql)|{3}|`r`n" -f $dbServer, $dbName, [System.IO.Path]::GetFileNameWithoutExtension($file), $purpose
         }
     }
 

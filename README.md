@@ -67,8 +67,8 @@
 |jquery.fancytree|[2.38.0](https://github.com/mar10/fancytree)|MIT||
 |[jquery](http://jquery.com/)|[3.3.1](https://github.com/jquery/jquery.git)|MIT|Framework library used by other libraries for HTML, DOM, Event, and AJAX manipulation|
 |[popper.js](https://popper.js.org/)|[1.16.1](https://github.com/popperjs/popper-core.git)|MIT||
-|[prism-themes](https://github.com/prismjs/prism-themes#readme)|[1.7.0](https://github.com/prismjs/prism-themes.git)|MIT||
 |[prism](http://prismjs.com/)|[1.7.0](https://github.com/PrismJS/prism.git)|MIT||
+|[prism-themes](https://github.com/prismjs/prism-themes#readme)|[1.7.0](https://github.com/prismjs/prism-themes.git)|MIT||
 |[Sortable](http://rubaxa.github.io/Sortable/)|[1.14.0](https://github.com/rubaxa/Sortable.git)|MIT||
 |[tinymce](http://www.tinymce.com)|[5.8.1](https://github.com/tinymce/tinymce.git)|LGPL-2.0||
 |[toastr.js](http://www.toastrjs.com)|[2.1.4](https://github.com/CodeSeven/toastr.git)|MIT||
@@ -82,7 +82,7 @@
 
 |Server|Database|Table|Purpose|
 |-----|-----|-----|-----|
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.DatabaseAuditTrail](_git//?path=SqlSchema/Table/dbo.DatabaseAuditTrail.sql)||
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.DatabaseAuditTrail](_git//?path=SqlSchema/Table/dbo.DatabaseAuditTrail.sql)|Used to store an audit trail of records in JSON format|
 |(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.LocalizedContentFields](_git//?path=SqlSchema/Table/dbo.LocalizedContentFields.sql)||
 |(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.LocalizedContentText](_git//?path=SqlSchema/Table/dbo.LocalizedContentText.sql)||
 |(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.LocalizedGroupDataItems](_git//?path=SqlSchema/Table/dbo.LocalizedGroupDataItems.sql)||
@@ -92,38 +92,38 @@
 
 |Server|Database|Stored Procedure|Purpose|
 |-----|-----|-----|-----|
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedContentField](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedContentField.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedContentText](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedContentText.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedGroupDataItems](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedGroupDataItems.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedContentFieldRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedContentTextRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedGroupDataItemRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteWizardFieldRecursive](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteWizardFieldRecursive.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetComponentList](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetComponentList.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetFormFields](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetFormFields.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentFieldRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentFieldsDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentFieldsDt.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentTextDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentTextDt.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentTextRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItems](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItems.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemsDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemsDt.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemValue](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemValue.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetWizardContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetWizardContentFieldRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetWizardFields](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetWizardFields.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldData](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldData.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldParentOrder](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldParentOrder.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentTextRecord.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedGroupDataItemRecord.sql)||
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedContentField](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedContentField.sql)|Used to insert or update an audit trail record for [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedContentText](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedContentText.sql)|Used to insert or update an audit trail record for [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_AuditTrailSave_LocalizedGroupDataItems](_git//?path=SqlSchema/StoredProcedure/dbo.sp_AuditTrailSave_LocalizedGroupDataItems.sql)|Used to insert or update an audit trail record for [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedContentFieldRecord.sql)|Used to remove matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedContentTextRecord.sql)|Used to remove the matching record from [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteLocalizedGroupDataItemRecord.sql)|Used to remove matching record from [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_DeleteWizardFieldRecursive](_git//?path=SqlSchema/StoredProcedure/dbo.sp_DeleteWizardFieldRecursive.sql)|Used to recursively remove the matching records from [LocalizedContentFields] and [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetComponentList](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetComponentList.sql)|	|
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetFormFields](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetFormFields.sql)|	|
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentFieldRecord.sql)|Used to retrieve the first matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentFieldsDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentFieldsDt.sql)|Used to generate a DataTable list of matching records from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentTextDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentTextDt.sql)|Used to generate a DataTable list of matching records from [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedContentTextRecord.sql)|Used to retrieve the first matching record from [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemRecord.sql)|Used to retrieve the first matching record from [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItems](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItems.sql)|Used to retrieve the matching records from [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemsDt](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemsDt.sql)|Used to generate a DataTable list of matching records from [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetLocalizedGroupDataItemValue](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetLocalizedGroupDataItemValue.sql)|Used to retrieve the first matching record from [LocalizedGroupDataItems] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetWizardContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetWizardContentFieldRecord.sql)|Used to retrieve the first matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_GetWizardFields](_git//?path=SqlSchema/StoredProcedure/dbo.sp_GetWizardFields.sql)|Used to retrieve a grouped list of wizard fields with localized text|
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldData](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldData.sql)|Used to retrieve the first matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldParentOrder](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldParentOrder.sql)|Used to retrieve the first matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentFieldRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentFieldRecord.sql)|Used to retrieve the first matching record from [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedContentTextRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedContentTextRecord.sql)|Used to retrieve the first matching record from [LocalizedContentText] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.sp_SaveLocalizedGroupDataItemRecord](_git//?path=SqlSchema/StoredProcedure/dbo.sp_SaveLocalizedGroupDataItemRecord.sql)|Used to retrieve the first matching record from [LocalizedGroupDataItems] |
 
 
 ## Views:
 
 |Server|Database|View|Purpose|
 |-----|-----|-----|-----|
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.vwLocalizedContentField_Audit](_git//?path=SqlSchema/View/dbo.vwLocalizedContentField_Audit.sql)||
-|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.vwLocalizedContentText_Audit](_git//?path=SqlSchema/View/dbo.vwLocalizedContentText_Audit.sql)||
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.vwLocalizedContentField_Audit](_git//?path=SqlSchema/View/dbo.vwLocalizedContentField_Audit.sql)|Used to retrieve the Audit records for the table [LocalizedContentFields] |
+|(localdb)SqlLocalDb-SampleApp|LocalizedContent|[dbo.vwLocalizedContentText_Audit](_git//?path=SqlSchema/View/dbo.vwLocalizedContentText_Audit.sql)|Used to retrieve the Audit records for the table [LocalizedContentText] |
 
 
 

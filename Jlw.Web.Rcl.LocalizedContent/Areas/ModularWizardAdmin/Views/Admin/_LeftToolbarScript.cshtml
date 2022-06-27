@@ -37,7 +37,7 @@
     function libJlwLeftToolbarAdminExtension(t, $, initOptions, undefined) {
         if (!t.urlApiRoot)
             t.urlApiRoot = '@apiUrl';
-        var reContainerId = /^(jlw[\w]+)-([\w\d_]+)-([\w]+)-([\w\d_]+)-([\d]+)$/i;
+        var reContainerId = /^(jlw[\w]+)-([\w\d_-]+)-([\w]+)-([\w\d_]+)-([\d]+)$/i;
         var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
         var clientFrameBody = $(clientFrameWindow.document.body);
         var validButtonTypes = ['button'];

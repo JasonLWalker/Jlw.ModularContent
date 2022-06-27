@@ -47,7 +47,7 @@
         function onPageLoadInit() {
             function fnInit() {
                 window.jlwUtility.showPleaseWait();
-                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap4.min.css")"));
+                $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")"));
                 $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
                 $.when(
                     window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,"@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
@@ -93,7 +93,7 @@
 
 <div class="col-xs-12">
     <div>
-        <button class="float-right btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
+        <button class="float-end btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
         <div class="jlw-header h3">
             <span class="fa fa-w fa-language"></span> @($"{ViewData["Title"]}")
         </div>
