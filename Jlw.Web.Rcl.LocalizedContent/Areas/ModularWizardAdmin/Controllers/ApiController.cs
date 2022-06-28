@@ -365,7 +365,7 @@ public abstract class ApiController : WizardApiBaseController
 
         try
         {
-            o.AuditChangeBy = User.Identity.Name;
+            o.AuditChangeBy = User.Identity?.Name ?? "";
             var oResult = DataRepository.SaveFieldData(o);
             if (oResult != null)
                 return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
@@ -398,7 +398,7 @@ public abstract class ApiController : WizardApiBaseController
         ILocalizedContentField oResult = null;
         try
         {
-            o.AuditChangeBy = User.Identity.Name;
+            o.AuditChangeBy = User.Identity?.Name ?? "";
             oResult = _fieldRepository.SaveRecord(o);
             bResult = oResult != null;
 
@@ -435,7 +435,7 @@ public abstract class ApiController : WizardApiBaseController
         ILocalizedContentField oResult = null;
         try
         {
-            o.AuditChangeBy = User.Identity.Name;
+            o.AuditChangeBy = User.Identity?.Name ?? "";
             oResult = _fieldRepository.SaveRecord(o);
             bResult = oResult != null;
             if (bResult)
@@ -477,7 +477,7 @@ public abstract class ApiController : WizardApiBaseController
     public virtual object SaveField(WizardField o)
     {
         var bResult = false;
-        o.AuditChangeBy = User.Identity.Name;
+        o.AuditChangeBy = User.Identity?.Name ?? "";
         //o.GroupFilter = _groupFilter;
         IWizardContentField field = o;
         if (field.Id < 1)
@@ -519,7 +519,7 @@ public abstract class ApiController : WizardApiBaseController
 
         try
         {
-            o.AuditChangeBy = User.Identity.Name;
+            o.AuditChangeBy = User.Identity?.Name ?? "";
             //bResult = 
             var oResult = _fieldRepository.DeleteRecord(o);
             bResult = oResult != null;
@@ -546,10 +546,13 @@ public abstract class ApiController : WizardApiBaseController
 
         foreach (var node in nodeList)
         {
-            node.AuditChangeBy = User.Identity.Name;
-            var result = DataRepository.SaveFieldParentOrder(node);
-            if (result?.ParentKey != node.ParentKey || result?.Order != node.Order)
-                bSuccess = false;
+            if (node != null)
+            {
+                node.AuditChangeBy = User.Identity?.Name ?? "";
+                var result = DataRepository.SaveFieldParentOrder(node);
+                if (result?.ParentKey != node.ParentKey || result?.Order != node.Order)
+                    bSuccess = false;
+            }
         }
         if (bSuccess)
             return new ApiStatusMessage("Field order successfully updated", "", ApiMessageType.Success);
