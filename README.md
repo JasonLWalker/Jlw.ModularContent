@@ -11,6 +11,7 @@
 
 # Data Repository
 <!--  -->
+![Nuget](https://img.shields.io/nuget/v/Jlw.Data.LocalizedContent?label=Jlw.Data.LocalizedContent%20%28release%29) ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Jlw.Data.LocalizedContent?label=Jlw.Data.LocalizedContent%20%28preview%29)
 
 ## Information / Requirements
 |||
@@ -32,6 +33,7 @@
 
 # Razor Class Library
 <!--  -->
+![Nuget](https://img.shields.io/nuget/v/jlw.Web.Rcl.LocalizedContent?label=jlw.Web.Rcl.LocalizedContent%20%28release%29) ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/jlw.Web.Rcl.LocalizedContent?label=jlw.Web.Rcl.LocalizedContent%20%28preview%29)
 ## Information / Requirements
 
 |||
