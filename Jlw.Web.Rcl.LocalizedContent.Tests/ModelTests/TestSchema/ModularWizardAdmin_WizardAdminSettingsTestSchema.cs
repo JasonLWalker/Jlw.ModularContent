@@ -36,6 +36,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "ApiOverrideUrl", Public, Public);
             AddProperty(typeof(string), "JsRoot", Public, Public);
             AddProperty(typeof(string), "ToolboxHeight", Public, Public);
+            AddProperty(typeof(string), "HiddenFilterPrefix", Public, Public);
             AddProperty(typeof(List<SelectListItem>), "LanguageList", Public, null);
         }
 
