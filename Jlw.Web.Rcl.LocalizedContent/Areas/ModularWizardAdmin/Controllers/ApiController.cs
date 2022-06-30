@@ -314,7 +314,15 @@ public abstract class ApiController : WizardApiBaseController
     public virtual object GetWizard(WizardInputModel model)
     {
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
-        
+
+        if (String.IsNullOrWhiteSpace(model.Screen))
+        {
+            var fields = DataRepository.GetWizardFields(model.Wizard, model.Wizard, _groupFilter);
+            var screen = fields.OrderBy(o => o.Order).FirstOrDefault(o => o.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase));
+
+            model.Screen = screen?.FieldKey;
+        }
+
         return WizardFactory.CreateWizardScreenContent(model.Wizard, model.Screen);
     }
 

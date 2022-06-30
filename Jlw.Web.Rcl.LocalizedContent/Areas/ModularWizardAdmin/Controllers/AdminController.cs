@@ -31,13 +31,14 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         }
 
 
-        [HttpGet("PreviewScreen/{screenName?}")]
-        public virtual ActionResult PreviewScreen(string screenName = null)
+        [HttpGet("PreviewScreen/{wizardName?}/{screenName?}")]
+        public virtual ActionResult PreviewScreen(string wizardName = null, string screenName = null)
         {
             var model = JObject.FromObject(DefaultSettings);
             model["ShowWireFrame"] = DataUtility.ParseBool(Request.Query["wireframe"]);
             model["ShowSideNav"] = DataUtility.ParseBool(Request.Query["showNav"]);
-            model["StartingScreen"] = screenName ?? "";
+            model["Wizard"] = wizardName ?? "";
+            model["Screen"] = screenName ?? "";
 
             return View(GetViewPath("PreviewScreen"), model);
         }
