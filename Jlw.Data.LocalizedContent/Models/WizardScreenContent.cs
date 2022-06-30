@@ -26,10 +26,16 @@ namespace Jlw.Data.LocalizedContent
                 Body = "I'm sorry, but I was unable to retrieve the wizard content at this time. Please try again later.";
                 return;
             }
+
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
-            
+
             // Resolve Placeholders for field labels
-            fields.ForEach(o=>o.Label = o.ResolvePlaceholders(o.Label, formData));
+            fields.ForEach(o=>
+            {
+                o.Label = o.ResolvePlaceholders(o.Label, formData);
+                o.WrapperHtmlStart = o.ResolvePlaceholders(o.WrapperHtmlStart, formData);
+                o.WrapperHtmlEnd = o.ResolvePlaceholders(o.WrapperHtmlEnd, formData);
+            });
             
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
