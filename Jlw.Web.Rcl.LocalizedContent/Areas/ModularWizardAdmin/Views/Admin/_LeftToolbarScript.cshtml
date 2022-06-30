@@ -155,7 +155,13 @@
 			        for (var k in children) {
 				        var child = (children[k] || {});
 				        var fieldData = (child['field_data'] || {});
-				        oScreen.append($('<option value="' + fieldData['FieldKey'] + '">' + fieldData['FieldKey'] + '</option>'));
+				        var text = (fieldData['FieldKey'] || "");
+				        try {
+					        var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+							text = text.replace(reFilterPrefix, '');
+						} catch (e) { }
+
+				        oScreen.append($('<option value="' + fieldData['FieldKey'] + '">' + text + '</option>'));
 			        }
 		        }
 		        oScreen.val(actionScreen);
@@ -190,7 +196,13 @@
 
 		        for (var i in data) {
 			        var fieldData = data[i];
-			        var opt = $('<option value="' + fieldData["GroupKey"] + '">' + fieldData["GroupKey"] + '</option>');
+                    var text = fieldData["GroupKey"] || "";
+					try {
+				        var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+				        text = text.replace(reFilterPrefix, '');
+			        } catch (e) { }
+
+			        var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
 			        opt.attr('data-field-data', fieldData);
 			        target.append(opt);
 		        }
@@ -252,7 +264,7 @@
 				        break;
 			        }
 		        },
-		        extensions: ["dnd5"],
+				extensions: ["dnd5"],
 		        dnd5: {
 			        autoExpandMS: 1500, // Expand nodes after n milliseconds of hovering.
 			        dropEffectDefault: "move", // Default dropEffect ('copy', 'link', or 'move')
@@ -312,21 +324,83 @@
 			        }, // Callback(targetNode, data)
 			        __: ''
 		        }
-	        }).on("fancytreeactivate", onLoadTreeNode);
+			}).on("fancytreeactivate", onLoadTreeNode);
+
+			$(target).contextMenu({
+				selector: ".fancytree-title",
+				events: {
+					activated: function (options) {
+						options.$menu.css('z-index', 900);
+					}
+				},
+				build: function ($trigger, e) {
+					var node = $.ui.fancytree.getNode($trigger);
+					var parentNode = node.parent || {};
+
+					var fieldData = (node && node.data && node.data.field_data) ? node.data.field_data : {};
+                    var parentData = (parentNode && parentNode.data && parentNode.data.field_data) ? parentNode.data.field_data : {};
+					var menuItems = {
+                        "duplicate": { "name": "Duplicate", "icon": "copy" },
+						"rename" : { "name": "Rename", "icon": "edit" },
+                        "delete": { "name": "Delete", "icon": "delete" }
+					};
+					var wizardKey = $('#slctWizard').val().toUpperCase() || "";
+
+					var fieldType = (fieldData.FieldType || "").toUpperCase();
+                    var fieldKey = (fieldData.FieldKey || "").toUpperCase();
+					var parentKey = (fieldData.ParentKey || "").toUpperCase();
+                    var parentType = (parentData.FieldType || "").toUpperCase();
+					if (parentType === 'SCREEN'){
+						if (fieldKey === 'BODY') {
+							fieldType = 'BODY';
+						}
+
+						if (['HEADING', 'BODY', 'BUTTONGROUP'].includes(fieldType)) {
+							return false;
+						}
+
+					}
+                    if (fieldType === 'SCREEN' || fieldType === 'WIZARD') {
+                        menuItems['sep1'] = "---------";
+                        if (fieldType === 'WIZARD') {
+	                        menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
+                        }
+						menuItems['addscreen'] = { "name": "Add New Screen", "icon": 'add' };
+
+                        menuItems['sep2'] = "---------";
+                        menuItems['preview'] = { "name": "Preview", "icon": "play" };
+                    }
+
+					return {
+						callback: function(action, options) {
+							switch(action) {
+								case 'addscreen':
+									window.postMessage({ 'action': 'addScreen' });
+									break;
+                                case 'addwizard':
+                                    window.postMessage({ 'action': 'addWizard' });
+                                    break;
+                                case 'delete':
+	                                window.postMessage({ 'action': 'deleteNode', 'nodeKey': node.key });
+                                    break;
+								case 'preview':
+									window.postMessage({ 'action': 'previewScreen', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
+									break;
+								default:
+									bootbox.alert("This menu option has not yet been implemented.");
+									break;
+							}
+
+						},
+						items:  menuItems
+					};
+				}
+			});
         }
 
         function saveNodeOrder(nodeList, fieldKey) {
 	        t.post(t.urlApiRoot + "/SaveOrder", nodeList).always(function(data) {
 		        window.postMessage({ 'action': 'updateTree', 'tree-id': fieldKey });
-		        /*
-		        var tree = $.ui.fancytree.getTree("#wizardtree");
-		        if (tree) {
-		            tree.reload().always(function(data) {
-		                tree.activateKey(fieldKey, {activeVisible:true});
-		            });
-		        }
-		        */
-		        //onChangeWizard({});
 	        });
         }
 
@@ -423,7 +497,6 @@
 			}
 			}
         }
-
 
         function onDragUpdate(event) {
             var nodes = [];
@@ -681,6 +754,16 @@
                     }
 
                     break;
+				case 'deleteNode':
+					onRemoveFancyTreeNode(event.data['nodeKey']);
+					break;
+                case 'addScreen':
+	                onNewScreen();
+	                break;
+                case 'previewScreen':
+	                onPreviewScreen(event.data['screenName']);
+	                break;
+
                 }
             } else {
                 // The data hasn't been sent from your site!
@@ -689,8 +772,8 @@
             }
         }
 
-        function onNewScreen(event) {
-            var dialog = bootbox.dialog({
+		function onNewScreen() {
+			var dialog = bootbox.dialog({
                 title: 'Add new Screen',
                 message: '<div class="form-group"><label>Screen Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
                 inputType: 'text',
@@ -745,8 +828,15 @@
 
                                             for (var i in data) {
                                                 var fieldData = data[i];
-                                                var opt = $('<option value="' + fieldData["GroupKey"] +'">' + fieldData["GroupKey"] + '</option>');
-                                                opt.attr('data-field-data', fieldData);
+                                                var text = fieldData["GroupKey"] || "";
+                                                try {
+	                                                var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+	                                                text = text.replace(reFilterPrefix, '');
+                                                } catch (e) { }
+
+                                                var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
+
+												opt.attr('data-field-data', fieldData);
                                                 target.append(opt);
                                             }
                                             target.val(key);
@@ -789,6 +879,25 @@
             });
 
         }
+
+		function onPreviewScreen(screenName) {
+			var w = 640;
+			var h = 480;
+			var args = '';
+
+            if ($('#showWizardNav').is(':checked')) args += (args ? '&' : '') + 'showNav=1';
+            if ($('#showWireframe').is(':checked')) args += (args ? '&' : '') + 'wireframe=1';
+
+			if (window.screen || window.screen.availWidth) w = window.screen.availWidth;
+			if (window.screen || window.screen.availHeight) h = window.screen.availHeight;
+
+            w = Math.min(Math.max(window.screen.availWidth, w), 2000);
+			h = Math.min(Math.max(h, 480), 1800);
+
+
+			args = (args ? '?' : '') + args;
+            window.open("@Url.Action("PreviewScreen")/" + screenName + args, "jlwLocalizedContent_ScreenPreview", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + (w * 0.8) + ', height=' + (h * 0.8) + ', left=' + ((w * 0.1)) + ', top=' + ((h * 0.1)), true);
+		}
 
         initFancyTree("#wizardtree");
         $(".dad-drop-zone").on("dragenter dragover", onDragEnterOverForFancyTree).on('drop', onDropDelete);

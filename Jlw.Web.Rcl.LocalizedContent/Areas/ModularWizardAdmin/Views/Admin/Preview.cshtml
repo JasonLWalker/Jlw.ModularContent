@@ -176,8 +176,6 @@
 
                 oEvt.dataTransfer.dropEffect = 'move';
                 $(dragData.placeholderElem).insertAfter($(dragData.dragOverElem));
-
-                //console.log("Dragged over", evt);
             }
 
             function onRenderWizardFormField(obj, data, parent) {
@@ -229,7 +227,6 @@
                     p.attr('data-tree-id', data['Id']);
                     //p.attr('draggable', true);
                 }
-                //console.log(o, data);
 
                 o.attr('data-field-key', data['FieldKey']);
                 return o;
@@ -249,14 +246,12 @@
             }
 
             function fnOnDragDrop(evt, targetElement, origEvent) {
-                //console.log(evt, targetElement, origEvent);
                 var target = $(evt.currentTarget);
                 var nodes = [];
                 target.children().each(function(i) {
                     nodes.push($(this).data('tree-id'));
                 });
                 var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': $(targetElement).data('tree-id') };
-                //console.log(msg);
                 window.parent.postMessage(msg);
             }
 
@@ -288,12 +283,9 @@
 
                         switch (event.data['action']) {
                         case 'showSideNav':
-                            //console.log(event.data);
                             if (event.data['value']) {
-                                //console.log('adding side nav');
                                 $('.wizard-nav-col').addClass('d-xl-block d-lg-inline-block');
                             } else {
-                                //console.log('hiding side nav');
                                 $('.wizard-nav-col').addClass('d-none');
                                 $('.wizard-nav-col').removeClass('d-xl-block d-lg-inline-block');
                             }
