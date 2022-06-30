@@ -24,6 +24,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             DefaultSettings.CanEdit = true;
             DefaultSettings.CanInsert = true;
             DefaultSettings.CanDelete = true;
+            DefaultSettings.HiddenFilterPrefix = "Sample";
             DefaultSettings.LanguageList.Add(new SelectListItem("Chinese", "CN"));
             DefaultSettings.TinyMceSettings = JObject.Parse(@"
                 {

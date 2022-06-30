@@ -82,16 +82,16 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
 
-            wizard.Label = wizard.ResolvePlaceholders(wizard.Label, FormData);
-            wizard.WrapperHtmlStart = wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, FormData);
-            wizard.WrapperHtmlEnd = wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, FormData);
+            Label = wizard.ResolvePlaceholders(wizard.Label, formData);
+            WrapperHtmlStart = wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, formData);
+            WrapperHtmlEnd = wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, formData);
 
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             foreach (var field in fields)
             {
-                field.Label = field.ResolvePlaceholders(field.Label, FormData);
-                field.WrapperHtmlStart = field.ResolvePlaceholders(field.WrapperHtmlStart, FormData);
-                field.WrapperHtmlEnd = field.ResolvePlaceholders(field.WrapperHtmlEnd, FormData);
+                field.Label = field.ResolvePlaceholders(field.Label, formData);
+                field.WrapperHtmlStart = field.ResolvePlaceholders(field.WrapperHtmlStart, formData);
+                field.WrapperHtmlEnd = field.ResolvePlaceholders(field.WrapperHtmlEnd, formData);
             }
 
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
@@ -115,6 +115,7 @@ namespace Jlw.Data.LocalizedContent
             foreach (var btnField in buttons)
             {
                 ((List<WizardButtonData>)Buttons).Add(new WizardButtonData(btnField));
+
             }
 
         }

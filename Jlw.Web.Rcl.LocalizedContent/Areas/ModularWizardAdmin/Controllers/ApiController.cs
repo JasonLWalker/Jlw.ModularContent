@@ -27,6 +27,7 @@ public abstract class ApiController : WizardApiBaseController
     protected int nMaxTreeDepth = 10;
     private readonly ILocalizedContentTextRepository _languageRepository;
     protected readonly IList<WizardField> DefaultWizardControls = new List<WizardField>();
+    protected string HiddenFilterPrefix = "";
 
     private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 

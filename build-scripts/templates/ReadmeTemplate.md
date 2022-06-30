@@ -16,7 +16,7 @@
 	$projectName = "Jlw.Data.LocalizedContent"
 	$projectPath = "$($buildPath)**\$($projectName).csproj"
 ) -->
-![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29) ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)
+[![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab)
 
 ## Information / Requirements
 $(Get-ProjectInfoTable $projectName $projectPath)
@@ -36,7 +36,7 @@ $(Get-ProjectDependencyTable $projectPath)
 		'jquery' = 'Framework library used by other libraries for HTML, DOM, Event, and AJAX manipulation';
 	}
 ) -->
-![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29) ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)
+[![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab)
 ## Information / Requirements
 
 $(Get-ProjectInfoTable $projectName $projectPath)

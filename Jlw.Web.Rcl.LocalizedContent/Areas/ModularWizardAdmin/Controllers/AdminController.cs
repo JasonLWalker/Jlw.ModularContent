@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,6 +29,19 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         {
             return GetViewResult("Preview");
         }
+
+
+        [HttpGet("PreviewScreen/{screenName?}")]
+        public virtual ActionResult PreviewScreen(string screenName = null)
+        {
+            var model = JObject.FromObject(DefaultSettings);
+            model["ShowWireFrame"] = DataUtility.ParseBool(Request.Query["wireframe"]);
+            model["ShowSideNav"] = DataUtility.ParseBool(Request.Query["showNav"]);
+            model["StartingScreen"] = screenName ?? "";
+
+            return View(GetViewPath("PreviewScreen"), model);
+        }
+
 
 
 
@@ -70,6 +84,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             public string JsRoot { get; set; }
 
             public string ToolboxHeight { get; set; }
+
+            public string HiddenFilterPrefix { get; set; }
 
             public List<SelectListItem> LanguageList { get; } = new List<SelectListItem>() { new SelectListItem("English", "EN") };
 
