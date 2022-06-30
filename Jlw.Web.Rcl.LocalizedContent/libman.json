@@ -3,7 +3,7 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "jquery@3.3.1",
+      "library": "jquery@3.6.0",
       "destination": "libman/jquery"
     },
     {
@@ -36,7 +36,7 @@
       "destination": "libman/bootbox.js/"
     },
     {
-      "library": "Sortable@1.14.0",
+      "library": "Sortable@1.15.0",
       "destination": "libman/sortable"
     },
     {
@@ -58,16 +58,16 @@
       "destination": "resources/LocalizedContent/tinymce/"
     },
     {
-      "library": "prism@1.7.0",
+      "library": "prism@1.28.0",
       "destination": "libman/prism/"
     },
     {
       "provider": "jsdelivr",
-      "library": "prism-themes@1.7.0",
+      "library": "prism-themes@1.9.0",
       "destination": "libman/prism-themes/"
     },
     {
-      "library": "jquery.fancytree@2.38.0",
+      "library": "jquery.fancytree@2.38.1",
       "destination": "resources/LocalizedContent/js/",
       "files": [
         "skin-lion/icons-rtl.gif",
