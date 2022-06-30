@@ -65,6 +65,25 @@
             //t.initializeWizard = initialize;
             t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
             t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+            t.navToScreen = fnNavToScreen;
+            t.fnOnClickNav = fnOnClickNav;
+
+	        function fnNavToScreen(screenId) { return t.navTo(screenId, "@(Model["Wizard"] ?? "")", "", ""); }
+
+
+            function fnOnClickNav(evt) {
+	            var btn = $(evt.target);
+	            var section = btn.data('section');
+	            var step = btn.data('step');
+	            var wizard = "@(Model["Wizard"] ?? "")";
+	            var screen = btn.data('screen');
+	            var fn = btn.data('fnclick');
+	            if (fn && typeof t[fn] == 'function') {
+		            t[fn](evt);
+	            }
+	            t.navTo(screen, wizard, section, step);
+	            return false;
+            }
 
 
             if (initOptions)
@@ -72,9 +91,9 @@
 
             function initialize(opts) {
                 currApplicationId = opts["ApplicationId"];
-
-                t.navTo(opts['screen'], opts['wizard']).done(function () {
-                    t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
+                var data = opts["formData"] || {};
+                t.navToScreen(opts['Screen']).done(function () {
+                    t.populateFormData(data, $('.wizard-form'));
                 });
 
             }
@@ -83,8 +102,7 @@
             'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
             'urlApiRoot': '@apiUrl',
             //'debugLevel':11,
-            'screen': '@(Model["Screen"] ?? "")',
-            'wizard': '@(Model["Wizard"] ?? "")',
+            'Screen': '@(Model["Screen"] ?? "")',
             'wizardParent': '.wizard-form'
         });
     </script>
