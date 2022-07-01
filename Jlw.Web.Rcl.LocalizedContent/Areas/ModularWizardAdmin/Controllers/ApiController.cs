@@ -28,6 +28,8 @@ public abstract class ApiController : WizardApiBaseController
     private readonly ILocalizedContentTextRepository _languageRepository;
     protected readonly IList<WizardField> DefaultWizardControls = new List<WizardField>();
     protected string HiddenFilterPrefix = "";
+    protected object PreviewRecordData { get; set; } = new object();
+
 
     private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 
@@ -322,8 +324,10 @@ public abstract class ApiController : WizardApiBaseController
 
             model.Screen = screen?.FieldKey;
         }
+        //JToken PreviewData = JToken.FromObject(model.IsLivePreview ? PreviewRecordData : new { });
+        //if (model.IsLivePreview) PreviewData["IsLivePreview"] = 1;
 
-        return WizardFactory.CreateWizardScreenContent(model.Wizard, model.Screen);
+        return WizardFactory.CreateWizardScreenContent(model.Wizard, model.Screen, model.IsLivePreview ? PreviewRecordData : new { });
     }
 
     /// TODO Edit XML Comment Template for Data
@@ -842,6 +846,11 @@ public abstract class ApiController : WizardApiBaseController
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<int>))]
         public int Step { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<bool>))]
+        public bool IsLivePreview { get; set; }
+
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         public Dictionary<string, string> ValidFields { get; } = new Dictionary<string, string>();

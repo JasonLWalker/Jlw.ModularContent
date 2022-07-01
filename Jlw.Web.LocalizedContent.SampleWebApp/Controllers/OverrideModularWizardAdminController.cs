@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Jlw.Data.LocalizedContent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,18 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
     [Authorize("ContentOverrideAdmin")]
     public class OverrideModularWizardAdminController : Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController
     {
-        public OverrideModularWizardAdminController(LinkGenerator linkGenerator) : base()
+        
+        public OverrideModularWizardAdminController(LinkGenerator linkGenerator, IWizardFactoryRepository repository) : base()
         {
+            _groupFilter = "Sample%";
+
+            DataRepository = repository;
+
             DefaultSettings.ApiOverrideUrl = linkGenerator.GetPathByAction("Index", "OverrideModularWizardAdminApi", new { Area = "" });
             DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
-            //DefaultSettings.ShowSideNav = false;
+            DefaultSettings.ShowSideNav = true;
             //DefaultSettings.SideNavDefault = false;
-            //DefaultSettings.ShowWireFrame = false;
+            DefaultSettings.ShowWireFrame = true;
             DefaultSettings.IsAdmin = true;
             DefaultSettings.CanEdit = true;
             DefaultSettings.CanInsert = true;

@@ -1,4 +1,4 @@
-@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";
@@ -13,9 +13,17 @@
         <form method="post">
             <input type="hidden" name="st" value="1" />
             <div class="list-group wizard-nav">
-                <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
-                <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
-                <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+                @{
+                    foreach (var item in Model.SideNav.Items)
+                    {
+                        <button type="button" data-section="@item.Section" data-step="@item.Step"  data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> @item.Label</button>
+                    }
+                }
+                @*
+        <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
+        <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
+        <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+                *@
             </div>
         </form>
     </div>
@@ -304,6 +312,7 @@
                             var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
 
                             $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+
                             break;
                         }
                     } else {

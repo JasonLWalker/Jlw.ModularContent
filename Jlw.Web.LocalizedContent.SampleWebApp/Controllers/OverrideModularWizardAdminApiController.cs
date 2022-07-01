@@ -13,6 +13,10 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             _groupFilter = "Sample%";
             _unlockApi = true;
             HiddenFilterPrefix = "Sample";
+            PreviewRecordData = new
+            {
+                SampleName = "John Doe"
+            };
         }
 
         [HttpGet("")]
