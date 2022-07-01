@@ -6,11 +6,11 @@ using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
-using TModel = Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings;
+using TModel = Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {
-    public class ModularWizardAdmin_WizardAdminSettingsTestSchema : BaseModelSchema<TModel>
+    public class WizardAdminSettingsTestSchema : BaseModelSchema<TModel>
     {
         void InitConstructors()
         {
@@ -48,7 +48,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
         {
         }
 
-        public ModularWizardAdmin_WizardAdminSettingsTestSchema()
+        public WizardAdminSettingsTestSchema()
         {
             InitConstructors();
             InitProperties();
