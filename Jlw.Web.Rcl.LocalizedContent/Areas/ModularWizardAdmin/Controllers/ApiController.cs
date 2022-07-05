@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
@@ -615,8 +616,17 @@ public abstract class ApiController : WizardApiBaseController
         var aWizards = data.Where(o => o.FieldType.Equals("WIZARD", StringComparison.InvariantCultureIgnoreCase));
         foreach (var wizard in aWizards)
         {
-            if (!string.IsNullOrWhiteSpace(groupKey)) 
-                wizardList.Add(GetWizardTreeNode(wizard, data));
+            //wizard.Label.Replace()
+            if (!string.IsNullOrWhiteSpace(groupKey))
+            {
+                var treeNode = GetWizardTreeNode(wizard, data);
+                if (!string.IsNullOrWhiteSpace(HiddenFilterPrefix))
+                {
+                    var reLabel = new Regex("^" + HiddenFilterPrefix, RegexOptions.IgnoreCase);
+                    treeNode.title = reLabel.Replace(treeNode.title, "");
+                }
+                wizardList.Add(treeNode);
+            }
         }
         return wizardList;
     }
