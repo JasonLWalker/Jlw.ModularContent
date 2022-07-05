@@ -419,68 +419,13 @@
 	        }
         }
 
-		function onRemoveFancyTreeNode(nodeId, obj) {
-			var tree = $.ui.fancytree.getTree("#wizardtree");
-			var node = tree.getNodeByKey(nodeId);
-			var fieldName, groupKey, fieldType;
-			if (obj) {
-				var matches = reContainerId.exec(obj.attr('id'));
-				if (matches && matches.length > 5) {
-					fieldType = matches[3];
-					groupKey = matches[2];
-					fieldName = matches[4];
-				};
-			} else if (node && node.data && node.data.field_data) {
-				fieldName = node.data.field_data['FieldKey'];
-				fieldType = node.data.field_data['FieldType'];
-                groupKey = node.data.field_data['GroupKey'];
-			}
-
-			if (!fieldName || !fieldType || !groupKey) {
-				if (obj) {
-					obj.removeClass('sortable-delete');
-					obj.insertBefore(placeholder);
-				}
-				placeholder.detach();
-				return;
-			}
-
-			bootbox.confirm("Remove the field '" + fieldName + "' from the wizard? (Please note: this action cannot be undone)",
-				function (val) {
-					if (val) {
-						var data = { 'Id': nodeId, FieldType: fieldType, GroupKey: groupKey, FieldName: fieldName };
-						t.post('@apiUrl/DeleteField', data)
-							.done(function(data) {
-								placeholder.detach();
-								if (obj) {
-									obj.remove();
-								}
-
-							})
-							.fail(function () {
-								if (obj) {
-									obj.removeClass('sortable-delete');
-									obj.insertBefore(placeholder);
-								}
-								placeholder.detach();
-							})
-							.always(function() {
-								tree.getNodeByKey(nodeId).remove();
-								window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
-								t.hidePleaseWait();
-							});
-					}
-				}
-			);
-
-		}
-
         function onDropDelete(event, origEvent) {
 			if (event instanceof CustomEvent && event.item) {
 				// Event is a Sortable.js custom event
 				var obj = $(event.item);
 				obj.addClass('sortable-delete');
-				onRemoveFancyTreeNode(obj.data('tree-id'), obj);
+                window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': obj.data('tree-id'), 'sourceObj': obj });
+				//onRemoveFancyTreeNode(obj.data('tree-id'), obj);
 				event.returnValue = false;
 				return false;
 			} else {
@@ -489,9 +434,10 @@
 				try {
 
 					nodeData = JSON.parse(jsonData);
-					 if (nodeData && nodeData.key) {
-						 onRemoveFancyTreeNode(nodeData.key);
-					 }
+					if (nodeData && nodeData.key) {
+						window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': nodeData.key });
+						//onRemoveFancyTreeNode(nodeData.key);
+					}
 				} catch (e) {
 					return;
 			}
@@ -672,6 +618,115 @@
 
         }
 
+		@*// ReSharper disable InconsistentNaming*@
+        function _fnOnRemoveFancyTreeNode(nodeId, obj) {
+	        var tree = $.ui.fancytree.getTree("#wizardtree");
+	        var node = tree.getNodeByKey(nodeId);
+	        var fieldName, groupKey, fieldType;
+	        if (obj) {
+		        var matches = reContainerId.exec(obj.attr('id'));
+		        if (matches && matches.length > 5) {
+			        fieldType = matches[3];
+			        groupKey = matches[2];
+			        fieldName = matches[4];
+		        };
+	        } else if (node && node.data && node.data.field_data) {
+		        fieldName = node.data.field_data['FieldKey'];
+		        fieldType = node.data.field_data['FieldType'];
+		        groupKey = node.data.field_data['GroupKey'];
+	        }
+
+	        if (!fieldName || !fieldType || !groupKey) {
+		        if (obj) {
+			        obj.removeClass('sortable-delete');
+			        obj.insertBefore(placeholder);
+		        }
+		        placeholder.detach();
+		        return;
+	        }
+
+	        bootbox.confirm("Remove the field '" + fieldName + "' from the wizard? (Please note: this action cannot be undone)",
+		        function (val) {
+			        if (val) {
+				        var data = { 'Id': nodeId, FieldType: fieldType, GroupKey: groupKey, FieldName: fieldName };
+				        t.post('@apiUrl/DeleteField', data)
+					        .done(function(data) {
+						        placeholder.detach();
+						        if (obj) {
+							        obj.remove();
+						        }
+
+					        })
+					        .fail(function () {
+						        if (obj) {
+							        obj.removeClass('sortable-delete');
+							        obj.insertBefore(placeholder);
+						        }
+						        placeholder.detach();
+					        })
+					        .always(function() {
+						        tree.getNodeByKey(nodeId).remove();
+						        window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
+						        t.hidePleaseWait();
+					        });
+			        }
+		        }
+	        );
+
+        }
+
+		function _fnOnUpdateFieldOrder(nodes) {
+			var nodeList = [];
+            if (Array.isArray(nodes)) {
+                // Find minimum order value
+                var minOrder = undefined;
+                var i;
+                var key;
+                var node;
+                var fieldData;
+                for (i = 0; i < nodes.length; i++) {
+                    key = nodes[i];
+                    if (key) {
+                        node = tree.getNodeByKey(key);
+                        if (node) {
+                            fieldData = node.data['field_data'];
+                            if (fieldData) {
+                                if (typeof(minOrder) !== 'undefined') {
+                                    minOrder = Math.min(parseInt(fieldData.Order), minOrder);
+                                } else {
+                                    minOrder = parseInt(fieldData.Order);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Reorder fields starting with the current minimum order value
+                for (i = 0; i < nodes.length; i++) {
+                    key = nodes[i];
+                    if (key) {
+                        node = tree.getNodeByKey(key);
+                        if (node) {
+                            fieldData = node.data['field_data'];
+                            if (fieldData) {
+                                fieldData.Order = minOrder + i;
+                                nodeList.push(fieldData);
+                            }
+                        }
+                    }
+                }
+                if (nodeList.length) {
+                    t.post("@apiUrl/SaveOrder", nodeList).always(function(data) {
+	                    window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
+                    });
+                } else {
+	                window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
+                }
+			}
+        }
+
+        @*// ReSharper restore InconsistentNaming*@
+
         function processWindowMessages(event) {
             // IMPORTANT: Check the origin of the data!
             if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
@@ -679,54 +734,8 @@
                 var tree = $.ui.fancytree.getTree("#wizardtree");
                 switch (event.data['action']) {
                 case 'updateOrder':
-                    var nodeList = [];
-                    var nodes = event.data['nodeIds'];
-                    if (Array.isArray(nodes)) {
-                        // Find minimum order value
-                        var minOrder = undefined;
-                        var i;
-                        var key;
-                        var node;
-                        var fieldData;
-                        for (i = 0; i < nodes.length; i++) {
-                            key = nodes[i];
-                            if (key) {
-                                node = tree.getNodeByKey(key);
-                                if (node) {
-                                    fieldData = node.data['field_data'];
-                                    if (fieldData) {
-                                        if (typeof(minOrder) !== 'undefined') {
-                                            minOrder = Math.min(parseInt(fieldData.Order), minOrder);
-                                        } else {
-                                            minOrder = parseInt(fieldData.Order);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        // Reorder fields starting with the current minimum order value
-                        for (i = 0; i < nodes.length; i++) {
-                            key = nodes[i];
-                            if (key) {
-                                node = tree.getNodeByKey(key);
-                                if (node) {
-                                    fieldData = node.data['field_data'];
-                                    if (fieldData) {
-                                        fieldData.Order = minOrder + i;
-                                        nodeList.push(fieldData);
-                                    }
-                                }
-                            }
-                        }
-                        if (nodeList.length) {
-                            t.post("@apiUrl/SaveOrder", nodeList).always(function(data) {
-                                window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
-                            });
-                        } else {
-                            window.postMessage({ 'action': 'updateTree', 'tree-id': event.data['fieldKey'] });
-                        }
-                    }
+					var nodes = event.data['nodeIds'];
+                    _fnOnUpdateFieldOrder(nodes);
                     break;
                 case 'updateTree':
                     if (tree) {
@@ -754,8 +763,8 @@
                     }
 
                     break;
-				case 'deleteNode':
-					onRemoveFancyTreeNode(event.data['nodeKey']);
+				case 'deleteTreeNode':
+					_fnOnRemoveFancyTreeNode(event.data['nodeId'], event.data['sourceObj']);
 					break;
                 case 'addScreen':
 	                onNewScreen();
