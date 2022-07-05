@@ -259,7 +259,7 @@
                 target.children().each(function(i) {
                     nodes.push($(this).data('tree-id'));
                 });
-                var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': $(targetElement).data('tree-id') };
+                var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': $(targetElement).data('tree-id') };
                 window.parent.postMessage(msg);
             }
 
