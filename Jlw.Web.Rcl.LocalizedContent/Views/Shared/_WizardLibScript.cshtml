@@ -410,13 +410,15 @@
                         case 'color':
                         case 'phone':
                         case 'search':
-                            if (data["FieldClass"])
+                            var defaultValue = fieldData['defaultValue'] || '';
+
+	                        if (data["FieldClass"])
                                 props += 'class="' + data.FieldClass + '" ';
 
                             if (fieldData["maxlength"])
                                 props += 'maxlength="' + fieldData['maxlength'] + '"';
 
-                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
+                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value="' + defaultValue.replace('"', '\\"') + '"' + props + '/>' + wrapperEnd + '</div>');
                             break;
                         case 'range':
                         case 'number':

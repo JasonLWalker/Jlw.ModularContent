@@ -176,7 +176,7 @@ public abstract class ApiController : WizardApiBaseController
             FieldType = "INPUT",
             FieldClass = "form-control form-control-sm",
             WrapperClass = "col-12",
-            FieldData = "{'type': 'color'}"
+            FieldData = "{'type': 'color', defaultValue: '#0000FF'}"
         }));
 
         // Add Checkbox Input
