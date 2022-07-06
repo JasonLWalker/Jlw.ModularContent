@@ -69,40 +69,120 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
             /// <value>The edit token.</value>
             /// TODO Edit XML Comment Template for EditToken
             public string EditToken { get; set; }
+
             /// <inheritdoc />
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
             [JsonConverter(typeof(JlwJsonConverter<long>))]
-			public new long Id  { get; set; }
+            public new long Id
+            {
+                get => base.Id;
+                set => base.Id = value;
+            }
+
             /// <inheritdoc />
-			public new string GroupKey  { get; set; }
+            public new string GroupKey
+            {
+                get => base.GroupKey;
+                set => base.GroupKey = value;
+            }
+
             /// <inheritdoc />
-			public new string FieldKey  { get; set; }
+            public new string FieldKey
+            {
+                get => base.FieldKey; 
+                set => base.FieldKey = value;
+            }
+
             /// <inheritdoc />
-			public new string FieldType  { get; set; }
+            public new string FieldType
+            {
+                get => base.FieldType; 
+                set => base.FieldType = value;
+            }
+
             /// <inheritdoc />
-			public new string FieldData  { get; set; }
+            public new string FieldData
+            {
+                get => base.FieldData; 
+                set => base.FieldData = value;
+            }
+
             /// <inheritdoc />
-			public new string FieldClass  { get; set; }
+            public new string FieldClass
+            {
+                get => base.FieldClass; 
+                set => base.FieldClass = value;
+            }
+
             /// <inheritdoc />
-			public new string ParentKey  { get; set; }
+            public new string ParentKey
+            {
+                get => base.ParentKey; 
+                set => base.ParentKey = value;
+            }
+
             /// <inheritdoc />
-			public new string DefaultLabel  { get; set; }
+            public new string DefaultLabel
+            {
+                get => base.DefaultLabel; 
+                set => base.DefaultLabel = value;
+            }
+
             /// <inheritdoc />
-			public new string WrapperClass  { get; set; }
+            public new string WrapperClass
+            {
+                get => base.WrapperClass; 
+                set => base.WrapperClass = value;
+            }
+
             /// <inheritdoc />
-			public new string WrapperHtmlStart  { get; set; }
+            public new string WrapperHtmlStart
+            {
+                get => base.WrapperHtmlStart; 
+                set => base.WrapperHtmlStart = value;
+            }
+
             /// <inheritdoc />
-			public new string WrapperHtmlEnd  { get; set; }
+            public new string WrapperHtmlEnd
+            {
+                get => base.WrapperHtmlEnd; 
+                set => base.WrapperHtmlEnd = value;
+            }
+
             /// <inheritdoc />
-			public new string AuditChangeType  { get; set; }
+            public new string AuditChangeType
+            {
+                get => base.AuditChangeType; 
+                set => base.AuditChangeType = value;
+            }
+
             /// <inheritdoc />
-			public new string AuditChangeBy  { get; set; }
+            public new string AuditChangeBy
+            {
+                get => base.AuditChangeBy; 
+                set => base.AuditChangeBy = value;
+            }
+
             /// <inheritdoc />
-			public new DateTime AuditChangeDate  { get; set; }
+            public new DateTime AuditChangeDate
+            {
+                get => base.AuditChangeDate; 
+                set => base.AuditChangeDate = value;
+            }
+
             /// <inheritdoc />
-			public new int Order  { get; set; }
+            public new int Order
+            {
+                get => base.Order; 
+                set => base.Order = value;
+            }
+
             /// <inheritdoc />
-            public new string GroupFilter { get; set; }
+            public new string GroupFilter
+            {
+                get => base.GroupFilter; 
+                set => base.GroupFilter = value;
+            }
         }
 
         /// <summary>
