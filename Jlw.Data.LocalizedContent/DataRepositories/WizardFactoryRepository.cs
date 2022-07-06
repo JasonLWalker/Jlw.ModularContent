@@ -128,7 +128,7 @@ namespace Jlw.Data.LocalizedContent
                         new KeyValuePair<string, object>("auditchangeby", fieldData.AuditChangeBy),
                         new KeyValuePair<string, object>("groupfilter", fieldData.GroupFilter),
                         new KeyValuePair<string, object>("recurseDepth", recurseDepth),
-                        new KeyValuePair<string, object>("langFilter", langFilter)
+                        new KeyValuePair<string, object>("langFilter", langFilter ?? "")
                     }
                 )
             );
