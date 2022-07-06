@@ -381,8 +381,11 @@
                                     window.postMessage({ 'action': 'addWizard' });
                                     break;
                                 case 'delete':
-	                                window.postMessage({ 'action': 'deleteNode', 'nodeKey': node.key });
+	                                window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': node.key });
                                     break;
+								case 'rename':
+									window.postMessage({ 'action': 'renameTreeNode', 'nodeId': node.key });
+									break;
 								case 'preview':
 									window.postMessage({ 'action': 'previewScreen', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
 									break;
@@ -711,6 +714,52 @@
 	        });
         }
 
+        function _fnOnRenameTreeNode(nodeId) {
+            var tree = $.ui.fancytree.getTree("#wizardtree");
+            var node = tree.getNodeByKey(nodeId);
+			var fieldData, fieldKey, groupKey, fieldType, parentKey;
+            fieldData = node.data['field_data'];
+            fieldKey = fieldData['FieldKey'];
+            fieldType = fieldData['FieldType'];
+            groupKey = fieldData['GroupKey'];
+            parentKey = fieldData['ParentKey'];
+
+
+	        var dialog = bootbox.dialog({
+				title: 'Rename',
+				message: '<div class="form-group"><label>New Name</label><input type="text" name="NewFieldKey" class="form-control" value="' + (fieldKey || '').replace('"', '\\"').replace('\\', '\\\\') + '" /></div>',
+		        inputType: 'text',
+		        size: 'md',
+		        buttons: {
+			        confirm: {
+				        label: '<span class="fa fa-save"></span> Rename',
+				        className: 'btn-success',
+				        callback: function(event) {
+							var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['Id'] = nodeId;
+							formData['FieldKey'] = fieldKey;
+                            formData['FieldType'] = fieldType;
+					        formData['GroupKey'] = groupKey;
+					        formData["ParentKey"] = parentKey;
+					        t.post(t.urlApiRoot + "/RenameField", formData)
+						        .always(function(data) {
+							        var key = data['Id'];
+							        if (key) {
+								        window.postMessage({ 'action': 'updateTree', 'tree-id': key});
+							        }
+						        });
+
+				        }
+			        },
+			        cancel: {
+				        label: '<span class="fa fa-ban"></span> Cancel',
+				        className: 'btn-danger'
+			        }
+		        }
+
+	        });
+        }
+
         function _fnOnPreviewScreen(screenName) {
 	        var w = 640;
 	        var h = 480;
@@ -837,6 +886,9 @@
 	                case 'previewScreen':
 		                _fnOnPreviewScreen(event.data['screenName']);
 		                break;
+					case 'renameTreeNode':
+						_fnOnRenameTreeNode(event.data['nodeId']);
+						break;
                 }
             } else {
                 // The data hasn't been sent from your site!
