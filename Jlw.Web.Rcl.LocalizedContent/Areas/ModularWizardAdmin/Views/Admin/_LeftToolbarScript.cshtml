@@ -457,9 +457,11 @@
                 if (id) {
                     nodes.push(id);
                 }
-            });
-            var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': source.data('tree-id') };
-            window.postMessage(msg);
+			});
+			if (nodes) {
+				var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': source.data('tree-id') };
+				window.postMessage(msg);
+			}
         }
 
         function onAddDrop(event) {
@@ -505,10 +507,11 @@
 	            });
         }
 
-        function onControlPull(to, from, clone, event) {
-	        var $source = $(clone);
+		function onControlPull(to, from, clone, event) {
+			var $source = $(clone);
 	        var type = ($source.data('field-type') || "").toLowerCase();
-	        var groupName = to.options.group['name'];
+			var groupName = to.options.group['name'];
+			event.preventDefault();
 	        switch (groupName) {
 	        case 'wizardForms':
 		        if (validFormTypes.indexOf(type) >= 0) {
@@ -525,9 +528,12 @@
 			        return 'clone';
 		        }
 		        break;
-	        }
-	        event.dataTransfer.effectAllowed = 'none';
-	        event.dataTransfer.dropEffect = 'none';
+			}
+
+			if (event && event.dataTransfer) {
+				event.dataTransfer.effectAllowed = 'none';
+				event.dataTransfer.dropEffect = 'none';
+			}
 	        return false;
         }
 
@@ -535,46 +541,52 @@
             clientFrameWindow = $('#preview-frame').get(0).contentWindow;
             clientFrameBody = $(clientFrameWindow.document.body);
 	        var elWizardButton = clientFrameBody.find('.wizard-buttons').get(0);
-	        var elWizardBody = clientFrameBody.find('.wizard-body').get(0);
-	        Sortable.create(elWizardBody, {
-		        group: {
-			        name: 'wizardForms',
-			        pull: ['deleteDropZone'],
-			        put: ['controlList', 'componentList']
-		        },
-		        onStart: onDragStart,
-		        onAdd: onAddDrop,
-		        onUpdate: onDragUpdate,
-		        filter: '.form-body',
-		        handle: '.card-header',
-		        animation: 100
-	        });
+			var elWizardBody = clientFrameBody.find('.wizard-body').get(0);
+            if (!Sortable.get(elWizardBody)) {
+		        Sortable.create(elWizardBody, {
+			        group: {
+				        name: 'wizardForms',
+				        pull: ['deleteDropZone'],
+				        put: ['controlList', 'componentList']
+			        },
+			        onStart: onDragStart,
+			        onAdd: onAddDrop,
+			        onUpdate: onDragUpdate,
+			        filter: '.form-body',
+			        handle: '.card-header',
+			        animation: 100
+				});
+			}
 
-	        Sortable.create(elWizardButton, {
-		        group: {
-			        name: 'wizardButtons',
-			        pull: ['deleteDropZone'],
-			        put: ['controlList', 'componentList']
-		        },
-		        onStart: onDragStart,
-		        onAdd: onAddDrop,
-		        onUpdate: onDragUpdate,
-		        animation: 100
-	        });
+			if (!Sortable.get(elWizardButton)) {
+		        Sortable.create(elWizardButton, {
+			        group: {
+				        name: 'wizardButtons',
+				        pull: ['deleteDropZone'],
+				        put: ['controlList', 'componentList']
+			        },
+			        onStart: onDragStart,
+			        onAdd: onAddDrop,
+			        onUpdate: onDragUpdate,
+			        animation: 100
+		        });
+			}
 
 	        clientFrameBody.find('.wizard-body .form-body').each(function(i, el) {
-		        if (el) {
-			        Sortable.create(el, {
-				        group: {
-					        name: 'wizardFormFields',
-					        pull: ['deleteDropZone', 'wizardFormFields'],
-					        put: ['controlList', 'componentList', 'wizardFormFields']
-				        },
-				        onStart: onDragStart,
-				        onAdd: onAddDrop,
-				        onUpdate: onDragUpdate,
-				        animation: 100
-			        });
+				if (el) {
+					if (!Sortable.get(el)) {
+				        Sortable.create(el, {
+					        group: {
+						        name: 'wizardFormFields',
+						        pull: ['deleteDropZone', 'wizardFormFields'],
+						        put: ['controlList', 'componentList', 'wizardFormFields']
+					        },
+					        onStart: onDragStart,
+					        onAdd: onAddDrop,
+					        onUpdate: onDragUpdate,
+					        animation: 100
+						});
+					}
 		        }
 	        });
         }
@@ -589,39 +601,44 @@
 	        if (!elDeleteDropzone || !elControlList || !elComponentList) {
 		        window.setTimeout(function() { initDragDrop(); }, 100);
 		        return;
-	        }
-	        Sortable.create(elDeleteDropzone,
-		        {
-			        group: {
-				        name: 'deleteDropZone',
-				        put: true
-			        },
-                    onAdd: onDropDelete,
-			    ghostClass: 'sortable-delete',
-                animation: 0,
-                sort: false
-            });
+			}
+            if (!Sortable.get(elDeleteDropzone)) {
+		        Sortable.create(elDeleteDropzone,
+			        {
+				        group: {
+					        name: 'deleteDropZone',
+					        put: true
+				        },
+	                    onAdd: onDropDelete,
+				    ghostClass: 'sortable-delete',
+	                animation: 0,
+	                sort: false
+	            });
+			}
 
-            Sortable.create(elControlList, {
-                group: {
-                    name: 'controlList',
-                    pull: onControlPull,
-                    revertClone: true
-                },
-                sort: false,
-                animation: 100
-            });
+			if (!Sortable.get(elControlList)) {
+	            Sortable.create(elControlList, {
+	                group: {
+	                    name: 'controlList',
+	                    pull: onControlPull,
+	                    revertClone: true
+	                },
+	                sort: false,
+	                animation: 100
+	            });
+			}
 
-            Sortable.create(elComponentList, {
-                group: {
-                    name: 'componentList',
-                    pull: onControlPull,
-                    revertClone: true
-                },
-                sort: false,
-                animation: 100
-            });
-
+			if (!Sortable.get(elComponentList)) {
+	            Sortable.create(elComponentList, {
+	                group: {
+	                    name: 'componentList',
+	                    pull: onControlPull,
+	                    revertClone: true
+	                },
+	                sort: false,
+	                animation: 100
+	            });
+			}
         }
 
 		@*// ReSharper disable InconsistentNaming*@
