@@ -158,32 +158,38 @@
 
 
 			        switch (fieldType) {
-			        case 'BUTTON':
-				        $('.button-card').removeClass('d-none');
-				        s = (fieldData['type'] || "").toUpperCase();
-				        $('select[buttonStyle]').val(s);
-				        o = $('input[buttonOutline]');
-				        o.removeClass('d-none');
-				        t.parseButtonClass(fieldClass);
-				        t.parseButtonData(fieldData);
-				        break;
-			        case 'INPUT':
-				        $('.input-card').removeClass('d-none');
-				        s = (fieldData['type'] || "").toUpperCase();
-				        $('select[name=InputType]').val(s);
-				        o = $('.field-type');
-				        $('.input-group-sm', o).addClass('input-group');
-				        $('.input-group-append', o).removeClass('d-none');
-				        break;
-			        case 'SELECT':
-				        s = (fieldData['type'] || "").toUpperCase();
-				        o = $('.select-type');
-				        o.removeClass('d-none');
-				        $('select', o).val(s);
-				        $('.input-group-sm', o).addClass('input-group');
-				        $('.input-group-append', o).removeClass('d-none');
-				        break;
+				        case 'BUTTON':
+					        $('.button-card').removeClass('d-none');
+					        s = (fieldData['type'] || "").toUpperCase();
+					        $('select[buttonStyle]').val(s);
+					        o = $('input[buttonOutline]');
+					        o.removeClass('d-none');
+					        t.parseButtonClass(fieldClass);
+					        t.parseButtonData(fieldData);
+					        break;
+				        case 'INPUT':
+					        $('.input-card').removeClass('d-none');
+					        s = (fieldData['type'] || "").toUpperCase();
+					        $('select[name=InputType]').val(s);
+					        o = $('.field-type');
+					        $('.input-group-sm', o).addClass('input-group');
+					        $('.input-group-append', o).removeClass('d-none');
+					        break;
+				        case 'SELECT':
+					        s = (fieldData['type'] || "").toUpperCase();
+					        o = $('.select-type');
+					        o.removeClass('d-none');
+					        $('select', o).val(s);
+					        $('.input-group-sm', o).addClass('input-group');
+					        $('.input-group-append', o).removeClass('d-none');
+                            break;
 			        }
+
+                    if (['WIZARD', 'SCREEN', 'FORM', 'BODY', 'HEADING'].includes(fieldType)) {
+	                    $('input[name=FieldKey]', toolbar).prop('disabled', true);
+                    } else 
+	                    $('input[name=FieldKey]', toolbar).prop('disabled', false);
+
 
 			        o = $('.field-class');
 			        $('input', o).val(fieldClass);
