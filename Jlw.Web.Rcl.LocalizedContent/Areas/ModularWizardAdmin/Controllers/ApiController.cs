@@ -194,7 +194,12 @@ public abstract class ApiController : WizardApiBaseController
 
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
-        ILocalizedContentField oResult = null;
+        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        if (oResult?.Id > 0)
+        {
+            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Wizard already exists", ApiMessageType.Alert));
+        }
+
         try
         {
             o.AuditChangeBy = User.Identity?.Name ?? "";
@@ -232,15 +237,12 @@ public abstract class ApiController : WizardApiBaseController
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
 
-        ILocalizedContentField oResult = null;
-
-        oResult = _fieldRepository.GetRecordByName(o);
+        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
         if (oResult?.Id > 0)
         {
-            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Record already exists", ApiMessageType.Alert));
+            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
         }
-
-        oResult = null;
+        
         try
         {
             o.AuditChangeBy = User.Identity?.Name ?? "";

@@ -23,6 +23,8 @@ namespace Jlw.Data.LocalizedContent
     /// TODO Edit XML Comment Template for ILocalizedContentFieldRepository
     public interface ILocalizedContentFieldRepository : IModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>
     {
+        ILocalizedContentField GetRecordByName(ILocalizedContentField o);
+
         /// <summary>
         /// Gets the data table list.
         /// </summary>
