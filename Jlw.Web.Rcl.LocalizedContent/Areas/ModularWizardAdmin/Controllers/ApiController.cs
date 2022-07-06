@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Schema;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
@@ -30,6 +31,7 @@ public abstract class ApiController : WizardApiBaseController
     protected readonly List<WizardField> DefaultWizardControls = new List<WizardField>();
     protected string HiddenFilterPrefix = "";
     protected object PreviewRecordData { get; set; } = new object();
+    protected Regex _reFieldName = new Regex("[^a-zA-Z0-9\\-]");
 
     private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 
@@ -165,6 +167,13 @@ public abstract class ApiController : WizardApiBaseController
         try
         {
             o.AuditChangeBy = User.Identity?.Name ?? "";
+            if (o.FieldName.Equals("FieldKey", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var field = _fieldRepository.GetRecord(new Data.LocalizedContent.LocalizedContentField(o));
+                //return DataRepository.RenameWizardFieldRecursive(new WizardContentField(new { Id = o.Id }), o.FieldValue);
+                return RenameField(new WizardField(field){NewFieldKey = o.FieldValue});
+            }
+            else {}
             var oResult = DataRepository.SaveFieldData(o);
             if (oResult != null)
                 return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
@@ -183,6 +192,7 @@ public abstract class ApiController : WizardApiBaseController
     {
         var bResult = false;
         o.GroupFilter = _groupFilter;
+        o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
         o.FieldType = "WIZARD";
         o.FieldData ??= "{}";
         o.FieldClass ??= "";
@@ -225,6 +235,7 @@ public abstract class ApiController : WizardApiBaseController
     {
         var bResult = false;
         o.GroupFilter = _groupFilter;
+        o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
         o.FieldType = "SCREEN";
         o.FieldData ??= "{}";
         o.FieldClass ??= "";
@@ -288,6 +299,7 @@ public abstract class ApiController : WizardApiBaseController
     {
         var bResult = false;
         o.AuditChangeBy = User.Identity?.Name ?? "";
+        o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
         //o.GroupFilter = _groupFilter;
         IWizardContentField field = o;
         if (field.Id < 1)
@@ -343,6 +355,48 @@ public abstract class ApiController : WizardApiBaseController
 
         // Else 
         return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
+    }
+
+    /// <summary>
+    /// Deletes the specified o.
+    /// </summary>
+    /// <param name="o">The o.</param>
+    /// <returns>System.Object.</returns>
+    /// TODO Edit XML Comment Template for Delete
+    [HttpPost("RenameField")]
+    public virtual object RenameField(WizardField o)
+    {
+        var bResult = false;
+        o.GroupFilter = _groupFilter;
+
+        if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+        string newName = _reFieldName.Replace(o.NewFieldKey, "_");
+        string origFieldKey = o.FieldKey;
+        o.FieldKey = newName;
+
+        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        if (oResult?.Id > 0)
+        {
+            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
+        }
+        o.FieldKey = origFieldKey;
+
+        try
+        {
+            o.AuditChangeBy = User.Identity?.Name ?? "";
+            oResult = DataRepository.RenameWizardFieldRecursive(o, newName);
+            bResult = oResult.FieldKey == newName;
+        }
+        catch (Exception ex)
+        {
+            return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+        }
+
+        if (bResult)
+            return JToken.FromObject(new ApiStatusMessage("Record has been successfully renamed.", "Record renamed", ApiMessageType.Success));
+
+        // Else 
+        return JToken.FromObject(new ApiStatusMessage("Unable to rename record. Please check the data and try again.", "Error while renaming", ApiMessageType.Danger));
     }
 
     [Route("SaveOrder")]
@@ -613,7 +667,19 @@ public abstract class ApiController : WizardApiBaseController
 
     public class WizardField : WizardContentField
     {
-        public new string AuditChangeBy { get; set; }
+        public new string AuditChangeBy
+        {
+            get => base.AuditChangeBy; 
+            set => base.AuditChangeBy = value;
+        }
+
+        public new string FieldKey
+        {
+            get => base.FieldKey;
+            set => base.FieldKey = value;
+        }
+
+        public string NewFieldKey { get; set; }
 
         public WizardField() : base(null)
         {
@@ -621,7 +687,7 @@ public abstract class ApiController : WizardApiBaseController
         }
         public WizardField(object o) : base(o)
         {
-
+            NewFieldKey = DataUtility.ParseString(o, "NewFieldKey");
         }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]

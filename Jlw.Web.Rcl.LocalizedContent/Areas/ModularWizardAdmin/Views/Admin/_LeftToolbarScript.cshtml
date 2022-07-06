@@ -760,12 +760,9 @@
 					        formData["ParentKey"] = parentKey;
 					        t.post(t.urlApiRoot + "/RenameField", formData)
 						        .always(function(data) {
-							        var key = data['Id'];
-							        if (key) {
-								        window.postMessage({ 'action': 'updateTree', 'tree-id': key});
-							        }
+							        window.postMessage({ 'action': 'updateTree', 'tree-id': nodeId });
+							        t.hidePleaseWait();
 						        });
-
 				        }
 			        },
 			        cancel: {
