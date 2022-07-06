@@ -381,8 +381,11 @@
                                     window.postMessage({ 'action': 'addWizard' });
                                     break;
                                 case 'delete':
-	                                window.postMessage({ 'action': 'deleteNode', 'nodeKey': node.key });
+	                                window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': node.key });
                                     break;
+								case 'rename':
+									window.postMessage({ 'action': 'renameTreeNode', 'nodeId': node.key });
+									break;
 								case 'preview':
 									window.postMessage({ 'action': 'previewScreen', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
 									break;
@@ -454,9 +457,11 @@
                 if (id) {
                     nodes.push(id);
                 }
-            });
-            var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': source.data('tree-id') };
-            window.postMessage(msg);
+			});
+			if (nodes) {
+				var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': source.data('tree-id') };
+				window.postMessage(msg);
+			}
         }
 
         function onAddDrop(event) {
@@ -502,10 +507,11 @@
 	            });
         }
 
-        function onControlPull(to, from, clone, event) {
-	        var $source = $(clone);
+		function onControlPull(to, from, clone, event) {
+			var $source = $(clone);
 	        var type = ($source.data('field-type') || "").toLowerCase();
-	        var groupName = to.options.group['name'];
+			var groupName = to.options.group['name'];
+			event.preventDefault();
 	        switch (groupName) {
 	        case 'wizardForms':
 		        if (validFormTypes.indexOf(type) >= 0) {
@@ -522,9 +528,12 @@
 			        return 'clone';
 		        }
 		        break;
-	        }
-	        event.dataTransfer.effectAllowed = 'none';
-	        event.dataTransfer.dropEffect = 'none';
+			}
+
+			if (event && event.dataTransfer) {
+				event.dataTransfer.effectAllowed = 'none';
+				event.dataTransfer.dropEffect = 'none';
+			}
 	        return false;
         }
 
@@ -532,46 +541,52 @@
             clientFrameWindow = $('#preview-frame').get(0).contentWindow;
             clientFrameBody = $(clientFrameWindow.document.body);
 	        var elWizardButton = clientFrameBody.find('.wizard-buttons').get(0);
-	        var elWizardBody = clientFrameBody.find('.wizard-body').get(0);
-	        Sortable.create(elWizardBody, {
-		        group: {
-			        name: 'wizardForms',
-			        pull: ['deleteDropZone'],
-			        put: ['controlList', 'componentList']
-		        },
-		        onStart: onDragStart,
-		        onAdd: onAddDrop,
-		        onUpdate: onDragUpdate,
-		        filter: '.form-body',
-		        handle: '.card-header',
-		        animation: 100
-	        });
+			var elWizardBody = clientFrameBody.find('.wizard-body').get(0);
+            if (!Sortable.get(elWizardBody)) {
+		        Sortable.create(elWizardBody, {
+			        group: {
+				        name: 'wizardForms',
+				        pull: ['deleteDropZone'],
+				        put: ['controlList', 'componentList']
+			        },
+			        onStart: onDragStart,
+			        onAdd: onAddDrop,
+			        onUpdate: onDragUpdate,
+			        filter: '.form-body',
+			        handle: '.card-header',
+			        animation: 100
+				});
+			}
 
-	        Sortable.create(elWizardButton, {
-		        group: {
-			        name: 'wizardButtons',
-			        pull: ['deleteDropZone'],
-			        put: ['controlList', 'componentList']
-		        },
-		        onStart: onDragStart,
-		        onAdd: onAddDrop,
-		        onUpdate: onDragUpdate,
-		        animation: 100
-	        });
+			if (!Sortable.get(elWizardButton)) {
+		        Sortable.create(elWizardButton, {
+			        group: {
+				        name: 'wizardButtons',
+				        pull: ['deleteDropZone'],
+				        put: ['controlList', 'componentList']
+			        },
+			        onStart: onDragStart,
+			        onAdd: onAddDrop,
+			        onUpdate: onDragUpdate,
+			        animation: 100
+		        });
+			}
 
 	        clientFrameBody.find('.wizard-body .form-body').each(function(i, el) {
-		        if (el) {
-			        Sortable.create(el, {
-				        group: {
-					        name: 'wizardFormFields',
-					        pull: ['deleteDropZone', 'wizardFormFields'],
-					        put: ['controlList', 'componentList', 'wizardFormFields']
-				        },
-				        onStart: onDragStart,
-				        onAdd: onAddDrop,
-				        onUpdate: onDragUpdate,
-				        animation: 100
-			        });
+				if (el) {
+					if (!Sortable.get(el)) {
+				        Sortable.create(el, {
+					        group: {
+						        name: 'wizardFormFields',
+						        pull: ['deleteDropZone', 'wizardFormFields'],
+						        put: ['controlList', 'componentList', 'wizardFormFields']
+					        },
+					        onStart: onDragStart,
+					        onAdd: onAddDrop,
+					        onUpdate: onDragUpdate,
+					        animation: 100
+						});
+					}
 		        }
 	        });
         }
@@ -586,39 +601,44 @@
 	        if (!elDeleteDropzone || !elControlList || !elComponentList) {
 		        window.setTimeout(function() { initDragDrop(); }, 100);
 		        return;
-	        }
-	        Sortable.create(elDeleteDropzone,
-		        {
-			        group: {
-				        name: 'deleteDropZone',
-				        put: true
-			        },
-                    onAdd: onDropDelete,
-			    ghostClass: 'sortable-delete',
-                animation: 0,
-                sort: false
-            });
+			}
+            if (!Sortable.get(elDeleteDropzone)) {
+		        Sortable.create(elDeleteDropzone,
+			        {
+				        group: {
+					        name: 'deleteDropZone',
+					        put: true
+				        },
+	                    onAdd: onDropDelete,
+				    ghostClass: 'sortable-delete',
+	                animation: 0,
+	                sort: false
+	            });
+			}
 
-            Sortable.create(elControlList, {
-                group: {
-                    name: 'controlList',
-                    pull: onControlPull,
-                    revertClone: true
-                },
-                sort: false,
-                animation: 100
-            });
+			if (!Sortable.get(elControlList)) {
+	            Sortable.create(elControlList, {
+	                group: {
+	                    name: 'controlList',
+	                    pull: onControlPull,
+	                    revertClone: true
+	                },
+	                sort: false,
+	                animation: 100
+	            });
+			}
 
-            Sortable.create(elComponentList, {
-                group: {
-                    name: 'componentList',
-                    pull: onControlPull,
-                    revertClone: true
-                },
-                sort: false,
-                animation: 100
-            });
-
+			if (!Sortable.get(elComponentList)) {
+	            Sortable.create(elComponentList, {
+	                group: {
+	                    name: 'componentList',
+	                    pull: onControlPull,
+	                    revertClone: true
+	                },
+	                sort: false,
+	                animation: 100
+	            });
+			}
         }
 
 		@*// ReSharper disable InconsistentNaming*@
@@ -700,6 +720,49 @@
 							        }
 						        });
 
+				        }
+			        },
+			        cancel: {
+				        label: '<span class="fa fa-ban"></span> Cancel',
+				        className: 'btn-danger'
+			        }
+		        }
+
+	        });
+        }
+
+        function _fnOnRenameTreeNode(nodeId) {
+            var tree = $.ui.fancytree.getTree("#wizardtree");
+            var node = tree.getNodeByKey(nodeId);
+			var fieldData, fieldKey, groupKey, fieldType, parentKey;
+            fieldData = node.data['field_data'];
+            fieldKey = fieldData['FieldKey'];
+            fieldType = fieldData['FieldType'];
+            groupKey = fieldData['GroupKey'];
+            parentKey = fieldData['ParentKey'];
+
+
+	        var dialog = bootbox.dialog({
+				title: 'Rename',
+				message: '<div class="form-group"><label>New Name</label><input type="text" name="NewFieldKey" class="form-control" value="' + (fieldKey || '').replace('"', '\\"').replace('\\', '\\\\') + '" /></div>',
+		        inputType: 'text',
+		        size: 'md',
+		        buttons: {
+			        confirm: {
+				        label: '<span class="fa fa-save"></span> Rename',
+				        className: 'btn-success',
+				        callback: function(event) {
+							var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['Id'] = nodeId;
+							formData['FieldKey'] = fieldKey;
+                            formData['FieldType'] = fieldType;
+					        formData['GroupKey'] = groupKey;
+					        formData["ParentKey"] = parentKey;
+					        t.post(t.urlApiRoot + "/RenameField", formData)
+						        .always(function(data) {
+							        window.postMessage({ 'action': 'updateTree', 'tree-id': nodeId });
+							        t.hidePleaseWait();
+						        });
 				        }
 			        },
 			        cancel: {
@@ -837,6 +900,9 @@
 	                case 'previewScreen':
 		                _fnOnPreviewScreen(event.data['screenName']);
 		                break;
+					case 'renameTreeNode':
+						_fnOnRenameTreeNode(event.data['nodeId']);
+						break;
                 }
             } else {
                 // The data hasn't been sent from your site!

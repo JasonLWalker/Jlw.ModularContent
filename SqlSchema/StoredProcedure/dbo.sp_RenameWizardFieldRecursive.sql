@@ -6,13 +6,13 @@ GO
  
 -- ============================================= 
 -- Author: Jason L Walker
--- Create date: 01/06/2021 10:57 AM 
--- Last Modified: 07/06/2022 by JLW
--- Description:	Used to recursively remove the matching records from [LocalizedContentFields] and [LocalizedContentText] 
+-- Create date: 07/06/2022 10:57 AM 
+-- Description:	Used to recursively rename the matching records from [LocalizedContentFields] and [LocalizedContentText] by changing the [FieldKey] column
 -- ============================================= 
  
-CREATE PROCEDURE [dbo].[sp_DeleteWizardFieldRecursive] 
+CREATE PROCEDURE [dbo].[sp_RenameWizardFieldRecursive] 
     @id bigint
+    ,@newFieldKey varchar(40) 
 	,@baseType varchar(20) = null
 	,@auditchangeby varchar(100) = ''  
     ,@groupfilter varchar(40) = null
@@ -21,25 +21,50 @@ CREATE PROCEDURE [dbo].[sp_DeleteWizardFieldRecursive]
 AS 
 BEGIN 
 
-	--SET NOCOUNT ON;
+	SET NOCOUNT ON;
 
     -- Declare local variables to be used
     DECLARE @groupKey varchar(40);
-    DECLARE @fieldKey varchar(40);
+    DECLARE @fieldKey varchar(40) = (SELECT TOP 1 FieldKey FROM [LocalizedContentFields] WHERE Id = @id);
     DECLARE @fieldType varchar(20);
     DECLARE @parentKey varchar(40);
     DECLARE @language varchar(5);
     DECLARE @nodeId bigint;
     DECLARE @depth int = @recurseDepth - 1;
-    DECLARE @childCount int = 0;
-    DECLARE @childMax int = 1000;
+    DECLARE @nodeCount int = 0;
+    DECLARE @nodeMax int = 1000;
+    DECLARE @langCount int = 0;
+    DECLARE @langMax int = 100;
     -- Declare working table
-    DECLARE @tNodes TABLE([Id] bigint);
+    DECLARE @tNodes TABLE(
+        [Id] bigint,
+        [FieldKey] varchar(40),
+        [FieldType] varchar(20),
+        [ParentKey] varchar(40)
+    );
 
-    IF (@recurseDepth > 0 AND @id > 0) 
+
+
+    IF (@recurseDepth > 0 AND @id > 0 AND @fieldKey != @newFieldKey) 
     BEGIN
         -- Walk tree and retrieve relevant nodes into @tNodes
-        INSERT INTO @tNodes SELECT Id FROM [dbo].[fnGetWizardTreeNodes](@id, @baseType, @groupfilter, @recurseDepth)
+        INSERT INTO @tNodes 
+        SELECT 
+            Id, FieldKey, FieldType, ParentKey 
+        FROM 
+            [dbo].[fnGetWizardTreeNodes](@id, @baseType, @groupfilter, @recurseDepth)
+        WHERE 
+        (
+            Id != @id
+            AND
+            ParentKey = @fieldKey
+        )
+        OR
+        (
+            Id = @id
+            AND 
+            FieldKey = @fieldKey
+        );
 
         -- Retrieve first node to process
         SELECT 
@@ -55,14 +80,18 @@ BEGIN
             @tNodes n
         ON
             f.Id = n.Id
+            AND
+            f.FieldKey = n.FieldKey
+            AND
+            f.ParentKey = n.ParentKey
 
-        -- loop through child elements
-        WHILE (@nodeId > 0 AND @childCount < @childMax)
+        -- loop through nodes
+        WHILE (@nodeId > 0 AND @nodeCount < @nodeMax)
         BEGIN        
             -- Increment counter in case of endless loop
-            SET @childCount = @childCount + 1;
+            SET @nodeCount = @nodeCount + 1;
 
-            -- Retrieve first language key to delete
+            -- Retrieve first language key to update
             SELECT TOP 1
                 @language = [Language]
             FROM 
@@ -84,16 +113,22 @@ BEGIN
                     [Language] = @langFilter
                 )
 
-            -- Loop through each language record for node
-            WHILE (@language IS NOT NULL)
+            SET @langCount = 0;
+
+
+            -- Loop through each language record for root node
+            WHILE (@language IS NOT NULL AND @langCount < @langMax)
             BEGIN
+                SET @langCount = @langCount + 1;
 
                 UPDATE 
                     LocalizedContentText 
                 SET
-                    AuditChangeBy = @auditchangeby
+                    FieldKey = IIF(@nodeId = @id, @newFieldKey, FieldKey)
+                    ,ParentKey = IIF(@nodeId = @id, ParentKey, @newFieldKey)
+                    ,AuditChangeBy = @auditchangeby
                     ,AuditChangeDate = GETDATE()
-                    ,AuditChangeType = 'DELETE'
+                    ,AuditChangeType = 'RENAME FROM ' + @fieldKey
                 WHERE
                     GroupKey = @groupKey
                     AND
@@ -105,25 +140,11 @@ BEGIN
                     AND
                     ParentKey IS NOT NULL;
 
-                EXEC sp_AuditTrailSave_LocalizedContentText @groupkey, @fieldkey, @language, @parentkey; 
-
-                DELETE 
-                FROM 
-                    LocalizedContentText 
-                WHERE
-                    GroupKey = @groupKey
-                    AND
-                    FieldKey = @fieldKey
-                    AND
-                    [Language] = @language
-                    AND
-                    ParentKey = @parentKey
-                    AND 
-                    ParentKey IS NOT NULL;
+                EXEC sp_AuditTrailSave_LocalizedContentText @groupkey, @fieldkey=@newFieldKey, @language=@language, @parentkey=@parentKey; 
 
                 SET @language = NULL;
 
-                -- Retrieve next language key to delete
+                -- Retrieve next language key to rename
                 SELECT TOP 1
                     @language = [Language]
                 FROM 
@@ -150,13 +171,15 @@ BEGIN
             
 
             
-            -- IF Language filter is set, then only the language need to be removed, so skip this section, otherwise delete node
+            -- IF Language filter is set, then only the language need to be renamed, so skip this section, otherwise rename node
             IF (@langFilter IS NULL OR @langFilter = '')
             BEGIN
                 UPDATE 
                     [LocalizedContentFields] 
                 SET  
-                    [AuditChangeType] = 'DELETE', 
+                    FieldKey = IIF(@nodeId = @id, @newFieldKey, FieldKey),
+                    ParentKey = IIF(@nodeId = @id, ParentKey, @newFieldKey),
+                    [AuditChangeType] = 'RENAME FROM ' + @fieldKey, 
                     [AuditChangeBy] = @auditchangeby, 
                     [AuditChangeDate] = GETDATE() 
                 WHERE 
@@ -173,20 +196,6 @@ BEGIN
             
                 EXEC sp_AuditTrailSave_LocalizedContentField @id=@nodeId; 
             
-                DELETE 
-                FROM  
-                    [LocalizedContentFields] 
-                WHERE 
-                    Id=@nodeId
-                    AND 
-                    (
-                        @groupfilter IS NULL
-                        OR
-                        @groupfilter = ''
-                        OR
-                        [GroupKey] LIKE @groupfilter
-                    )
-                ; 
             END  
 
             -- force @nodeId to null
@@ -206,11 +215,15 @@ BEGIN
                 @tNodes n
             ON
                 f.Id = n.Id
+                AND
+                f.FieldKey = n.FieldKey
+                AND
+                f.ParentKey = n.ParentKey
         END        
     END
 
     SELECT TOP 1
-        Id
+        *
     FROM 
         [LocalizedContentFields] 
     WHERE 
