@@ -1,4 +1,4 @@
-﻿@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+﻿@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 }
@@ -13,511 +13,510 @@
         t.oRightToolbar = oRightToolbar;
 
         function initMemberRegex() {
-            // Regular expressions
-            t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
-            t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
-            t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-xxl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
-            t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
-            t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
-            t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
+	        // Regular expressions
+	        t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
+	        t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
+	        t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-xxl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
+	        t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
+	        t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
         }
         
         function initMemberArrays() {
-            // Arrays
-            t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl', '-xxl'];
-            t.aSides = ['', 't', 'r', 'b', 'l'];
-            t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
-            t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
-            t.aColSize = {'-1':'', '0':'*', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
+	        // Arrays
+	        t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl', '-xxl'];
+	        t.aSides = ['', 't', 'r', 'b', 'l'];
+	        t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+	        t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+	        t.aColSize = {'-1':'', '0':'*', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
         }
 
         function initMemberFunctions() {
-            // Add functions
-            t.parseColClass = parseColClass;
-            t.parsePaddingClass = parsePaddingClass;
-            t.parseButtonClass = parseButtonClass;
-            t.parseButtonData = parseButtonData;
+	        // Add functions
+	        t.parseColClass = parseColClass;
+	        t.parsePaddingClass = parsePaddingClass;
+	        t.parseButtonClass = parseButtonClass;
+	        t.parseButtonData = parseButtonData;
 
-            t.loadProperties = loadProperties;
-            t.saveFieldData = saveFieldData;
+	        t.loadProperties = loadProperties;
+	        t.saveFieldData = saveFieldData;
         }
 
         function initControls() {
-            $('input[name="ColSize"]', t.oRightToolbar).data('display-values', t.aColSize);
-            $('.padding-p', t.oRightToolbar).data('display-values', t.aPaddingSize);
-            $('.margin-m', t.oRightToolbar).data('display-values', t.aMarginSize);
+	        $('input[name="ColSize"]', t.oRightToolbar).data('display-values', t.aColSize);
+	        $('.padding-p', t.oRightToolbar).data('display-values', t.aPaddingSize);
+	        $('.margin-m', t.oRightToolbar).data('display-values', t.aMarginSize);
             
-            $('.padding-p', t.oRightToolbar).on('change', onChangePaddingSize);
-            $('.margin-m', t.oRightToolbar).on('change', onChangeMarginSize);
+	        $('.padding-p', t.oRightToolbar).on('change', onChangePaddingSize);
+	        $('.margin-m', t.oRightToolbar).on('change', onChangeMarginSize);
 
 
-            $('input[name="ColSize"]', t.oRightToolbar).on('change', onChangeColSpanSize);
-            $('input[name="WrapperColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
-            $('input[name="FieldPaddingBreakpoint"],input[name="WrapperPaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
-            $('input[name="FieldMarginBreakpoint"], input[name="WrapperMarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
+	        $('input[name="ColSize"]', t.oRightToolbar).on('change', onChangeColSpanSize);
+	        $('input[name="WrapperColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
+	        $('input[name="FieldPaddingBreakpoint"],input[name="WrapperPaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
+	        $('input[name="FieldMarginBreakpoint"], input[name="WrapperMarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
     
 
 
-            $('.form-range', t.oRightToolbar).on('input',onChangeSlider);
-            $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
-            $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
+	        $('.form-range', t.oRightToolbar).on('input',onChangeSlider);
+	        $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
+	        $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
 
-            $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
-            $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
+	        $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
+	        $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
 
-            $('select[name=buttonIcon] option', t.oRightToolbar).each(function() {
-                var elem = $(this);
-                var val = elem.val();
-                $('.button-icon .dropdown-menu', t.oRightToolbar).append('<a href="#" class="dropdown-item small" data-icon=' + val + '>' + (val == "" ? '' : '<span class="fa fa-fw ' + val + '"></span> - ') + elem.text() + '</a>');
-            });
+	        $('select[name=buttonIcon] option', t.oRightToolbar).each(function() {
+		        var elem = $(this);
+		        var val = elem.val();
+		        $('.button-icon .dropdown-menu', t.oRightToolbar).append('<a href="#" class="dropdown-item small" data-icon=' + val + '>' + (val == "" ? '' : '<span class="fa fa-fw ' + val + '"></span> - ') + elem.text() + '</a>');
+	        });
 
-            $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
-            $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
+	        $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
+	        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
 
-            $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
-            $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
+	        $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
+	        $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
 
-            $('.btn-field-data').on('click', onClickBtnFieldData);
-            $('#btn-update-language').on('click', onClickBtnLanguage);
+	        $('.btn-field-data').on('click', onClickBtnFieldData);
+	        $('#btn-update-language').on('click', onClickBtnLanguage);
         }
 
         function getParentBreakpoint(parent) {
-            return $(parent.data('breakpoint') + ':checked', parent).val();
+	        return $(parent.data('breakpoint') + ':checked', parent).val();
         }
 
         function loadProperties(fieldId) {
-            t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
-                .done(function(data) {
-                    $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
-                    var p = $('#propertylist');
-                    $('.form-group', p).addClass('d-none');
-                    $('input', p).val('');
+	        t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
+		        .done(function(data) {
+			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+			        var p = $('#propertylist');
+			        $('.form-group', p).addClass('d-none');
+			        $('input', p).val('');
 
-                    var o = {};
-                    var s = '';
-                    var fieldId = data['Id'];
-                    var groupKey = data['GroupKey'];
-                    var fieldKey = data['FieldKey'];
-                    var fieldType = (data['FieldType'] || '').toUpperCase();
-                    var fieldData = data['FieldData'];
-                    var fieldClass = data['FieldClass'];
-                    var fieldOrder = data['Order'];
-                    var parentKey = data['ParentKey'];
-                    var wrapperHtmlStart = data["WrapperHtmlStart"];
-                    var wrapperHtmlEnd = data["WrapperHtmlEnd"];
+			        var o = {};
+			        var s = '';
+			        var fieldId = data['Id'];
+			        var groupKey = data['GroupKey'];
+			        var fieldKey = data['FieldKey'];
+			        var fieldType = (data['FieldType'] || '').toUpperCase();
+			        var fieldData = data['FieldData'];
+			        var fieldClass = data['FieldClass'];
+			        var fieldOrder = data['Order'];
+			        var parentKey = data['ParentKey'];
+			        var wrapperHtmlStart = data["WrapperHtmlStart"];
+			        var wrapperHtmlEnd = data["WrapperHtmlEnd"];
 
-                    if (!fieldId)
-                        return;
+			        if (!fieldId)
+				        return;
 
-                    $('.common-card', t.oRightToolbar).removeClass('d-none');
-
-
-                    if (typeof(fieldData) === 'string') {
-                        try {
-                            fieldData = $.parseJSON(fieldData);
-
-                        } catch (err) {
-                            // invalid json
-                            fieldData = {};
-                        }
-                    }
-
-                    var toolbar = $('.right-toolbar');
-                    $('input[name=Id]', toolbar).val(fieldId);
-                    $('input[name=GroupKey]', toolbar).val(groupKey);
-                    $('input[name=Order]', toolbar).val(fieldOrder);
-                    $('input[name=ParentKey]', toolbar).val(parentKey);
-
-                    $('textarea[name=WrapperHtmlStart]', toolbar).val(wrapperHtmlStart);
-                    $('textarea[name=WrapperHtmlEnd]', toolbar).val(wrapperHtmlEnd);
+			        $('.common-card', t.oRightToolbar).removeClass('d-none');
 
 
-                    s = data['FieldKey'];
+			        if (typeof(fieldData) === 'string') {
+				        try {
+					        fieldData = $.parseJSON(fieldData);
 
-                    o = $('.field-name');
-                    o.removeClass('d-none');
-                    $('input', o).val(s);
+				        } catch (err) {
+					        // invalid json
+					        fieldData = {};
+				        }
+			        }
 
-                    s = data['DefaultLabel'];
-                    o = $('.field-label');
-                    o.removeClass('d-none');
-                    $('input', o).val(s);
+			        var toolbar = $('.right-toolbar');
+			        $('input[name=Id]', toolbar).val(fieldId);
+			        $('input[name=GroupKey]', toolbar).val(groupKey);
+			        $('input[name=Order]', toolbar).val(fieldOrder);
+			        $('input[name=ParentKey]', toolbar).val(parentKey);
 
-
-                    s = data['FieldType'];
-                    o = $('.field-type');
-                    o.removeClass('d-none');
-                    $('select', o).val(s);
-                    $('.input-group-sm', o).removeClass('input-group');
-                    $('.input-group-append', o).addClass('d-none');
-
-                    s = JSON.stringify(fieldData);
-                    //$('input[name=FieldData]', t.oRightToolbar).val(s);
-                    oFieldData.val(s);
+			        $('textarea[name=WrapperHtmlStart]', toolbar).val(wrapperHtmlStart);
+			        $('textarea[name=WrapperHtmlEnd]', toolbar).val(wrapperHtmlEnd);
 
 
-                    switch (fieldType) {
-                    case 'BUTTON':
-                        $('.button-card').removeClass('d-none');
-                        s = (fieldData['type'] || "").toUpperCase();
-                        $('select[buttonStyle]').val(s);
-                        o = $('input[buttonOutline]');
-                        o.removeClass('d-none');
-                        t.parseButtonClass(fieldClass);
-                        t.parseButtonData(fieldData);
-                        break;
-                    case 'INPUT':
-                        $('.input-card').removeClass('d-none');
-                        s = (fieldData['type'] || "").toUpperCase();
-                        $('select[name=InputType]').val(s);
-                        o = $('.field-type');
-                        $('.input-group-sm', o).addClass('input-group');
-                        $('.input-group-append', o).removeClass('d-none');
-                        break;
-                    case 'SELECT':
-                        s = (fieldData['type'] || "").toUpperCase();
-                        o = $('.select-type');
-                        o.removeClass('d-none');
-                        $('select', o).val(s);
-                        $('.input-group-sm', o).addClass('input-group');
-                        $('.input-group-append', o).removeClass('d-none');
-                        break;
-                    }
+			        s = data['FieldKey'];
 
-                    o = $('.field-class');
-                    $('input', o).val(fieldClass);
+			        o = $('.field-name');
+			        o.removeClass('d-none');
+			        $('input', o).val(s);
 
-                    s = data['WrapperClass'];
-                    o = $('.wrapper-class');
-                    o.addClass('updating');
-                    $('input', o).val(s);
+			        s = data['DefaultLabel'];
+			        o = $('.field-label');
+			        o.removeClass('d-none');
+			        $('input', o).val(s);
 
-                    $('#preview-statusbar input[name=preview-size]:checked').trigger('change');
-                    window.setTimeout(function() { o.removeClass('updating'); }, 10);
-                })
-                .fail(function() {
-                    $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
-                });
+
+			        s = data['FieldType'];
+			        o = $('.field-type');
+			        o.removeClass('d-none');
+			        $('select', o).val(s);
+			        $('.input-group-sm', o).removeClass('input-group');
+			        $('.input-group-append', o).addClass('d-none');
+
+			        s = JSON.stringify(fieldData);
+			        //$('input[name=FieldData]', t.oRightToolbar).val(s);
+			        oFieldData.val(s);
+
+
+			        switch (fieldType) {
+			        case 'BUTTON':
+				        $('.button-card').removeClass('d-none');
+				        s = (fieldData['type'] || "").toUpperCase();
+				        $('select[buttonStyle]').val(s);
+				        o = $('input[buttonOutline]');
+				        o.removeClass('d-none');
+				        t.parseButtonClass(fieldClass);
+				        t.parseButtonData(fieldData);
+				        break;
+			        case 'INPUT':
+				        $('.input-card').removeClass('d-none');
+				        s = (fieldData['type'] || "").toUpperCase();
+				        $('select[name=InputType]').val(s);
+				        o = $('.field-type');
+				        $('.input-group-sm', o).addClass('input-group');
+				        $('.input-group-append', o).removeClass('d-none');
+				        break;
+			        case 'SELECT':
+				        s = (fieldData['type'] || "").toUpperCase();
+				        o = $('.select-type');
+				        o.removeClass('d-none');
+				        $('select', o).val(s);
+				        $('.input-group-sm', o).addClass('input-group');
+				        $('.input-group-append', o).removeClass('d-none');
+				        break;
+			        }
+
+			        o = $('.field-class');
+			        $('input', o).val(fieldClass);
+
+			        s = data['WrapperClass'];
+			        o = $('.wrapper-class');
+			        o.addClass('updating');
+			        $('input', o).val(s);
+
+			        $('#preview-statusbar input[name=preview-size]:checked').trigger('change');
+			        window.setTimeout(function() { o.removeClass('updating'); }, 10);
+		        })
+		        .fail(function() {
+			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+		        });
         }
 
         function onChangeColBreakpoint(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
-            var bp = getParentBreakpoint(parent);
-            var o = $('input[name="ColSize"]', parent);
-            var s = updateClass.val();
-            var data = parseColClass(s);
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="ColSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parseColClass(s);
 
-            if (o.hasClass('updating') || !data) return;
-            o.addClass('updating');
-            o.val(data[bp]);
-            o.trigger('change');
-            data[bp] = o.val();
-            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
+	        o.val(data[bp]);
+	        o.trigger('change');
+	        data[bp] = o.val();
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangeMarginBreakpoint(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
-            var bp = getParentBreakpoint(parent);
-            var o = $('input[name="MarginSize"]', parent);
-            var s = updateClass.val();
-            var data = parseMarginClass(s);
-            var m = data['m' + bp];
-            var mt = data['mt' + bp];
-            var mb = data['mb' + bp];
-            var ml = data['ml' + bp];
-            var mr = data['mr' + bp];
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="MarginSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parseMarginClass(s);
+	        var m = data['m' + bp];
+	        var mt = data['mt' + bp];
+	        var mb = data['mb' + bp];
+	        var ml = data['ml' + bp];
+	        var mr = data['mr' + bp];
 
-            if (o.hasClass('updating') || !data) return;
-            o.addClass('updating');
-            if (m != undefined && m != '-1') {
-                mt = mb = ml = mr = m;
-            }
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
+	        if (m != undefined && m != '-1') {
+		        mt = mb = ml = mr = m;
+	        }
 
-            var elem = o;
-            elem.val(m);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        var elem = o;
+	        elem.val(m);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="MarginSizeTop"]', parent);
-            elem.val(mt);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="MarginSizeTop"]', parent);
+	        elem.val(mt);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="MarginSizeRight"]', parent);
-            elem.val(mr);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="MarginSizeRight"]', parent);
+	        elem.val(mr);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="MarginSizeBottom"]', parent);
-            elem.val(mb);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="MarginSizeBottom"]', parent);
+	        elem.val(mb);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="MarginSizeLeft"]', parent);
-            elem.val(ml);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="MarginSizeLeft"]', parent);
+	        elem.val(ml);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            $('.margin-m', parent).each(function() {
-                $(this).trigger('input'); 
-            });
-            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+	        $('.margin-m', parent).each(function() {
+		        $(this).trigger('input'); 
+	        });
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangeMarginSize(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var m = $('input[name=MarginSize]', parent);
-            var coll;
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var m = $('input[name=MarginSize]', parent);
+	        var coll;
 
-            if (!m.hasClass('updating')) {
-                m.addClass('updating');
+	        if (!m.hasClass('updating')) {
+		        m.addClass('updating');
                 
-                if (target.data('side') === 'm') {
-                    coll = $('.margin-m', parent);
-                    coll.val(target.val());
-                    coll.each(function() {
-                        $(this).trigger('input'); 
-                    });
-                } else {
-                    m.val(-1);
-                    m.trigger('input'); 
-                }
-                updateMarginClass(parent);
-                window.setTimeout(function() { m.removeClass('updating'); }, 10);
-            }
+		        if (target.data('side') === 'm') {
+			        coll = $('.margin-m', parent);
+			        coll.val(target.val());
+			        coll.each(function() {
+				        $(this).trigger('input'); 
+			        });
+		        } else {
+			        m.val(-1);
+			        m.trigger('input'); 
+		        }
+		        updateMarginClass(parent);
+		        window.setTimeout(function() { m.removeClass('updating'); }, 10);
+	        }
         }
 
         function onChangePaddingBreakpoint(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
-            var bp = getParentBreakpoint(parent);
-            var o = $('input[name="PaddingSize"]', parent);
-            var s = updateClass.val();
-            var data = parsePaddingClass(s);
-            var p = data['p' + bp];
-            var pt = data['pt' + bp];
-            var pb = data['pb' + bp];
-            var pl = data['pl' + bp];
-            var pr = data['pr' + bp];
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="PaddingSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parsePaddingClass(s);
+	        var p = data['p' + bp];
+	        var pt = data['pt' + bp];
+	        var pb = data['pb' + bp];
+	        var pl = data['pl' + bp];
+	        var pr = data['pr' + bp];
 
-            if (o.hasClass('updating') || !data) return;
-            o.addClass('updating');
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
 
-            if (p != undefined && p != '-1') {
-                pt = pb = pl = pr = p;
-            }
+	        if (p != undefined && p != '-1') {
+		        pt = pb = pl = pr = p;
+	        }
 
-            var elem = o;
-            elem.val(p);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        var elem = o;
+	        elem.val(p);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="PaddingSizeTop"]', parent);
-            elem.val(pt);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="PaddingSizeTop"]', parent);
+	        elem.val(pt);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
         
-            elem = $('input[name="PaddingSizeRight"]', parent);
-            elem.val(pr);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="PaddingSizeRight"]', parent);
+	        elem.val(pr);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="PaddingSizeBottom"]', parent);
-            elem.val(pb);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="PaddingSizeBottom"]', parent);
+	        elem.val(pb);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            elem = $('input[name="PaddingSizeLeft"]', parent);
-            elem.val(pl);
-            elem.trigger('change');
-            data[elem.data('side') + bp] = elem.val();
+	        elem = $('input[name="PaddingSizeLeft"]', parent);
+	        elem.val(pl);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
 
-            $('.padding-p', parent).each(function() {
-                $(this).trigger('input');
-            });
-            window.setTimeout(function() { o.removeClass('updating'); }, 10);
+	        $('.padding-p', parent).each(function() {
+		        $(this).trigger('input');
+	        });
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
         }
 
         function onChangePaddingSize(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var p = $('input[name=PaddingSize]', parent);
-            var coll;
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var p = $('input[name=PaddingSize]', parent);
+	        var coll;
 
-            if (!p.hasClass('updating')) {
-                p.addClass('updating');
+	        if (!p.hasClass('updating')) {
+		        p.addClass('updating');
                 
-                if (target.data('side') === 'p') {
-                    coll = $('.padding-p', parent);
-                    coll.val(target.val());
-                    coll.each(function() {
-                        $(this).trigger('input'); 
-                    });
-                } else {
-                    p.val(-1);
-                    p.trigger('input'); 
-                }
-                updatePaddingClass(parent);
-                window.setTimeout(function() { p.removeClass('updating'); }, 10);
-            }
+		        if (target.data('side') === 'p') {
+			        coll = $('.padding-p', parent);
+			        coll.val(target.val());
+			        coll.each(function() {
+				        $(this).trigger('input'); 
+			        });
+		        } else {
+			        p.val(-1);
+			        p.trigger('input'); 
+		        }
+		        updatePaddingClass(parent);
+		        window.setTimeout(function() { p.removeClass('updating'); }, 10);
+	        }
         }
 
         function onChangeColSpanSize(evt) {
-            var target = $(evt.target);
-            var parent = $(target.data('container'), t.oRightToolbar);
-            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
-            var data = parseColClass(updateClass.val());
-            var bp = getParentBreakpoint(parent);
-            if (!data || !bp) return;
-            data[bp] = target.val();
-            onChangeSlider(evt);
-            if (!target.hasClass('updating')) {
-                target.addClass('updating');
-                updateColClass(parent);
-                window.setTimeout(function() { target.removeClass('updating'); }, 10);
-            }
+	        var target = $(evt.target);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var data = parseColClass(updateClass.val());
+	        var bp = getParentBreakpoint(parent);
+	        if (!data || !bp) return;
+	        data[bp] = target.val();
+	        onChangeSlider(evt);
+	        if (!target.hasClass('updating')) {
+		        target.addClass('updating');
+		        updateColClass(parent);
+		        window.setTimeout(function() { target.removeClass('updating'); }, 10);
+	        }
         }
 
         function onChangeSlider(evt) {
-            var o = $(evt.target);
-            var s = o.val() || '0';
-            var data = o.data('display-values') || [];
-            s = data[s] === undefined ? s : data[s];
-            o.next('.range-value').html(s);
+	        var o = $(evt.target);
+	        var s = o.val() || '0';
+	        var data = o.data('display-values') || [];
+	        s = data[s] === undefined ? s : data[s];
+	        o.next('.range-value').html(s);
         }
 
         function onTogglePanelCaret(evt) {
-            var o = $(this);
-            var c = $('.fa-fw', o);
-            var target = $(o.data('bs-target'));
-            var hasClass = c.hasClass('fa-caret-' + o.data('showcaret'));
-            var s = 'fa-caret-' + (hasClass ? o.data('hidecaret') :  o.data('showcaret'));
-            c.removeClass('fa-caret-down fa-caret-right fa-caret-left fa-caret-up');
-            c.addClass(s);
+	        var o = $(this);
+	        var c = $('.fa-fw', o);
+	        var target = $(o.data('bs-target'));
+	        var hasClass = c.hasClass('fa-caret-' + o.data('showcaret'));
+	        var s = 'fa-caret-' + (hasClass ? o.data('hidecaret') :  o.data('showcaret'));
+	        c.removeClass('fa-caret-down fa-caret-right fa-caret-left fa-caret-up');
+	        c.addClass(s);
         }
 
         function onChangeButtonClass() {
-            var s = oFieldClass.val();
-            var btnStyle = $('select[name=buttonStyle]', t.oRightToolbar).val();
-            var btnOutline = $('input[name=buttonOutline]', t.oRightToolbar).is(':checked');
-            var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
-            var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
-            var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
-            s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
-            s += ' btn';
-            if (btnStyle || btnOutline || btnLink)
-                s += ' btn-' + (btnOutline ? 'outline-': '');
+	        var s = oFieldClass.val();
+	        var btnStyle = $('select[name=buttonStyle]', t.oRightToolbar).val();
+	        var btnOutline = $('input[name=buttonOutline]', t.oRightToolbar).is(':checked');
+	        var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
+	        var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
+	        var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
+	        s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
+	        s += ' btn';
+	        if (btnStyle || btnOutline || btnLink)
+		        s += ' btn-' + (btnOutline ? 'outline-': '');
 
-            if (btnStyle)
-                s += btnStyle;
+	        if (btnStyle)
+		        s += btnStyle;
 
-            if (btnLink) 
-                s += 'link';
+	        if (btnLink) 
+		        s += 'link';
             
 
-            if (btnBlock)
-                s += ' btn-block';
+	        if (btnBlock)
+		        s += ' btn-block';
 
-            if (btnH100)
-                s += ' h-100';
+	        if (btnH100)
+		        s += ' h-100';
 
-            oFieldClass.val(s);
-            oFieldClass.trigger('change');
+	        oFieldClass.val(s);
+	        oFieldClass.trigger('change');
         }
 
         function onChangeButtonIcon(evt) {
-            var oItem = $(this);
-            $('select[name=buttonIcon]', t.oRightToolbar).val(oItem.data("icon")).trigger('change');
+	        var oItem = $(this);
+	        $('select[name=buttonIcon]', t.oRightToolbar).val(oItem.data("icon")).trigger('change');
         }
 
         function onChangeButtonData(evt) {
-            var fieldData = {};
+	        var fieldData = {};
 
-            var icon = ($('select[name=buttonIcon]', t.oRightToolbar).val() || "").toLowerCase();
-            var color = ($('select[name=buttonIconColor]', t.oRightToolbar).val() || "").toLowerCase();
-            var action = ($('select[name=buttonActionType]', t.oRightToolbar).val() || "").toLowerCase();
+	        var icon = ($('select[name=buttonIcon]', t.oRightToolbar).val() || "").toLowerCase();
+	        var color = ($('select[name=buttonIconColor]', t.oRightToolbar).val() || "").toLowerCase();
+	        var action = ($('select[name=buttonActionType]', t.oRightToolbar).val() || "").toLowerCase();
 
-            if (icon) icon += ' ' + color;
+	        if (icon) icon += ' ' + color;
 
-            if (icon) {
-                fieldData['icon'] = ('fa ' + icon).trim();
-                while(matches = t.rxIcon.exec(icon)) {
-                    switch((matches[0]||"").toLowerCase()) {
-                    case 'fa':
-                    case 'fa-w':
-                        break;
-                    default:
-                        if (matches[1].startsWith('fa-') ) {
-                            var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
-                            if (menuItem.length) {
-                                $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
-                            } else {
-                                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
-                            }
-                        }
-                        break;
-                    }
-                }
-            } else {
-                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
-            }
+	        if (icon) {
+		        fieldData['icon'] = ('fa ' + icon).trim();
+		        while(matches = t.rxIcon.exec(icon)) {
+			        switch((matches[0]||"").toLowerCase()) {
+			        case 'fa':
+			        case 'fa-w':
+				        break;
+			        default:
+				        if (matches[1].startsWith('fa-') ) {
+					        var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
+					        if (menuItem.length) {
+						        $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
+					        } else {
+						        $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+					        }
+				        }
+				        break;
+			        }
+		        }
+	        } else {
+		        $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+	        }
 
 
-            $('.button-action-opts', t.oRightToolbar).addClass('d-none');
-            var oAction = {};
-            var eventClick;
-            if (action) {
-                oAction['type'] = action;
-                eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+	        $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+	        var oAction = {};
+	        var eventClick;
+	        if (action) {
+		        oAction['type'] = action;
+		        eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
 
-                if (eventClick) oAction['fnClick'] = eventClick;
+		        if (eventClick) oAction['fnClick'] = eventClick;
 
-                switch ((oAction['type'] || "").toLowerCase()) {
-                case 'navtostep':
-                    oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
-                    oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
-                    break;
-                case 'nav':
-                    oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
-                    break;
-                case 'savestep':
-                    oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
-                    oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
-                    break;
-                case 'save':
-                    oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
-                    break;
-                case 'link':
-                    oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
-                    break;
-                }
-                $('.button-action-' + oAction['type'], t.oRightToolbar).removeClass('d-none');
-                fieldData['action'] = oAction;
-            } else {
-                eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
-                if (eventClick) oAction['fnClick'] = eventClick;
-                fieldData['action'] = oAction;
-            }
+		        switch ((oAction['type'] || "").toLowerCase()) {
+		        case 'navtostep':
+			        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+			        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'nav':
+			        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'savestep':
+			        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+			        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'save':
+			        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'link':
+			        oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
+			        break;
+		        }
+		        $('.button-action-' + oAction['type'], t.oRightToolbar).removeClass('d-none');
+		        fieldData['action'] = oAction;
+	        } else {
+		        eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+		        if (eventClick) oAction['fnClick'] = eventClick;
+		        fieldData['action'] = oAction;
+	        }
 
-            var s = JSON.stringify(fieldData);
-            //var o = $('input[name=FieldData]', t.oRightToolbar);
+	        var s = JSON.stringify(fieldData);
+	        //var o = $('input[name=FieldData]', t.oRightToolbar);
 
-            oFieldData.val(s);
-            oFieldData.trigger('change');
+	        oFieldData.val(s);
+	        oFieldData.trigger('change');
         }
 
         function onChangeInputData(evt) {
 
         }
-
-        /*
+        @*
         function fnEditTextarea(evt) {
             prismSyntaxHighlight(this.value, this);
             var ctrl = $(this);
@@ -533,7 +532,7 @@
             }
 
         }
-        */
+        *@
 
         function prismSyntaxHighlight(text, ctrl) {
             var p = $(ctrl).parent();
@@ -541,6 +540,7 @@
             elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
             Prism.highlightElement(elem.get(0));
         }
+
         function prismSyncScroll(element) {
             /* Scroll result to scroll coords of event - sync with textarea */
             var p = $(element).parent();
@@ -1032,7 +1032,6 @@
         }
 
         function saveFieldData(evt) {
-            //var toolbar = $('#rightToolbar');
             if (t.oRightToolbar.hasClass('updating')) 
                 return;
 

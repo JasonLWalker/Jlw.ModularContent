@@ -6,14 +6,14 @@ using Newtonsoft.Json.Linq;
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {
     [TestClass]
-    public class ModularWizardAdmin_WizardAdminSettings_TestFixture : BaseModelFixture<AdminController.WizardAdminSettings, ModularWizardAdmin_WizardAdminSettingsTestSchema>
+    public class WizardAdminSettings_TestFixture : BaseModelFixture<WizardAdminSettings, WizardAdminSettingsTestSchema>
     {
         [TestMethod]
         [DataRow("{id:'value'}", "id", "value")]
         [DataRow("{myField:'myData'}", "myField", "myData")]
         public void TinyMceSettings_ShouldMatch_WhenSet(string jsonString, string fieldName, string expected)
         {
-            var sut = new AdminController.WizardAdminSettings();
+            var sut = new WizardAdminSettings();
             sut.TinyMceSettings = JToken.Parse(jsonString);
 
             Assert.AreEqual(expected, sut.TinyMceSettings[fieldName]?.ToString());

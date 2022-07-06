@@ -410,13 +410,15 @@
                         case 'color':
                         case 'phone':
                         case 'search':
-                            if (data["FieldClass"])
+                            var defaultValue = fieldData['defaultValue'] || '';
+
+	                        if (data["FieldClass"])
                                 props += 'class="' + data.FieldClass + '" ';
 
                             if (fieldData["maxlength"])
                                 props += 'maxlength="' + fieldData['maxlength'] + '"';
 
-                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
+                            obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value="' + defaultValue.replace('"', '\\"') + '"' + props + '/>' + wrapperEnd + '</div>');
                             break;
                         case 'range':
                         case 'number':
@@ -494,9 +496,13 @@
             var buttons = data["Buttons"];
             var forms = data["Forms"] || [];
             var fieldData = data["FieldData"] || {};
+            var fieldType = (data["FieldType"] || "").toUpperCase();
+            var fieldKey = data["FieldKey"] || "";
+            var parentKey = data["ParentKey"] || "";
             var wizardWrapperStart = data["WrapperHtmlStart"] || "";
             var wizardWrapperEnd = data["WrapperHtmlEnd"] || "";
-
+            var screen = fieldType === "SCREEN" ? fieldKey : "";
+            var wizard = fieldType === "SCREEN" ? parentKey : "";
             var usedFields = {};
             var i;
             //Todo: Remove next line after debugging:
@@ -563,7 +569,11 @@
             }
 
             $('.wizard-nav button').removeClass('active');
-            var nav = $('.wizard-nav button[data-section=' + section + '][data-step=' + step + ']');
+            var nav = $('.wizard-nav button[data-wizard=' + wizard + '][data-screen=' + screen + ']').first();
+            if (!nav.length)
+	            nav = $('.wizard-nav button[data-screen=' + screen + ']').first();
+            if (!nav.length)
+                nav = $('.wizard-nav button[data-section=' + section + '][data-step=' + step + ']').first();
             if (!nav.length)
                 nav = $('.wizard-nav button[data-section=' + section + ']').first();
             nav.addClass('active');

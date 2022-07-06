@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
@@ -28,6 +29,8 @@ public abstract class ApiController : WizardApiBaseController
     private readonly ILocalizedContentTextRepository _languageRepository;
     protected readonly IList<WizardField> DefaultWizardControls = new List<WizardField>();
     protected string HiddenFilterPrefix = "";
+    protected object PreviewRecordData { get; set; } = new object();
+
 
     private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 
@@ -174,7 +177,7 @@ public abstract class ApiController : WizardApiBaseController
             FieldType = "INPUT",
             FieldClass = "form-control form-control-sm",
             WrapperClass = "col-12",
-            FieldData = "{'type': 'color'}"
+            FieldData = "{'type': 'color', defaultValue: '#0000FF'}"
         }));
 
         // Add Checkbox Input
@@ -314,8 +317,18 @@ public abstract class ApiController : WizardApiBaseController
     public virtual object GetWizard(WizardInputModel model)
     {
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
-        
-        return WizardFactory.CreateWizardScreenContent(model.Wizard, model.Screen);
+
+        if (String.IsNullOrWhiteSpace(model.Screen))
+        {
+            var fields = DataRepository.GetWizardFields(model.Wizard, model.Wizard, _groupFilter);
+            var screen = fields.OrderBy(o => o.Order).FirstOrDefault(o => o.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase));
+
+            model.Screen = screen?.FieldKey;
+        }
+        //JToken PreviewData = JToken.FromObject(model.IsLivePreview ? PreviewRecordData : new { });
+        //if (model.IsLivePreview) PreviewData["IsLivePreview"] = 1;
+
+        return WizardFactory.CreateWizardScreenContent(model.Wizard, model.Screen, model.IsLivePreview ? PreviewRecordData : new { });
     }
 
     /// TODO Edit XML Comment Template for Data
@@ -603,8 +616,17 @@ public abstract class ApiController : WizardApiBaseController
         var aWizards = data.Where(o => o.FieldType.Equals("WIZARD", StringComparison.InvariantCultureIgnoreCase));
         foreach (var wizard in aWizards)
         {
-            if (!string.IsNullOrWhiteSpace(groupKey)) 
-                wizardList.Add(GetWizardTreeNode(wizard, data));
+            //wizard.Label.Replace()
+            if (!string.IsNullOrWhiteSpace(groupKey))
+            {
+                var treeNode = GetWizardTreeNode(wizard, data);
+                if (!string.IsNullOrWhiteSpace(HiddenFilterPrefix))
+                {
+                    var reLabel = new Regex("^" + HiddenFilterPrefix, RegexOptions.IgnoreCase);
+                    treeNode.title = reLabel.Replace(treeNode.title, "");
+                }
+                wizardList.Add(treeNode);
+            }
         }
         return wizardList;
     }
@@ -834,6 +856,11 @@ public abstract class ApiController : WizardApiBaseController
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         [JsonConverter(typeof(JlwJsonConverter<int>))]
         public int Step { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<bool>))]
+        public bool IsLivePreview { get; set; }
+
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
         public Dictionary<string, string> ValidFields { get; } = new Dictionary<string, string>();
