@@ -12,6 +12,8 @@ public interface IWizardAdminSettings
     bool CanInsert { get; set; }
     bool UseWysiwyg { get; set; }
     bool ShowSideNav { get; set; }
+    WizardSideNav SideNav { get; }
+
     bool ShowWireFrame { get; set; }
     bool SideNavDefault { get; set; }
     bool WireFrameDefault { get; set; }
@@ -25,5 +27,7 @@ public interface IWizardAdminSettings
     string JsRoot { get; set; }
     string ToolboxHeight { get; set; }
     string HiddenFilterPrefix { get; set; }
+    public object PreviewRecordData { get; set; }
     List<SelectListItem> LanguageList { get; }
+
 }

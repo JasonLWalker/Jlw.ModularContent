@@ -28,22 +28,22 @@ public class WizardAdminSettings : IWizardAdminSettings
     public string AdminUrl { get; set; }
     public string ApiOverrideUrl { get; set; }
     public string JsRoot { get; set; }
-
     public string ToolboxHeight { get; set; }
 
     public string HiddenFilterPrefix { get; set; }
+    public object PreviewRecordData { get; set; }
 
     public List<SelectListItem> LanguageList { get; } = new List<SelectListItem>() { new SelectListItem("English", "EN") };
 
-
-    public readonly WizardSideNav SideNav = new WizardSideNav();
+    protected readonly WizardSideNav _sideNav = new WizardSideNav();
+    public WizardSideNav SideNav => _sideNav;
 
     public WizardAdminSettings() : this(null) { }
 
     public WizardAdminSettings(object o)
     {
-        IsAdmin = DataUtility.ParseBool(o, "IsAdmin");
-        CanEdit = DataUtility.ParseBool(o, "CanEdit");
+        IsAdmin = DataUtility.ParseNullableBool(o, "IsAdmin") ?? false;
+        CanEdit = DataUtility.ParseNullableBool(o, "CanEdit") ?? false;
         CanDelete = DataUtility.ParseBool(o, "CanDelete");
         CanInsert = DataUtility.ParseBool(o, "CanInsert");
         UseWysiwyg = DataUtility.ParseBool(o, "UseWysiwyg");
@@ -61,5 +61,6 @@ public class WizardAdminSettings : IWizardAdminSettings
         JsRoot = DataUtility.ParseString(o, "JsRoot");
         ToolboxHeight = DataUtility.ParseString(o, "ToolboxHeight");
         HiddenFilterPrefix = DataUtility.ParseString(o, "HiddenFilterPrefix");
+        PreviewRecordData = DataUtility.Parse<object>(o, "PreviewRecordData");
     }
 }
