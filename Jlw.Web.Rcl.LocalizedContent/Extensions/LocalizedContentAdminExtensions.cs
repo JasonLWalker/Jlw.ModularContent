@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Jlw.Data.LocalizedContent;
+using Jlw.Utilities.Data.DbUtility;
 using Jlw.Web.Rcl.LocalizedContent;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class LocalizedContentAdminExtensions
+    public static partial class LocalizedContentExtensions
     {
         internal class LocalizedContentAdminConfigureOptions : IPostConfigureOptions<StaticFileOptions>
         {
@@ -38,15 +40,27 @@ namespace Microsoft.Extensions.DependencyInjection
             }
         }
 
-        public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<LocalizedContentFieldRepositoryOptions> options = null)
+        public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
         {
-            services.AddSingleton<ILanguageListModel>(provider =>
+
+            services.TryAddSingleton<IWizardAdminSettings>(new WizardAdminSettings());
+            services.AddLocalizedGroupDataItemRepository(options);
+            services.AddLocalizedContentFieldRepository(options);
+            services.AddLocalizedContentTextRepository(options);
+
+            services.AddWizardFactoryRepository(options);
+            services.TryAddSingleton<IWizardFactory>(provider =>
+            {
+                return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
+            });
+
+            services.TryAddSingleton<ILanguageListModel>(provider =>
             {
                 var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
                 return new LanguageListModel(repo);
             });
 
-            services.AddSingleton<ICommonControlListModel>(provider =>
+            services.TryAddSingleton<ICommonControlListModel>(provider =>
             {
                 var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
                 return new CommonControlListModel(repo);
