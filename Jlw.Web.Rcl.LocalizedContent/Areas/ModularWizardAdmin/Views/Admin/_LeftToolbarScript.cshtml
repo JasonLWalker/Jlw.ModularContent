@@ -202,8 +202,9 @@
 				        text = text.replace(reFilterPrefix, '');
 			        } catch (e) { }
 
-			        var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
-			        opt.attr('data-field-data', fieldData);
+                    var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
+			        opt.attr('data-field-data', JSON.stringify(fieldData));
+                    opt.data('tree-id', fieldData['Id']);
 			        target.append(opt);
 		        }
 
@@ -363,7 +364,8 @@
                     if (fieldType === 'SCREEN' || fieldType === 'WIZARD') {
                         menuItems['sep1'] = "---------";
                         if (fieldType === 'WIZARD') {
-	                        menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
+							menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
+							delete menuItems['rename'];
                         }
 						menuItems['addscreen'] = { "name": "Add New Screen", "icon": 'add' };
 
@@ -380,8 +382,11 @@
                                 case 'addwizard':
                                     window.postMessage({ 'action': 'addWizard' });
                                     break;
-                                case 'delete':
-	                                window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': node.key });
+								case 'delete':
+									window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': node.key });
+									break;
+                                case 'duplicate':
+	                                window.postMessage({ 'action': 'duplicateTreeNode', 'nodeId': node.key });
                                     break;
 								case 'rename':
 									window.postMessage({ 'action': 'renameTreeNode', 'nodeId': node.key });
@@ -666,9 +671,28 @@
 		        }
 		        placeholder.detach();
 		        return;
+			}
+
+            var txt = "Remove the field '" + fieldName + "' from the screen? (Please note: this action cannot be undone)";
+	        switch (fieldType.toUpperCase()) {
+				case 'WIZARD':
+					var wizardName = fieldName;
+					try {
+						var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+						wizardName = wizardName.replace(reFilterPrefix, '');
+					} catch (e) { }
+
+                    txt = "Remove the wizard '" + wizardName + "'? (Please note: this action cannot be undone)";
+					break;
+				case 'SCREEN':
+					txt = "Remove the screen '" + fieldName + "' from the wizard? (Please note: this action cannot be undone)";
+					break;
+				case 'FORM':
+					txt = "Remove the form '" + fieldName + "' from the screen? (Please note: this action cannot be undone)";
+					break;
 	        }
 
-	        bootbox.confirm("Remove the field '" + fieldName + "' from the wizard? (Please note: this action cannot be undone)",
+	        bootbox.confirm(txt,
 		        function (val) {
 			        if (val) {
 				        var data = { 'Id': nodeId, FieldType: fieldType, GroupKey: groupKey, FieldName: fieldName };
@@ -689,12 +713,175 @@
 					        })
 					        .always(function() {
 						        tree.getNodeByKey(nodeId).remove();
-						        window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
+								if (fieldType.toUpperCase() == 'WIZARD')
+									onLoadWizard();
+								else
+									window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
 						        t.hidePleaseWait();
 					        });
 			        }
 		        }
 	        );
+
+        }
+
+        function _fnOnDuplicateFancyTreeNode(nodeId) {
+	        var tree = $.ui.fancytree.getTree("#wizardtree");
+	        var node = tree.getNodeByKey(nodeId);
+	        var fieldData = node.data['field_data'];
+	        var fieldKey = fieldData['FieldKey'];
+	        var fieldType = fieldData['FieldType'];
+	        var groupKey = fieldData['GroupKey'];
+	        var parentKey = fieldData['ParentKey'];
+	        var fieldName = '';
+	        if (node && node.data && node.data.field_data) {
+		        fieldName = node.data.field_data['FieldKey'];
+                fieldKey = node.data.field_data['FieldKey'];
+		        fieldType = node.data.field_data['FieldType'];
+		        groupKey = node.data.field_data['GroupKey'];
+	        }
+
+	        if (!fieldName || !fieldType || !groupKey) {
+		        placeholder.detach();
+		        return;
+			}
+
+            var txt = "Duplicate the field '" + fieldName + "'?";
+	        switch (fieldType.toUpperCase()) {
+				case 'WIZARD':
+					var wizardName = fieldName;
+					try {
+						var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+						wizardName = wizardName.replace(reFilterPrefix, '');
+					} catch (e) { }
+
+                    txt = "Duplicate the wizard '" + wizardName + "'?";
+					break;
+				case 'SCREEN':
+					txt = "Duplicate the screen '" + fieldName + "'?";
+					break;
+				case 'FORM':
+					txt = "Duplicate the form '" + fieldName + "'?";
+					break;
+	        }
+
+	        bootbox.dialog({
+		        title: txt,
+		        message: '<div class="form-group"><label>New Name</label><input type="text" name="NewFieldKey" class="form-control" value="' + (fieldKey || '').replace('"', '\\"').replace('\\', '\\\\') + '" /></div>',
+		        inputType: 'text',
+		        size: 'md',
+		        buttons: {
+			        confirm: {
+				        label: '<span class="fa fa-save"></span> Rename',
+				        className: 'btn-success',
+				        callback: function(event) {
+					        var formData = t.serializeFormToJson($('.modal-body', this));
+					        formData['Id'] = nodeId;
+					        formData['FieldKey'] = fieldKey;
+					        formData['FieldType'] = fieldType;
+					        formData['GroupKey'] = groupKey;
+					        formData["ParentKey"] = parentKey;
+					        t.post(t.urlApiRoot + "/DuplicateField", formData)
+						        .always(function(data) {
+							        if (fieldType.toUpperCase() == 'WIZARD')
+								        onLoadWizard();
+							        else
+								        window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
+							        t.hidePleaseWait();
+						        });
+				        }
+			        },
+			        cancel: {
+				        label: '<span class="fa fa-ban"></span> Cancel',
+				        className: 'btn-danger'
+			        }
+		        }
+
+	        });
+			@*
+	        bootbox.confirm(txt,
+		        function (val) {
+			        if (val) {
+				        var data = { 'Id': nodeId, FieldType: fieldType, GroupKey: groupKey, FieldName: fieldName };
+				        t.post('@apiUrl/DuplicateField', data)
+					        .done(function(data) {
+						        placeholder.detach();
+						        if (obj) {
+							        obj.remove();
+						        }
+
+					        })
+					        .fail(function () {
+						        if (obj) {
+							        obj.removeClass('sortable-delete');
+							        obj.insertBefore(placeholder);
+						        }
+						        placeholder.detach();
+					        })
+					        .always(function() {
+						        tree.getNodeByKey(nodeId).remove();
+								if (fieldType.toUpperCase() == 'WIZARD')
+									onLoadWizard();
+								else
+									window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
+						        t.hidePleaseWait();
+					        });
+			        }
+		        }
+	        );
+	*@
+
+        }
+
+        function _fnOnNewWizard(event) {
+            var dialog = bootbox.dialog({
+                title: 'Add new Wizard',
+                message: '<div class="form-group"><label>Wizard Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
+                inputType: 'text',
+                size: 'md',
+                buttons: {
+                    confirm: {
+                        label: '<span class="fa fa-save"></span> Save',
+                        className: 'btn-success',
+                        callback: function(event) {
+                            var formData = t.serializeFormToJson($('.modal-body', this));
+                            formData['GroupKey'] = formData['FieldKey'];
+                            t.post(t.urlApiRoot + "/NewWizard", formData)
+                                .always(function(data) {
+                                    var key = data['GroupKey'];
+                                    if (key) {
+                                        t.get(t.urlApiRoot + "/List").done(function(data) {
+                                            var target = $('#slctWizard');
+                                            target.empty();
+
+                                            for (var i in data) {
+                                                var fieldData = data[i];
+                                                var text = fieldData["GroupKey"] || "";
+                                                try {
+	                                                var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+	                                                text = text.replace(reFilterPrefix, '');
+                                                } catch (e) { }
+
+                                                var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
+
+												opt.attr('data-field-data', fieldData);
+                                                target.append(opt);
+                                            }
+                                            target.val(key);
+                                            target.trigger('change');
+                                        });
+                                    }
+                            });
+
+                        }
+                    },
+                    cancel: {
+                        label: '<span class="fa fa-ban"></span> Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+
+            });
 
         }
 
@@ -792,7 +979,7 @@
 	        args = (args ? '?' : '') + args;
 	        window.open("@Url.Action("PreviewScreen")/" + $('#slctWizard').val() + '/' + screenName + args, "jlwLocalizedContent_ScreenPreview", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + (w * 0.8) + ', height=' + (h * 0.8) + ', left=' + ((w * 0.1)) + ', top=' + ((h * 0.1)), true);
         }
-		
+
         function _fnOnUpdateFieldOrder(nodes, activeNodeId) {
             var tree = $.ui.fancytree.getTree("#wizardtree");
 			var nodeList = [];
@@ -844,6 +1031,30 @@
 			}
         }
 
+        @*
+        function onEditWizard(event) {
+	        var dialog = bootbox.dialog({
+		        title: 'Edit Wizard',
+		        message: '<div class="form-group"><label>Wizard Name</label><input type="text" class="form-control" /></div>',
+		        inputType: 'text',
+		        size: 'md',
+		        buttons: {
+			        confirm: {
+				        label: '<span class="fa fa-save"></span> Save',
+				        className: 'btn-success',
+				        callback: function(event) {
+				        }
+			        },
+			        cancel: {
+				        label: '<span class="fa fa-ban"></span> Cancel',
+				        className: 'btn-danger'
+			        }
+		        }
+
+	        });
+
+        }
+		*@
 
         @*// ReSharper restore InconsistentNaming*@
 
@@ -894,9 +1105,15 @@
 					case 'deleteTreeNode':
 						_fnOnRemoveFancyTreeNode(event.data['nodeId']);
 						break;
+                    case 'duplicateTreeNode':
+                        _fnOnDuplicateFancyTreeNode(event.data['nodeId']);
+                        break;
 	                case 'addScreen':
 		                _fnOnNewScreen();
 		                break;
+					case 'addWizard':
+						_fnOnNewWizard();
+						break;
 	                case 'previewScreen':
 		                _fnOnPreviewScreen(event.data['screenName']);
 		                break;
@@ -909,81 +1126,6 @@
                 // Be careful! Do not use it.
                 return;
             }
-        }
-
-        function onNewWizard(event) {
-            var dialog = bootbox.dialog({
-                title: 'Add new Wizard',
-                message: '<div class="form-group"><label>Wizard Name</label><input type="text" name="FieldKey" class="form-control" /></div>',
-                inputType: 'text',
-                size: 'md',
-                buttons: {
-                    confirm: {
-                        label: '<span class="fa fa-save"></span> Save',
-                        className: 'btn-success',
-                        callback: function(event) {
-                            var formData = t.serializeFormToJson($('.modal-body', this));
-                            formData['GroupKey'] = formData['FieldKey'];
-                            t.post(t.urlApiRoot + "/NewWizard", formData)
-                                .always(function(data) {
-                                    var key = data['GroupKey'];
-                                    if (key) {
-                                        t.get(t.urlApiRoot + "/List").done(function(data) {
-                                            var target = $('#slctWizard');
-                                            target.empty();
-
-                                            for (var i in data) {
-                                                var fieldData = data[i];
-                                                var text = fieldData["GroupKey"] || "";
-                                                try {
-	                                                var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
-	                                                text = text.replace(reFilterPrefix, '');
-                                                } catch (e) { }
-
-                                                var opt = $('<option value="' + fieldData["GroupKey"] + '">' + text + '</option>');
-
-												opt.attr('data-field-data', fieldData);
-                                                target.append(opt);
-                                            }
-                                            target.val(key);
-                                            target.trigger('change');
-                                        });
-                                    }
-                            });
-
-                        }
-                    },
-                    cancel: {
-                        label: '<span class="fa fa-ban"></span> Cancel',
-                        className: 'btn-danger'
-                    }
-                }
-
-            });
-
-        }
-
-        function onEditWizard(event) {
-            var dialog = bootbox.dialog({
-                title: 'Edit Wizard',
-                message: '<div class="form-group"><label>Wizard Name</label><input type="text" class="form-control" /></div>',
-                inputType: 'text',
-                size: 'md',
-                buttons: {
-                    confirm: {
-                        label: '<span class="fa fa-save"></span> Save',
-                        className: 'btn-success',
-                        callback: function(event) {
-                        }
-                    },
-                    cancel: {
-                        label: '<span class="fa fa-ban"></span> Cancel',
-                        className: 'btn-danger'
-                    }
-                }
-
-            });
-
         }
 
         initFancyTree("#wizardtree");
@@ -999,8 +1141,12 @@
 
         initDragDrop();
 
-        $('#new-wizard-btn').on('click', onNewWizard);
-        $('#edit-wizard-btn').on('click', onEditWizard);
+        $('#new-wizard-btn').on('click', function () { postMessage({ 'action': 'addWizard' }); });
+		@*
+        $('#edit-wizard-btn').on('click', function () {
+			var id = $('#slctWizard option:selected').data('tree-id');
+			//postMessage({ 'action': 'renameTreeNode', 'nodeId': id });
+        });*@
         $('#new-screen-btn').on('click', function(){ postMessage({'action':'addScreen'}); });
 
     }

@@ -425,6 +425,48 @@ public abstract class ApiController : WizardApiBaseController
         return JToken.FromObject(new ApiStatusMessage("Unable to rename record. Please check the data and try again.", "Error while renaming", ApiMessageType.Danger));
     }
 
+    /// <summary>
+    /// Deletes the specified o.
+    /// </summary>
+    /// <param name="o">The o.</param>
+    /// <returns>System.Object.</returns>
+    /// TODO Edit XML Comment Template for Delete
+    [HttpPost("DuplicateField")]
+    public virtual object DuplicateField(WizardField o)
+    {
+        var bResult = false;
+        o.GroupFilter = _groupFilter;
+
+        if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+        string newName = _reFieldName.Replace(o.NewFieldKey, "_");
+        string origFieldKey = o.FieldKey;
+        o.FieldKey = newName;
+
+        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        if (oResult?.Id > 0)
+        {
+            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
+        }
+        o.FieldKey = origFieldKey;
+
+        try
+        {
+            o.AuditChangeBy = User.Identity?.Name ?? "";
+            oResult = DataRepository.DuplicateWizardFieldRecursive(o, newName);
+            bResult = oResult.FieldKey == newName;
+        }
+        catch (Exception ex)
+        {
+            return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+        }
+
+        if (bResult)
+            return JToken.FromObject(new ApiStatusMessage("Record has been successfully duplicated.", "Record duplicated", ApiMessageType.Success));
+
+        // Else 
+        return JToken.FromObject(new ApiStatusMessage("Unable to duplicate record. Please check the data and try again.", "Error while duplicating", ApiMessageType.Danger));
+    }
+
     [Route("SaveOrder")]
     [HttpPost]
     public virtual object SaveWizard(IEnumerable<WizardInputModel> nodeList)
