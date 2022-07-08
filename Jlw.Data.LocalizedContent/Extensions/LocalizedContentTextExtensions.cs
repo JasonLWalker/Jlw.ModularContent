@@ -14,8 +14,8 @@
 using System;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using TOptions = Jlw.Data.LocalizedContent.LocalizedContentTextRepositoryOptions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// Class LocalizedContentTextExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedContentTextExtensions
-    public static class LocalizedContentTextExtensions 
+    public static partial class LocalizedContentExtensions 
     {
         /// <summary>
         /// Adds the <see cref="LocalizedContentTextRepository">LocalizedContentTextRepository</see> to the service collection as a singleton instance.
@@ -32,17 +32,17 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">Service collection instance that this extension will act upon</param>
         /// <param name="setupAction">The setup action options used to initialize the repository singleton.</param>
         /// <returns>Returns the <paramref name="services">services</paramref> service collection to allow for method chaining.<br /></returns>
-        public static IServiceCollection AddLocalizedContentTextRepository(this IServiceCollection services, Action<TOptions> setupAction = null) 
+        public static IServiceCollection AddLocalizedContentTextRepository(this IServiceCollection services, Action<LocalizedContentTextRepositoryOptions> setupAction = null) 
         {
             if (setupAction != null)
                 services.Configure(setupAction);
 
-            services.AddSingleton<ILocalizedContentTextRepository>(provider =>
+            services.TryAddSingleton<ILocalizedContentTextRepository>(provider =>
             {
-                var options = provider.GetService<IOptions<TOptions>>() ?? new OptionsWrapper<TOptions>(provider.GetRequiredService<TOptions>());
+                ModularDbOptions options = (provider.GetService<IOptions<LocalizedContentTextRepositoryOptions>>() ?? new OptionsWrapper<LocalizedContentTextRepositoryOptions>(provider.GetService<LocalizedContentTextRepositoryOptions>()))?.Value;
 
-                var dbClient = options?.Value?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
-                var connString = options?.Value?.ConnectionString ?? "";
+                var dbClient = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
+                var connString = options?.ConnectionString ?? "";
                 return new LocalizedContentTextRepository(dbClient, connString);
             });
 
