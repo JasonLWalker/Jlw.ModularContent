@@ -24,7 +24,7 @@
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Shared Data Models and Data Repository to implement form and content creation.</Description>
-    <Copyright>Copyright ©2012-2021 Jason L. Walker</Copyright>
+    <Copyright>Copyright ©2012-2022 Jason L. Walker</Copyright>
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
   </PropertyGroup>
@@ -38,7 +38,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jlw.Utilities.Data" Version="4.3.7948.6501" />
+    <PackageReference Include="Jlw.Utilities.Data" Version="4.5.8223.7720-alpha" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
