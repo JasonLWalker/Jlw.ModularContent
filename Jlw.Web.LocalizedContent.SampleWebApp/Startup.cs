@@ -1,3 +1,4 @@
+/*
 using System;
 using System.Linq;
 using Jlw.Data.LocalizedContent;
@@ -18,23 +19,23 @@ using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp
 {
-    public class Startup
-    {
+public class Startup
+{
 
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Env { get; set; }
+public IConfiguration Configuration { get; }
+public IWebHostEnvironment Env { get; set; }
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
-        {
-            Configuration = configuration;
-            Env = env;
-        }
+public Startup(IConfiguration configuration, IWebHostEnvironment env)
+{
+Configuration = configuration;
+Env = env;
+}
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
+// This method gets called by the runtime. Use this method to add services to the container.
+// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+public void ConfigureServices(IServiceCollection services)
+{
             AddMockedUsers();
             services.AddIdentityMocking<TUser>();
 
@@ -150,7 +151,6 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp
                 endpoints.MapControllers();
             });
         }
-
         protected void AddMockedUsers()
         {
             MockUserStore<TUser>.AddMockedUser(
@@ -221,3 +221,4 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp
         }
     }
 }
+*/
