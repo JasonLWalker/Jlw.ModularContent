@@ -19,8 +19,9 @@ namespace Jlw.Data.LocalizedContent
     /// Class LocalizedContentFieldRepositoryOptions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedContentFieldRepositoryOptions
-    public class LocalizedContentFieldRepositoryOptions
+    public class LocalizedContentFieldRepositoryOptions : ModularDbOptions
     {
+        /*
         /// <summary>
         /// Gets or sets the database client.
         /// </summary>
@@ -33,5 +34,6 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The connection string.</value>
         /// TODO Edit XML Comment Template for ConnectionString
         public string ConnectionString { get; set; }
+        */
     }
 }
