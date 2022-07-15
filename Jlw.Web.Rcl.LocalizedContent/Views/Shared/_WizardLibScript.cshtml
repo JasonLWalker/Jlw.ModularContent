@@ -569,14 +569,18 @@
             }
 
             $('.wizard-nav button').removeClass('active');
-            var nav = $('.wizard-nav button[data-wizard=' + wizard + '][data-screen=' + screen + ']').first();
-            if (!nav.length)
+            var nav;
+
+            if (wizard && screen )
+	            $('.wizard-nav button[data-wizard=' + wizard + '][data-screen=' + screen + ']').first();
+            if (!nav.length && screen )
 	            nav = $('.wizard-nav button[data-screen=' + screen + ']').first();
-            if (!nav.length)
+            if (!nav.length && section != undefined && step != undefined)
                 nav = $('.wizard-nav button[data-section=' + section + '][data-step=' + step + ']').first();
-            if (!nav.length)
+            if (!nav.length && section != undefined)
                 nav = $('.wizard-nav button[data-section=' + section + ']').first();
-            nav.addClass('active');
+            if (nav.length)
+	            nav.addClass('active');
 
             $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
 
