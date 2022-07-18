@@ -2,9 +2,6 @@
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area ?? "", groupKey = (string)null, fieldKey = (string)null }) + "/" : Model?.ApiOverrideUrl;
 }
-@{
-    await Html.RenderPartialAsync("_WizardLibScript");
-}
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
 <style>
     [id^="jlwContainer-"], [id^="jlwElement-"] {

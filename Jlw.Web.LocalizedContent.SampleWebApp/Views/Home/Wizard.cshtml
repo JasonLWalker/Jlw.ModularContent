@@ -3,9 +3,12 @@
 @using Newtonsoft.Json.Serialization
 @model object
 @{
-    ViewData["Title"] = "Sample Wizard";
+	string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+	version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
+
+	ViewData["Title"] = "Sample Wizard";
     ViewData["Breadcrumb"] ??= new List<KeyValuePair<string, string>>()
-    {
+	{
         new KeyValuePair<string, string>(Url.Action("Index", "Home", new {Area = (string)null}), "Home"),
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Sample Wizard"),
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Start"),
@@ -51,9 +54,7 @@
     </div>
 </div>
 @section Scripts{
-    @{
-        await Html.RenderPartialAsync("_WizardLibScript");
-    }
+    <script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
     <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
     <script src="~/LocalizedContent/js/bootbox.min.js"></script>
     <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/all.min.js")"></script>
@@ -86,7 +87,7 @@
                 */
                 t.navToScreen(opts['screen']).done(function() {
                     //$('.wizard-form .wizard-body').html('');
-                    t.populateFormData(opts["formData"] || {}, $('.wizard-form')); 
+                    t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
                 });
 
             }
@@ -95,7 +96,9 @@
             'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
             'urlApiRoot': '@Html.Raw(Url.Action("Index", "SampleWizardApi"))',
             //'debugLevel':11,
-            'wizardParent': '.wizard-form'
+            'wizardParent': '.wizard-form',
+            'screen': "StartHere",
+            'wizard': "SampleWizard"
         });
     </script>
 }

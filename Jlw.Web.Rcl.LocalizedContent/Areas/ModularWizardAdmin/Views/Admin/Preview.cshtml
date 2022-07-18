@@ -3,6 +3,9 @@
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";
 
+    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
+
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
@@ -16,13 +19,13 @@
                 @{
                     foreach (var item in Model.SideNav.Items)
                     {
-                        <button type="button" data-section="@item.Section" data-step="@item.Step"  data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> @item.Label</button>
+                        <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> @item.Label</button>
                     }
                 }
                 @*
-        <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
-        <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
-        <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+                    <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
+                    <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
+                    <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
                 *@
             </div>
         </form>
@@ -42,9 +45,7 @@
         </form>
     </div>
 </div>
-@{
-    await Html.RenderPartialAsync("_WizardLibScript");
-}
+<script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
 @section Scripts {
     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
     <style>
@@ -56,7 +57,7 @@
             min-height: 30px;
         }
 
-        
+
         .wizard-nav {
             min-width: 195px;
         }
@@ -77,12 +78,12 @@
             border: 2px dashed #aaa;
             outline: none !important;
         }
-        .sortable-ghost > * {
-            visibility: hidden; 
-        }
+
+            .sortable-ghost > * {
+                visibility: hidden;
+            }
 
         .sortable-chosen {
-
         }
 
         .sortable-drag {
@@ -119,9 +120,8 @@
         .form-check-label {
             display: block;
         }
-
     </style>
-    
+
     <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
 
 
@@ -132,8 +132,8 @@
     <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
-        (function(a) {
-            a.fn.replaceTagName = function(f) {
+        (function (a) {
+            a.fn.replaceTagName = function (f) {
                 var g = [],
                     h = this.length;
                 while (h--) {
@@ -189,7 +189,7 @@
             function onRenderWizardFormField(obj, data, parent) {
                 var o = $(obj);
                 o.data('wizard-data', data);
-                
+
                 var cntrl = $('input, button, textarea, select', o);
                 cntrl.attr('data-field-type', (data['FieldType']||"").toLowerCase());
                 $('input, button, textarea, select', o).replaceTagName('div');
@@ -249,7 +249,7 @@
                 var msg = { 'action': 'onRenderWizard' };
                 window.parent.postMessage(msg);
 
-                
+
                 return o;
             }
 
@@ -324,7 +324,7 @@
         })('');
     </script>
     <script>
-        $(function() {
+        $(function () {
             var msg = { 'action': 'onPreviewLoad' };
             window.parent.postMessage(msg);
         });
