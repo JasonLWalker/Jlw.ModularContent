@@ -10,7 +10,7 @@ using TInterface = Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository;
 namespace Jlw.Data.LocalizedContent.Tests
 {
 
-
+    /*
     [TestClass]
     public class AddLocalizedContentFieldRepositoryTestFixture
     {
@@ -208,4 +208,5 @@ namespace Jlw.Data.LocalizedContent.Tests
         }
 
     }
+    */
 }

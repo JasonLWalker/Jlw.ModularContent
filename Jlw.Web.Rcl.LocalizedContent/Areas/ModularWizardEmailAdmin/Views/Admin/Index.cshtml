@@ -2,7 +2,7 @@
 @model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
-    string version = typeof(LocalizedContentAdminExtensions).Assembly.GetName().Version?.ToString();
+    string version = typeof(LocalizedContentExtensions).Assembly.GetName().Version?.ToString();
     string jsRoot = Model?.JsRoot ?? "LocalizedContent";
 }
 @section Scripts {

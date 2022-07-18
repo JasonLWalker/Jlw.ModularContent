@@ -14,6 +14,7 @@
 using System;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable once CheckNamespace
@@ -23,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// Class LocalizedGroupDataItemExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedGroupDataItemExtensions
-    public static class LocalizedGroupDataItemExtensions
+    public static partial class LocalizedContentExtensions
     {
         /// <summary>
         /// Adds the localized group data item repository.
@@ -34,15 +35,17 @@ namespace Microsoft.Extensions.DependencyInjection
         /// TODO Edit XML Comment Template for AddLocalizedGroupDataItemRepository
         public static IServiceCollection AddLocalizedGroupDataItemRepository(this IServiceCollection services, Action<LocalizedGroupDataItemRepositoryOptions> setupAction = null)
         {
-            if (setupAction != null)
-                services.Configure(setupAction);
+            if (setupAction != null) services.Configure(setupAction);
 
-            services.AddSingleton<ILocalizedGroupDataItemRepository>(provider =>
+            services.TryAddSingleton<ILocalizedGroupDataItemRepository>(provider =>
             {
-                var options = provider.GetService<IOptions<LocalizedGroupDataItemRepositoryOptions>>() ?? new OptionsWrapper<LocalizedGroupDataItemRepositoryOptions>(provider.GetRequiredService<LocalizedGroupDataItemRepositoryOptions>());
+                IModularDbOptions options = provider.GetService<IOptions<LocalizedGroupDataItemRepositoryOptions>>()?.Value;
+                options ??= (new OptionsWrapper<LocalizedGroupDataItemRepositoryOptions>(provider.GetService<LocalizedGroupDataItemRepositoryOptions>()))?.Value;
+                options ??= provider.GetService<IModularDbOptions>();
+                options ??= provider.GetService<ModularDbOptions>();
 
-                var dbClient = options?.Value?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
-                var connString = options?.Value?.ConnectionString ?? "";
+                var dbClient = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
+                var connString = options?.ConnectionString ?? "";
                 return new LocalizedGroupDataItemRepository(dbClient, connString);
             });
 

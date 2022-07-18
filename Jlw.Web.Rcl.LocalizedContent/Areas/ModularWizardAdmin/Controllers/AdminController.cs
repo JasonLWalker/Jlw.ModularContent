@@ -14,6 +14,40 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         protected WizardAdminSettings DefaultSettings { get; } = new WizardAdminSettings();
         protected IWizardFactoryRepository DataRepository;
 
+        protected AdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository)
+        {
+            DataRepository = repository;
+
+            DefaultSettings.IsAdmin = settings.IsAdmin;
+            DefaultSettings.CanEdit = settings.CanEdit;
+            DefaultSettings.CanDelete = settings.CanDelete;
+            DefaultSettings.CanInsert = settings.CanInsert;
+            DefaultSettings.UseWysiwyg = settings.UseWysiwyg;
+            DefaultSettings.ShowWireFrame = settings.ShowWireFrame;
+            DefaultSettings.WireFrameDefault = settings.WireFrameDefault;
+            DefaultSettings.TinyMceSettings = settings.TinyMceSettings;
+            DefaultSettings.PageTitle = settings.PageTitle;
+            DefaultSettings.ExtraCss = settings.ExtraCss;
+            DefaultSettings.ExtraScript = settings.ExtraScript;
+            DefaultSettings.Area = settings.Area;
+            DefaultSettings.JsRoot = settings.JsRoot;
+            DefaultSettings.ToolboxHeight = settings.ToolboxHeight;
+            DefaultSettings.HiddenFilterPrefix = settings.HiddenFilterPrefix;
+            DefaultSettings.PreviewRecordData = settings.PreviewRecordData;
+
+            DefaultSettings.LanguageList.Clear();
+            DefaultSettings.LanguageList.AddRange(settings.LanguageList);
+
+            DefaultSettings.ShowSideNav = settings.ShowSideNav;
+            DefaultSettings.SideNavDefault = settings.SideNavDefault;
+            DefaultSettings.SideNav.Clear();
+            DefaultSettings.SideNav.AddRange(settings.SideNav.Items);
+            
+            DefaultSettings.AdminUrl = settings.AdminUrl;
+            DefaultSettings.ApiOverrideUrl = settings.ApiOverrideUrl;
+
+        }
+
         /// <summary>Default route for admin</summary>
         /// <returns>ActionResult.</returns>
         [HttpGet]
@@ -32,7 +66,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 
             return GetViewResult("Preview", settings);
         }
-
 
         [HttpGet("PreviewScreen/{wizardName?}/{screenName?}")]
         public virtual ActionResult PreviewScreen(string wizardName = null, string screenName = null)

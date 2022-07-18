@@ -26,23 +26,34 @@ public abstract class ApiController : WizardApiBaseController
 {
     protected string _groupFilter = "";
     protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
+    protected IWizardAdminSettings _settings;
     protected int nMaxTreeDepth = 10;
-    private readonly ILocalizedContentTextRepository _languageRepository;
+    protected readonly Regex _reFieldName = new Regex("[^a-zA-Z0-9\\-]");
+    protected readonly ILocalizedContentTextRepository _languageRepository;
+    
     protected readonly List<WizardField> DefaultWizardControls = new List<WizardField>();
-    protected string HiddenFilterPrefix = "";
-    protected object PreviewRecordData { get; set; } = new object();
-    protected Regex _reFieldName = new Regex("[^a-zA-Z0-9\\-]");
+    protected readonly string HiddenFilterPrefix = "";
+
+    private object _previewRecordData;
+    protected object PreviewRecordData
+    {
+        get => _previewRecordData ?? new {}; 
+        set => _previewRecordData = value;
+    }
 
     private ILocalizedContentFieldRepository _fieldRepository { get; set; }
 
-    protected ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository) : base(repository, wizardFactory)
+    protected ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository, IWizardAdminSettings settings) : base(repository, wizardFactory)
     {
         _fieldRepository = fieldRepository;
         _languageRepository = languageRepository;
-        InitializeControls();
+        _settings = settings;
+        HiddenFilterPrefix = settings.HiddenFilterPrefix ?? "";
+        PreviewRecordData = settings.PreviewRecordData ?? new {};
+        InitializeControls(_settings);
     }
 
-    public virtual void InitializeControls() {
+    public void InitializeControls(IWizardAdminSettings settings) {
         DefaultWizardControls.Clear();
         // Add Controls
         DefaultWizardControls.AddRange(new[] {
@@ -191,8 +202,17 @@ public abstract class ApiController : WizardApiBaseController
     public virtual object NewWizard(LocalizedContentField.Controllers.ApiController.LocalizedContentFieldRecordInput o)
     {
         var bResult = false;
+        if (!string.IsNullOrWhiteSpace(_settings.HiddenFilterPrefix))
+        {
+            if (!o.GroupKey.StartsWith(_settings.HiddenFilterPrefix, StringComparison.InvariantCultureIgnoreCase))
+            {
+                o.GroupKey = _settings.HiddenFilterPrefix + o.GroupKey;
+            }
+        }
+
         o.GroupFilter = _groupFilter;
-        o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
+        o.GroupKey = _reFieldName.Replace(o.GroupKey, "_");
+        o.FieldKey = _reFieldName.Replace(o.GroupKey, "_"); // Wizards have the same value for GroupKey and FieldKey
         o.FieldType = "WIZARD";
         o.FieldData ??= "{}";
         o.FieldClass ??= "";
@@ -201,6 +221,7 @@ public abstract class ApiController : WizardApiBaseController
         o.WrapperHtmlEnd ??= "";
         o.WrapperHtmlStart ??= "";
         o.ParentKey ??= "";
+
 
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
@@ -215,15 +236,20 @@ public abstract class ApiController : WizardApiBaseController
             o.AuditChangeBy = User.Identity?.Name ?? "";
             oResult = _fieldRepository.SaveRecord(o);
             bResult = oResult != null;
-
-            //_LocalizedContentFieldList.Refresh(); 
         }
         catch (Exception ex)
         {
             return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
         }
 
-        if (bResult == true)
+        if (oResult != null && oResult.Id < 1)
+        {
+            bResult = false;
+            if (oResult.AuditChangeType?.Equals("ERROR", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                return JToken.FromObject(new ApiStatusMessage(oResult.FieldData, "Error while saving", ApiMessageType.Danger));
+        }
+
+        if (bResult)
             return JToken.FromObject(new ApiObjectMessage(oResult, "Record has been saved successfully.", "Record Saved", ApiMessageType.Success));
 
         // Else 
@@ -397,6 +423,48 @@ public abstract class ApiController : WizardApiBaseController
 
         // Else 
         return JToken.FromObject(new ApiStatusMessage("Unable to rename record. Please check the data and try again.", "Error while renaming", ApiMessageType.Danger));
+    }
+
+    /// <summary>
+    /// Deletes the specified o.
+    /// </summary>
+    /// <param name="o">The o.</param>
+    /// <returns>System.Object.</returns>
+    /// TODO Edit XML Comment Template for Delete
+    [HttpPost("DuplicateField")]
+    public virtual object DuplicateField(WizardField o)
+    {
+        var bResult = false;
+        o.GroupFilter = _groupFilter;
+
+        if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
+        string newName = _reFieldName.Replace(o.NewFieldKey, "_");
+        string origFieldKey = o.FieldKey;
+        o.FieldKey = newName;
+
+        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        if (oResult?.Id > 0)
+        {
+            return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
+        }
+        o.FieldKey = origFieldKey;
+
+        try
+        {
+            o.AuditChangeBy = User.Identity?.Name ?? "";
+            oResult = DataRepository.DuplicateWizardFieldRecursive(o, newName);
+            bResult = oResult.FieldKey == newName;
+        }
+        catch (Exception ex)
+        {
+            return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
+        }
+
+        if (bResult)
+            return JToken.FromObject(new ApiStatusMessage("Record has been successfully duplicated.", "Record duplicated", ApiMessageType.Success));
+
+        // Else 
+        return JToken.FromObject(new ApiStatusMessage("Unable to duplicate record. Please check the data and try again.", "Error while duplicating", ApiMessageType.Danger));
     }
 
     [Route("SaveOrder")]

@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Jlw.Data.LocalizedContent;
+using Jlw.Utilities.Data.DbUtility;
 using Jlw.Web.Rcl.LocalizedContent;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class LocalizedContentAdminExtensions
+    public static partial class LocalizedContentExtensions
     {
         internal class LocalizedContentAdminConfigureOptions : IPostConfigureOptions<StaticFileOptions>
         {
@@ -38,15 +40,27 @@ namespace Microsoft.Extensions.DependencyInjection
             }
         }
 
-        public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<LocalizedContentFieldRepositoryOptions> options = null)
+        public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
         {
-            services.AddSingleton<ILanguageListModel>(provider =>
+
+            services.TryAddSingleton<IWizardAdminSettings>(new WizardAdminSettings());
+            services.AddLocalizedGroupDataItemRepository(options);
+            services.AddLocalizedContentFieldRepository(options);
+            services.AddLocalizedContentTextRepository(options);
+
+            services.AddWizardFactoryRepository(options);
+            services.TryAddSingleton<IWizardFactory>(provider =>
+            {
+                return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
+            });
+
+            services.TryAddSingleton<ILanguageListModel>(provider =>
             {
                 var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
                 return new LanguageListModel(repo);
             });
 
-            services.AddSingleton<ICommonControlListModel>(provider =>
+            services.TryAddSingleton<ICommonControlListModel>(provider =>
             {
                 var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
                 return new CommonControlListModel(repo);
@@ -106,38 +120,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             app.UseEndpoints(endpoints =>
             {
-                // Localized Content Field Admin mapping
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldAdmin",
-                    pattern: "Admin/LocalizedContentField/{groupKey?}/{parentKey?}",
-                    defaults: new {Controller = "Admin", Action="Index", Area= "LocalizedContentField"},
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentField" });
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldWizardAdmin",
-                    pattern: "Admin/LocalizedContentWizard/{groupKey?}/{parentKey?}",
-                    defaults: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" },
-                    constraints: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" });
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldEmailAdmin",
-                    pattern: "Admin/LocalizedContentEmail/{groupKey?}/{parentKey?}",
-                    defaults: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" },
-                    constraints: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" });
-
-
-
-                // Localized Content Text Admin mapping
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentTextAdmin",
-                    pattern: "Admin/LocalizedContentText/{groupKey?}/{fieldKey?}/{language?}",
-                    defaults: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentText" },
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentText" });
-
-                endpoints.MapControllerRoute(
-                    name: "LocalizedGroupDataItemAdmin",
-                    pattern: "Admin/LocalizedGroupDataItem",
-                    defaults: new { Controller = "Admin", Action = "Index", Area = "LocalizedGroupDataItem" },
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedGroupDataItem" });
-
             });
 
             return app;
