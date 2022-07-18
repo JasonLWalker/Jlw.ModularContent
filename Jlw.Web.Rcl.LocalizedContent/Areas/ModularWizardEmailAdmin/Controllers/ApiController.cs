@@ -356,6 +356,5 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
             // Else 
             return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
 		}
-
-    } 
+    }
 }

@@ -1,11 +1,14 @@
-@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
-    string version = DateTime.Now.Ticks.ToString();//typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
+	
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
 }
+<script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
 <script>
     var bPreviewFrameLoaded = false;
     window.addEventListener('message', function(event) {
@@ -17,8 +20,7 @@
                     oFrame.setAttribute('data-preview-initialized', 1);
                     bPreviewFrameLoaded = true;
 
-                    document.getElementById('preview-frame')
-                        .contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
+                    document.getElementById('preview-frame').contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
 
                     var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
                     var clientFrameBody = $(clientFrameWindow.document.body);
@@ -53,7 +55,7 @@
                             <div class="float-start">
                                 &nbsp;<small><span class="resolution-status"></span></small>
                             </div>
-                            <div class="btn-group btn-group-sm float-end p-1"  role="group" aria-label="Screen Size">
+                            <div class="btn-group btn-group-sm float-end p-1" role="group" aria-label="Screen Size">
                                 <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
                                 <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
 
@@ -91,7 +93,7 @@
     <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
     <style>
         html, body { height: 100% !important; }
-        
+
         #wizard-toolbox {
             height: @(string.IsNullOrWhiteSpace(Model?.ToolboxHeight) ? "90vh" : Model.ToolboxHeight );
         }
@@ -247,25 +249,31 @@
         .text-warning-hover:hover {
             color: #ffc107 !important;
         }
+
         .text-danger-hover:hover {
             color: #dc3545 !important;
         }
+
         .text-primary-hover:hover {
             color: #007bff !important;
         }
+
         .text-dark-hover:hover {
             color: #343a40 !important;
         }
+
         .text-info-hover:hover {
             color: #17a2b8 !important;
         }
+
         .text-success-hover:hover {
             color: #28a745 !important;
         }
+
         .text-light-hover:hover {
             color: #f8f9fa !important;
         }
-    </style>    
+    </style>
     <style>
         .jlw-editform-localizedcontenttext .tox-tinymce {
             height: 80vh !important;
@@ -283,16 +291,17 @@
             width: inherit;
             height: inherit;
         }
-        textarea.editing, pre.highlighting, pre.highlighting * {
-            /* Also add text styles to highlighing tokens */
-            font-size: 13pt !important;
-            font-family: monospace !important;
-            line-height: 18pt !important;
-        }
+
+            textarea.editing, pre.highlighting, pre.highlighting * {
+                /* Also add text styles to highlighing tokens */
+                font-size: 13pt !important;
+                font-family: monospace !important;
+                line-height: 18pt !important;
+            }
 
 
         textarea.editing, pre.highlighting {
-            /* In the same place */ 
+            /* In the same place */
             position: absolute !important;
             top: 0;
             left: 0;
@@ -304,6 +313,7 @@
         textarea.editing {
             z-index: 1;
         }
+
         pre.highlighting {
             z-index: 0;
         }
@@ -327,7 +337,6 @@
             -moz-tab-size: 3;
             -o-tab-size: 3;
             tab-size: 3;
-
         }
 
         /* Syntax Highlighting from prism.js starts below, partly modified: */
@@ -341,7 +350,6 @@
             -moz-tab-size: 3;
             -o-tab-size: 3;
             tab-size: 3;
-
             -webkit-hyphens: none;
             -moz-hyphens: none;
             -ms-hyphens: none;
@@ -356,18 +364,14 @@
 
         code[class*="language"] {
             margin: 0 !important;
-
         }
-    /* End of prism.js syntax highlighting*/
-</style>
+        /* End of prism.js syntax highlighting*/
+    </style>
     <style>@Html.Raw(Model?.ExtraCss)</style>
-    @{
-        //await Html.RenderPartialAsync("_WizardLibScript");
-    }
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
-        (function(a) {
-            a.fn.replaceTagName = function(f) {
+        (function (a) {
+            a.fn.replaceTagName = function (f) {
                 var g = [],
                     h = this.length;
                 while (h--) {
@@ -386,6 +390,7 @@
             }
         })(window.jQuery);
     </script>
+    <script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js")"></script>
     <script>
 
         (function(cacheVer) {
@@ -417,14 +422,15 @@
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
                     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/js/skin-lion/ui.fancytree.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css")"));
                     $.when(
                         window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/js/jquery.fancytree-all-deps.min.js")"),
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/fancytree/dist/jquery.fancytree-all-deps.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js")"),
                         window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")"),

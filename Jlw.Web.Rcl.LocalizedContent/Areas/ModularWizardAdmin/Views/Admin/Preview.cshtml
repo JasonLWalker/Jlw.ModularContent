@@ -1,7 +1,10 @@
-@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController.WizardAdminSettings
+@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";
+
+    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+    version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
 
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
@@ -13,9 +16,17 @@
         <form method="post">
             <input type="hidden" name="st" value="1" />
             <div class="list-group wizard-nav">
-                <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
-                <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
-                <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+                @{
+                    foreach (var item in Model.SideNav.Items)
+                    {
+                        <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> @item.Label</button>
+                    }
+                }
+                @*
+                    <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
+                    <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
+                    <button type="button" data-section="4" data-step="0" class="list-group-item list-group-item-action"><span class="fa fa-minus"></span> Review Submission</button>
+                *@
             </div>
         </form>
     </div>
@@ -34,9 +45,7 @@
         </form>
     </div>
 </div>
-@{
-    await Html.RenderPartialAsync("_WizardLibScript");
-}
+<script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
 @section Scripts {
     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
     <style>
@@ -48,7 +57,7 @@
             min-height: 30px;
         }
 
-        
+
         .wizard-nav {
             min-width: 195px;
         }
@@ -69,12 +78,12 @@
             border: 2px dashed #aaa;
             outline: none !important;
         }
-        .sortable-ghost > * {
-            visibility: hidden; 
-        }
+
+            .sortable-ghost > * {
+                visibility: hidden;
+            }
 
         .sortable-chosen {
-
         }
 
         .sortable-drag {
@@ -111,9 +120,8 @@
         .form-check-label {
             display: block;
         }
-
     </style>
-    
+
     <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
 
 
@@ -124,8 +132,8 @@
     <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
     <script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
-        (function(a) {
-            a.fn.replaceTagName = function(f) {
+        (function (a) {
+            a.fn.replaceTagName = function (f) {
                 var g = [],
                     h = this.length;
                 while (h--) {
@@ -176,14 +184,12 @@
 
                 oEvt.dataTransfer.dropEffect = 'move';
                 $(dragData.placeholderElem).insertAfter($(dragData.dragOverElem));
-
-                //console.log("Dragged over", evt);
             }
 
             function onRenderWizardFormField(obj, data, parent) {
                 var o = $(obj);
                 o.data('wizard-data', data);
-                
+
                 var cntrl = $('input, button, textarea, select', o);
                 cntrl.attr('data-field-type', (data['FieldType']||"").toLowerCase());
                 $('input, button, textarea, select', o).replaceTagName('div');
@@ -229,7 +235,6 @@
                     p.attr('data-tree-id', data['Id']);
                     //p.attr('draggable', true);
                 }
-                //console.log(o, data);
 
                 o.attr('data-field-key', data['FieldKey']);
                 return o;
@@ -244,19 +249,17 @@
                 var msg = { 'action': 'onRenderWizard' };
                 window.parent.postMessage(msg);
 
-                
+
                 return o;
             }
 
             function fnOnDragDrop(evt, targetElement, origEvent) {
-                //console.log(evt, targetElement, origEvent);
                 var target = $(evt.currentTarget);
                 var nodes = [];
                 target.children().each(function(i) {
                     nodes.push($(this).data('tree-id'));
                 });
-                var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'fieldKey': $(targetElement).data('tree-id') };
-                //console.log(msg);
+                var msg = { 'action': 'updateOrder', 'nodeIds': nodes, 'activeNodeId': $(targetElement).data('tree-id') };
                 window.parent.postMessage(msg);
             }
 
@@ -288,12 +291,9 @@
 
                         switch (event.data['action']) {
                         case 'showSideNav':
-                            //console.log(event.data);
                             if (event.data['value']) {
-                                //console.log('adding side nav');
                                 $('.wizard-nav-col').addClass('d-xl-block d-lg-inline-block');
                             } else {
-                                //console.log('hiding side nav');
                                 $('.wizard-nav-col').addClass('d-none');
                                 $('.wizard-nav-col').removeClass('d-xl-block d-lg-inline-block');
                             }
@@ -312,6 +312,7 @@
                             var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
 
                             $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+
                             break;
                         }
                     } else {
@@ -323,7 +324,7 @@
         })('');
     </script>
     <script>
-        $(function() {
+        $(function () {
             var msg = { 'action': 'onPreviewLoad' };
             window.parent.postMessage(msg);
         });

@@ -13,6 +13,7 @@
 // ***********************************************************************
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using Jlw.Utilities.Data;
@@ -114,6 +115,19 @@ namespace Jlw.Data.LocalizedContent
             var m = t.GetFrame(1).GetMethod();
             string typename = DataUtility.GetTypeName(m.ReflectedType).Trim(',', ' ');
             throw new NotImplementedException($"The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.");
+        }
+
+        /// <inheritdoc />
+        public ILocalizedContentField GetRecordByName(ILocalizedContentField o)
+        {
+            return _dbClient.GetRecordObject<LocalizedContentField>(null, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentFieldRecordByName", CommandType.StoredProcedure, new[]
+            {
+                new KeyValuePair<string, object>("fieldKey", o?.FieldKey ?? ""),
+                new KeyValuePair<string, object>("fieldType", o?.FieldType ?? ""),
+                new KeyValuePair<string, object>("groupKey", o?.GroupKey ?? ""),
+                new KeyValuePair<string, object>("parentKey", o?.ParentKey ?? ""),
+                new KeyValuePair<string, object>("groupFilter", o?.GroupFilter ?? ""),
+            }));
         }
 
         /// <inheritdoc />

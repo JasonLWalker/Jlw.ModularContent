@@ -46,5 +46,7 @@ namespace Jlw.Data.LocalizedContent
         IEnumerable<WizardContentField> GetComponentList(string groupKey);
 
         WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null);
+        WizardContentField DuplicateWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null);
+        WizardContentField RenameWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null);
     }
 }

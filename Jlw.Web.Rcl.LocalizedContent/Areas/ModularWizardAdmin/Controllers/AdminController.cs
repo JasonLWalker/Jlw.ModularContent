@@ -1,17 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using Jlw.Data.LocalizedContent;
+using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 {
     public abstract class AdminController : Controller
     {
+        protected string _groupFilter = null;
         protected WizardAdminSettings DefaultSettings { get; } = new WizardAdminSettings();
+        protected IWizardFactoryRepository DataRepository;
 
+        protected AdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository)
+        {
+            DataRepository = repository;
+
+            DefaultSettings.IsAdmin = settings.IsAdmin;
+            DefaultSettings.CanEdit = settings.CanEdit;
+            DefaultSettings.CanDelete = settings.CanDelete;
+            DefaultSettings.CanInsert = settings.CanInsert;
+            DefaultSettings.UseWysiwyg = settings.UseWysiwyg;
+            DefaultSettings.ShowWireFrame = settings.ShowWireFrame;
+            DefaultSettings.WireFrameDefault = settings.WireFrameDefault;
+            DefaultSettings.TinyMceSettings = settings.TinyMceSettings;
+            DefaultSettings.PageTitle = settings.PageTitle;
+            DefaultSettings.ExtraCss = settings.ExtraCss;
+            DefaultSettings.ExtraScript = settings.ExtraScript;
+            DefaultSettings.Area = settings.Area;
+            DefaultSettings.JsRoot = settings.JsRoot;
+            DefaultSettings.ToolboxHeight = settings.ToolboxHeight;
+            DefaultSettings.HiddenFilterPrefix = settings.HiddenFilterPrefix;
+            DefaultSettings.PreviewRecordData = settings.PreviewRecordData;
+
+            DefaultSettings.LanguageList.Clear();
+            DefaultSettings.LanguageList.AddRange(settings.LanguageList);
+
+            DefaultSettings.ShowSideNav = settings.ShowSideNav;
+            DefaultSettings.SideNavDefault = settings.SideNavDefault;
+            DefaultSettings.SideNav.Clear();
+            DefaultSettings.SideNav.AddRange(settings.SideNav.Items);
+            
+            DefaultSettings.AdminUrl = settings.AdminUrl;
+            DefaultSettings.ApiOverrideUrl = settings.ApiOverrideUrl;
+
+        }
 
         /// <summary>Default route for admin</summary>
         /// <returns>ActionResult.</returns>
@@ -26,7 +61,31 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         [HttpGet("Preview")]
         public virtual ActionResult Preview()
         {
-            return GetViewResult("Preview");
+            var settings = new WizardAdminSettings(DefaultSettings);
+            settings.SideNav.Add(new WizardSideNavItem(new WizardContentField(new {Label = "Instructions", FieldType="SCREEN"})));
+
+            return GetViewResult("Preview", settings);
+        }
+
+        [HttpGet("PreviewScreen/{wizardName?}/{screenName?}")]
+        public virtual ActionResult PreviewScreen(string wizardName = null, string screenName = null)
+        {
+            return GetPreviewScreen(wizardName, screenName, DefaultSettings, new { });
+        }
+
+        [NonAction]
+        public virtual ActionResult GetPreviewScreen(string wizardName, string screenName, IWizardAdminSettings settings, object recordData)
+        {
+            var fields = DataRepository?.GetWizardFields(wizardName, _groupFilter);
+            var model = new WizardPreviewSettings(settings ?? DefaultSettings, fields, recordData ?? new {})
+            {
+                ShowWireFrame = DataUtility.ParseBool(Request.Query["wireframe"]),
+                ShowSideNav = DataUtility.ParseBool(Request.Query["showNav"]),
+                Wizard = wizardName ?? "",
+                Screen = screenName ?? ""
+            };
+
+            return View(GetViewPath("PreviewScreen"), model);
         }
 
 
@@ -46,35 +105,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         {
             return $"~/Areas/ModularWizardAdmin/Views/Admin/{viewName ?? "Index"}.cshtml";
         }
-
-        public class WizardAdminSettings
-        {
-            public bool IsAdmin { get; set; }
-            public bool CanEdit { get; set; }
-            public bool CanDelete { get; set; }
-            public bool CanInsert { get; set; }
-
-            public bool UseWysiwyg { get; set; } = true;
-            public bool ShowSideNav { get; set; } = true;
-            public bool ShowWireFrame { get; set; } = true;
-            public bool SideNavDefault { get; set; } = true;
-            public bool WireFrameDefault { get; set; } = false;
-
-            public JToken TinyMceSettings { get; set; }
-            public string PageTitle { get; set; }
-            public string ExtraCss { get; set; }
-            public string ExtraScript { get; set; }
-            public string Area { get; set; }
-            public string AdminUrl { get; set; }
-            public string ApiOverrideUrl { get; set; }
-            public string JsRoot { get; set; }
-
-            public string ToolboxHeight { get; set; }
-
-            public List<SelectListItem> LanguageList { get; } = new List<SelectListItem>() { new SelectListItem("English", "EN") };
-
-        }
-
 
     }
 }

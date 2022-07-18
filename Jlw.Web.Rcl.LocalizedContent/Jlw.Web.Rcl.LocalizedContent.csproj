@@ -26,7 +26,7 @@
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
-    <Copyright>Copyright ©2019-2021 Jason L. Walker</Copyright>
+    <Copyright>Copyright ©2019-2022 Jason L. Walker</Copyright>
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
     <SignAssembly>true</SignAssembly>
@@ -41,7 +41,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.4" /> 
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" /> 
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
   </ItemGroup>
 

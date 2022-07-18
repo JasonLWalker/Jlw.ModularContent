@@ -128,7 +128,51 @@ namespace Jlw.Data.LocalizedContent
                         new KeyValuePair<string, object>("auditchangeby", fieldData.AuditChangeBy),
                         new KeyValuePair<string, object>("groupfilter", fieldData.GroupFilter),
                         new KeyValuePair<string, object>("recurseDepth", recurseDepth),
-                        new KeyValuePair<string, object>("langFilter", langFilter)
+                        new KeyValuePair<string, object>("langFilter", langFilter ?? "")
+                    }
+                )
+            );
+        }
+
+        public WizardContentField RenameWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null)
+        {
+            return _dbClient.GetRecordObject<WizardContentField>(
+                null,
+                _connString,
+                new RepositoryMethodDefinition(
+                    "sp_RenameWizardFieldRecursive",
+                    CommandType.StoredProcedure,
+                    new KeyValuePair<string, object>[]
+                    {
+                        new KeyValuePair<string, object>("id", fieldData.Id),
+                        new KeyValuePair<string, object>("newFieldKey", newFieldKey),
+                        new KeyValuePair<string, object>("baseType", fieldData.FieldType),
+                        new KeyValuePair<string, object>("auditchangeby", fieldData.AuditChangeBy),
+                        new KeyValuePair<string, object>("groupfilter", fieldData.GroupFilter),
+                        new KeyValuePair<string, object>("recurseDepth", recurseDepth),
+                        new KeyValuePair<string, object>("langFilter", langFilter ?? "")
+                    }
+                )
+            );
+        }
+
+        public WizardContentField DuplicateWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null)
+        {
+            return _dbClient.GetRecordObject<WizardContentField>(
+                null,
+                _connString,
+                new RepositoryMethodDefinition(
+                    "sp_DuplicateWizardFieldRecursive",
+                    CommandType.StoredProcedure,
+                    new KeyValuePair<string, object>[]
+                    {
+                        new KeyValuePair<string, object>("id", fieldData.Id),
+                        new KeyValuePair<string, object>("setFieldKey", newFieldKey),
+                        new KeyValuePair<string, object>("baseType", fieldData.FieldType),
+                        new KeyValuePair<string, object>("auditchangeby", fieldData.AuditChangeBy),
+                        new KeyValuePair<string, object>("groupfilter", fieldData.GroupFilter),
+                        new KeyValuePair<string, object>("recurseDepth", recurseDepth),
+                        new KeyValuePair<string, object>("langFilter", langFilter ?? "")
                     }
                 )
             );

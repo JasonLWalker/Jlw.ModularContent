@@ -100,11 +100,6 @@ namespace Jlw.Data.LocalizedContent
             var model = formData ?? new object();
             var content = new WizardScreenContent(screenKey, fieldData, formData);
 
-            content.Label = content.ResolvePlaceholders(content.Label, FormData);
-            content.WrapperHtmlStart = content.ResolvePlaceholders(content.WrapperHtmlStart, FormData);
-            content.WrapperHtmlEnd = content.ResolvePlaceholders(content.WrapperHtmlEnd, FormData);
-
-
             var fields = fieldData.Where(o => o.ParentKey.Equals(wizard?.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             var formList = fields.Where(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
@@ -137,9 +132,6 @@ namespace Jlw.Data.LocalizedContent
             {
                 foreach (var formField in wizardFormData.Fields)
                 {
-                    formField["Label"] = wizardFormData.ResolvePlaceholders(formField["Label"].ToString(), formData);
-                    formField["WrapperHtmlStart"] = wizardFormData.ResolvePlaceholders(formField["WrapperHtmlStart"].ToString(), formData);
-                    formField["WrapperHtmlEnd"] = wizardFormData.ResolvePlaceholders(formField["WrapperHtmlEnd"].ToString(), formData);
                 }
             }
 

@@ -6,11 +6,12 @@
 
 | Test | Alpha | Staging | Release |
 |-----|-----|-----|-----|
-| [![Build and Test](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-test.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-test.yml) | [![Build and Deploy - Alpha](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-alpha.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-alpha.yml) | [![Build and Deploy - RC](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-rc.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-rc.yml) |[![Build and Deploy](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy.yml) | 
+| [![Build and Test](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-test.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-test.yml) | [![Build and Deploy - Alpha](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-alpha.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-alpha.yml) | [![Build and Deploy - RC](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-rc.yml/badge.svg?branch=staging)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy-rc.yml) |[![Build and Deploy](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy.yml/badge.svg)](https://github.com/JasonLWalker/Jlw.LocalizedContent/actions/workflows/build-deploy.yml) | 
 
 
 # Data Repository
 <!--  -->
+[![Nuget](https://img.shields.io/nuget/v/Jlw.Data.LocalizedContent?label=Jlw.Data.LocalizedContent%20%28release%29)](https://www.nuget.org/packages/Jlw.Data.LocalizedContent/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Jlw.Data.LocalizedContent?label=Jlw.Data.LocalizedContent%20%28preview%29)](https://www.nuget.org/packages/Jlw.Data.LocalizedContent/#versions-body-tab)
 
 ## Information / Requirements
 |||
@@ -18,7 +19,7 @@
 |Namespace|Jlw.Data.LocalizedContent|
 |Target Framework|netstandard2.1|
 |Author(s)|Jason L. Walker|
-|Copyright|Copyright Â©2012-2021 Jason L. Walker|
+|Copyright|Copyright ©2012-2021 Jason L. Walker|
 
 
 ## Dependencies
@@ -32,6 +33,7 @@
 
 # Razor Class Library
 <!--  -->
+[![Nuget](https://img.shields.io/nuget/v/jlw.Web.Rcl.LocalizedContent?label=jlw.Web.Rcl.LocalizedContent%20%28release%29)](https://www.nuget.org/packages/jlw.Web.Rcl.LocalizedContent/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/jlw.Web.Rcl.LocalizedContent?label=jlw.Web.Rcl.LocalizedContent%20%28preview%29)](https://www.nuget.org/packages/jlw.Web.Rcl.LocalizedContent/#versions-body-tab)
 ## Information / Requirements
 
 |||
@@ -39,7 +41,7 @@
 |Namespace|Jlw.Web.Rcl.LocalizedContent|
 |Target Framework|net6.0|
 |Author(s)|Jason L. Walker|
-|Copyright|Copyright Â©2019-2021 Jason L. Walker|
+|Copyright|Copyright ©2019-2021 Jason L. Walker|
 
 
 ## Back-End Dependencies
@@ -62,12 +64,13 @@
 |[datatables.net](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables.git)|MIT||
 |[datatables.net-bs5](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables-Bootstrap5.git)|MIT||
 |[font-awesome](https://fontawesome.com/)|[5.15.4](https://github.com/FortAwesome/Font-Awesome.git)|(OFL-1.1 OR MIT OR CC-BY-4.0)||
-|jquery.fancytree|[2.38.0](https://github.com/mar10/fancytree)|MIT||
-|[jquery](http://jquery.com/)|[3.3.1](https://github.com/jquery/jquery.git)|MIT|Framework library used by other libraries for HTML, DOM, Event, and AJAX manipulation|
+|[jquery](http://jquery.com/)|[3.6.0](https://github.com/jquery/jquery.git)|MIT|Framework library used by other libraries for HTML, DOM, Event, and AJAX manipulation|
+|mar10/fancytree@2.38.1||||
 |[popper.js](https://popper.js.org/)|[2.11.5](https://github.com/popperjs/popper-core.git)|MIT||
-|[prism](http://prismjs.com/)|[1.7.0](https://github.com/PrismJS/prism.git)|MIT||
-|[prism-themes](https://github.com/prismjs/prism-themes#readme)|[1.7.0](https://github.com/prismjs/prism-themes.git)|MIT||
-|[Sortable](http://rubaxa.github.io/Sortable/)|[1.14.0](https://github.com/rubaxa/Sortable.git)|MIT||
+|[prism](http://prismjs.com/)|[1.28.0](https://github.com/PrismJS/prism.git)|MIT||
+|[prism-themes](https://github.com/prismjs/prism-themes#readme)|[1.9.0](https://github.com/prismjs/prism-themes.git)|MIT||
+|[Sortable](http://rubaxa.github.io/Sortable/)|[1.15.0](https://github.com/rubaxa/Sortable.git)|MIT||
+|swisnl/jQuery-contextMenu@2.9.2||||
 |[tinymce](http://www.tinymce.com)|[5.8.1](https://github.com/tinymce/tinymce.git)|LGPL-2.0||
 |[toastr.js](http://www.toastrjs.com)|[2.1.4](https://github.com/CodeSeven/toastr.git)|MIT||
 |[twitter-bootstrap](http://getbootstrap.com/)|[5.1.3](https://github.com/twbs/bootstrap)|MIT|Responsive UI, layout, and design framework|

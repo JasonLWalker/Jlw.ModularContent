@@ -1,7 +1,7 @@
 Prism.languages.icon = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\.|_(?:\r?\n|\r))*\1/,
+		pattern: /(["'])(?:(?!\1)[^\\\r\n_]|\\.|_(?!\1)(?:\r\n|[\s\S]))*\1/,
 		greedy: true
 	},
 	'number': /\b(?:\d+r[a-z\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b|\.\d+\b/i,
@@ -14,7 +14,7 @@ Prism.languages.icon = {
 		alias: 'builtin'
 	},
 	'keyword': /\b(?:break|by|case|create|default|do|else|end|every|fail|global|if|initial|invocable|link|local|next|not|of|procedure|record|repeat|return|static|suspend|then|to|until|while)\b/,
-	'function': /(?!\d)\w+(?=\s*[({]|\s*!\s*\[)/,
+	'function': /\b(?!\d)\w+(?=\s*[({]|\s*!\s*\[)/,
 	'operator': /[+-]:(?!=)|(?:[\/?@^%&]|\+\+?|--?|==?=?|~==?=?|\*\*?|\|\|\|?|<(?:->?|<?=?)|>>?=?)(?::=)?|:(?:=:?)?|[!.\\|~]/,
 	'punctuation': /[\[\](){},;]/
 };
