@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
+    [Route("~/SampleWizard/[controller]")]
     public class HomeController : Controller
     {
-        // GET
+        [HttpGet("~/")]
         public IActionResult Index()
         {
             return View();
@@ -12,14 +14,13 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 
         [HttpGet]
         [HttpPost]
-        [Route("~/Wizard")]
-        public ActionResult Wizard()
+        [Route("Wizard")]
+        public virtual IActionResult Wizard()
         {
-            var application = new object();
+            var wizardData = new object();
 
-            return View(application);
+            return View(wizardData);
         }
-
 
     }
 }
