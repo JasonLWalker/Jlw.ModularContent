@@ -67,7 +67,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return GetViewResult("Preview", settings);
         }
 
-
         [HttpGet("PreviewScreen/{wizardName?}/{screenName?}")]
         public virtual ActionResult PreviewScreen(string wizardName = null, string screenName = null)
         {

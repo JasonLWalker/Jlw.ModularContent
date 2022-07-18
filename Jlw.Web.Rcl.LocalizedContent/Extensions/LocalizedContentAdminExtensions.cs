@@ -120,38 +120,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             app.UseEndpoints(endpoints =>
             {
-                // Localized Content Field Admin mapping
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldAdmin",
-                    pattern: "Admin/LocalizedContentField/{groupKey?}/{parentKey?}",
-                    defaults: new {Controller = "Admin", Action="Index", Area= "LocalizedContentField"},
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentField" });
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldWizardAdmin",
-                    pattern: "Admin/LocalizedContentWizard/{groupKey?}/{parentKey?}",
-                    defaults: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" },
-                    constraints: new { Controller = "Admin", Action = "Wizard", Area = "LocalizedContentField" });
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentFieldEmailAdmin",
-                    pattern: "Admin/LocalizedContentEmail/{groupKey?}/{parentKey?}",
-                    defaults: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" },
-                    constraints: new { Controller = "Admin", Action = "Email", Area = "LocalizedContentField" });
-
-
-
-                // Localized Content Text Admin mapping
-                endpoints.MapControllerRoute(
-                    name: "LocalizedContentTextAdmin",
-                    pattern: "Admin/LocalizedContentText/{groupKey?}/{fieldKey?}/{language?}",
-                    defaults: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentText" },
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedContentText" });
-
-                endpoints.MapControllerRoute(
-                    name: "LocalizedGroupDataItemAdmin",
-                    pattern: "Admin/LocalizedGroupDataItem",
-                    defaults: new { Controller = "Admin", Action = "Index", Area = "LocalizedGroupDataItem" },
-                    constraints: new { Controller = "Admin", Action = "Index", Area = "LocalizedGroupDataItem" });
-
             });
 
             return app;
