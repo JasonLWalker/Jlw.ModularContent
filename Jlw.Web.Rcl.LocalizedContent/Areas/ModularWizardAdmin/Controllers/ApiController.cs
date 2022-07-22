@@ -733,7 +733,7 @@ public abstract class ApiController : WizardApiBaseController
 
     }
 
-    public class WizardField : WizardContentField
+    public class WizardField : WizardComponentField
     {
         public new string AuditChangeBy
         {

@@ -108,9 +108,9 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
-        public IEnumerable<WizardContentField> GetComponentList(string groupKey)
+        public IEnumerable<WizardComponentField> GetComponentList(string groupKey)
         {
-            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
+            return _dbClient.GetRecordList<WizardComponentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
         }
 
         public WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null)
