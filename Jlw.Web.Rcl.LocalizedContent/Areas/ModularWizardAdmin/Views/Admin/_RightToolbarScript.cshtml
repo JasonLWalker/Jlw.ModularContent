@@ -601,14 +601,20 @@
                         .on("keydown", function(evt) { prismCheckTab(this, evt) });
 
                     $('.modal-body textarea.editing', e.currentTarget).each(function() {
-                        var val = this.value;
+                        var val = this.value || "";
+                        val = val.replace(/[\n]/g, '\\\\n');
+                        val = val.replace(/[\r]/g, '\\\\r');
+                        val = val.replace(/[\t]/g, '\\\\t');
                         try {
 	                        // parse and serialize JSON for syntax check
-	                        var jsonVal = $.parseJSON(val);
+	                        var jsonVal = JSON.parse(val);
 	                        val = JSON.stringify(jsonVal, null, '\t');
+	                        val = val.replace(/\\\\n/g, '\n');
+	                        val = val.replace(/\\\\r/g, '\r');
+	                        val = val.replace(/\\\\t/g, '\t');
                         } catch(ex) {
 	                        toastr.error(ex.message, 'An error occurred while parsing JSON data:');
-	                        return false;
+	                        //return false;
                         }
 
                         this.value = val;
