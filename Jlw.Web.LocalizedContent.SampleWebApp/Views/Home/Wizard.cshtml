@@ -1,6 +1,12 @@
-﻿@using Microsoft.Extensions.DependencyInjection
+﻿@using Jlw.Data.LocalizedContent
+@using Jlw.Web.Rcl.LocalizedContent
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.DependencyInjection
 @using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using Newtonsoft.Json.Serialization
+@inject IWizardFactoryRepository FactoryRepository
+@inject IWizardAdminSettings WizardSettings
 @model object
 @{
 	string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
@@ -14,7 +20,7 @@
         new KeyValuePair<string, string>(Url.Action("Wizard", "Home",new {Area = (string)null}), "Start"),
     };
     string jsRoot = "LocalizedContent";
-
+	string wizardName = "SampleWizard";
 }
 <div class="row">
     @{//if (!Model.WizardComplete)
@@ -64,10 +70,11 @@
 
             var wiz = window.libJlwWizardBase(t || new window.libJlwUtility() || {}, $, initOptions, undefined);
 
-            t.wizardFields = [
+            t.wizardFields = @Html.Raw(JsonConvert.SerializeObject(FactoryRepository.GetWizardModelFields(wizardName, "Sample%") ?? new object()));
+	        @*[
                 'ApplicationId',
                 'DigitalSignature'
-            ];
+            ];*@
             //t.initializeWizard = initialize;
             t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
             t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
@@ -98,7 +105,7 @@
             //'debugLevel':11,
             'wizardParent': '.wizard-form',
             'screen': "StartHere",
-            'wizard': "SampleWizard"
+            'wizard': "@wizardName"
         });
     </script>
 }
