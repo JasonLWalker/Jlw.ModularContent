@@ -4,30 +4,20 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.Web.Rcl.LocalizedContent;
 
-public interface IWizardAdminSettings
+public interface IWizardAdminSettings : IWizardSettings
 {
     bool IsAdmin { get; set; }
     bool CanEdit { get; set; }
     bool CanDelete { get; set; }
     bool CanInsert { get; set; }
     bool UseWysiwyg { get; set; }
-    bool ShowSideNav { get; set; }
-    WizardSideNav SideNav { get; }
-
     bool ShowWireFrame { get; set; }
     bool SideNavDefault { get; set; }
     bool WireFrameDefault { get; set; }
     JToken TinyMceSettings { get; set; }
-    string PageTitle { get; set; }
-    string ExtraCss { get; set; }
-    string ExtraScript { get; set; }
-    string Area { get; set; }
     string AdminUrl { get; set; }
-    string ApiOverrideUrl { get; set; }
-    string JsRoot { get; set; }
     string ToolboxHeight { get; set; }
     string HiddenFilterPrefix { get; set; }
     public object PreviewRecordData { get; set; }
     List<SelectListItem> LanguageList { get; }
-
 }
