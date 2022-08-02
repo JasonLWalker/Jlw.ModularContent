@@ -108,6 +108,21 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<IWizardSideNavItem> GetWizardSideNavData(string groupKey, string language=null, string groupFilter=null)
+        {
+            return _dbClient.GetRecordList<WizardSideNavItem>(null, _connString, new RepositoryMethodDefinition(
+                "sp_GetWizardSideNavData",
+                CommandType.StoredProcedure,
+                new KeyValuePair<string, object>[] {
+                    new KeyValuePair<string, object>("groupKey", groupKey ?? ""),
+                    new KeyValuePair<string, object>("language", language?? ""),
+                    new KeyValuePair<string, object>("groupFilter", groupFilter ?? ""),
+                }));
+
+        }
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<string> GetWizardModelFields(string groupKey, string groupFilter)
         {
             return _dbClient.GetRecordList<string>(null, _connString, new RepositoryMethodDefinition(

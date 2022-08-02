@@ -46,6 +46,8 @@ namespace Jlw.Data.LocalizedContent
         IEnumerable<WizardComponentField> GetComponentList(string groupKey);
         IEnumerable<string> GetWizardModelFields(string groupKey, string groupFilter);
 
+        public IEnumerable<IWizardSideNavItem> GetWizardSideNavData(string groupKey, string language = null, string groupFilter = null);
+
         WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null);
         WizardContentField DuplicateWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null);
         WizardContentField RenameWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null);
