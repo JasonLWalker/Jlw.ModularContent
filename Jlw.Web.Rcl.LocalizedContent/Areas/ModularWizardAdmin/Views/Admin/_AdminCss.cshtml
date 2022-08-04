@@ -13,6 +13,10 @@
         position: relative;
     }
 
+    div[data-field-type=select] option + option {
+	    display: none;
+    }
+
     div[data-field-type=input][type=password]::before
     {
         content: '********';

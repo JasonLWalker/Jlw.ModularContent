@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
@@ -33,5 +35,8 @@ namespace Jlw.Data.LocalizedContent
         IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null);
 
         WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null);
+
+        string ResolvePlaceholders(string sourceString, object replacementObject = null);
+
     }
 }

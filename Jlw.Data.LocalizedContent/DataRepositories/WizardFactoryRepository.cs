@@ -108,9 +108,41 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GetFieldData
-        public IEnumerable<WizardContentField> GetComponentList(string groupKey)
+        public IEnumerable<IWizardSideNavItem> GetWizardSideNavData(string groupKey, string language=null, string groupFilter=null)
         {
-            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
+            return _dbClient.GetRecordList<WizardSideNavItem>(null, _connString, new RepositoryMethodDefinition(
+                "sp_GetWizardSideNavData",
+                CommandType.StoredProcedure,
+                new KeyValuePair<string, object>[] {
+                    new KeyValuePair<string, object>("groupKey", groupKey ?? ""),
+                    new KeyValuePair<string, object>("language", language?? ""),
+                    new KeyValuePair<string, object>("groupFilter", groupFilter ?? ""),
+                }));
+
+        }
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<string> GetWizardModelFields(string groupKey, string groupFilter)
+        {
+            return _dbClient.GetRecordList<string>(null, _connString, new RepositoryMethodDefinition(
+                "sp_GetWizardModelFields", 
+                CommandType.StoredProcedure, 
+                new KeyValuePair<string, object>[] {
+                    new KeyValuePair<string, object>("groupKey", groupKey),
+                    new KeyValuePair<string, object>("groupFilter", groupFilter),
+                }, 
+                o => DataUtility.ParseString(o, "value")));
+        }
+
+
+
+
+        /// <inheritdoc />
+        /// TODO Edit XML Comment Template for GetFieldData
+        public IEnumerable<WizardComponentField> GetComponentList(string groupKey)
+        {
+            return _dbClient.GetRecordList<WizardComponentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
         }
 
         public WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null)

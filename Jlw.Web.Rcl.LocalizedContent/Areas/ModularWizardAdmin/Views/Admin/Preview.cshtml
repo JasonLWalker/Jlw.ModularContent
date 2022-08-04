@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
@@ -9,6 +10,9 @@
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
+
+    var sideNav = Model.SideNav.Items;
+
 }
 
 <div class="row h-100">
@@ -17,9 +21,9 @@
             <input type="hidden" name="st" value="1" />
             <div class="list-group wizard-nav">
                 @{
-                    foreach (var item in Model.SideNav.Items)
+                    foreach (var item in sideNav)
                     {
-                        <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> @item.Label</button>
+	                    <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
                     }
                 }
                 @*
