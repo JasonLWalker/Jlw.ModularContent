@@ -15,10 +15,10 @@
         function initMemberRegex() {
 	        // Regular expressions
 	        t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
-	        t.rxPadding = /(?<!\S)(?:(p(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
-	        t.rxMargin = /(?<!\S)(?:(m(t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
+	        t.rxPadding = /(?<!\S)(?:(p(t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxMargin = /(?<!\S)(?:(m(t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
 	        t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-xxl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
-	        t.rxBorder = /(?<!\S)(?:(border(?:t|r|b|l|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxBorder = /(?<!\S)(?:(border(?:t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
 	        t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
 	        t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
         }
@@ -26,7 +26,7 @@
         function initMemberArrays() {
 	        // Arrays
 	        t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl', '-xxl'];
-	        t.aSides = ['', 't', 'r', 'b', 'l'];
+	        t.aSides = ['', 't', 'e', 'b', 's'];
 	        t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
 	        t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
 	        t.aColSize = {'-1':'', '0':'*', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
@@ -235,8 +235,8 @@
 	        var m = data['m' + bp];
 	        var mt = data['mt' + bp];
 	        var mb = data['mb' + bp];
-	        var ml = data['ml' + bp];
-	        var mr = data['mr' + bp];
+	        var ml = data['ms' + bp];
+	        var mr = data['me' + bp];
 
 	        if (o.hasClass('updating') || !data) return;
 	        o.addClass('updating');
@@ -310,8 +310,8 @@
 	        var p = data['p' + bp];
 	        var pt = data['pt' + bp];
 	        var pb = data['pb' + bp];
-	        var pl = data['pl' + bp];
-	        var pr = data['pr' + bp];
+	        var pl = data['ps' + bp];
+	        var pr = data['pe' + bp];
 
 	        if (o.hasClass('updating') || !data) return;
 	        o.addClass('updating');
@@ -718,9 +718,15 @@
                 var val = matches[3] || '0';
                 val = val == 'auto' ? 6 : val;
                 switch(matches[2]) {
+                    case 'l':
+                        data[type.replace('pl', 'ps')] = val;
+                        break;
+                    case 'r':
+	                    data[type.replace('pr', 'pe')] = val;
+	                    break;
                     case 'x':
-                        data[type.replace('px', 'pl')] = val;
-                        data[type.replace('px', 'pr')] = val;
+                        data[type.replace('px', 'ps')] = val;
+                        data[type.replace('px', 'pe')] = val;
                         break;
                     case 'y':
                         data[type.replace('py', 'pt')] = val;
@@ -767,9 +773,15 @@
                         break;
                 }
                 switch(matches[2]) {
+                case 'l':
+	                data[type.replace('ml', 'ms')] = val;
+	                break;
+                case 'r':
+	                data[type.replace('mr', 'me')] = val;
+	                break;
                 case 'x':
-                    data[type.replace('mx', 'ml')] = val;
-                    data[type.replace('mx', 'mr')] = val;
+                    data[type.replace('mx', 'ms')] = val;
+                    data[type.replace('mx', 'me')] = val;
                     break;
                 case 'y':
                     data[type.replace('my', 'mt')] = val;
@@ -925,8 +937,8 @@
             data['p' + breakPoint] = p;
             data['pt' + breakPoint] = pt;
             data['pb' + breakPoint] = pb;
-            data['pl' + breakPoint] = pl;
-            data['pr' + breakPoint] = pr;
+            data['ps' + breakPoint] = pl;
+            data['pe' + breakPoint] = pr;
 
             s = s.replace(t.rxPadding, '');
             s = s.trim();
@@ -935,8 +947,8 @@
                 p = t.aPaddingSize[(data['p' + bp] || -1)];
                 pt = t.aPaddingSize[(data['pt' + bp] || -1)];
                 pb = t.aPaddingSize[(data['pb' + bp] || -1)];
-                pl = t.aPaddingSize[(data['pl' + bp] || -1)];
-                pr = t.aPaddingSize[(data['pr' + bp] || -1)];
+                pl = t.aPaddingSize[(data['ps' + bp] || data['pl' + bp] || -1)];
+                pr = t.aPaddingSize[(data['pe' + bp] || data['pr' + bp] || -1)];
 
                 if ((p !== undefined && p != '') || (new Set([pt, pb, pl, pr])).size === 1) {
                     // general padding is set, ignore others
@@ -962,10 +974,10 @@
                     } else {
                         // process pl and pr separately
                         if (pl != undefined && pl != '') {
-                            s += ' pl' + bp + '-' + pl;
+                            s += ' ps' + bp + '-' + pl;
                         }
                         if (pr != undefined && pr != '') {
-                            s += ' pr' + bp + '-' + pr;
+                            s += ' pe' + bp + '-' + pr;
                         }
                     }
                 }
@@ -988,8 +1000,8 @@
             data['m' + breakPoint] = m;
             data['mt' + breakPoint] = mt;
             data['mb' + breakPoint] = mb;
-            data['ml' + breakPoint] = ml;
-            data['mr' + breakPoint] = mr;
+            data['ms' + breakPoint] = ml;
+            data['me' + breakPoint] = mr;
 
             s = s.replace(t.rxMargin, '');
             s = s.trim();
@@ -998,8 +1010,8 @@
                 m = t.aMarginSize[(data['m' + bp] || -1)];
                 mt = t.aMarginSize[(data['mt' + bp] || -1)];
                 mb = t.aMarginSize[(data['mb' + bp] || -1)];
-                ml = t.aMarginSize[(data['ml' + bp] || -1)];
-                mr = t.aMarginSize[(data['mr' + bp] || -1)];
+                ml = t.aMarginSize[(data['ms' + bp] || data['ml' + bp] || -1)];
+                mr = t.aMarginSize[(data['me' + bp] || data['mr' + bp] || -1)];
 
                 m = m.replace('-', 'n');
                 mt = mt.replace('-', 'n');
@@ -1031,10 +1043,10 @@
                     } else {
                         // process ml and mr separately
                         if (ml != undefined && ml != '') {
-                            s += ' ml' + bp + '-' + ml;
+                            s += ' ms' + bp + '-' + ml;
                         }
                         if (mr != undefined && mr != '') {
-                            s += ' mr' + bp + '-' + mr;
+                            s += ' me' + bp + '-' + mr;
                         }
                     }
                 }
