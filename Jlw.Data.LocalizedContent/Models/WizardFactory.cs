@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
 
@@ -105,7 +106,8 @@ namespace Jlw.Data.LocalizedContent
             string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
             foreach (var form in formList)
             {
-                ((List<WizardFormData>)content.Forms).Add(CreateWizardFormData(form.FieldKey, fieldData));
+                var formElem = CreateWizardFormData(form.FieldKey, fieldData);
+                ((List<WizardFormData>)content.Forms).Add(formElem);
             }
 
             if (!string.IsNullOrWhiteSpace(embedData))
@@ -130,11 +132,13 @@ namespace Jlw.Data.LocalizedContent
             ((List<WizardFormData>)content.Forms).Sort((o1, o2) => o1.Order - o2.Order);
             foreach (var wizardFormData in content.Forms)
             {
+                //wizardFormData.Label = ResolvePlaceholders(wizardFormData.Label, formData);
                 foreach (var formField in wizardFormData.Fields)
                 {
                 }
             }
 
+            ProcessPlaceholders(content, formData);
             return content;
         }
 
@@ -208,7 +212,6 @@ namespace Jlw.Data.LocalizedContent
             {
                 return new WizardFormData(null, null, null);
             }
-
             var returnObject = new WizardFormData(formKey, fieldData, editButton);
 
             string strInput;
@@ -272,5 +275,80 @@ namespace Jlw.Data.LocalizedContent
 
             return returnObject;
         }
+
+        public void ProcessPlaceholders(IWizardContentField field, object replacementObject)
+        {
+            field.Label = ResolvePlaceholders(field.Label, replacementObject);
+            field.WrapperHtmlStart = ResolvePlaceholders(field.WrapperHtmlStart, replacementObject);
+            field.WrapperHtmlEnd = ResolvePlaceholders(field.WrapperHtmlEnd, replacementObject);
+            switch (field)
+            {
+                case WizardScreenContent screenField:
+                {
+                    ProcessPlaceholders(screenField.BodyData, replacementObject);
+                    ProcessPlaceholders(screenField.HeadingData, replacementObject);
+
+                    screenField.Body = ResolvePlaceholders(screenField.Body, replacementObject);
+                    screenField.Heading = ResolvePlaceholders(screenField.Heading, replacementObject);
+
+                    if (screenField.Forms?.Count() > 0)
+                    {
+                        foreach (var formField in screenField.Forms)
+                        {
+                            ProcessPlaceholders(formField, replacementObject);
+                        }
+                    }
+
+                    if (screenField.Buttons?.Count() > 0)
+                    {
+                        foreach (var formField in screenField.Buttons)
+                        {
+                            ProcessPlaceholders(formField, replacementObject);
+                        }
+                    }
+
+                    break;
+                }
+                case WizardFormData formField:
+                    //formField.WrapperClass = ProcessPlaceholders(formField.WrapperClass, replacementObject);
+                    if (formField.Fields?.Count() > 0)
+                    {
+                        foreach (var element in formField.Fields)
+                        {
+                            element["Label"] = ResolvePlaceholders(element["Label"]?.ToString(), replacementObject);
+                            element["WrapperHtmlStart"] = ResolvePlaceholders(element["WrapperHtmlStart"]?.ToString(), replacementObject);
+                            element["WrapperHtmlEnd"] = ResolvePlaceholders(element["WrapperHtmlStart"]?.ToString(), replacementObject);
+                            element["FieldData"] = ResolvePlaceholders(element["FieldData"]?.ToString(), replacementObject);
+                        }
+                    }
+
+                    break;
+            }
+
+
+        }
+
+        public virtual string ResolvePlaceholders(string sourceString, object replacementObject = null)
+        {
+            if (replacementObject is null) return sourceString;
+
+            JToken data = JToken.FromObject(replacementObject ?? new object());
+            string s = sourceString;
+            var re = new Regex(@"\[%([\w\d\-_\s]*)%\]", RegexOptions.CultureInvariant);
+
+            return re.Replace(s, (match) => ResolvePlaceholderMatchCallback(match, data));
+        }
+
+        protected virtual string ResolvePlaceholderMatchCallback(Match match, JToken replacementObjectData = null)
+        {
+            string key;
+            if (match?.Groups.Count > 1 && replacementObjectData?.SelectToken(key = match?.Groups[1].Value.Trim()) != null)
+            {
+                return replacementObjectData.SelectToken(key)?.ToString();
+            }
+
+            return match?.Value;
+        }
+
     }
 }

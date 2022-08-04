@@ -29,6 +29,7 @@ namespace Jlw.Data.LocalizedContent
 
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
 
+            /*
             // Resolve Placeholders for field labels
             fields.ForEach(o=>
             {
@@ -36,7 +37,7 @@ namespace Jlw.Data.LocalizedContent
                 o.WrapperHtmlStart = o.ResolvePlaceholders(o.WrapperHtmlStart, formData);
                 o.WrapperHtmlEnd = o.ResolvePlaceholders(o.WrapperHtmlEnd, formData);
             });
-            
+            */
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));
