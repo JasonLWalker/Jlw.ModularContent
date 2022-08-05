@@ -1,10 +1,15 @@
-﻿using Jlw.Data.LocalizedContent;
+﻿using System;
+using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
 
 namespace Jlw.Web.Rcl.LocalizedContent;
 
 public class WizardSettings : IWizardSettings
 {
+    public string Version { get; protected set; }
+    public string GroupFilter { get; protected set; }
+    public string DefaultWizard { get; protected set; }
+
     public bool ShowSideNav { get; set; } = true;
     public string PageTitle { get; set; }
     public string ExtraCss { get; set; }
@@ -32,5 +37,16 @@ public class WizardSettings : IWizardSettings
         Area = DataUtility.ParseString(o, "Area");
         ApiOverrideUrl = DataUtility.ParseString(o, "ApiOverrideUrl");
         JsRoot = DataUtility.ParseString(o, "JsRoot");
+
+        DefaultWizard = DataUtility.ParseString(o, "DefaultWizard");
+        GroupFilter = DataUtility.ParseString(o, "GroupFilter");
+
+        Version = DataUtility.ParseString(o, "Version");
+        if (string.IsNullOrWhiteSpace(Version))
+        {
+            Version = typeof(WizardSettings).Assembly.GetName().Version?.ToString() ?? "";
+            Version = string.IsNullOrWhiteSpace(Version) || Version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : Version;
+        }
+
     }
 }
