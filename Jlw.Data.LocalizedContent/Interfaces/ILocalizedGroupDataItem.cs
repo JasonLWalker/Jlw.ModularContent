@@ -15,46 +15,67 @@ namespace Jlw.Data.LocalizedContent
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<long>))] 
-        long Id { get; } 
-         
-        /// Member for Language Database Column 
-         
+        long Id { get; }
+
+        /// <summary>
+        /// Gets or sets the language.
+        /// </summary>
+        /// <value>The language key for this record.</value>
+        /// Member for [Language] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string Language { get; } 
-         
-        /// Member for GroupKey Database Column 
-         
+        string Language { get; }
+
+        /// <summary>
+        /// Gets or sets the group key.
+        /// </summary>
+        /// <value>The group key.</value>
+        /// Member for [GroupKey] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string GroupKey { get; } 
-         
-        /// Member for Key Database Column 
-         
+        string GroupKey { get; }
+
+        /// <summary>
+        /// Gets or sets the key.
+        /// </summary>
+        /// <value>The key.</value>
+        /// Member for [Key] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string Key { get; } 
-         
-        /// Member for Value Database Column 
-         
+        string Key { get; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>The value.</value>
+        /// Member for [Value] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string Value { get; } 
-         
-        /// Member for Order Database Column 
-         
+        string Value { get; }
+
+        /// <summary>
+        /// Gets or sets the order.
+        /// </summary>
+        /// <value>The order.</value>
+        /// Member for [Order] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<int>))] 
-        int Order { get; } 
-         
-        /// Member for Description Database Column 
-         
+        int Order { get; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        /// Member for [Description] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
-        string Description { get; } 
-         
-        /// Member for Data Database Column 
-         
+        string Description { get; }
+
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        /// <value>The data.</value>
+        /// Member for [Data] Database Column
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))] 
         [JsonConverter(typeof(JlwJsonConverter<string>))] 
         string Data { get; }
