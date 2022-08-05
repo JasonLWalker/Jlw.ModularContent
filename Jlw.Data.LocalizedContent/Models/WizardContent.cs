@@ -30,9 +30,14 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FormData
         public object FormData { get; set; }
+
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GroupKey
-        public string GroupKey { get; set; }
+        public new string GroupKey
+        {
+            get => base.GroupKey; 
+            set => base.GroupKey =  value;
+        }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Heading
@@ -50,7 +55,7 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FieldData
-        public object FieldData { get; set; }
+        public new object FieldData { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Buttons
