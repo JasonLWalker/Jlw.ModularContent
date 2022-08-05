@@ -22,18 +22,30 @@ namespace Jlw.Data.LocalizedContent
     /// Implements the <see cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
-    /// TODO Edit XML Comment Template for ILocalizedGroupDataItemRepository
     public interface ILocalizedGroupDataItemRepository : IModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>
     {
         /// <summary>
-        /// Gets the data table list.
+        /// Gets the data table list data.
         /// </summary>
-        /// <param name="o">The o.</param>
+        /// <param name="o">The refence object.</param>
         /// <returns>System.Object.</returns>
-        /// TODO Edit XML Comment Template for GetDataTableList
         object GetDataTableList(LocalizedGroupDataItemDataTablesInput o);
 
+        /// <summary>
+        /// Retrieves the Value of matching item
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="groupKey"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         T GetItemValue<T>(string groupKey, string key);
+
+        /// <summary>
+        /// Retrieves multiple matching items
+        /// </summary>
+        /// <param name="groupKey"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
         IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language = null);
     }
 } 

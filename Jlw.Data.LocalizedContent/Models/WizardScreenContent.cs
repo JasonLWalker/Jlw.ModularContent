@@ -5,8 +5,17 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
+    /// <summary>
+    /// Class to encapsulate the content of each screen in the Wizard
+    /// </summary>
     public class WizardScreenContent : WizardContent
     {
+        /// <summary>
+        /// Constructor to initialize the screen data
+        /// </summary>
+        /// <param name="screenId"></param>
+        /// <param name="fieldData"></param>
+        /// <param name="formData"></param>
         public WizardScreenContent(string screenId, IEnumerable<IWizardContentField> fieldData, object formData = null) : base(fieldData, formData)
         {
 

@@ -7,15 +7,26 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
+    /// <inheritdoc />
     public class WizardContentEmail : IWizardContentEmail
     {
+        /// <inheritdoc />
         public string GroupKey { get; set; }
 
+        /// <inheritdoc />
         public string Subject { get; set; }
+        /// <inheritdoc />
         public string Body { get; set; }
 
+        /// <inheritdoc />
         public object FormData { get; set; }
         
+        /// <summary>
+        /// Constructor used to initialize the email
+        /// </summary>
+        /// <param name="parentKey"></param>
+        /// <param name="fieldData"></param>
+        /// <param name="formData"></param>
         public WizardContentEmail(string parentKey, IEnumerable<IWizardContentField> fieldData, object formData = null)
         {
 
@@ -35,7 +46,12 @@ namespace Jlw.Data.LocalizedContent
             Body = fields.FirstOrDefault(o => o.FieldType.Equals("Body", StringComparison.InvariantCultureIgnoreCase))?.Label ?? "";
             ResolvePlaceholders(formData);
         }
-        void ResolvePlaceholders(object o)
+
+        /// <summary>
+        /// Resolve any placeholders in the subject or body of the email using the data passed into the reference object
+        /// </summary>
+        /// <param name="o">Reference object</param>
+        protected virtual void ResolvePlaceholders(object o)
         {
             JToken data = JToken.FromObject(o ?? new object());
 
