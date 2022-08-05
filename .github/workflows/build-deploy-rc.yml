@@ -1,6 +1,9 @@
 name: Build and Deploy (Release Candidate)
 
 on:
+  push:
+    branches: 
+      - 'staging'
   workflow_dispatch:
 
 jobs:

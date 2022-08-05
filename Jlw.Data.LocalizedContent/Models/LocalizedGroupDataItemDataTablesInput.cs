@@ -43,6 +43,10 @@ namespace Jlw.Data.LocalizedContent
         /// <value>The identifier.</value>
         /// TODO Edit XML Comment Template for Id
         public long Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the group filter.
+        /// </summary>
         public string GroupFilter { get; set; }
 
     }

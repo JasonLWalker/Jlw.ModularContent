@@ -24,78 +24,47 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
 		public long Id { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        /// Member for [Language] Database Column
+        /// <inheritdoc />
         public string Language { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the group key.
-        /// </summary>
-        /// <value>The group key.</value>
-        /// Member for [GroupKey] Database Column
+        /// <inheritdoc />
         public string GroupKey { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the key.
-        /// </summary>
-        /// <value>The key.</value>
-        /// Member for [Key] Database Column
+        /// <inheritdoc />
         public string Key { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        /// <value>The value.</value>
-        /// Member for [Value] Database Column
+        /// <inheritdoc />
         public string Value { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the order.
-        /// </summary>
-        /// <value>The order.</value>
-        /// Member for [Order] Database Column
+        /// <inheritdoc />
         public int Order { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        /// Member for [Description] Database Column
+        /// <inheritdoc />
         public string Description { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        /// <value>The data.</value>
-        /// Member for [Data] Database Column
+        /// <inheritdoc />
         public string Data { get; protected set; }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for AuditChangeType
         public string AuditChangeType { get; protected set; }
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for AuditChangeBy
         public string AuditChangeBy { get; protected set; }
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for AuditChangeDate
         public DateTime AuditChangeDate { get; protected set; }
 
-        /// <inheritdoc />
-        /// TODO Edit XML Comment Template for #ctor
+        /// <summary>
+        /// Default Constructor. Initializes a new instance of the <see cref="LocalizedGroupDataItem"/> class.
+        /// </summary>
         public LocalizedGroupDataItem() => Initialize(null);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalizedGroupDataItem"/> class.
         /// </summary>
         /// <param name="o">The o.</param>
-        /// TODO Edit XML Comment Template for #ctor
         public LocalizedGroupDataItem (object o) => Initialize(o);
 
         /// <summary>
-        /// Initializes the specified o.
+        /// Initializes the class from the values in the reference object.
         /// </summary>
         /// <param name="o">The o.</param>
         /// TODO Edit XML Comment Template for Initialize

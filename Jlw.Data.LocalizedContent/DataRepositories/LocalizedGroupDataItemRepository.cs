@@ -29,28 +29,23 @@ namespace Jlw.Data.LocalizedContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository" />
-    /// TODO Edit XML Comment Template for LocalizedGroupDataItemRepository
     public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>, ILocalizedGroupDataItemRepository 
     {
         /// <summary>
-        /// The sp get record
+        /// The stored procedure name for the get record
         /// </summary>
-        /// TODO Edit XML Comment Template for SpGetRecord
         protected const string SpGetRecord = "sp_GetLocalizedGroupDataItemRecord";
         /// <summary>
-        /// The sp save record
+        /// The stored procedure name for the save record
         /// </summary>
-        /// TODO Edit XML Comment Template for SpSaveRecord
         protected const string SpSaveRecord = "sp_SaveLocalizedGroupDataItemRecord";
         /// <summary>
-        /// The sp delete record
+        /// The stored procedure name for the delete record
         /// </summary>
-        /// TODO Edit XML Comment Template for SpDeleteRecord
         protected const string SpDeleteRecord = "sp_DeleteLocalizedGroupDataItemRecord";
         /// <summary>
-        /// The sp list record
+        /// The stored procedure name for the list record
         /// </summary>
-        /// TODO Edit XML Comment Template for SpListRecord
         protected const string SpListRecord = "sp_GetLocalizedGroupDataItemList";
 
         /// <summary>
@@ -58,7 +53,6 @@ namespace Jlw.Data.LocalizedContent
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="connString">The connection string.</param>
-        /// TODO Edit XML Comment Template for #ctor
         public LocalizedGroupDataItemRepository(IModularDbClient dbClient, string connString) : base(dbClient, connString) 
         { 
             _sGetRecord = SpGetRecord; 
@@ -70,11 +64,10 @@ namespace Jlw.Data.LocalizedContent
         /// <summary>
         /// Gets the parameters for SQL.
         /// </summary>
-        /// <param name="o">The o.</param>
+        /// <param name="o">The reference object.</param>
         /// <param name="sSql">The s SQL.</param>
         /// <returns>IEnumerable&lt;KeyValuePair&lt;System.String, System.Object&gt;&gt;.</returns>
         /// <exception cref="System.NotImplementedException">The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.</exception>
-        /// TODO Edit XML Comment Template for GetParamsForSql
         protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedGroupDataItem o, string sSql) 
         { 
             switch (sSql) 
@@ -100,19 +93,15 @@ namespace Jlw.Data.LocalizedContent
                     return new KeyValuePair<string, object>[] { 
                         new KeyValuePair<string, object>("@id", "Id"), 
                     }; 
-//                case SpListRecord: 
-//                    return new KeyValuePair<string, object>[] { }; 
             }
 
             var t = new StackTrace();
             var m = t.GetFrame(1).GetMethod();
             string typename = DataUtility.GetTypeName(m.ReflectedType).Trim(',', ' ');
             throw new NotImplementedException($"The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.");
-            //return base.GetParamsForSql(o, sSql); 
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetDataTableList
         public object GetDataTableList(LocalizedGroupDataItemDataTablesInput o)
         {
             string sQuery = $"EXEC [dbo].[sp_GetLocalizedGroupDataItemsDt] @sSearch=@sSearch, @nRowStart=@nRowStart, @nPageSize=@nPageSize, @sSortCol=@sSortCol, @sSortDir=@sSortDir, @sGroupKey=@sGroupKey, @sGroupFilter=@sGroupFilter";
@@ -125,6 +114,7 @@ namespace Jlw.Data.LocalizedContent
             return dt.FetchQuery(_connString, sQuery);
         }
 
+        /// <inheritdoc />
         public T GetItemValue<T>(string groupKey, string key)
         {
             
@@ -146,6 +136,7 @@ namespace Jlw.Data.LocalizedContent
             return default;
         }
 
+        /// <inheritdoc />
         public IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language=null)
         {
             if (_dbClient != null)

@@ -23,12 +23,17 @@ namespace Jlw.Data.LocalizedContent
     /// TODO Edit XML Comment Template for ILocalizedContentFieldRepository
     public interface ILocalizedContentFieldRepository : IModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>
     {
+        /// <summary>
+        /// Retrieves a field by matching properties rather than by Id number.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         ILocalizedContentField GetRecordByName(ILocalizedContentField o);
 
         /// <summary>
         /// Gets the data table list.
         /// </summary>
-        /// <param name="o">The o.</param>
+        /// <param name="o">The input object.</param>
         /// <returns>System.Object.</returns>
         /// TODO Edit XML Comment Template for GetDataTableList
         object GetDataTableList(LocalizedContentFieldDataTablesInput o);
