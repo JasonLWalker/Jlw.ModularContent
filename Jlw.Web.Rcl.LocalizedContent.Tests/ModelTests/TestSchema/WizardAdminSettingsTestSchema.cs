@@ -37,6 +37,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "JsRoot", Public, Public);
             AddProperty(typeof(string), "ToolboxHeight", Public, Public);
             AddProperty(typeof(string), "HiddenFilterPrefix", Public, Public);
+
+            AddProperty(typeof(string), "Version", Public, Protected);
+            AddProperty(typeof(string), "DefaultWizard", Public, Protected);
+            AddProperty(typeof(string), "GroupFilter", Public, Protected);
+
             AddProperty(typeof(WizardSideNav), "SideNav", Public, null);
             AddProperty(typeof(Object), "PreviewRecordData", Public, Public);
             AddProperty(typeof(List<SelectListItem>), "LanguageList", Public, null);
