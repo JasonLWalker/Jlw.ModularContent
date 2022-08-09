@@ -274,6 +274,9 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
         public void ProcessPlaceholders(IWizardContentField field, object replacementObject)
         {
+            if (field is null || replacementObject is null)
+                return;
+
             field.Label = ResolvePlaceholders(field.Label, replacementObject);
             field.WrapperHtmlStart = ResolvePlaceholders(field.WrapperHtmlStart, replacementObject);
             field.WrapperHtmlEnd = ResolvePlaceholders(field.WrapperHtmlEnd, replacementObject);
