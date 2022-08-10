@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.LocalizedContent.Sa
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SqlSchema", "SqlSchema\", "{607EB726-5F3B-4A9C-9CE4-0DF10CB36D97}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54459"
 		Debug.AspNetCompiler.PhysicalPath = "SqlSchema\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54459\"
