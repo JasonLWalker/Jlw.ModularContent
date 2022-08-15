@@ -12,6 +12,8 @@
 // <summary></summary>
 // ***********************************************************************
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
@@ -30,8 +32,31 @@ namespace Jlw.Data.LocalizedContent
         /// TODO Edit XML Comment Template for CreateWizardContent
         IWizardContent CreateWizardContent(string groupKey, object formData = null);
 
+        /// <summary>
+        /// Generates the structure and performs placeholder parsing for a Wizard Screen
+        /// </summary>
+        /// <param name="groupKey"></param>
+        /// <param name="screenKey"></param>
+        /// <param name="formData"></param>
+        /// <returns></returns>
         IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null);
 
+        /// <summary>
+        /// Generates the structure and performs placeholder parsing for a Wizard Email 
+        /// </summary>
+        /// <param name="groupKey"></param>
+        /// <param name="parentKey"></param>
+        /// <param name="formData"></param>
+        /// <returns></returns>
         WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null);
+
+        /// <summary>
+        /// Resolves placeholders in the string using data provided by the replacementObject
+        /// </summary>
+        /// <param name="sourceString"></param>
+        /// <param name="replacementObject"></param>
+        /// <returns></returns>
+        string ResolvePlaceholders(string sourceString, object replacementObject = null);
+
     }
 }

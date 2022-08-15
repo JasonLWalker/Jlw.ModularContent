@@ -5,8 +5,17 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
+    /// <summary>
+    /// Class to encapsulate the content of each screen in the Wizard
+    /// </summary>
     public class WizardScreenContent : WizardContent
     {
+        /// <summary>
+        /// Constructor to initialize the screen data
+        /// </summary>
+        /// <param name="screenId"></param>
+        /// <param name="fieldData"></param>
+        /// <param name="formData"></param>
         public WizardScreenContent(string screenId, IEnumerable<IWizardContentField> fieldData, object formData = null) : base(fieldData, formData)
         {
 
@@ -29,6 +38,7 @@ namespace Jlw.Data.LocalizedContent
 
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
 
+            /*
             // Resolve Placeholders for field labels
             fields.ForEach(o=>
             {
@@ -36,7 +46,7 @@ namespace Jlw.Data.LocalizedContent
                 o.WrapperHtmlStart = o.ResolvePlaceholders(o.WrapperHtmlStart, formData);
                 o.WrapperHtmlEnd = o.ResolvePlaceholders(o.WrapperHtmlEnd, formData);
             });
-            
+            */
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));

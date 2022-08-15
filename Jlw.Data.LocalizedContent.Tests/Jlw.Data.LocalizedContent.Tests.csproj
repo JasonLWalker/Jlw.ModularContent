@@ -25,10 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jlw.Extensions.Testing.WebApp" Version="1.0.7930.8703" />
-    <PackageReference Include="Jlw.Utilities.Data" Version="4.5.8234.7928" />
+	<PackageReference Include="Jlw.Utilities.Data" Version="4.5.8234.7928" />
     <PackageReference Include="Jlw.Utilities.Testing" Version="2.0.7844.22164" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="Moq" Version="4.18.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -46,7 +45,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
-    <ProjectReference Include="..\Jlw.Web.LocalizedContent.SampleWebApp\Jlw.Web.LocalizedContent.SampleWebApp.csproj" />
   </ItemGroup>
 
 </Project>

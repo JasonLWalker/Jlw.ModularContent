@@ -66,6 +66,8 @@ public class Program
             var linkGenerator = provider.GetRequiredService<LinkGenerator>();
 
             var DefaultSettings = new WizardAdminSettings();
+            DefaultSettings.Area = "LocalizedContent";
+            DefaultSettings.JsRoot = DefaultSettings.Area;
             DefaultSettings.ApiOverrideUrl = linkGenerator.GetPathByAction("Index", "OverrideModularWizardAdminApi", new { Area = "" });
             DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
             DefaultSettings.ShowSideNav = true;

@@ -26,6 +26,10 @@
         font-size: small;
     }
 
+    #controllist > div, #componentlist > div {
+        flex: unset;
+    }
+
     .sortable-delete {
         display: none;
     }
@@ -109,7 +113,11 @@
 		        parent.empty();
 		        for (var i in wizardData) {
 			        var data = wizardData[i];
-			        var elem = libComponents.renderWizardFormField(data, parent);
+					var elem = libComponents.renderWizardFormField(data, parent);
+					elem.addClass('position-relative');
+					if (data['UseCount']) {
+                        elem.append('<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info" title="Times used in wizard: ' + data['UseCount'] + '">'+ data['UseCount'] +'</span>');
+					}
 		        }
 		        parent.children().attr('draggable', true);
 	        });
@@ -429,9 +437,7 @@
 				// Event is a Sortable.js custom event
 				var obj = $(event.item);
 				obj.addClass('sortable-delete');
-                //window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': obj.data('tree-id'), 'sourceObj': obj });
 				window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': obj.data('tree-id') });
-				//onRemoveFancyTreeNode(obj.data('tree-id'), obj);
 				event.returnValue = false;
 				return false;
 			} else {
@@ -442,7 +448,6 @@
 					nodeData = JSON.parse(jsonData);
 					if (nodeData && nodeData.key) {
 						window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': nodeData.key });
-						//onRemoveFancyTreeNode(nodeData.key);
 					}
 				} catch (e) {
 					return;
@@ -474,26 +479,22 @@
             var data = JSON.parse(JSON.stringify(source.data('wizardData')|| {}));
             var count = Date.now().valueOf();
 
-            data['WrapperClass'] = 'col';
             data['FieldKey'] += (isComponent) ? '':count;
             data['Label'] += (isComponent) ? '': ' ' + count;
             data['DefaultLabel'] = data['Label'];
             data['GroupKey'] = $('#slctWizard').val();
             data['ParentKey'] = target.closest('[data-field-key]').attr('data-field-key');
             data['Order'] = event.newIndex;
-            var obj = libControls.renderWizardFormField(data, target);
-            obj.insertAfter(source);
-            source.remove();
 
             if (!data["ParentKey"])
                 return;
 
-            //t.showPleaseWait();
+			// No need to render/redraw field, will redraw when AJAX finishes.
+
             window.postMessage({ 'action':'pleaseWait', 'show': true });
             t.post('@apiUrl/SaveField', data)
 	            .done(function(data) {
 		            var nodes = [];
-		            obj.attr('data-tree-id', data['Id']);
 		            target.children().each(function(i, elem) {
 			            var id = $(elem).data('tree-id');
 			            if (id) {
@@ -504,7 +505,6 @@
 		            window.postMessage(msg);
 	            })
 	            .always(function(data) {
-		            //t.hidePleaseWait();
 					window.postMessage({ 'action':'pleaseWait', 'show': false });
 	            });
         }
@@ -1098,6 +1098,89 @@
 	                        clientFrameBody.removeClass('bootstrap-sketchy');
 	                    }
 
+                        var offset = $('#preview-frame').offset() || {top:0,left:0};
+
+                        $(clientFrameBody).contextMenu({
+                            selector: "[data-tree-id]",
+                            events: {
+                                activated: function (options) {
+                                    options.$menu.css('z-index', 900);
+                                }
+							},
+                            position: function(opt, x, y){
+                                console.log(opt, x + offset['left'], y + offset['top'], offset);
+	                            opt.$menu.css({top: y+offset['top'], left: x+offset['left']});
+                            }, 
+                            build: function ($trigger, e) {
+                                var node = tree.getNodeByKey($trigger.data('tree-id'));
+                                var parentNode = node.parent || {};
+
+                                var fieldData = (node && node.data && node.data.field_data) ? node.data.field_data : {};
+                                var parentData = (parentNode && parentNode.data && parentNode.data.field_data) ? parentNode.data.field_data : {};
+                                var menuItems = {
+	                                "duplicate": { "name": "Duplicate", "icon": "copy" },
+	                                "rename" : { "name": "Rename", "icon": "edit" },
+	                                "delete": { "name": "Delete", "icon": "delete" }
+                                };
+                                var wizardKey = $('#slctWizard').val().toUpperCase() || "";
+
+                                var fieldType = (fieldData.FieldType || "").toUpperCase();
+                                var fieldKey = (fieldData.FieldKey || "").toUpperCase();
+                                var parentKey = (fieldData.ParentKey || "").toUpperCase();
+                                var parentType = (parentData.FieldType || "").toUpperCase();
+                                if (parentType === 'SCREEN'){
+	                                if (fieldKey === 'BODY') {
+		                                fieldType = 'BODY';
+	                                }
+
+	                                if (['HEADING', 'BODY', 'BUTTONGROUP'].includes(fieldType)) {
+		                                delete menuItems['duplicate'];
+                                        delete menuItems['rename'];
+                                        delete menuItems['delete'];
+                                        menuItems['preview'] = { "name": "Preview", "icon": "play" };
+	                                }
+
+                                }
+                                if (fieldType === 'SCREEN' || fieldType === 'WIZARD') {
+	                                menuItems['sep1'] = "---------";
+	                                if (fieldType === 'WIZARD') {
+		                                menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
+		                                delete menuItems['rename'];
+	                                }
+	                                menuItems['addscreen'] = { "name": "Add New Screen", "icon": 'add' };
+
+	                                menuItems['sep2'] = "---------";
+	                                menuItems['preview'] = { "name": "Preview", "icon": "play" };
+                                }
+
+                                return {
+                                    callback: function (action, options) {
+                                        switch (action) {
+                                            case 'delete':
+                                                window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': node.key });
+                                                break;
+                                            case 'duplicate':
+                                                window.postMessage({ 'action': 'duplicateTreeNode', 'nodeId': node.key });
+                                                break;
+                                            case 'rename':
+                                                window.postMessage({ 'action': 'renameTreeNode', 'nodeId': node.key });
+                                                break;
+                                            case 'preview':
+                                                window.postMessage({ 'action': 'previewScreen', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
+                                                break;
+                                            default:
+                                                bootbox.alert("This menu option has not yet been implemented.");
+                                                break;
+                                        }
+
+                                    },
+                                    items: menuItems
+                                };
+                            }
+                        });
+
+
+
 	                    break;
 					case 'deleteTreeNode':
 						_fnOnRemoveFancyTreeNode(event.data['nodeId']);
@@ -1145,6 +1228,7 @@
 			//postMessage({ 'action': 'renameTreeNode', 'nodeId': id });
         });*@
         $('#new-screen-btn').on('click', function(){ postMessage({'action':'addScreen'}); });
+
 
     }
 </script>

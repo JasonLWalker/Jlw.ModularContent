@@ -32,6 +32,7 @@ namespace Jlw.Data.LocalizedContent
     /// TODO Edit XML Comment Template for WizardFactoryRepository
     public class WizardFactoryRepository : ModularDataRepositoryBase<IWizardContentField, WizardContentField>, IWizardFactoryRepository
     {
+        /// <summary> Stored procedure to retrieve a single record </summary>
         protected const string SpGetRecord = "sp_GetWizardContentFieldRecord";
 
 
@@ -40,7 +41,6 @@ namespace Jlw.Data.LocalizedContent
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="connString">The connection string.</param>
-        /// TODO Edit XML Comment Template for #ctor
         public WizardFactoryRepository(IModularDbClient dbClient, string connString) : base(dbClient, connString)
         {
             _sGetRecord = SpGetRecord;
@@ -48,7 +48,6 @@ namespace Jlw.Data.LocalizedContent
 
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetParamsForSql
         protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IWizardContentField o, string sSql)
         {
             switch (sSql)
@@ -70,7 +69,6 @@ namespace Jlw.Data.LocalizedContent
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<WizardContentField> GetFieldData(string groupKey)
         {
             if (string.IsNullOrWhiteSpace(groupKey))
@@ -80,11 +78,13 @@ namespace Jlw.Data.LocalizedContent
         }
 
 
+        /// <inheritdoc />
         public IWizardContentField SaveFieldParentOrder(WizardContentField fieldData)
         {
             return _dbClient.GetRecordObject<WizardContentField>(fieldData, _connString, new RepositoryMethodDefinition("sp_SaveLocalizedContentFieldParentOrder", CommandType.StoredProcedure, new[] { "Id", "ParentKey", "Order", "AuditChangeBy" }));
         }
 
+        /// <inheritdoc />
         public IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData)
         {
 
@@ -92,27 +92,54 @@ namespace Jlw.Data.LocalizedContent
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string parentKey, string language, string groupFilter)
         {
             return _dbClient.GetRecordList<WizardContentField>(new {groupKey = groupKey ?? "", parentKey, groupFilter, language }, _connString, new RepositoryMethodDefinition("sp_GetWizardFields", CommandType.StoredProcedure, new[] { "groupKey", "parentKey", "language", "groupFilter" }));
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string groupFilter = null) => GetWizardFields(groupKey, null, null, groupFilter);
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetFieldData
         public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string language, string groupFilter) => GetWizardFields(groupKey, null, language, groupFilter);
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for GetFieldData
-        public IEnumerable<WizardContentField> GetComponentList(string groupKey)
+        public IEnumerable<IWizardSideNavItem> GetWizardSideNavData(string groupKey, string language=null, string groupFilter=null)
         {
-            return _dbClient.GetRecordList<WizardContentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
+            return _dbClient.GetRecordList<WizardSideNavItem>(null, _connString, new RepositoryMethodDefinition(
+                "sp_GetWizardSideNavData",
+                CommandType.StoredProcedure,
+                new KeyValuePair<string, object>[] {
+                    new KeyValuePair<string, object>("groupKey", groupKey ?? ""),
+                    new KeyValuePair<string, object>("language", language?? ""),
+                    new KeyValuePair<string, object>("groupFilter", groupFilter ?? ""),
+                }));
+
         }
 
+        /// <inheritdoc />
+        public IEnumerable<string> GetWizardModelFields(string groupKey, string groupFilter)
+        {
+            return _dbClient.GetRecordList<string>(null, _connString, new RepositoryMethodDefinition(
+                "sp_GetWizardModelFields", 
+                CommandType.StoredProcedure, 
+                new KeyValuePair<string, object>[] {
+                    new KeyValuePair<string, object>("groupKey", groupKey),
+                    new KeyValuePair<string, object>("groupFilter", groupFilter),
+                }, 
+                o => DataUtility.ParseString(o, "value")));
+        }
+
+
+
+
+        /// <inheritdoc />
+        public IEnumerable<WizardComponentField> GetComponentList(string groupKey)
+        {
+            return _dbClient.GetRecordList<WizardComponentField>(groupKey ?? "", _connString, new RepositoryMethodDefinition("sp_GetComponentList", CommandType.StoredProcedure, new[] { "groupKey" }));
+        }
+
+        /// <inheritdoc />
         public WizardContentField DeleteWizardFieldRecursive(WizardContentField fieldData, int recurseDepth = 5, string langFilter = null)
         {
             return _dbClient.GetRecordObject<WizardContentField>(
@@ -134,6 +161,7 @@ namespace Jlw.Data.LocalizedContent
             );
         }
 
+        /// <inheritdoc />
         public WizardContentField RenameWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null)
         {
             return _dbClient.GetRecordObject<WizardContentField>(
@@ -156,6 +184,7 @@ namespace Jlw.Data.LocalizedContent
             );
         }
 
+        /// <inheritdoc />
         public WizardContentField DuplicateWizardFieldRecursive(WizardContentField fieldData, string newFieldKey, int recurseDepth = 5, string langFilter = null)
         {
             return _dbClient.GetRecordObject<WizardContentField>(

@@ -27,22 +27,29 @@ namespace Jlw.Data.LocalizedContent
         /// Gets or sets the group key.
         /// </summary>
         /// <value>The group key.</value>
-        /// TODO Edit XML Comment Template for GroupKey
         public string GroupKey { get; set; }
+
         /// <summary>
         /// Gets or sets the field key.
         /// </summary>
         /// <value>The field key.</value>
-        /// TODO Edit XML Comment Template for FieldKey
         public string FieldKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ParentKey
+        /// </summary>
         public string ParentKey { get; set; }
+        
+        
         /// <summary>
         /// Gets or sets the language.
         /// </summary>
         /// <value>The language.</value>
-        /// TODO Edit XML Comment Template for Language
         public string Language { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Group filter used to ensure that the group being retrieved are not part of another group.
+        /// </summary>
         public string GroupFilter { get; set; }
     }
 }

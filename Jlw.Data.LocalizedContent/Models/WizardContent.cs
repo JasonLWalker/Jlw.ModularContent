@@ -30,9 +30,14 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FormData
         public object FormData { get; set; }
+
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for GroupKey
-        public string GroupKey { get; set; }
+        public new string GroupKey
+        {
+            get => base.GroupKey; 
+            set => base.GroupKey =  value;
+        }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Heading
@@ -50,7 +55,7 @@ namespace Jlw.Data.LocalizedContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FieldData
-        public object FieldData { get; set; }
+        public new object FieldData { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Buttons
@@ -82,18 +87,19 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
 
-            Label = wizard.ResolvePlaceholders(wizard.Label, formData);
-            WrapperHtmlStart = wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, formData);
-            WrapperHtmlEnd = wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, formData);
+            Label = wizard.Label;//wizard.ResolvePlaceholders(wizard.Label, formData);
+            WrapperHtmlStart = wizard.WrapperHtmlStart;//wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, formData);
+            WrapperHtmlEnd = wizard.WrapperHtmlEnd;//wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, formData);
 
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            /*
             foreach (var field in fields)
             {
                 field.Label = field.ResolvePlaceholders(field.Label, formData);
                 field.WrapperHtmlStart = field.ResolvePlaceholders(field.WrapperHtmlStart, formData);
                 field.WrapperHtmlEnd = field.ResolvePlaceholders(field.WrapperHtmlEnd, formData);
             }
-
+            */
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));

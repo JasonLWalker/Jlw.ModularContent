@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
 
@@ -24,35 +25,30 @@ namespace Jlw.Data.LocalizedContent
     /// Implements the <see cref="Jlw.Data.LocalizedContent.IWizardFactory" />
     /// </summary>
     /// <seealso cref="Jlw.Data.LocalizedContent.IWizardFactory" />
-    /// TODO Edit XML Comment Template for WizardFactory
     public class WizardFactory : IWizardFactory
     {
         /// <summary>
         /// Gets or sets the form data.
         /// </summary>
         /// <value>The form data.</value>
-        /// TODO Edit XML Comment Template for FormData
         public object FormData { get; set; }
 
 
         /// <summary>
         /// The data repository
         /// </summary>
-        /// TODO Edit XML Comment Template for DataRepository
         protected IWizardFactoryRepository DataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WizardFactory"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        /// TODO Edit XML Comment Template for #ctor
         public WizardFactory(IWizardFactoryRepository repository)
         {
             DataRepository = repository;
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for CreateWizardContent
         public virtual IWizardContent CreateWizardContent(string groupKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
@@ -92,7 +88,6 @@ namespace Jlw.Data.LocalizedContent
         }
 
         /// <inheritdoc />
-        /// TODO Edit XML Comment Template for CreateWizardContent
         public virtual IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
@@ -105,7 +100,8 @@ namespace Jlw.Data.LocalizedContent
             string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
             foreach (var form in formList)
             {
-                ((List<WizardFormData>)content.Forms).Add(CreateWizardFormData(form.FieldKey, fieldData));
+                var formElem = CreateWizardFormData(form.FieldKey, fieldData);
+                ((List<WizardFormData>)content.Forms).Add(formElem);
             }
 
             if (!string.IsNullOrWhiteSpace(embedData))
@@ -130,14 +126,17 @@ namespace Jlw.Data.LocalizedContent
             ((List<WizardFormData>)content.Forms).Sort((o1, o2) => o1.Order - o2.Order);
             foreach (var wizardFormData in content.Forms)
             {
+                //wizardFormData.Label = ResolvePlaceholders(wizardFormData.Label, formData);
                 foreach (var formField in wizardFormData.Fields)
                 {
                 }
             }
 
+            ProcessPlaceholders(content, formData);
             return content;
         }
 
+        /// <inheritdoc />
         public virtual WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
@@ -152,7 +151,6 @@ namespace Jlw.Data.LocalizedContent
         /// <param name="extraFields">The extra fields.</param>
         /// <param name="isDisabled">if set to <c>true</c> [is disabled].</param>
         /// <param name="hasEditButton">if set to <c>true</c> [has edit button].</param>
-        /// TODO Edit XML Comment Template for AddEmbeddedForm
         public virtual void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false)
         {
             List<WizardContentField> embed = (List<WizardContentField>)DataRepository.GetFieldData(key);
@@ -199,7 +197,6 @@ namespace Jlw.Data.LocalizedContent
         /// <param name="fieldData">The field data.</param>
         /// <param name="editButton">The edit button.</param>
         /// <returns>WizardFormData.</returns>
-        /// TODO Edit XML Comment Template for CreateWizardFormData
         public virtual WizardFormData CreateWizardFormData(string formKey, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null)
         {
             var data = fieldData?.ToList();
@@ -208,7 +205,6 @@ namespace Jlw.Data.LocalizedContent
             {
                 return new WizardFormData(null, null, null);
             }
-
             var returnObject = new WizardFormData(formKey, fieldData, editButton);
 
             string strInput;
@@ -272,5 +268,123 @@ namespace Jlw.Data.LocalizedContent
 
             return returnObject;
         }
+
+
+
+        /// <inheritdoc />
+        public void ProcessPlaceholders(IWizardContentField field, object replacementObject)
+        {
+            if (field is null || replacementObject is null)
+                return;
+
+            field.Label = ResolvePlaceholders(field.Label, replacementObject);
+            field.WrapperHtmlStart = ResolvePlaceholders(field.WrapperHtmlStart, replacementObject);
+            field.WrapperHtmlEnd = ResolvePlaceholders(field.WrapperHtmlEnd, replacementObject);
+            switch (field)
+            {
+                case WizardScreenContent screenField:
+                {
+                    ProcessPlaceholders(screenField.BodyData, replacementObject);
+                    ProcessPlaceholders(screenField.HeadingData, replacementObject);
+
+                    screenField.Body = ResolvePlaceholders(screenField.Body, replacementObject);
+                    screenField.Heading = ResolvePlaceholders(screenField.Heading, replacementObject);
+                    screenField.FieldData = ResolveDataPlaceholders(JToken.FromObject(screenField.FieldData ?? new object()), replacementObject);
+
+                    if (screenField.Forms?.Count() > 0)
+                    {
+                        foreach (var formField in screenField.Forms)
+                        {
+                            ProcessPlaceholders(formField, replacementObject);
+                        }
+                    }
+
+                    if (screenField.Buttons?.Count() > 0)
+                    {
+                        foreach (var formField in screenField.Buttons)
+                        {
+                            ProcessPlaceholders(formField, replacementObject);
+                        }
+                    }
+
+                    break;
+                }
+                case WizardFormData formField:
+                    var fields = formField.Fields.ToList();
+                    if (fields.Count > 0)
+                    {
+                        for (var i = 0; i < fields.Count; i++)
+                        {
+                            ResolveDataPlaceholders(fields[i], replacementObject);
+                        }
+                        
+                    }
+                    break;
+            }
+        }
+
+        /// ToDo: Add XMLDoc comments
+        protected virtual JToken ResolveDataPlaceholders(JToken source, object replacementObject = null)
+        {
+            if (replacementObject is null || source is null) return source;
+
+            JToken data;
+            if (!(replacementObject is JToken token))
+                data = JToken.FromObject(replacementObject);
+            else
+                data = token;
+
+            JTokenType t = source.Type;
+
+
+            switch (t)
+            {
+                case JTokenType.Object:
+                case JTokenType.Array:
+                    var keys = source.Select(o => o.Path).ToList();
+                    foreach (var key in keys)
+                    {
+                        var value = ResolveDataPlaceholders(source[key], data);
+                        if (value != null)
+                            source[key].Replace(value);
+                    }
+                    break;
+                case JTokenType.String:
+                    return ResolvePlaceholders(source.ToString(), data);
+            }
+
+            return source;
+        }
+
+
+        /// ToDo: Add XMLDoc comments
+        public virtual string ResolvePlaceholders(string sourceString, object replacementObject = null)
+        {
+            if (replacementObject is null) return sourceString;
+
+            JToken data;
+            if (!(replacementObject is JToken token))
+                data = JToken.FromObject(replacementObject);
+            else
+                data = token;
+
+            string s = sourceString;
+            var re = new Regex(@"\[%([\w\d\-_\s]*)%\]", RegexOptions.CultureInvariant);
+
+            return re.Replace(s, (match) => ResolvePlaceholderMatchCallback(match, data));
+        }
+
+        /// ToDo: Add XMLDoc comments
+        protected virtual string ResolvePlaceholderMatchCallback(Match match, JToken replacementObjectData = null)
+        {
+            string key;
+            if (match?.Groups.Count > 1 && replacementObjectData?.SelectToken(key = match?.Groups[1].Value.Trim()) != null)
+            {
+                return replacementObjectData.SelectToken(key)?.ToString();
+            }
+
+            return match?.Value;
+        }
+
     }
 }
