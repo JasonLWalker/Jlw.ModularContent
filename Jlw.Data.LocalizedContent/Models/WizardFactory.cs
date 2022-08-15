@@ -289,7 +289,7 @@ namespace Jlw.Data.LocalizedContent
 
                     screenField.Body = ResolvePlaceholders(screenField.Body, replacementObject);
                     screenField.Heading = ResolvePlaceholders(screenField.Heading, replacementObject);
-                    screenField.FieldData = ResolveDataPlaceholders(JToken.FromObject(screenField.FieldData), replacementObject);
+                    screenField.FieldData = ResolveDataPlaceholders(JToken.FromObject(screenField.FieldData ?? new object()), replacementObject);
 
                     if (screenField.Forms?.Count() > 0)
                     {
