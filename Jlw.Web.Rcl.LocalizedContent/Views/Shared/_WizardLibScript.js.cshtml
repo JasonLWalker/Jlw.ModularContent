@@ -25,7 +25,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     t.fnOnClickLink = t.fnOnClickLink || fnOnClickLink;
     t.fnOnClickSave = t.fnOnClickSave || fnOnClickSave;
     t.fnOnClickAction = t.fnOnClickAction || fnOnClickAction;
-
+    t.fnOnWizardOnLoad = t.fnOnWizardOnLoad || fnOnWizardOnLoad;
     t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
 
     t.ajaxFail = t.ajaxFail || ajaxFail;
@@ -189,9 +189,15 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
     function renderWizardForm(data, parent) {
         var wrapper = $("<div></div>");
+        var formCard = $('<div></div>');
         var formBody = $('<div class="form-body"></div>');
         var headingText = data["Label"];
         var fields = data['Fields'] || [];
+        var wrapperStart = data["WrapperHtmlStart"] || "";
+        var wrapperEnd = data["WrapperHtmlEnd"] || "";
+
+        wrapper.append(formCard);
+
         var i = 0;
 
         //Todo: Remove next line after debugging:
@@ -210,7 +216,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
         var btn = "";
         if (data["UseCardLayout"]) {
-            wrapper.addClass('card');
+            formCard.addClass('card');
             if (data["Label"]) {
                 var header = $('<div class="card-header"><div class="h5">' + headingText + '</div></div>');
                 if (data["EditButton"] && typeof (data["EditButton"]) == "object") {
@@ -218,13 +224,13 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                     btn.addClass('float-end');
                     header.prepend(btn);
                 }
-                wrapper.append(header);
+                formCard.append(header);
             }
-            var wrapperBody = $('<div class="card-body"></div>');
-            wrapperBody.append(formBody);
-            wrapper.append(wrapperBody);
+            var cardBody = $('<div class="card-body"></div>');
+            cardBody.append(formBody);
+            formCard.append(cardBody);
         } else {
-            wrapper.append(formBody);
+            formCard.append(formBody);
         }
         var id = (data['GroupKey'] + '-' + data['FieldType'] + '-' + data['FieldKey'] + '-' + (data['Id']||(new Date()).valueOf())).replace(/[^\w\d-_]/i, '');
 
@@ -232,15 +238,21 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         //formBody.attr('id', 'jlwElement-' + data['ElementId']);
         wrapper.attr('id', 'jlwElement-'+data['ElementId']);
 
+        if(wrapperStart)
+			formCard.before($(wrapperStart));
+
+        if(wrapperEnd)
+			formCard.after($(wrapperEnd));
+
         if (typeof(t.onRenderWizardElement) === 'function') {
             t.onRenderWizardElement(wrapper, data, wrapper);
         }
+
 
         //$(".wizard-body").append(wrapper);
         if (data["EditButton"] && typeof (data["EditButton"]) == "object" && typeof (btn) == "object") {
             setButtonAction(btn, data["EditButton"]["Action"] || "");
         }
-
 
         return wrapper;
     }
@@ -256,18 +268,22 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
     function renderWizardElement(data, parent, wizardData) {
         var obj = {};
-        if (typeof(data) !== 'object' || typeof(data['FieldType']) !== 'string')
+        if (typeof (data) !== 'object' || typeof (data['FieldType']) !== 'string')
             return obj;
+
 
         var type = data['FieldType'] || "";
         switch (type.toUpperCase()) {
             case '@nameof(WizardFieldTypes.HEADING)':
                 $('.wizard-heading', parent).empty();
                 obj = renderWizardFormField(data, $('.wizard-heading', parent));
+				$('.wizard-heading', parent).addClass(data['WrapperClass'] || "h3");
                 break;
             case '@nameof(WizardFieldTypes.BODY)':
                 $('.wizard-body', parent).empty();
                 obj = renderWizardFormField(data, $('.wizard-body', parent));
+                if (data['WrapperClass'])
+	                $('.wizard-body', parent).addClass(data['WrapperClass']);
                 break;
         }
 
@@ -294,6 +310,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         var wrapperClass = data["WrapperClass"] || "";
         var wrapperStart = data["WrapperHtmlStart"] || "";
         var wrapperEnd = data["WrapperHtmlEnd"] || "";
+        var isInline = fieldData["inline"] || false;
         var obj;
         var id = group + '-' + field + '-' + name + '-' +(data['Id']||(new Date()).valueOf());
         id = (id).replace(/[^\w\d-_]/i, '');
@@ -306,6 +323,9 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
         if (fieldData["props"])
             props += fieldData['props'] + ' ';
+
+        if (fieldData["properties"])
+	        props += fieldData['properties'] + ' ';
 
 
         switch (field.toLowerCase()) {
@@ -385,18 +405,20 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                         obj = $(wrapperStart + '<div class="form-hidden"><span class="d-none">' + label + '</span><input type="hidden" name="' + name + '" ' + props + ' value="" /></div>' + wrapperEnd);
                         break;
                     case 'radio':
-                        if (data["FieldClass"])
+	                    if (data["FieldClass"])
                             props += 'class="' + data.FieldClass + '" ';
 
-                        var html = '<div>' + wrapperStart;
+                        var html = '<div' + (Object.keys(values).length > 0 ? ' id="' + id + '"' : "") + '>' + wrapperStart;
+
                         if (Object.keys(values).length > 0) {
                             var nCount = 1;
+                            html += '<div><label for="' + id + '">' + label + '</label></div>';
                             for(var key in values) {
-                                html += '<div class="form-check"><label class="form-check-label" for="' + id + '_' + nCount + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '" id="' + id + '_' + nCount + '" />' + values[key] + '</label></div>';
+                                html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '_' + nCount + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '" id="' + id + '_' + nCount + '" />' + values[key] + '</label></div>';
                                 nCount++;
                             }
                         } else {
-                            html += '<div class="form-check"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' id="' + id + '" />' + label + '</label></div>';
+                            html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' id="' + id + '" />' + label + '</label></div>';
                         }
                         html += wrapperEnd + '</div>';
                         obj = $(html);
@@ -405,7 +427,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                         if (data["FieldClass"])
                             props += 'class="' + data.FieldClass + '" ';
 
-                        obj = $('<div>' + wrapperStart + '<div class="form-check"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + '/>' + label + '</label></div>' + wrapperEnd + '</div>');
+                        obj = $('<div>' + wrapperStart + '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + '/>' + label + '</label></div>' + wrapperEnd + '</div>');
                         break;
                     case 'password':
                     case 'email':
@@ -468,6 +490,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                 //Todo: Remove next line after debugging:
                 if (t.debugLevel >= 10) label = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + label;
                 obj = $('<div>' + wrapperStart + label + wrapperEnd + '</div>');
+                obj.addClass(data["FieldClass"]);
                 break;
             default:
                 break;
@@ -482,7 +505,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                 $(this).attr("id", id);
             });
 
-            if (wrapperClass)
+            if (wrapperClass && field.toLowerCase() !== 'heading')
                 obj.addClass(wrapperClass);
 
             // Process extra rendering if needed.
@@ -520,7 +543,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         $('.wizard-header').remove();
         $('.wizard-body').remove();
         $('.wizard-buttons').remove();
-        $('.wizard-form > form').empty().html(wizardWrapperStart + "<div class='h3 wizard-heading'></div><div class='wizard-body'></div><div class='wizard-buttons row'></div>" + wizardWrapperEnd);
+        $('.wizard-form > form').empty().html(wizardWrapperStart + "<div class='wizard-heading'></div><div class='wizard-body'></div><div class='wizard-buttons row'></div>" + wizardWrapperEnd);
 
 
         heading["FieldType"] = "@nameof(WizardFieldTypes.HEADING)";
@@ -589,18 +612,30 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
 
         t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
-        if (fieldData["onload"]) {
-	        var fn = new Function('data', 'lib', 'form', 'try{ ' + fieldData['onload'] + '; } catch(ex) { if(console){console.log(ex)} }');
-	        window.setTimeout(function() { fn(data, t, formBody); }, 1);
+
+        if (typeof(t.fnOnWizardOnLoad) === 'function') {
+            t.fnOnWizardOnLoad(data, formBody);
         }
 
         var obj = $('.wizard-form');
+        if (data["WrapperClass"])
+	        obj.addClass(data["WrapperClass"]);
+
         if (typeof(t.onRenderWizard) === 'function')
 	        obj = t.onRenderWizard(obj, data, t.wizardParent);
 
 
 
         return obj;
+    }
+
+    function fnOnWizardOnLoad(data, formBody) {
+	    var fieldData = data["FieldData"] || {};
+
+	    if (fieldData["onload"]) {
+		    var fn = new Function('data', 'lib', 'form', 'try{ ' + fieldData['onload'] + '; } catch(ex) { if(console){console.log(ex)} }');
+		    window.setTimeout(function() { fn(data, t, formBody); }, 1);
+	    }
     }
 
     function renderValidFormFields(validFields) {
