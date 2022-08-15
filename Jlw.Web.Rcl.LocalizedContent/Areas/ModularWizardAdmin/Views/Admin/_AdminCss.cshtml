@@ -13,8 +13,31 @@
         position: relative;
     }
 
-    div[data-field-type=select] option + option {
-	    display: none;
+    div.form-select[size="2"],
+    div.form-select[size="3"],
+    div.form-select[size="4"],
+    div.form-select[size="5"],
+    div.form-select[size="6"],
+    div.form-select[size="7"],
+    div.form-select[size="8"],
+    div.form-select[size="9"],
+    div.form-select[size="10"]{
+	    overflow-y: scroll;
+    }
+
+    div.form-select[size="1"] option:nth-child(n+2),
+    div.form-select[size="2"] option:nth-child(n+3),
+    div.form-select[size="3"] option:nth-child(n+4),
+    div.form-select[size="4"] option:nth-child(n+5),
+    div.form-select[size="5"] option:nth-child(n+6),
+    div.form-select[size="6"] option:nth-child(n+7),
+    div.form-select[size="7"] option:nth-child(n+8),
+    div.form-select[size="8"] option:nth-child(n+9),
+    div.form-select[size="9"] option:nth-child(n+10),
+    div.form-select[size="10"] option:nth-child(n+11),
+    div[data-field-type=select]:not([multiple]):not([size]) option:nth-child(n+2),
+    div.form-select:not([multiple]):not([size]) option:nth-child(n+2) {
+        display: none;
     }
 
     div[data-field-type=input][type=password]::before

@@ -26,6 +26,10 @@
         font-size: small;
     }
 
+    #controllist > div, #componentlist > div {
+        flex: unset;
+    }
+
     .sortable-delete {
         display: none;
     }
@@ -433,9 +437,7 @@
 				// Event is a Sortable.js custom event
 				var obj = $(event.item);
 				obj.addClass('sortable-delete');
-                //window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': obj.data('tree-id'), 'sourceObj': obj });
 				window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': obj.data('tree-id') });
-				//onRemoveFancyTreeNode(obj.data('tree-id'), obj);
 				event.returnValue = false;
 				return false;
 			} else {
@@ -446,7 +448,6 @@
 					nodeData = JSON.parse(jsonData);
 					if (nodeData && nodeData.key) {
 						window.postMessage({ 'action': 'deleteTreeNode', 'nodeId': nodeData.key });
-						//onRemoveFancyTreeNode(nodeData.key);
 					}
 				} catch (e) {
 					return;
@@ -478,26 +479,22 @@
             var data = JSON.parse(JSON.stringify(source.data('wizardData')|| {}));
             var count = Date.now().valueOf();
 
-            data['WrapperClass'] = 'col';
             data['FieldKey'] += (isComponent) ? '':count;
             data['Label'] += (isComponent) ? '': ' ' + count;
             data['DefaultLabel'] = data['Label'];
             data['GroupKey'] = $('#slctWizard').val();
             data['ParentKey'] = target.closest('[data-field-key]').attr('data-field-key');
             data['Order'] = event.newIndex;
-            var obj = libControls.renderWizardFormField(data, target);
-            obj.insertAfter(source);
-            source.remove();
 
             if (!data["ParentKey"])
                 return;
 
-            //t.showPleaseWait();
+			// No need to render/redraw field, will redraw when AJAX finishes.
+
             window.postMessage({ 'action':'pleaseWait', 'show': true });
             t.post('@apiUrl/SaveField', data)
 	            .done(function(data) {
 		            var nodes = [];
-		            obj.attr('data-tree-id', data['Id']);
 		            target.children().each(function(i, elem) {
 			            var id = $(elem).data('tree-id');
 			            if (id) {
@@ -508,7 +505,6 @@
 		            window.postMessage(msg);
 	            })
 	            .always(function(data) {
-		            //t.hidePleaseWait();
 					window.postMessage({ 'action':'pleaseWait', 'show': false });
 	            });
         }
