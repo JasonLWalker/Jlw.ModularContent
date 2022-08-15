@@ -58,53 +58,53 @@ public abstract class ApiController : WizardApiBaseController
         // Add Controls
         DefaultWizardControls.AddRange(new[] {
             // Add Button
-            new WizardField(new { Label = "Button", FieldKey = "Button_", FieldType = "BUTTON", FieldClass = "btn btn-primary btn-sm w-100", WrapperClass = "col-12", FieldData = @"{'type':'button'}" }),
+            new WizardField(new { Label = "Button", FieldKey = "Button_", FieldType = "BUTTON", FieldClass = "btn btn-primary btn-sm w-100", WrapperClass = "col", FieldData = @"{'type':'button'}" }),
             // Add Embedded Form
-            new WizardField(new { Label = "Embeded Form", FieldKey = "EmbedForm_", FieldType = "EMBED", FieldClass = "", WrapperClass = "col-12", FieldData = "{'embedWizard': [], 'disabled':1,'useCardLayout': 1}" }),
+            new WizardField(new { Label = "Embeded Screen Form", FieldKey = "EmbedForm_", FieldType = "EMBED", FieldClass = "", WrapperClass = "col mb-3", FieldData = "{'embedScreenForm': [], 'disabled':1,'useCardLayout': 1}" }),
             // Add Form
-            new WizardField(new { Label = "Form", FieldKey = "Form_", FieldType = "FORM", FieldClass = "row mx-n2", WrapperClass = "col-12", FieldData = "{'useCardLayout': 1}" }),
+            new WizardField(new { Label = "Form", FieldKey = "Form_", FieldType = "FORM", FieldClass = "row", WrapperClass = "col mb-3", FieldData = "{'useCardLayout': 1}" }),
             // Add HTML Block
-            new WizardField(new { Label = "HTML Text Block. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", FieldKey = "HtmlBlock_", FieldType = "HTML", FieldClass = "", WrapperClass = "col-12", FieldData = "{}" }),
+            new WizardField(new { Label = "HTML Text Block. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", FieldKey = "HtmlBlock_", FieldType = "HTML", FieldClass = "", WrapperClass = "col", FieldData = "{}" }),
             // Add Separator
-            new WizardField(new { Label = "Separator", FieldKey = "Separator_", FieldType = "SEPARATOR", FieldClass = "", WrapperClass = "col-12", FieldData = "{}" }),
+            new WizardField(new { Label = "Separator", FieldKey = "Separator_", FieldType = "SEPARATOR", FieldClass = "", WrapperClass = "col", FieldData = "{}" }),
             // Add Separator
-            new WizardField(new { Label = "Form Drop-down", FieldKey = "DropDownSelect_", FieldType = "SELECT", FieldClass = "form-select form-select-sm", WrapperClass = "col-12", FieldData = "{'values': {}}" }),
+            new WizardField(new { Label = "Form Drop-down", FieldKey = "DropDownSelect_", FieldType = "SELECT", FieldClass = "form-select form-select-sm", WrapperClass = "col", FieldData = "{'values': {}}" }),
             // Add Textarea
-            new WizardField(new { Label = "Multi-line Text Input", FieldKey = "TextArea_", FieldType = "TEXTAREA", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'rows': 3}" }),
+            new WizardField(new { Label = "Multi-line Text Input", FieldKey = "TextArea_", FieldType = "TEXTAREA", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'rows': 3}" }),
             // Add Date Input
-            new WizardField(new { Label = "Date Input", FieldKey = "DateInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'date'}" }),
+            new WizardField(new { Label = "Date Input", FieldKey = "DateInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'date'}" }),
             // Add Date/Time Input
-            new WizardField(new { Label = "Date/Time Input", FieldKey = "DateTimeInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'datetime-local'}" }),
+            new WizardField(new { Label = "Date/Time Input", FieldKey = "DateTimeInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'datetime-local'}" }),
             // Add Month Input
-            new WizardField(new { Label = "Month Input", FieldKey = "MonthInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'month'}" }),
+            new WizardField(new { Label = "Month Input", FieldKey = "MonthInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "co", FieldData = "{'type': 'month'}" }),
             // Add Time Input
-            new WizardField(new { Label = "Time Input", FieldKey = "TimeInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'time'}" }),
+            new WizardField(new { Label = "Time Input", FieldKey = "TimeInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'time'}" }),
             // Add Week Input
-            new WizardField(new { Label = "Week Input", FieldKey = "WeekInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'week'}" }),
+            new WizardField(new { Label = "Week Input", FieldKey = "WeekInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'week'}" }),
             // Add Color Input
-            new WizardField(new { Label = "Color Input", FieldKey = "ColorInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'color', defaultValue: '#0000FF'}" }),
+            new WizardField(new { Label = "Color Input", FieldKey = "ColorInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'color', defaultValue: '#0000FF'}" }),
             // Add Checkbox Input
-            new WizardField(new { Label = "Checkbox Input", FieldKey = "CheckboxInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col-12", FieldData = "{'type': 'checkbox'}" }),
+            new WizardField(new { Label = "Checkbox Input", FieldKey = "CheckboxInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col", FieldData = "{'type': 'checkbox'}" }),
             // Add Radio Button Input
-            new WizardField(new { Label = "Radio Button Input", FieldKey = "RadioInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col-12", FieldData = "{'type': 'radio','values': { }}" }),
+            new WizardField(new { Label = "Radio Button Input", FieldKey = "RadioInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col", FieldData = "{'type': 'radio','values': { }}" }),
             // Add Checkbox Input
-            new WizardField(new { Label = "Hidden Input", FieldKey = "HiddenInput_", FieldType = "INPUT", FieldClass = "", WrapperClass = "col-12", FieldData = "{'type': 'hidden'}" }),
+            new WizardField(new { Label = "Hidden Input", FieldKey = "HiddenInput_", FieldType = "INPUT", FieldClass = "", WrapperClass = "col", FieldData = "{'type': 'hidden'}" }),
             // Add Slider Input
-            new WizardField(new { Label = "Slider Input", FieldKey = "SliderInput_", FieldType = "INPUT", FieldClass = "form-range", WrapperClass = "col-12", FieldData = "{'type': 'range'}" }),
+            new WizardField(new { Label = "Slider Input", FieldKey = "SliderInput_", FieldType = "INPUT", FieldClass = "form-range", WrapperClass = "col", FieldData = "{'type': 'range'}" }),
             // Add Text Input
-            new WizardField(new { Label = "Text Input", FieldKey = "TextInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'text', 'maxlength': 40}" }),
+            new WizardField(new { Label = "Text Input", FieldKey = "TextInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'text', 'maxlength': 40}" }),
             // Add Password Input
-            new WizardField(new { Label = "Password Input", FieldKey = "PasswordInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'password', 'maxlength': 40}" }),
+            new WizardField(new { Label = "Password Input", FieldKey = "PasswordInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'password', 'maxlength': 40}" }),
             // Add Phone Input
-            new WizardField(new { Label = "Phone Input", FieldKey = "TextInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'phone', 'maxlength': 20}" }),
+            new WizardField(new { Label = "Phone Input", FieldKey = "TextInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'phone', 'maxlength': 20}" }),
             // Add URL Input
-            new WizardField(new { Label = "URL Input", FieldKey = "UrlInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'url', 'maxlength': 100}" }),
+            new WizardField(new { Label = "URL Input", FieldKey = "UrlInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'url', 'maxlength': 100}" }),
             // Add Email Input
-            new WizardField(new { Label = "Email Input", FieldKey = "EmailInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'email', 'maxlength': 100}" }),
+            new WizardField(new { Label = "Email Input", FieldKey = "EmailInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'email', 'maxlength': 100}" }),
             // Add Number Input
-            new WizardField(new { Label = "Number Input", FieldKey = "NumberInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'number', 'maxlength': 11}" }),
+            new WizardField(new { Label = "Number Input", FieldKey = "NumberInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'number', 'maxlength': 11}" }),
             // Add Search Input
-            new WizardField(new { Label = "Search Input", FieldKey = "SearchInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col-12", FieldData = "{'type': 'search', 'maxlength': 40}" }),
+            new WizardField(new { Label = "Search Input", FieldKey = "SearchInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'search', 'maxlength': 40}" }),
         });
     }
 
@@ -264,7 +264,7 @@ public abstract class ApiController : WizardApiBaseController
         o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
         o.FieldType = "SCREEN";
         o.FieldData ??= "{}";
-        o.FieldClass ??= "";
+        o.FieldClass ??= "row g-3 mb-3";
         o.DefaultLabel ??= "";
         o.WrapperClass ??= "";
         o.WrapperHtmlEnd ??= "";
@@ -291,10 +291,12 @@ public abstract class ApiController : WizardApiBaseController
                 o.FieldType = "HEADING";
                 o.FieldKey = "Heading";
                 o.ParentKey = oResult.FieldKey;
+                o.WrapperClass = "col-12 h3";
                 o.Order = 1;
                 _fieldRepository.SaveRecord(o);
                 o.FieldType = "HTML";
                 o.FieldKey = "Body";
+                o.WrapperClass = "col-12";
                 o.ParentKey = oResult.FieldKey;
                 o.Order = 2;
                 _fieldRepository.SaveRecord(o);
@@ -702,12 +704,12 @@ public abstract class ApiController : WizardApiBaseController
                     o.GroupKey,
                     o.FieldKey,
                     o.FieldType,
-                    FieldData = "{useCardLayout:1}",
-                    FieldClass = "row mx-n2",
+                    o.FieldData,// = "{useCardLayout:1}",
+                    o.FieldClass,
                     o.ParentKey,
                     o.DefaultLabel,
                     o.Label,
-                    WrapperClass = "col card card-border mb-3 px-0",
+                    o.WrapperClass,
                     o.WrapperHtmlStart,
                     o.WrapperHtmlEnd,
                     o.AuditChangeType,
