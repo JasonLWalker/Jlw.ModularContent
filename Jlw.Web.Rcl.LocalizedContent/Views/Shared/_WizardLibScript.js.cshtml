@@ -55,21 +55,23 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnClickNav(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.currentTarget);
         var section = btn.data('section');
         var step = btn.data('step');
         var wizard = btn.data('wizard');
         var screen = btn.data('screen');
         var fn = btn.data('fnclick');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+	        var ret = t[fn](evt);
+	        if (ret === false)
+		        return false;
         }
         t.navTo(screen, wizard, section, step);
         return false;
     }
 
     function fnOnClickBack(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.currentTarget);
         var section = lastSection;
         var step = lastStep;
         t.navToStep(section, step);
@@ -77,26 +79,28 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnClickLink(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.currentTarget);
         var url = btn.data('url');
         window.location = url.replace('~/', t.urlRoot);
         return false;
     }
 
     function fnOnClickSave(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.currentTarget);
         var section = btn.data('section');
         var step = btn.data('step');
         var fn = btn.data('fnclick');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+	        var ret = t[fn](evt);
+	        if (ret === false)
+		        return false;
         }
         t.saveStep(section, step);
         return false;
     }
 
     function fnOnClickAction(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.currentTarget);
         switch (btn.data("type")) {
         case 'nav':
             return t.fnOnClickNav(evt);
@@ -109,7 +113,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         default:
             var fn = btn.data('fnclick');
             if (fn && typeof t[fn] == 'function') {
-                t[fn](evt);
+                return t[fn](evt);
             }
             break;
         }
@@ -118,10 +122,10 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnChange(evt) {
-        var o = $(evt.target);
+        var o = $(evt.currentTarget);
         var fn = o.data('fnChange');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+            return t[fn](evt);
         }
         return false;
     }
