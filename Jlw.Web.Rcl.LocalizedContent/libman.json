@@ -51,12 +51,12 @@
     },
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwutility@0.0.34",
+      "library": "@jasonlwalker/jlwutility@1.1.5",
       "destination": "libman/jlwutility/"
     },
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwappbuilder@0.0.34",
+      "library": "@jasonlwalker/jlwappbuilder@1.0.19",
       "destination": "libman/jlwappbuilder/"
     },
     {
