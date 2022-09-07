@@ -57,8 +57,8 @@
 ## Front-end Dependencies
 |Dependency|Version|License|Purpose|
 |-----|-----|-----|-----|
-|@jasonlwalker/jlwappbuilder@1.0.20||||
-|@jasonlwalker/jlwutility@1.1.6||||
+|@jasonlwalker/jlwappbuilder@1.0.22||||
+|@jasonlwalker/jlwutility@1.1.7||||
 |[bootbox.js](http://bootboxjs.com)|[5.5.3](https://github.com/makeusabrew/bootbox.git)|MIT||
 |[bootswatch](http://bootswatch.com/)|[5.1.3](https://github.com/thomaspark/bootswatch.git)|MIT||
 |[datatables.net](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables.git)|MIT||
