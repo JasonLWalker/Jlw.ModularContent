@@ -10,7 +10,10 @@
         var oRightToolbar = $('#rightToolbar');
         var oFieldClass = $('input[name=FieldClass]', oRightToolbar);
         var oFieldData = $('input[name=FieldData]', oRightToolbar);
+        
         t.oRightToolbar = oRightToolbar;
+        t.dtErrorMessages = {};
+
 
         function initMemberRegex() {
 	        // Regular expressions
@@ -80,6 +83,76 @@
 
 	        $('.btn-field-data').on('click', onClickBtnFieldData);
 	        $('#btn-update-language').on('click', onClickBtnLanguage);
+
+	        t.libErrorMessages = new jlwLibErrorMessages('table.jlw-datatable.jlw-datatable-fieldmessagetext', t.urlApiRoot + '/ErrorMessage/', $);
+        }
+
+
+        function jlwLibErrorMessages($target, urlRoot, $) {
+	        if (!$) $ = window.jQuery;
+
+	        $.fn.dataTable.ext.errMode = 'none';
+	        var lib = new libJlwAppBuilder(urlRoot, $target);
+            lib.frmEdit = $('#jlwEditFormErrorMessageText').html();
+
+
+            function fnOnAddRecord(fnOnShow) {
+                function fnShow(o, data) {
+	                var oFrm = $(o);
+	                $('input[name=GroupKey]', oFrm).val($('input[name=GroupKey]', t.oRightToolbar).val());
+	                $('input[name=FieldKey]', oFrm).val();
+	                $('select[name=Language]', oFrm).val('EN');
+                    $('input[name=ParentKey]', oFrm).val($('input[name=FieldKey]', t.oRightToolbar).val());
+
+	                if (typeof fnOnShow == 'function')
+		                fnOnShow(o, data);
+                }
+                return lib.onAddRecord(fnShow);
+            }
+
+	        function fnOnEditRecord(oBtn, fnOnShow) {
+		        function fnShow(o, data) {
+			        var oFrm = $(o);
+			        $('input[name=FieldKey]', oFrm).prop('readonly', true);
+			        $('select[name=Language]', oFrm).prop('disabled', true);
+			        if (typeof fnOnShow == 'function')
+				        fnOnShow(o, data);
+		        }
+
+		        return lib.onEditRecord(oBtn, fnShow);
+	        }
+
+	        function fnRenderErrorMessage(cell, type, row) { return '<small><b><em>' + row['Language'] + ' - '+ row['FieldKey'] + '</em></b><br />' + row['Text'] + '</small>'; }
+
+	        lib.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
+	        lib.addDtRowButton('', 'btn-delete-message', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', lib.onDeleteRecord);
+
+	        //function fnRenderButtons(cell, type, row) { return '<button  type="button" class="btn btn-sm btn-outline-secondary btn-delete-message d-block mx-auto my-1"><span class="fa fa-trash" title="Delete"></span></button>'; }
+
+
+	        //$('.btn-add-errormessage', t.oRightToolbar).off().on('click', fnOnAddErrorMessage);
+
+	        lib.fnPostDtAjaxData = function(dta) {
+		        dta['GroupKey'] = $('input[name=GroupKey]', t.oRightToolbar).val();
+		        dta['ParentKey'] = $('input[name=FieldKey]', t.oRightToolbar).val();
+	        }
+
+	        lib.addDtRenderer(fnRenderErrorMessage, [0]);
+	        lib.addDtRenderer(lib.dtRenderButtons, [2]);
+	        var dt = lib.initializeDataTable(lib.sDtSelector);
+
+	        dt.on('error.dt',
+			        function(e, settings, techNote, message) {
+				        if (console)
+					        console.log('An error has been reported by DataTables: ', message);
+			        })
+		        .on('xhr.dt', function ( e, settings, json, xhr ) {
+			        var data = xhr["responseJSON"];
+			        t.checkAjaxMessage(data);
+		        } );
+            lib.addDtFooterButton(' Add New Record', '.btn-add-errormessage', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
+	        $('.btn-add-errormessage', t.oRightToolbar).off('click').on('click', fnOnAddRecord);
+	        return lib;
         }
 
         function getParentBreakpoint(parent) {
@@ -89,7 +162,7 @@
         function loadProperties(fieldId) {
 	        t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
 		        .done(function(data) {
-			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
 			        var p = $('#propertylist');
 			        $('.form-group', p).addClass('d-none');
 			        $('input', p).val('');
@@ -169,20 +242,28 @@
 					        break;
 				        case 'INPUT':
 					        $('.input-card').removeClass('d-none');
+					        $('.error-message-card').removeClass('d-none');
 					        s = (fieldData['type'] || "").toUpperCase();
 					        $('select[name=InputType]').val(s);
 					        o = $('.field-type');
 					        $('.input-group-sm', o).addClass('input-group');
 					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
 					        break;
 				        case 'SELECT':
+					        $('.error-message-card').removeClass('d-none');
 					        s = (fieldData['type'] || "").toUpperCase();
 					        o = $('.select-type');
 					        o.removeClass('d-none');
 					        $('select', o).val(s);
 					        $('.input-group-sm', o).addClass('input-group');
 					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
                             break;
+						case 'TEXTAREA':
+					        $('.error-message-card').removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+					        break;
 			        }
 
                     if (['WIZARD', 'SCREEN', 'FORM', 'BODY', 'HEADING'].includes(fieldType)) {
@@ -203,7 +284,7 @@
 			        window.setTimeout(function() { o.removeClass('updating'); }, 10);
 		        })
 		        .fail(function() {
-			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
 		        });
         }
 
