@@ -25,6 +25,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 public abstract class ApiController : WizardApiBaseController
 {
     protected string _groupFilter = "";
+    protected string _errorMessageGroup = "";
     protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
     protected IWizardAdminSettings _settings;
     protected int nMaxTreeDepth = 10;
@@ -550,7 +551,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("Localization/DtList")]
-    public virtual object DtList([FromForm] LocalizedContentTextDataTablesInput o)
+    public virtual object LocalizationDtList([FromForm] LocalizedContentTextDataTablesInput o)
     {
         o.GroupFilter = _groupFilter;
         o.Language = null;
@@ -561,7 +562,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("Localization/Data")]
-    public virtual object Data(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationData(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
     {
         ILocalizedContentText oResult;
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
@@ -576,11 +577,11 @@ public abstract class ApiController : WizardApiBaseController
             return JToken.FromObject(new ApiExceptionMessage("An error has occurred", ex));
         }
 
-        return JToken.FromObject(oResult);
+        return JToken.FromObject(oResult ?? new object());
     }
 
     [HttpPost("Localization/Save")]
-    public virtual object Save(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationSave(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
     {
         var bResult = false;
         if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
@@ -605,7 +606,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("Localization/Delete")]
-    public virtual object Delete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationDelete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
     {
         var bResult = false;
 
@@ -629,6 +630,38 @@ public abstract class ApiController : WizardApiBaseController
 
         // Else 
         return JToken.FromObject(new ApiStatusMessage("Unable to delete record. Please check the data and try again.", "Error while deleting", ApiMessageType.Danger));
+    }
+
+    [HttpPost("ErrorMessage/DtList")]
+    public virtual object ErrorMessageDtList([FromForm] LocalizedContentTextDataTablesInput o)
+    {
+        o.GroupFilter = _groupFilter;
+        o.GroupKey = _errorMessageGroup;
+        o.Language = null;
+        if (!_unlockApi) return JToken.FromObject(new DataTablesOutput(o));
+
+        return JToken.FromObject(_languageRepository.GetDataTableList(o));
+    }
+
+    [HttpPost("ErrorMessage/Data")]
+    public virtual object ErrorMessageData(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    {
+        o.GroupKey = _errorMessageGroup;
+        return LocalizationData(o);
+    }
+
+    [HttpPost("ErrorMessage/Save")]
+    public virtual object ErrorMessageSave(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    {
+        o.GroupKey = _errorMessageGroup;
+        return LocalizationSave(o);
+    }
+
+    [HttpPost("ErrorMessage/Delete")]
+    public virtual object ErrorMessageDelete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    {
+        o.GroupKey = _errorMessageGroup;
+        return LocalizationDelete(o);
     }
 
 

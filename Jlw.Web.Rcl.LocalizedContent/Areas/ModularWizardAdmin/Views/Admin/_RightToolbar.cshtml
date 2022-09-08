@@ -641,6 +641,31 @@
                         </div>
                     </div>
 
+	                <div class="card border mb-2 error-message-card d-none">
+		                <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-bs-toggle="collapse" data-hidecaret="left" data-showcaret="down" role="button" data-bs-target="#collapseErrorMessages" aria-expanded="true" aria-controls="collapseErrorMessages">
+			                <small class="font-weight-bold">Error Messages</small>
+			                <span class="fa fa-caret-down fa-fw mt-1 float-end"></span>
+		                </div>
+		                <div class="collapse show" id="collapseErrorMessages">
+			                <div class="form-floating card-body p-2">
+				                <div class="form-floating">
+                                    <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-fieldmessagetext" data-server-side="true" data-defer-loading="0" data-searching='false' data-ordering='false' data-paging="false" data-info="false" data-language='{"zeroRecords":"No Messages defined"}' width="100%">
+						                <thead class="d-none">
+						                <tr>
+							                <td data-name="FieldKey">Field Key</td>
+							                <td data-name="Language" data-visible="false" class="d-none">Language</td>
+							                <td width="30" class="align-middle text-center"></td>
+						                </tr>
+						                </thead>
+					                </table>
+					                <div class="text-center">
+						                <button type="button" class="btn btn-sm btn-outline-primary btn-add-errormessage"><span class="fa fa-plus"></span> Add Error Message</button>
+					                </div>
+				                </div>
+			                </div>
+		                </div>
+	                </div>
+
                    
 
                 </div>
