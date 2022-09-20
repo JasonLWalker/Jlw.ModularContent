@@ -49,7 +49,7 @@
         </form>
     </div>
 </div>
-<script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
+<script src="@Url.Action("WizardLibScript", "WizardJs", new { Area = Model?.Area ?? ""})?_=@version"></script>
 @section Scripts {
     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
     <style>
