@@ -34,6 +34,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "Area", Public, Public);
             AddProperty(typeof(string), "AdminUrl", Public, Public);
             AddProperty(typeof(string), "ApiOverrideUrl", Public, Public);
+            AddProperty(typeof(string), "PreviewUrl", Public, Public);
+            AddProperty(typeof(string), "PreviewScreenUrl", Public, Public);
             AddProperty(typeof(string), "JsRoot", Public, Public);
             AddProperty(typeof(string), "ToolboxHeight", Public, Public);
             AddProperty(typeof(string), "HiddenFilterPrefix", Public, Public);
