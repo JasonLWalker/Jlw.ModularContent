@@ -24,6 +24,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
         [HttpGet]
         public override ActionResult Index()
         {
+            DefaultSettings.Area = "";
             var aBreadcrumb = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
