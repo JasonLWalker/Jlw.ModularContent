@@ -69,6 +69,8 @@ public class Program
             DefaultSettings.Area = "LocalizedContent";
             DefaultSettings.JsRoot = DefaultSettings.Area;
             DefaultSettings.ApiOverrideUrl = linkGenerator.GetPathByAction("Index", "OverrideModularWizardAdminApi", new { Area = "" });
+            DefaultSettings.PreviewUrl = linkGenerator.GetPathByAction("Preview", "OverrideModularWizardAdmin", new { Area = "" });
+            DefaultSettings.PreviewScreenUrl = linkGenerator.GetPathByAction("PreviewScreen", "OverrideModularWizardAdmin", new { Area = "" });
             DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
             DefaultSettings.ShowSideNav = true;
             //DefaultSettings.SideNavDefault = false;

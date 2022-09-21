@@ -45,6 +45,8 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             
             DefaultSettings.AdminUrl = settings.AdminUrl;
             DefaultSettings.ApiOverrideUrl = settings.ApiOverrideUrl;
+            DefaultSettings.PreviewUrl = settings.PreviewUrl;
+            DefaultSettings.PreviewScreenUrl = settings.PreviewScreenUrl;
 
         }
 
@@ -63,7 +65,6 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         {
             var settings = new WizardAdminSettings(DefaultSettings);
             settings.SideNav.Add(new WizardSideNavItem(new WizardContentField(new {Label = "Instructions", FieldType="SCREEN"})));
-
             return GetViewResult("Preview", settings);
         }
 
