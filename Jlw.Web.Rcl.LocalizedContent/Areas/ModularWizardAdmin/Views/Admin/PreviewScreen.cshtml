@@ -85,7 +85,7 @@
 
 
             function fnOnClickNav(evt) {
-	            var btn = $(evt.target);
+	            var btn = $(evt.delegateTarget);
 	            var section = btn.data('section');
 	            var step = btn.data('step');
 	            var wizard = "@(Model?.Wizard ?? "")";
