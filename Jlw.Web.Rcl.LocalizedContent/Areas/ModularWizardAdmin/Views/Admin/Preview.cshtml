@@ -23,7 +23,7 @@
                 @{
                     foreach (var item in sideNav)
                     {
-	                    <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+                            <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
                     }
                 }
                 @*
@@ -116,6 +116,11 @@
             outline: 1px dashed darkred;
         }
 
+        .embed-body .hover-outline {
+	        outline: none !important;
+	        cursor: default;
+        }
+
 
         [id^='jlwContainer-'].active, [id^='jlwElement-'].active {
             outline: 1px dotted red;
@@ -194,7 +199,7 @@
             function onRenderWizardFormField(obj, data, parent) {
                 var o = $(obj);
                 o.data('wizard-data', data);
-
+                
                 var cntrl = $('input, button, textarea, select', o);
                 cntrl.attr('data-field-type', (data['FieldType']||"").toLowerCase());
                 $('input, button, textarea, select', o).replaceTagName('div');
@@ -270,6 +275,8 @@
 
             function fnOnClickElement(evt) {
                 var obj = $(evt.target).closest("[id^='jlwContainer-'],[id^='jlwElement-']");
+                if ($(evt.target).closest(".embed-body")[0])
+					return;
 
                 if (obj.is("[id^='jlwContainer-'],[id^='jlwElement-']")) {
                     $("[id ^= 'jlwContainer-'], [id ^= 'jlwElement-']").removeClass('active');
