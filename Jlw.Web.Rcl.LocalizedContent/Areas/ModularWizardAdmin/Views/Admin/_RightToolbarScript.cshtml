@@ -289,7 +289,7 @@
         }
 
         function onChangeColBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -306,7 +306,7 @@
         }
 
         function onChangeMarginBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -357,7 +357,7 @@
         }
 
         function onChangeMarginSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var m = $('input[name=MarginSize]', parent);
 	        var coll;
@@ -381,7 +381,7 @@
         }
 
         function onChangePaddingBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -433,7 +433,7 @@
         }
 
         function onChangePaddingSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var p = $('input[name=PaddingSize]', parent);
 	        var coll;
@@ -457,7 +457,7 @@
         }
 
         function onChangeColSpanSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var data = parseColClass(updateClass.val());
@@ -473,7 +473,7 @@
         }
 
         function onChangeSlider(evt) {
-	        var o = $(evt.target);
+	        var o = $(evt.delegateTarget);
 	        var s = o.val() || '0';
 	        var data = o.data('display-values') || [];
 	        s = data[s] === undefined ? s : data[s];
@@ -738,7 +738,7 @@
 
         function onClickBtnLanguage(evt) {
             var content = $('#jlw-dtlist-localizedcontenttext').html() || '<div></div>';
-            var data = t.serializeFormToJson($(evt.currentTarget).closest('.card-body'));
+            var data = t.serializeFormToJson($(evt.delegateTarget).closest('.card-body'));
             function fnOnClose(result) { window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']}); }
             var dialog = bootbox.dialog({
                 title: 'Label / Content Localization',
@@ -1140,7 +1140,7 @@
             if (t.oRightToolbar.hasClass('updating')) 
                 return;
 
-            var o = $(evt.target);
+            var o = $(evt.delegateTarget);
 
             t.oRightToolbar.addClass('updating');
 
