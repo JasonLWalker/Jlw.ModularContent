@@ -8,7 +8,7 @@
 
     string jsRoot = "LocalizedContent";
 }
-<script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
+<script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
 <script>
     var bPreviewFrameLoaded = false;
     window.addEventListener('message', function(event) {
@@ -39,47 +39,53 @@
     });
 
 </script>
-<div id="wizard-toolbox" class="flex-fill d-flex justify-content-start" style="position: relative; left: calc(-1 * (100vw - 100%)/2); width: 100vw;">
+<div id="wizard-toolbox" class="flex-fill d-flex justify-content-start">
     <div class="d-flex flex-row w-100 p-0 m-0">
         <div class="row w-100 p-0 m-0">
             <div class="col-12">
                 <div class="row h-100">
                     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_LeftToolbar.cshtml").Result
-                    <div class="col p-0 position-relative" style="max-width:calc(100vw - 500px)">
+                    <div class="col p-0 position-relative" style="max-width:calc(100vw - 520px)">
                         <div id="preview-frame-wrapper" class="">
                             <div class="m-0 p-0 border w-100 h-100">
-                                <iframe id="preview-frame" src="@Url.Action("Preview")" class="" data-preview-initialized="0"></iframe>
+                                <iframe id="preview-frame" src="@Model?.PreviewUrl" class="" data-preview-initialized="0"></iframe>
                             </div>
                         </div>
                         <div id="preview-statusbar" class="bg-light border text-left">
-                            <div class="float-start">
-                                &nbsp;<small><span class="resolution-status"></span></small>
-                            </div>
-                            <div class="btn-group btn-group-sm float-end p-1" role="group" aria-label="Screen Size">
-                                <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
-                                <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
+	                        <div class="float-start">
+		                        &nbsp;<small><span class="resolution-status"></span></small>
+	                        </div>
+	                        <div class="float-end p-1">
+		                        <button id="" class="btn btn-sm btn-label py-0 align-top" onclick="$('#wizard-toolbox').toggleClass('fullscreen');">
+			                        <span class="fa fa-fw fa-expand"></span>
+			                        <span class="fa fa-fw fa-compress"></span>
+		                        </button>
+	                        </div>
+	                        <div class="btn-group btn-group-sm float-end p-1" role="group" aria-label="Screen Size">
+		                        <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
+		                        <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-xxs" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />
-                                <label for="preview-size-xxs" class="btn btn-outline-primary p-0">&nbsp;XXS&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-xxs" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />
+		                        <label for="preview-size-xxs" class="btn btn-outline-primary p-0">&nbsp;XXS&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-xs" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />
-                                <label for="preview-size-xs" class="btn btn-outline-primary p-0">&nbsp;XS&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-xs" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />
+		                        <label for="preview-size-xs" class="btn btn-outline-primary p-0">&nbsp;XS&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-sm" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />
-                                <label for="preview-size-sm" class="btn btn-outline-primary p-0">&nbsp;SM&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-sm" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />
+		                        <label for="preview-size-sm" class="btn btn-outline-primary p-0">&nbsp;SM&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-md" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />
-                                <label for="preview-size-md" class="btn btn-outline-primary p-0">&nbsp;MD&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-md" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />
+		                        <label for="preview-size-md" class="btn btn-outline-primary p-0">&nbsp;MD&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-lg" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />
-                                <label for="preview-size-lg" class="btn btn-outline-primary p-0">&nbsp;LG&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-lg" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />
+		                        <label for="preview-size-lg" class="btn btn-outline-primary p-0">&nbsp;LG&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-xl" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />
-                                <label for="preview-size-xl" class="btn btn-outline-primary p-0">&nbsp;XL&nbsp;</label>
+		                        <input type="radio" class="btn-check" id="preview-size-xl" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />
+		                        <label for="preview-size-xl" class="btn btn-outline-primary p-0">&nbsp;XL&nbsp;</label>
 
-                                <input type="radio" class="btn-check" id="preview-size-xxl" name="preview-size" value="preview-xxl" data-breakpoint="-xxl" autocomplete="off" />
-                                <label for="preview-size-xxl" class="btn btn-outline-primary p-0">&nbsp;XXL&nbsp;</label>
-                            </div>
+		                        <input type="radio" class="btn-check" id="preview-size-xxl" name="preview-size" value="preview-xxl" data-breakpoint="-xxl" autocomplete="off" />
+		                        <label for="preview-size-xxl" class="btn btn-outline-primary p-0">&nbsp;XXL&nbsp;</label>
+	                        </div>
                         </div>
                     </div>
                     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_RightToolbar.cshtml").Result
@@ -90,285 +96,315 @@
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
 @section Scripts {
-    <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
-    <style>
-        html, body { height: 100% !important; }
+	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+	<style>
+		html, body { height: 100% !important; }
 
-        #wizard-toolbox {
-            height: @(string.IsNullOrWhiteSpace(Model?.ToolboxHeight) ? "90vh" : Model.ToolboxHeight );
-        }
+		#wizard-toolbox {
+			position: relative;
+			left: calc(-1 * (100vw - 100%) / 2);
+			width: 100vw;
+			height: @(string.IsNullOrWhiteSpace(Model?.ToolboxHeight) ? "90vh" : Model.ToolboxHeight);
+			padding: 10px 10px 0 10px;
+		}
 
-        .w-70 { width: 70% !important; }
-        .w-20 { width: 20% !important; }
+		#wizard-toolbox.fullscreen {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			background: #fff;
+			padding: .5rem;
+		}
 
-        #deleteDropZone {
-            outline: 2px dashed #bbbbbb;
-        }
+		#wizard-toolbox #preview-statusbar .fa-expand {
+			display: inline;
+		}
 
-        .switch-options {
-            margin: 0 0.5em;
-            padding: 0 0.75em;
-            height: 3.5em;
-        }
+		#wizard-toolbox.fullscreen #preview-statusbar .fa-expand {
+			display: none;
+		}
 
-        .dad-drop-zone {
-            background: #fff;
-            height: 3em;
-            margin: 0.5em;
-            padding: 0.75em;
-        }
+		#wizard-toolbox #preview-statusbar .fa-compress {
+			display: none;
+		}
 
-        #preview-frame-wrapper {
-            max-width: calc(100% - 20px);
-            max-height: calc(100% - 40px);
-            overflow: auto;
-            height: 100%;
-            width: 100%;
-            margin: 0 auto;
-        }
+		#wizard-toolbox.fullscreen #preview-statusbar .fa-compress {
+			display: inline;
+		}
 
-        #preview-frame {
-            width: 100%;
-            height: 100%;
-            height: calc(100% - 6px);
-            border: 0 !important;
-            margin: 0;
-        }
+		.w-70 { width: 70% !important; }
+		.w-20 { width: 20% !important; }
 
-        #preview-statusbar {
-            bottom: 0;
-            position: absolute;
-            width: calc(100% - 20px);
-            margin-left: 10px;
-        }
+		#deleteDropZone {
+			outline: 2px dashed #bbbbbb;
+		}
 
-        #preview-frame-wrapper.preview-xxs { width: 322px !important; }
-        #preview-frame-wrapper.preview-xxs #preview-frame { width: 320px !important; }
+		.switch-options {
+			margin: 0 0.5em;
+			padding: 0 0.75em;
+			height: 3.5em;
+		}
 
-        #preview-frame-wrapper.preview-xs { max-width: 482px !important; }
-        #preview-frame-wrapper.preview-xs #preview-frame {max-width: 480px; min-width: 320px !important;}
+		.dad-drop-zone {
+			background: #fff;
+			height: 3em;
+			margin: 0.5em;
+			padding: 0.75em;
+		}
 
-        #preview-frame-wrapper.preview-sm { width: 578px !important; }
-        #preview-frame-wrapper.preview-sm #preview-frame { min-width: 576px !important; }
+		#preview-frame-wrapper {
+			max-width: calc(100% - 20px);
+			max-height: calc(100% - 40px);
+			overflow: auto;
+			height: 100%;
+			width: 100%;
+			margin: 0 auto;
+		}
 
-        #preview-frame-wrapper.preview-md { width: 770px !important; }
-        #preview-frame-wrapper.preview-md #preview-frame { min-width: 768px !important; }
+		#preview-frame {
+			width: 100%;
+			height: 100%;
+			height: calc(100% - 6px);
+			border: 0 !important;
+			margin: 0;
+		}
 
-        #preview-frame-wrapper.preview-lg { width: 994px !important; }
-        #preview-frame-wrapper.preview-lg #preview-frame { min-width: 992px !important; }
+		#preview-statusbar {
+			bottom: 0;
+			position: absolute;
+			width: calc(100% - 20px);
+			margin-left: 10px;
+		}
 
-        #preview-frame-wrapper.preview-xl { width: 1202px !important; }
-        #preview-frame-wrapper.preview-xl #preview-frame { min-width: 1200px !important; }
+		#preview-frame-wrapper.preview-xxs { width: 322px !important; }
+		#preview-frame-wrapper.preview-xxs #preview-frame { width: 320px !important; }
 
-        #preview-frame-wrapper.preview-xxl { width: 1402px !important; }
-        #preview-frame-wrapper.preview-xxl #preview-frame { min-width: 1400px !important; }
+		#preview-frame-wrapper.preview-xs { max-width: 482px !important; }
+		#preview-frame-wrapper.preview-xs #preview-frame {max-width: 480px; min-width: 320px !important;}
+
+		#preview-frame-wrapper.preview-sm { width: 578px !important; }
+		#preview-frame-wrapper.preview-sm #preview-frame { min-width: 576px !important; }
+
+		#preview-frame-wrapper.preview-md { width: 770px !important; }
+		#preview-frame-wrapper.preview-md #preview-frame { min-width: 768px !important; }
+
+		#preview-frame-wrapper.preview-lg { width: 994px !important; }
+		#preview-frame-wrapper.preview-lg #preview-frame { min-width: 992px !important; }
+
+		#preview-frame-wrapper.preview-xl { width: 1202px !important; }
+		#preview-frame-wrapper.preview-xl #preview-frame { min-width: 1200px !important; }
+
+		#preview-frame-wrapper.preview-xxl { width: 1402px !important; }
+		#preview-frame-wrapper.preview-xxl #preview-frame { min-width: 1400px !important; }
 
 
-        .left-toolbar .nav-link, .right-toolbar .nav-link {
-            border-color: #dee2e6;
-        }
+		.left-toolbar .nav-link, .right-toolbar .nav-link {
+			border-color: #dee2e6;
+		}
 
 
-        .left-toolbar .nav-link.active, .right-toolbar .nav-link.active {
-            background-color: #f8f9fa !important;
-            border-color: #dee2e6 #dee2e6 #f8f9fa;
-        }
+		.left-toolbar .nav-link.active, .right-toolbar .nav-link.active {
+			background-color: #f8f9fa !important;
+			border-color: #dee2e6 #dee2e6 #f8f9fa;
+		}
 
-        .left-toolbar, .right-toolbar {
-            display: none;
-        }
+		.left-toolbar, .right-toolbar {
+			display: none;
+		}
 
-        .left-toolbar.open, .right-toolbar.open {
-            display: flex;
-            max-width: 250px;
-            flex: 0 0 250px;
-        }
+		.left-toolbar.open, .right-toolbar.open {
+			display: flex;
+			max-width: 250px;
+			flex: 0 0 250px;
+		}
 
-        .close {
-            border: none;
-            background: transparent;
-        }
+		.close {
+			border: none;
+			background: transparent;
+		}
 
-        .right-toolbar .form-floating>.form-control-sm+label, .right-toolbar .form-floating>.form-select-sm+label {
-            padding: 0.5rem;
-        }
+		.right-toolbar .form-floating > .form-control-sm + label, .right-toolbar .form-floating > .form-select-sm + label {
+			padding: 0.5rem;
+		}
 
-        .right-toolbar .form-floating>.form-control-sm, .right-toolbar .form-floating>.form-select-sm {
-	        padding: 0.25rem 0.5rem;
-            height: calc(2.5rem + 2px);
-            line-height: 3;
-        }
+		.right-toolbar .form-floating > .form-control-sm, .right-toolbar .form-floating > .form-select-sm {
+			padding: 0.25rem 0.5rem;
+			height: calc(2.5rem + 2px);
+			line-height: 3;
+		}
 
-        .right-toolbar .form-floating>.form-control:focus, .right-toolbar .form-floating>.form-control:not(:placeholder-shown) {
-            padding-top: 1rem;
-            padding-bottom: 0.425rem;
-        }
+		.right-toolbar .form-floating > .form-control:focus, .right-toolbar .form-floating > .form-control:not(:placeholder-shown) {
+			padding-top: 1rem;
+			padding-bottom: 0.425rem;
+		}
 
-        .right-toolbar .form-floating > .dropdown {
-	        padding: 0;
-        }
+		.right-toolbar .form-floating > .dropdown {
+			padding: 0;
+		}
 
-        .right-toolbar .form-floating > textarea.form-control-sm {
-            line-height: 1.2;
-        }
+		.right-toolbar .form-floating > textarea.form-control-sm {
+			line-height: 1.2;
+		}
 
-        .right-toolbar .form-floating > .dropdown > button {
-	        padding: 1rem 0.5rem 0.1rem;
-	        text-align: left;
-	        font-size: revert;
-	        margin-top: -0.3rem;
-        }
+		.right-toolbar .form-floating > .dropdown > button {
+			padding: 1rem 0.5rem 0.1rem;
+			text-align: left;
+			font-size: revert;
+			margin-top: -0.3rem;
+		}
 
-        ul.fancytree-container {
-            border: 1px solid gray;
-            width: 100%;
-            overflow: hidden;
-            /* The expand animations result in ugly focus outline artefacts, so hide those. */
-            outline: 0;
-        }
-        /* Display top level nodes as accordion header. */
-        ul.fancytree-container > li > .fancytree-node span.fancytree-title {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 4px;
-            margin: 0;
-            background-color: #ddd;
-            border: 1px solid #bbb;
-            font-weight: 550;
-        }
-        /* Hide  expanders for top-level nodes */
-        ul.fancytree-container > li > .fancytree-node .fancytree-expander {
-            display: none;
-        }
-        /* Don't indent level-2 nodes */
-        ul.fancytree-container > li > ul {
-            padding-left: 0;
-        }
+		ul.fancytree-container {
+			border: 1px solid gray;
+			width: 100%;
+			overflow: hidden;
+			/* The expand animations result in ugly focus outline artefacts, so hide those. */
+			outline: 0;
+		}
+		/* Display top level nodes as accordion header. */
+		ul.fancytree-container > li > .fancytree-node span.fancytree-title {
+			box-sizing: border-box;
+			width: 100%;
+			padding: 4px;
+			margin: 0;
+			background-color: #ddd;
+			border: 1px solid #bbb;
+			font-weight: 550;
+		}
+		/* Hide  expanders for top-level nodes */
+		ul.fancytree-container > li > .fancytree-node .fancytree-expander {
+			display: none;
+		}
+		/* Don't indent level-2 nodes */
+		ul.fancytree-container > li > ul {
+			padding-left: 0;
+		}
+	</style>
+	<style>
+		.text-warning-hover:hover {
+			color: #ffc107 !important;
+		}
+
+		.text-danger-hover:hover {
+			color: #dc3545 !important;
+		}
+
+		.text-primary-hover:hover {
+			color: #007bff !important;
+		}
+
+		.text-dark-hover:hover {
+			color: #343a40 !important;
+		}
+
+		.text-info-hover:hover {
+			color: #17a2b8 !important;
+		}
+
+		.text-success-hover:hover {
+			color: #28a745 !important;
+		}
+
+		.text-light-hover:hover {
+			color: #f8f9fa !important;
+		}
+	</style>
+	<style>
+		.jlw-editform-localizedcontenttext .tox-tinymce {
+			height: 80vh !important;
+			height: calc(80vh - 200px) !important;
+		}
+
+		pre.highlighting *, code.highlighting-content *, textarea.editing * {
+			font-family: monospace !important;
+		}
+
+		textarea.editing, pre.highlighting {
+			/*border: none !important;*/
+			margin: 0;
+			padding: .5rem .8rem !important;
+			width: inherit;
+			height: inherit;
+		}
+
+		textarea.editing, pre.highlighting, pre.highlighting * {
+			/* Also add text styles to highlighing tokens */
+			font-size: 13pt !important;
+			font-family: monospace !important;
+			line-height: 18pt !important;
+		}
+
+
+		textarea.editing, pre.highlighting {
+			/* In the same place */
+			position: absolute !important;
+			top: 0;
+			left: 0;
+		}
+
+
+		/* Move the textarea in front of the result */
+
+		textarea.editing {
+			z-index: 1;
+		}
+
+		pre.highlighting {
+			z-index: 0;
+		}
+
+		/* Make textarea almost completely transparent */
+		textarea.editing {
+			color: transparent !important;
+			background: transparent !important;
+			caret-color: black; /* Or choose your favourite color */
+		}
+
+		/* Can be scrolled */
+		textarea.editing, pre.highlighting {
+			overflow: auto;
+			white-space: nowrap; /* Allows textarea to scroll horizontally */
+		}
+
+		/* No resize on textarea */
+		textarea.editing {
+			resize: none;
+			-moz-tab-size: 3;
+			-o-tab-size: 3;
+			tab-size: 3;
+		}
+
+		/* Syntax Highlighting from prism.js starts below, partly modified: */
+		code[class*="language-"],
+		pre[class*="language-"] {
+			text-align: left;
+			white-space: pre;
+			word-spacing: normal;
+			word-break: normal;
+			word-wrap: normal;
+			-moz-tab-size: 3;
+			-o-tab-size: 3;
+			tab-size: 3;
+			-webkit-hyphens: none;
+			-moz-hyphens: none;
+			-ms-hyphens: none;
+			hyphens: none;
+		}
+
+		/* Code blocks */
+		pre[class*="language-"] {
+			overflow: auto;
+			border-left: initial;
+		}
+
+		code[class*="language"] {
+			margin: 0 !important;
+		}
+	/* End of prism.js syntax highlighting*/
     </style>
-    <style>
-        .text-warning-hover:hover {
-            color: #ffc107 !important;
-        }
-
-        .text-danger-hover:hover {
-            color: #dc3545 !important;
-        }
-
-        .text-primary-hover:hover {
-            color: #007bff !important;
-        }
-
-        .text-dark-hover:hover {
-            color: #343a40 !important;
-        }
-
-        .text-info-hover:hover {
-            color: #17a2b8 !important;
-        }
-
-        .text-success-hover:hover {
-            color: #28a745 !important;
-        }
-
-        .text-light-hover:hover {
-            color: #f8f9fa !important;
-        }
-    </style>
-    <style>
-        .jlw-editform-localizedcontenttext .tox-tinymce {
-            height: 80vh !important;
-            height: calc(80vh - 200px) !important;
-        }
-
-        pre.highlighting *, code.highlighting-content *, textarea.editing * {
-            font-family: monospace !important;
-        }
-
-        textarea.editing, pre.highlighting {
-            /*border: none !important;*/
-            margin: 0;
-            padding: .5rem .8rem !important;
-            width: inherit;
-            height: inherit;
-        }
-
-            textarea.editing, pre.highlighting, pre.highlighting * {
-                /* Also add text styles to highlighing tokens */
-                font-size: 13pt !important;
-                font-family: monospace !important;
-                line-height: 18pt !important;
-            }
-
-
-        textarea.editing, pre.highlighting {
-            /* In the same place */
-            position: absolute !important;
-            top: 0;
-            left: 0;
-        }
-
-
-        /* Move the textarea in front of the result */
-
-        textarea.editing {
-            z-index: 1;
-        }
-
-        pre.highlighting {
-            z-index: 0;
-        }
-
-        /* Make textarea almost completely transparent */
-        textarea.editing {
-            color: transparent !important;
-            background: transparent !important;
-            caret-color: black; /* Or choose your favourite color */
-        }
-
-        /* Can be scrolled */
-        textarea.editing, pre.highlighting {
-            overflow: auto;
-            white-space: nowrap; /* Allows textarea to scroll horizontally */
-        }
-
-        /* No resize on textarea */
-        textarea.editing {
-            resize: none;
-            -moz-tab-size: 3;
-            -o-tab-size: 3;
-            tab-size: 3;
-        }
-
-        /* Syntax Highlighting from prism.js starts below, partly modified: */
-        code[class*="language-"],
-        pre[class*="language-"] {
-            text-align: left;
-            white-space: pre;
-            word-spacing: normal;
-            word-break: normal;
-            word-wrap: normal;
-            -moz-tab-size: 3;
-            -o-tab-size: 3;
-            tab-size: 3;
-            -webkit-hyphens: none;
-            -moz-hyphens: none;
-            -ms-hyphens: none;
-            hyphens: none;
-        }
-
-        /* Code blocks */
-        pre[class*="language-"] {
-            overflow: auto;
-            border-left: initial;
-        }
-
-        code[class*="language"] {
-            margin: 0 !important;
-        }
-        /* End of prism.js syntax highlighting*/
-    </style>
-    <style>@Html.Raw(Model?.ExtraCss)</style>
-    <script>
+	<style>@Html.Raw(Model?.ExtraCss)</style>
+	<script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function (a) {
             a.fn.replaceTagName = function (f) {
@@ -390,8 +426,8 @@
             }
         })(window.jQuery);
     </script>
-    <script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js")"></script>
-    <script>
+	<script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js")"></script>
+	<script>
 
         (function(cacheVer) {
 
@@ -498,10 +534,10 @@
             }
         })('@version');
     </script>
-    @Html.Raw(Model?.ExtraScript)
+	@Html.Raw(Model?.ExtraScript)
 }
 <div class="d-none hidden">
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
+	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
+	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageListScript.cshtml").Result

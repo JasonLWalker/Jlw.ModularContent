@@ -974,7 +974,7 @@
 
 
 	        args = (args ? '?' : '') + args;
-	        window.open("@Url.Action("PreviewScreen")/" + $('#slctWizard').val() + '/' + screenName + args, "jlwLocalizedContent_ScreenPreview", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + (w * 0.8) + ', height=' + (h * 0.8) + ', left=' + ((w * 0.1)) + ', top=' + ((h * 0.1)), true);
+	        window.open("@(Model.PreviewScreenUrl?.TrimEnd('/'))/" + $('#slctWizard').val() + '/' + screenName + args, "jlwLocalizedContent_ScreenPreview", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + (w * 0.8) + ', height=' + (h * 0.8) + ', left=' + ((w * 0.1)) + ', top=' + ((h * 0.1)), true);
         }
 
         function _fnOnUpdateFieldOrder(nodes, activeNodeId) {

@@ -72,5 +72,28 @@ namespace Jlw.Data.LocalizedContent
             EditButton = editButton;
 
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WizardFormData"/> class.
+        /// </summary>
+        /// <param name="formKey">The form key.</param>
+        /// <param name="screenName">The screen name.</param>
+        /// <param name="fieldData">The field data.</param>
+        /// <param name="editButton">The edit button.</param>
+        /// TODO Edit XML Comment Template for #ctor
+        public WizardFormData(string formKey, string screenName, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null)
+        {
+            var data = fieldData?.ToList();
+            var form = data?.FirstOrDefault(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase) && o.FieldKey.Equals(formKey, StringComparison.InvariantCultureIgnoreCase) &&  o.ParentKey.Equals(screenName, StringComparison.InvariantCultureIgnoreCase));
+            if (form == null)
+            {
+                return;
+            }
+
+            Initialize(form);
+            EditButton = editButton;
+
+        }
+
     }
 }

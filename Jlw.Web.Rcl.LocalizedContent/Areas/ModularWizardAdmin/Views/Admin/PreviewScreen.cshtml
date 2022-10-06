@@ -52,7 +52,7 @@
     </div>
 </div>
 @section Scripts {
-    <script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
+    <script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
     <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
     <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
     <script src="~/LocalizedContent/js/bootbox.min.js"></script>
@@ -85,7 +85,7 @@
 
 
             function fnOnClickNav(evt) {
-	            var btn = $(evt.target);
+	            var btn = $(evt.delegateTarget);
 	            var section = btn.data('section');
 	            var step = btn.data('step');
 	            var wizard = "@(Model?.Wizard ?? "")";

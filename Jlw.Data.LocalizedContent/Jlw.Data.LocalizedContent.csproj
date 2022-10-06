@@ -38,7 +38,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jlw.Utilities.Data" Version="4.5.8234.7928" />
+    <PackageReference Include="Jlw.Utilities.Data" Version="4.6.8294.6845-rc" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>

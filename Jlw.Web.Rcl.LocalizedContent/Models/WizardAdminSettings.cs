@@ -20,6 +20,9 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
 
     public JToken TinyMceSettings { get; set; }
     public string AdminUrl { get; set; }
+    public string PreviewUrl { get; set; }
+    public string PreviewScreenUrl { get; set; }
+
     public string ToolboxHeight { get; set; }
 
     public string HiddenFilterPrefix { get; set; }
@@ -44,6 +47,7 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
         TinyMceSettings = DataUtility.ParseBool(o, "TinyMceSettings");
 
         AdminUrl = DataUtility.ParseString(o, "AdminUrl");
+        PreviewUrl = DataUtility.ParseString(o, "PreviewUrl");
 
         ToolboxHeight = DataUtility.ParseString(o, "ToolboxHeight");
         HiddenFilterPrefix = DataUtility.ParseString(o, "HiddenFilterPrefix");

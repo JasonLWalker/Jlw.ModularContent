@@ -15,7 +15,11 @@ public interface IWizardAdminSettings : IWizardSettings
     bool SideNavDefault { get; set; }
     bool WireFrameDefault { get; set; }
     JToken TinyMceSettings { get; set; }
+    
     string AdminUrl { get; set; }
+    string PreviewUrl { get; set; }
+    string PreviewScreenUrl { get; set; }
+
     string ToolboxHeight { get; set; }
     string HiddenFilterPrefix { get; set; }
     public object PreviewRecordData { get; set; }
