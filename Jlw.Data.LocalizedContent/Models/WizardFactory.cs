@@ -13,6 +13,7 @@
 // ***********************************************************************
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
@@ -88,7 +89,7 @@ namespace Jlw.Data.LocalizedContent
         }
 
         /// <inheritdoc />
-        public virtual IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null)
+        public virtual IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null, string language = null, string groupFilter = null)
         {
             var fieldData = DataRepository.GetFieldData(groupKey)?.ToList() ?? new List<WizardContentField>();
             var wizard = fieldData?.FirstOrDefault(o => o.FieldType.Equals("Screen", StringComparison.InvariantCultureIgnoreCase) && o.FieldKey.Equals(screenKey, StringComparison.InvariantCultureIgnoreCase));
@@ -96,42 +97,22 @@ namespace Jlw.Data.LocalizedContent
             var content = new WizardScreenContent(screenKey, fieldData, formData);
 
             var fields = fieldData.Where(o => o.ParentKey.Equals(wizard?.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
-            var formList = fields.Where(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
-            string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
+            var formList = fields.Where(o => o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase) || o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            //string embedData = fields.FirstOrDefault(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase))?.FieldData ?? "{}";
+//            var embedList = fields.Where(o => o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
             foreach (var form in formList)
             {
-                var formElem = CreateWizardFormData(form.FieldKey, fieldData);
-                ((List<WizardFormData>)content.Forms).Add(formElem);
-            }
+                WizardFormData? formElem = null;
+                if (form.FieldType.ToLower() == "form")
+                    formElem = CreateWizardFormData(form.FieldKey, fieldData);
+                if (form.FieldType.ToLower() == "embed")
+                    formElem = CreateEmbeddedScreenFormData(form, fieldData);
 
-            if (!string.IsNullOrWhiteSpace(embedData))
-            {
-                try
-                {
-                    JToken dta = JToken.Parse(embedData);
-                    JToken embedWiz = dta["embedWizard"];
-                    if (embedWiz is JArray)
-                    {
-                        foreach (var key in dta["embedWizard"])
-                        {
-                            AddEmbeddedForm(key.Value<string>(), content, null, DataUtility.ParseBool(dta["disabled"]?.ToString()), DataUtility.ParseBool(dta["editButton"]));
-
-                        }
-                    }
-                }
-                catch { }
-
+                if (formElem != null)
+                    ((List<WizardFormData>)content.Forms).Add(formElem);
             }
 
             ((List<WizardFormData>)content.Forms).Sort((o1, o2) => o1.Order - o2.Order);
-            foreach (var wizardFormData in content.Forms)
-            {
-                //wizardFormData.Label = ResolvePlaceholders(wizardFormData.Label, formData);
-                foreach (var formField in wizardFormData.Fields)
-                {
-                }
-            }
-
             ProcessPlaceholders(content, formData);
             return content;
         }
@@ -154,7 +135,7 @@ namespace Jlw.Data.LocalizedContent
         public virtual void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false)
         {
             List<WizardContentField> embed = (List<WizardContentField>)DataRepository.GetFieldData(key);
-            var wizard = embed?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
+            var wizard = embed?.FirstOrDefault(o => o.FieldType.Equals("Screen", StringComparison.InvariantCultureIgnoreCase) || o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));
             if (extraFields != null)
             {
                 foreach (var field in extraFields)
@@ -269,9 +250,105 @@ namespace Jlw.Data.LocalizedContent
             return returnObject;
         }
 
+        /// ToDo: Add XMLDoc comments
+        public virtual WizardFormData CreateEmbeddedScreenFormData(IWizardContentField embed, IEnumerable<WizardContentField> fieldData)
+        {
+            if (embed is null || fieldData is null)
+                return null;
 
+            string embedData = embed.FieldData ?? "{}";
+            bool isDisabled = false;
+            bool hasEditButton = false;
+            bool useCardLayout = false;
+            string screenName = null;
+            string formName = null;
+            try
+            {
+                JToken dta = JToken.Parse(embedData);
+                isDisabled = DataUtility.ParseNullableBool(dta, "disabled") ?? DataUtility.ParseBool(dta, "disabled");
+                useCardLayout = DataUtility.ParseBool(dta, "useCardLayout");
+                screenName = DataUtility.ParseNullableString(dta, "Screen") ?? DataUtility.ParseString(dta, "screen");
+                formName = DataUtility.ParseNullableString(dta, "Form") ?? DataUtility.ParseString(dta, "form");
+                hasEditButton = DataUtility.ParseNullableBool(dta, "editButton") ?? DataUtility.ParseBool(dta, "hasEditButton");
+            }
+            catch { }
 
-        /// <inheritdoc />
+            //if (string.IsNullOrWhiteSpace(screenName) || string.IsNullOrWhiteSpace(formName))
+            //    return null;
+            var form = fieldData.FirstOrDefault(o => (o.FieldType.Equals("Form", StringComparison.InvariantCultureIgnoreCase) || o.FieldType.Equals("Embed", StringComparison.InvariantCultureIgnoreCase)) && o.FieldKey.Equals(formName, StringComparison.InvariantCultureIgnoreCase) && o.ParentKey.Equals(screenName, StringComparison.InvariantCultureIgnoreCase));
+            WizardButtonData editButton = null;
+
+            if (form != null)
+            {
+                //return null;
+
+                if (hasEditButton)
+                {
+                    JToken data = form.GetFieldData();
+                    editButton = new WizardButtonData
+                    {
+                        Class = "btn btn-sm btn-outline-primary",
+                        Label = "Edit",
+                        Icon = "fa fa-edit",
+                        Action = new
+                        {
+                            type = "nav",
+                            screen = screenName
+                        }
+                    };
+                }
+            }
+
+            var returnObject = new EmbededFormData(embed, formName, screenName, fieldData, editButton);
+            returnObject.UseCardLayout = useCardLayout;
+
+            string strInput;
+
+            strInput = form?.FieldData?.Trim();
+            if (string.IsNullOrWhiteSpace(strInput)) return returnObject;
+            var fields = fieldData.Where(o => o.ParentKey.Equals(form.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
+            foreach (var o in fields)
+            {
+                JToken field = JToken.FromObject(o);
+                strInput = o.FieldData?.Trim();
+                if (!string.IsNullOrWhiteSpace(strInput))
+                {
+                    if (strInput.StartsWith("{") && strInput.EndsWith("}"))
+                    {
+                        try
+                        {
+                            var dta = JToken.Parse(strInput);
+                            field["FieldData"] = dta;
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+                }
+                field["FieldData"] = field["FieldData"] ?? new JObject();
+
+                try
+                {
+                    if (isDisabled)
+                    {
+                        string props = DataUtility.ParseString(field["FieldData"], "props") ?? "";
+                        props = props.Replace("disabled=\"disabled\"", "");
+                        field["FieldData"]["props"] = props + " disabled=\"disabled\"";
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                ((List<JToken>)(returnObject.Fields)).Add(field);
+            }
+
+            return returnObject;
+        }
+
+        /// ToDo: Add XMLDoc comments
         public void ProcessPlaceholders(IWizardContentField field, object replacementObject)
         {
             if (field is null || replacementObject is null)
@@ -355,7 +432,6 @@ namespace Jlw.Data.LocalizedContent
 
             return source;
         }
-
 
         /// ToDo: Add XMLDoc comments
         public virtual string ResolvePlaceholders(string sourceString, object replacementObject = null)
