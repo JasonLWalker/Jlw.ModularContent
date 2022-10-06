@@ -59,9 +59,9 @@ public abstract class ApiController : WizardApiBaseController
         // Add Controls
         DefaultWizardControls.AddRange(new[] {
             // Add Button
-            new WizardField(new { Label = "Button", FieldKey = "Button_", FieldType = "BUTTON", FieldClass = "btn btn-primary btn-sm w-100", WrapperClass = "col", FieldData = @"{'type':'button'}" }),
+            new WizardField(new { Label = "Button", FieldKey = "Button_", FieldType = "BUTTON", FieldClass = "btn btn-primary btn-sm w-100", WrapperClass = "col", FieldData = @"{'icon':'', 'action': {'type':'', 'screen':''}}" }),
             // Add Embedded Form
-            new WizardField(new { Label = "Embeded Screen Form", FieldKey = "EmbedForm_", FieldType = "EMBED", FieldClass = "", WrapperClass = "col mb-3", FieldData = "{'embedScreenForm': [], 'disabled':1,'useCardLayout': 1}" }),
+            new WizardField(new { Label = "Embeded Screen Form", FieldKey = "EmbedForm_", FieldType = "EMBED", FieldClass = "", WrapperClass = "col mb-3", FieldData = "{'screen': '', 'form': '', 'disabled':1,'useCardLayout': true, 'hasEditButton':false}" }),
             // Add Form
             new WizardField(new { Label = "Form", FieldKey = "Form_", FieldType = "FORM", FieldClass = "row", WrapperClass = "col mb-3", FieldData = "{'useCardLayout': 1}" }),
             // Add HTML Block
@@ -85,9 +85,9 @@ public abstract class ApiController : WizardApiBaseController
             // Add Color Input
             new WizardField(new { Label = "Color Input", FieldKey = "ColorInput_", FieldType = "INPUT", FieldClass = "form-control form-control-sm", WrapperClass = "col", FieldData = "{'type': 'color', defaultValue: '#0000FF'}" }),
             // Add Checkbox Input
-            new WizardField(new { Label = "Checkbox Input", FieldKey = "CheckboxInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col", FieldData = "{'type': 'checkbox'}" }),
+            new WizardField(new { Label = "Checkbox Input", FieldKey = "CheckboxInput_", FieldType = "INPUT", FieldClass = "", WrapperClass = "col", FieldData = "{'type': 'checkbox', 'labelClass': '', 'groupClass':'', 'inline':false }" }),
             // Add Radio Button Input
-            new WizardField(new { Label = "Radio Button Input", FieldKey = "RadioInput_", FieldType = "INPUT", FieldClass = "form-check-input", WrapperClass = "col", FieldData = "{'type': 'radio','values': { }}" }),
+            new WizardField(new { Label = "Radio Button Input", FieldKey = "RadioInput_", FieldType = "INPUT", FieldClass = "", WrapperClass = "col", FieldData = "{'type': 'radio','values': { }, 'labelClass': '', 'groupClass':'', 'inline':false }" }),
             // Add Checkbox Input
             new WizardField(new { Label = "Hidden Input", FieldKey = "HiddenInput_", FieldType = "INPUT", FieldClass = "", WrapperClass = "col", FieldData = "{'type': 'hidden'}" }),
             // Add Slider Input
