@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Jlw.Utilities.Data" Version="4.5.8234.7928" />
+	<PackageReference Include="Jlw.Utilities.Data" Version="4.6.8294.6845-rc" />
     <PackageReference Include="Jlw.Utilities.Testing" Version="2.0.7844.22164" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
