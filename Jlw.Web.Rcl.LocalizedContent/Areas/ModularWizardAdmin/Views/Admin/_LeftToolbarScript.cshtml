@@ -12,6 +12,14 @@
         outline: 1px dotted #ccc;
         font-size: small;
     }
+    [id^="jlwContainer--VSEPARATOR"] {
+	    width: 100%;
+    }
+
+    [id^="jlwContainer--VSEPARATOR"] > .vr {
+	    display: block;
+	    margin: auto;
+    }
 
     #leftToolbar .card {
         padding: 0;
@@ -43,7 +51,7 @@
         var clientFrameBody = $(clientFrameWindow.document.body);
         var validButtonTypes = ['button'];
         var validFormTypes = ['embed','form'];
-        var validFormFieldTypes = ['input', 'select', 'separator', 'html', 'textarea', 'button'];
+        var validFormFieldTypes = ['input', 'select', 'vseparator', 'separator', 'html', 'textarea', 'button'];
 
         var placeholder = $('<div class="sortable-hidden-placeholder" style="display:none" />');
 

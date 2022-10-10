@@ -66,8 +66,10 @@ public abstract class ApiController : WizardApiBaseController
             new WizardField(new { Label = "Form", FieldKey = "Form_", FieldType = "FORM", FieldClass = "row", WrapperClass = "col mb-3", FieldData = "{'useCardLayout': 1}" }),
             // Add HTML Block
             new WizardField(new { Label = "HTML Text Block. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", FieldKey = "HtmlBlock_", FieldType = "HTML", FieldClass = "", WrapperClass = "col", FieldData = "{}" }),
-            // Add Separator
-            new WizardField(new { Label = "Separator", FieldKey = "Separator_", FieldType = "SEPARATOR", FieldClass = "", WrapperClass = "col-12", FieldData = "{}" }),
+            // Add Horizontal Separator
+            new WizardField(new { Label = "Horizontal Separator", FieldKey = "Separator_", FieldType = "SEPARATOR", FieldClass = "", WrapperClass = "col-12", FieldData = "{}" }),
+            // Add Vertical Separator
+            new WizardField(new { Label = "Vertical Separator", FieldKey = "Separator_", FieldType = "VSEPARATOR", FieldClass = "h-100", WrapperClass = "col-auto", FieldData = "{}" }),
             // Add Separator
             new WizardField(new { Label = "Form Drop-down", FieldKey = "DropDownSelect_", FieldType = "SELECT", FieldClass = "form-select form-select-sm", WrapperClass = "col", FieldData = "{'values': {}, 'labelClass': '', 'groupClass':'', 'inline':false }" }),
             // Add Textarea
