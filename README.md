@@ -26,7 +26,7 @@
 
 |Dependency|Version|License|Purpose|
 |-----|-----|-----|-----|
-|Jlw.Utilities.Data|4.5.8234.7928|[MIT](https://licenses.nuget.org/MIT)||
+|Jlw.Utilities.Data|4.6.8318.8346|[MIT](https://licenses.nuget.org/MIT)||
 |[Microsoft.Extensions.Options](https://dot.net/)|6.0.0|[MIT](https://licenses.nuget.org/MIT)||
 |[Newtonsoft.Json](https://www.newtonsoft.com/json)|13.0.1|[MIT](https://licenses.nuget.org/MIT)||
 
@@ -50,15 +50,15 @@
 |-----|-----|-----|-----|
 |BuildWebCompiler|1.12.405|[...](https://github.com/madskristensen/WebCompiler/blob/master/LICENSE)||
 |BuildBundlerMinifier|3.2.449|[...](https://github.com/madskristensen/BundlerMinifier/blob/master/LICENSE)||
-|[Microsoft.Extensions.FileProviders.Embedded](https://asp.net/)|6.0.7|[MIT](https://licenses.nuget.org/MIT)||
+|[Microsoft.Extensions.FileProviders.Embedded](https://asp.net/)|6.0.9|[MIT](https://licenses.nuget.org/MIT)||
 |Jlw.Utilities.WebApiUtility|1.5.7928.8091|[MIT](https://licenses.nuget.org/MIT)||
 
 
 ## Front-end Dependencies
 |Dependency|Version|License|Purpose|
 |-----|-----|-----|-----|
-|@jasonlwalker/jlwappbuilder@1.0.24||||
-|@jasonlwalker/jlwutility@1.1.9||||
+|@jasonlwalker/jlwappbuilder|[1.0.24](https://github.com/JasonLWalker/Jlw.Package.Releases.git)|MIT||
+|@jasonlwalker/jlwutility|[1.1.9](https://github.com/JasonLWalker/Jlw.Package.Releases.git)|MIT||
 |[bootbox.js](http://bootboxjs.com)|[5.5.3](https://github.com/makeusabrew/bootbox.git)|MIT||
 |[bootswatch](http://bootswatch.com/)|[5.1.3](https://github.com/thomaspark/bootswatch.git)|MIT||
 |[datatables.net](https://datatables.net)|[1.12.1](https://github.com/DataTables/Dist-DataTables.git)|MIT||
