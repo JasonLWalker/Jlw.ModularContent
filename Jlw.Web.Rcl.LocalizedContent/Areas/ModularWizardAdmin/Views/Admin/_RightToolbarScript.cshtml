@@ -76,13 +76,14 @@
 	        });
 
 	        $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
-	        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
+	        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputType);
 
 	        $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
 	        $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
 
 	        $('.btn-field-data').on('click', onClickBtnFieldData);
 	        $('#btn-update-language').on('click', onClickBtnLanguage);
+	        $('#field-type-edit').on('click', onClickBtnFieldTypeEdit);
 
 	        t.libErrorMessages = new jlwLibErrorMessages('table.jlw-datatable.jlw-datatable-fieldmessagetext', t.urlApiRoot + '/ErrorMessage/', $);
         }
@@ -600,9 +601,27 @@
 	        oFieldData.trigger('change');
         }
 
-        function onChangeInputData(evt) {
+        function onChangeInputType(evt) {
+	        var fieldData = null;
+	        var inputType = ($('select[name=InputType]', t.oRightToolbar).val() || "text").toLowerCase();
+            try {
+                fieldData = $.parseJSON(oFieldData.val());
+            } catch {
+				// JSON parsing error, do nothing
+            }
+            
+            if (!$.isPlainObject(fieldData))
+            {
+                return;
+            }
+            
+            fieldData["type"] = inputType;
+	        var s = JSON.stringify(fieldData);
+	        oFieldData.val(s);
+	        oFieldData.trigger('change');
 
         }
+
         @*
         function fnEditTextarea(evt) {
             prismSyntaxHighlight(this.value, this);
@@ -763,7 +782,11 @@
                 }
             });
         }
-
+        
+        function onClickBtnFieldTypeEdit(evt) {
+			$('select[name=FieldType]', t.oRightToolbar).prop('disabled', false);
+        }
+        
         function parseColClass(s) {
             var data = {
                 'col': -1,
@@ -1169,6 +1192,7 @@
                         }
 
                     }
+                    $('select[name=FieldType]', t.oRightToolbar).prop('disabled', true);
                     t.oRightToolbar.removeClass('updating');
                 });
         }

@@ -414,6 +414,9 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
                 obj = $('<div><hr ' + props + '/></div>');
                 break;
+            case 'vseparator':
+                obj = $('<div><div class="vr ' + data["FieldClass"] + '" ' + props + '/></div>');
+                break;
             case 'select':
                 if (data["FieldClass"]) {
                     props += ' class="' + data.FieldClass + '" ';
