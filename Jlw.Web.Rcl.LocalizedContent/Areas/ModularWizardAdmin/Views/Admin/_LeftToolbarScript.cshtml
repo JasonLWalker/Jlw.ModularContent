@@ -342,9 +342,10 @@
 
 			$(target).contextMenu({
 				selector: ".fancytree-title",
+				zIndex: 950,
 				events: {
 					activated: function (options) {
-						options.$menu.css('z-index', 900);
+						//options.$menu.css('z-index', 950);
 					}
 				},
 				build: function ($trigger, e) {
@@ -1110,13 +1111,16 @@
 
                         $(clientFrameBody).contextMenu({
                             selector: "[data-tree-id]",
-                            events: {
+							zIndex: 950,
+							events: {
                                 activated: function (options) {
-                                    options.$menu.css('z-index', 900);
+                                    //options.$menu.css('z-index', 950);
                                 }
 							},
                             position: function(opt, x, y){
-                                console.log(opt, x + offset['left'], y + offset['top'], offset);
+								var offset = $('#preview-frame').offset() || {top:0,left:0};
+								offset['top'] -= $(clientFrameWindow).scrollTop();
+								console.log(opt, x + offset['left'], y + offset['top'], offset, $(clientFrameWindow).scrollTop());
 	                            opt.$menu.css({top: y+offset['top'], left: x+offset['left']});
                             }, 
                             build: function ($trigger, e) {
