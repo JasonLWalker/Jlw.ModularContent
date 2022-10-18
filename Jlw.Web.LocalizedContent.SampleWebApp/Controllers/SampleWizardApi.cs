@@ -6,6 +6,7 @@ using Jlw.Web.Rcl.LocalizedContent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
@@ -51,6 +52,20 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 
             //screenKey = "Screen_DoesNotExist";
 
+            switch (model.Screen?.ToLower())
+            {
+                case "radiobuttontest":
+                    if (isSave)
+                    {
+                        model.InvalidFields["RadioInput_1665007279245"] = "Please select a color";
+                        model.ValidFields["RadioInput_1665007481299"] = "";
+                    }
+
+                    break;
+                default:
+                    model.Screen = screenKey;
+                    break;
+            }
             /*
             switch (model.Section)
             {
@@ -80,9 +95,9 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             }
             */
             //var fields = DataRepository.GetFieldData(groupKey);
+            var screenModel = JToken.FromObject(model);
 
-
-            return WizardFactory.CreateWizardScreenContent(groupKey, screenKey, model);
+            return WizardFactory.CreateWizardScreenContent(groupKey, screenKey, screenModel);
         }
 
 
@@ -98,8 +113,12 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             [JsonConverter(typeof(JlwJsonConverter<int>))]
             public int Step { get; set; }
 
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+            [JsonConverter(typeof(JlwJsonConverter<string>))]
             public string Wizard { get; set; }
 
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+            [JsonConverter(typeof(JlwJsonConverter<string>))]
             public string Screen { get; set; }
 
 
