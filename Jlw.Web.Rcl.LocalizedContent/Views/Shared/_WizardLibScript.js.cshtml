@@ -26,13 +26,18 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     t.fnOnClickSave = t.fnOnClickSave || fnOnClickSave;
     t.fnOnClickAction = t.fnOnClickAction || fnOnClickAction;
     t.fnOnWizardOnLoad = t.fnOnWizardOnLoad || fnOnWizardOnLoad;
+    t.fnGetElementDebug = t.fnGetElementDebug || fnGetElementDebug;
+	t.fnRenderElementDebug = t.fnRenderElementDebug || fnRenderElementDebug;
     t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+    t.onRenderWizardElement = t.onRenderWizardElement || onRenderWizardElement;
+    t.onRenderWizard = t.onRenderWizard || onRenderWizard;
 
     t.ajaxFail = t.ajaxFail || ajaxFail;
     t.navTo = t.navTo || navTo;
     t.navToStep = t.navToStep || navToStep;
     t.navToScreen = t.navToScreen || navToScreen;
     t.navToWizardScreen = t.navToWizardScreen || navToWizardScreen;
+
 
     t.saveStep = t.saveStep || saveStep;
 
@@ -200,6 +205,33 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     function setButtonAction(btnWrapper, action) {
     }
 
+	function fnRenderElementDebug($elem, dta) {
+		$elem.prepend(t.fnGetElementDebug(dta));
+	}
+
+	function fnGetElementDebug(dta) {
+		if (t.debugLevel < 1)
+			return;
+
+		var type = 'Field: ';
+		switch ((dta["FieldType"] || "").toLowerCase()) {
+		case 'screen':
+			type = 'Screen: ';
+			break;
+		case 'heading':
+		case 'body':
+			type = '';
+			break;
+		case 'form':
+			type = 'Form: ';
+			break;
+		case 'button':
+			type = 'Button: ';
+			break;
+		}
+		return '<div class="text-muted fs-6 fw-normal mb-0 text-truncate" title="' + type + dta['FieldKey'] + '"><small>[<span class="fst-italic">' + type + '</span>' + dta['FieldKey'] + ']</small></div>';
+	}
+
     function renderWizardButtons(buttons) {
         var btns = $('.wizard-buttons');
         btns.empty();
@@ -296,13 +328,53 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     // Callback when a form field is rendered
-    function onRenderWizardFormField(obj, data, parent) { return obj; }
+    function onRenderWizardFormField(obj, data, parent) { 
+		var $obj = $(obj);
+		switch ((data["FieldType"] || "").toLowerCase()) {
+		case 'heading':
+		case 'buttongroup':
+		case 'body':
+		case "separator":
+		case "vseparator":
+		case "undefined":
+		case "":
+
+			break;
+		default:
+			t.fnRenderElementDebug($obj, data);
+			break;
+		}
+
+        //console.log('RenderWizardFormField', obj);
+        return obj; 
+    }
 
     // Callback when a form field is rendered
-    function onRenderWizardElement(obj, data, parent) { return obj; }
+    function onRenderWizardElement(obj, data, parent) { 
+		var $obj = $(obj);
+		switch ((data["FieldType"] || "").toLowerCase()) {
+		case "undefined":
+		case "":
+		case "separator":
+		case "vseparator":
+			break;
+		default:
+			t.fnRenderElementDebug($obj, data);
+			break;
+		}
+        //console.log('RenderWizardElement', obj);
+		return obj;
+    }
 
     // Callback when a wizard is rendered
-    function onRenderWizard(obj, data, parent) { return obj; }
+    function onRenderWizard(obj, data, parent) { 
+		var $obj = $('form', obj);
+		t.fnRenderElementDebug($obj, data);
+        window.scrollTo(0,0);
+
+        //console.log('RenderWizard', obj);
+        return obj; 
+    }
 
     function renderWizardElement(data, parent, wizardData) {
         var obj = {};
@@ -705,7 +777,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         if (nav.length)
 	        nav.addClass('active');
 
-        $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
+        $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first();
 
         t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
 
@@ -738,14 +810,35 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 	    if (validFields) {
 		    for (var key in validFields) {
 			    var feedback = validFields[key];
-			    var o = $('input[type!=hidden][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
-			    o.addClass('is-valid');
+			    var o = $('input[type!=hidden][type!=radio][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
 			    var id;
+			    if (o.length > 0) {
+				    o.addClass('is-valid');
+				    if (o[0] && feedback) {
+					    id = o[0].id;
+					    o.attr('aria-describedby', id + "Feedback");
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="valid-feedback">' + feedback + '</div>'));
+					    nCount++;
+				    }
+			    } else {
+				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form'));
+				    o.addClass('is-valid');
+				    if (o[0] && feedback) {
+					    id = o[0].id;
+					    o.attr('aria-describedby', id + "Feedback");
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="valid-feedback d-inline-block">' + feedback + '</div>'));
+					    nCount++;
+				    }
+
+			    }
+			    /*
+                o.addClass('is-valid');
 			    if (o[0] && feedback) {
 				    id = o[0].id;
 				    o.attr('aria-describedby', id + "Feedback");
 				    o.parent().append($('<div id="' + id + 'Feedback" class="valid-feedback">' + feedback + '</div>'));
 			    }
+                */
 		    }
 	    }
     }
@@ -762,16 +855,16 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 				    if (o[0] && feedback) {
 					    id = o[0].id;
 					    o.attr('aria-describedby', id + "Feedback");
-					    o.parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
 					    nCount++;
 				    }
 			    } else {
-				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form')).first();
+				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form'));
 				    o.addClass('is-invalid');
 				    if (o[0] && feedback) {
 					    id = o[0].id;
 					    o.attr('aria-describedby', id + "Feedback");
-					    o.parent().parent().parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback d-inline-block">' + feedback + '</div>'));
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="invalid-feedback d-inline-block">' + feedback + '</div>'));
 					    nCount++;
 				    }
 
