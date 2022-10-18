@@ -63,7 +63,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         [HttpGet("Preview")]
         public virtual ActionResult Preview()
         {
-            var settings = new WizardAdminSettings(DefaultSettings);
+            var settings = new WizardPreviewSettings(DefaultSettings);
             settings.SideNav.Add(new WizardSideNavItem(new WizardContentField(new {Label = "Instructions", FieldType="SCREEN"})));
             return GetViewResult("Preview", settings);
         }

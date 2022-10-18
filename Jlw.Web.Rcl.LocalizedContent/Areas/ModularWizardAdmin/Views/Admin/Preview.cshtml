@@ -1,5 +1,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
+@using Jlw.Data.LocalizedContent
+@inject IWizardFactoryRepository FactoryRepository
+@model Jlw.Web.Rcl.LocalizedContent.WizardPreviewSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";
@@ -12,6 +14,10 @@
     string jsRoot = "LocalizedContent";
 
     var sideNav = Model.SideNav.Items;
+	string wizardName = string.IsNullOrWhiteSpace(Model.Wizard) ? Model?.DefaultWizard ?? "" : Model.Wizard;
+	//var sideNav = FactoryRepository.GetWizardSideNavData(wizardName, null, Model?.GroupFilter);
+	var modelFields = FactoryRepository.GetWizardModelFields(wizardName, Model?.GroupFilter);
+
 
 }
 
@@ -20,12 +26,15 @@
         <form method="post">
             <input type="hidden" name="st" value="1" />
             <div class="list-group wizard-nav">
-                @{
-                    foreach (var item in sideNav)
-                    {
-                            <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
-                    }
-                }
+	            @{
+		            foreach (var item in sideNav)
+		            {
+			            if (!item.IsHidden && !string.IsNullOrWhiteSpace(item.Label))
+			            {
+				            <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+			            }
+		            }
+	            }
                 @*
                     <button type="button" data-section="0" data-step="0" class="list-group-item list-group-item-action "><span class="fa fa-minus"></span> Instructions</button>
                     <button type="button" data-section="1" data-step="1" class="list-group-item list-group-item-action pl-5"><span class="fa fa-minus"></span> Start Wizard</button>
@@ -42,6 +51,12 @@
                     <div class="h5"><span class="fa fa-exclamation-triangle text-warning"></span>&nbsp;No content loaded, please select a wizard from the toolbar at the left.</div>
                     <input type="hidden" name="step" value="" />
                     <input type="hidden" name="section" value="" />
+                    @{
+	                    foreach (var field in modelFields)
+	                    {
+		                    <input type="hidden" name="@field" value="" />
+	                    }
+                    }
                 </div>
             </div>
             <div class="wizard-buttons row">
