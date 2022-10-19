@@ -1,5 +1,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Jlw.Data.LocalizedContent
+@using Jlw.Utilities.Data
+@using Newtonsoft.Json.Linq
 @inject IWizardFactoryRepository FactoryRepository
 @model Jlw.Web.Rcl.LocalizedContent.WizardPreviewSettings
 @{
@@ -31,7 +33,14 @@
 		            {
 			            if (!item.IsHidden && !string.IsNullOrWhiteSpace(item.Label))
 			            {
-				            <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+				            JToken fieldData;
+				            string navClass = "";
+				            try
+				            {
+					            fieldData = JToken.Parse(item.FieldData);
+					            navClass = (fieldData["sideNav"]?.HasValues ?? false) ? DataUtility.ParseString(fieldData["sideNav"], "class") : "";
+				            } catch { /* Jquery Parsing error, do nothing */ }
+                                    <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @navClass"> @Html.Raw(item.Label)</button>
 			            }
 		            }
 	            }
@@ -54,7 +63,7 @@
                     @{
 	                    foreach (var field in modelFields)
 	                    {
-		                    <input type="hidden" name="@field" value="" />
+                                                                                            <input type="hidden" name="@field" value="" />
 	                    }
                     }
                 </div>
@@ -66,51 +75,51 @@
 </div>
 <script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
 @section Scripts {
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
-    <style>
-        html, body, .container, main {
-            height: 100%;
-        }
+	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
+	<style>
+		html, body, .container, main {
+			height: 100%;
+		}
 
-        .wizard-body, .wizard-buttons, .form-body, .card-body > div {
-            min-height: 30px;
-        }
+		.wizard-body, .wizard-buttons, .form-body, .card-body > div {
+			min-height: 30px;
+		}
 
 
-        .wizard-nav {
-            min-width: 195px;
-        }
+		.wizard-nav {
+			min-width: 195px;
+		}
 
-        .wizard-form .d-none {
-            display: block !important;
-            opacity: 0.3;
-        }
+		.wizard-form .d-none {
+			display: block !important;
+			opacity: 0.3;
+		}
 
-        .dad-placeholder {
-            background-color: #eee;
-            border: 2px dashed #aaa;
-            outline: none;
-        }
+		.dad-placeholder {
+			background-color: #eee;
+			border: 2px dashed #aaa;
+			outline: none;
+		}
 
-        .sortable-ghost {
-            background-color: #eee;
-            border: 2px dashed #aaa;
-            outline: none !important;
-        }
+		.sortable-ghost {
+			background-color: #eee;
+			border: 2px dashed #aaa;
+			outline: none !important;
+		}
 
-            .sortable-ghost > * {
-                visibility: hidden;
-            }
+		.sortable-ghost > * {
+			visibility: hidden;
+		}
 
-        .sortable-chosen {
-        }
+		.sortable-chosen {
+		}
 
-        .sortable-drag {
-            outline: none !important;
-            border: none;
-        }
+		.sortable-drag {
+			outline: none !important;
+			border: none;
+		}
 
-        /*
+		/*
         div[type=checkbox] {
             position: relative;
             z-index: 1;
@@ -123,38 +132,38 @@
         }
         */
 
-        [id^="jlwContainer-"], [id^="jlwElement-"] {
-            cursor: pointer;
-        }
+		[id^="jlwContainer-"], [id^="jlwElement-"] {
+			cursor: pointer;
+		}
 
-        .hover-outline {
-            outline: 1px dashed darkred;
-        }
+		.hover-outline {
+			outline: 1px dashed darkred;
+		}
 
-        .embed-body .hover-outline {
-	        outline: none !important;
-	        cursor: default;
-        }
-
-
-        [id^='jlwContainer-'].active, [id^='jlwElement-'].active {
-            outline: 1px dotted red;
-        }
-
-        .form-check-label {
-            display: block;
-        }
-    </style>
-
-    <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+		.embed-body .hover-outline {
+			outline: none !important;
+			cursor: default;
+		}
 
 
-    <script src="~/@jsRoot/js/libJlwUtility.min.js"></script>
-    <script src="~/@jsRoot/font-awesome/js/solid.min.js"></script>
-    <script src="~/@jsRoot/font-awesome/js/fontawesome.min.js"></script>
-    <script src="~/@jsRoot/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
-    <script>
+		[id^='jlwContainer-'].active, [id^='jlwElement-'].active {
+			outline: 1px dotted red;
+		}
+
+		.form-check-label {
+			display: block;
+		}
+	</style>
+
+	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+
+
+	<script src="~/@jsRoot/js/libJlwUtility.min.js"></script>
+	<script src="~/@jsRoot/font-awesome/js/solid.min.js"></script>
+	<script src="~/@jsRoot/font-awesome/js/fontawesome.min.js"></script>
+	<script src="~/@jsRoot/js/toastr.min.js"></script>
+	<link rel="stylesheet" href="~/@jsRoot/css/toastr.min.css"></link>
+	<script>
         // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
         (function (a) {
             a.fn.replaceTagName = function (f) {
@@ -176,7 +185,7 @@
             }
         })(window.jQuery);
     </script>
-    <script>
+	<script>
         (function(cacheVer) {
             var wizardData = {};
             var dragData = {
@@ -315,42 +324,56 @@
                     // IMPORTANT: Check the origin of the data!
                     if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
                         // The data has been sent from your site
-
                         switch (event.data['action']) {
-                        case 'showSideNav':
-                            if (event.data['value']) {
-                                $('.wizard-nav-col').addClass('d-xl-block d-lg-inline-block');
-                            } else {
-                                $('.wizard-nav-col').addClass('d-none');
-                                $('.wizard-nav-col').removeClass('d-xl-block d-lg-inline-block');
-                            }
+	                        case 'buildSideNav':
+								var navData = event.data['navData'];
+								if(navData && $('.wizard-nav-col').length) {
+                                    $('.wizard-nav-col').empty();
+                                    for(var i =0; i < navData.length; i++ ) {
+                                        var fieldData = navData[i]['field_data'];
+                                        var sideNavData = (fieldData['FieldData'] && fieldData.FieldData['sideNav']) ? fieldData.FieldData.sideNav : {};
+                                        if ((fieldData['FieldType'] || "").toLowerCase() == "screen" && (fieldData['Label']).trim() && !(sideNavData["hidden"] || false)) {
+                                            $('.wizard-nav-col').append($('<button type="button" data-section="0" data-step="0" data-screen="' + fieldData['FieldKey'] + '" data-wizard="' + fieldData['GroupKey'] + '" class="list-group-item list-group-item-action ' + sideNavData['class'] + '">' + fieldData['Label'] + '</button>'));
+                                        }
+                                    }
+									//console.log(navData);
+	                            }
+                                break;
+	                        case 'showSideNav':
+	                            if (event.data['value']) {
+	                                $('.wizard-nav-col').addClass('d-xl-block d-lg-inline-block');
+	                            } else {
+	                                $('.wizard-nav-col').addClass('d-none');
+	                                $('.wizard-nav-col').removeClass('d-xl-block d-lg-inline-block');
+	                            }
 
-                            break;
-                        case 'loadWizard':
-                            // The data sent with postMessage is stored in event.data
-                            var data = event.data["wizardData"];
-                            libWizard.renderWizard(0, 0, data);
-                            //var wizardData = data;
-                            var nodeData = event.data['nodeData'];
-                            var groupKey = nodeData['GroupKey'];
-                            var fieldKey = nodeData['FieldKey'];
-                            var fieldType = nodeData['FieldType'];
-                            var fieldId = nodeData['Id'];
-                            var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
+	                            break;
+	                        case 'loadWizard':
+	                            // The data sent with postMessage is stored in event.data
+	                            var data = event.data["wizardData"];
+	                            libWizard.renderWizard(0, 0, data);
+	                            //var wizardData = data;
+	                            var nodeData = event.data['nodeData'];
+	                            var groupKey = nodeData['GroupKey'];
+	                            var fieldKey = nodeData['FieldKey'];
+	                            var fieldType = nodeData['FieldType'];
+	                            var fieldId = nodeData['Id'];
+	                            var id = (groupKey + '-' + fieldType + '-' + fieldKey + '-' + fieldId).replace(/[^\w\d-_]/i, '');
 
-                            $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
+	                            $("[id^='jlwContainer-" + id + "'],[id^='jlwElement-" + id + "']").addClass('active');
 
-                            break;
+	                            break;
                         }
                     } else {
                         // The data hasn't been sent from your site!
                         // Be careful! Do not use it.
                         return;
                     }
+                    return;
                 });
         })('');
     </script>
-    <script>
+	<script>
         $(function () {
             var msg = { 'action': 'onPreviewLoad' };
             window.parent.postMessage(msg);

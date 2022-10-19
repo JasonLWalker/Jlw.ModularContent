@@ -160,6 +160,9 @@
 	        }).done(function(data) {
 		        var oScreen = $("select[name=buttonActionScreen]");
 		        var actionScreen = oScreen.val();
+				if (data.length && data[0]['children']) {
+					clientFrameWindow.postMessage({ action: 'buildSideNav', navData: data[0].children });
+				}
 		        oScreen.empty();
 		        oScreen.append($('<option value=""></option>'));
 		        for (var i in data) {
@@ -342,12 +345,14 @@
 
 			$(target).contextMenu({
 				selector: ".fancytree-title",
-				zIndex: 950,
+				zIndex: 1050,
+				/*
 				events: {
 					activated: function (options) {
 						//options.$menu.css('z-index', 950);
 					}
 				},
+				*/
 				build: function ($trigger, e) {
 					var node = $.ui.fancytree.getNode($trigger);
 					var parentNode = node.parent || {};
@@ -1111,12 +1116,14 @@
 
                         $(clientFrameBody).contextMenu({
                             selector: "[data-tree-id]",
-							zIndex: 950,
+							zIndex: 1050,
+							/*
 							events: {
                                 activated: function (options) {
                                     //options.$menu.css('z-index', 950);
                                 }
 							},
+							*/
                             position: function(opt, x, y){
 								var offset = $('#preview-frame').offset() || {top:0,left:0};
 								offset['top'] -= $(clientFrameWindow).scrollTop();
@@ -1218,6 +1225,7 @@
                 // Be careful! Do not use it.
                 return;
             }
+			return;
         }
 
         initFancyTree("#wizardtree");

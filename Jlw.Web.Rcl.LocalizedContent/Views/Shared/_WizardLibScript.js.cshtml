@@ -765,8 +765,10 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
         $('.wizard-nav button').removeClass('active');
         var nav = {};
-
-        if (wizard && screen )
+        
+        if (fieldData['sideNav'] && fieldData.sideNav['screen'])
+	        nav = $('.wizard-nav button[data-screen=' + fieldData.sideNav.screen + ']').first();
+        if (!nav.length && wizard && screen )
 	        nav = $('.wizard-nav button[data-wizard=' + wizard + '][data-screen=' + screen + ']').first();
         if (!nav.length && screen )
 	        nav = $('.wizard-nav button[data-screen=' + screen + ']').first();
