@@ -46,6 +46,8 @@ namespace Jlw.Data.LocalizedContent
         /// <returns></returns>
         IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData);
 
+        IEnumerable<ILocalizedContentText> GetLanguageValues(string groupKey);
+
         /// <summary>
         /// Retrieves a list of all fields that match the groupKey in the default language.
         /// </summary>
