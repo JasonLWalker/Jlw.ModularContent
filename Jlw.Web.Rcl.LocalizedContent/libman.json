@@ -17,15 +17,15 @@
       ]
     },
     {
-      "library": "twitter-bootstrap@5.1.3",
+      "library": "twitter-bootstrap@5.2.2",
       "destination": "libman/bootstrap"
     },
     {
-      "library": "popper.js@2.11.5",
+      "library": "popper.js@2.11.6",
       "destination": "libman/popper.js"
     },
     {
-      "library": "bootswatch@5.1.3",
+      "library": "bootswatch@5.2.2",
       "destination": "libman/bootswatch/"
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "provider": "jsdelivr",
-      "library": "mar10/fancytree@2.38.1",
+      "library": "mar10/fancytree@2.38.2",
       "destination": "resources/LocalizedContent/fancytree/",
       "files": [
         "dist/skin-lion/**",
