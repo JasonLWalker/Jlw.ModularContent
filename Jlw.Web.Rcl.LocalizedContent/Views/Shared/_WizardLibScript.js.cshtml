@@ -345,7 +345,6 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 			break;
 		}
 
-        //console.log('RenderWizardFormField', obj);
         return obj; 
     }
 
@@ -362,7 +361,6 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 			t.fnRenderElementDebug($obj, data);
 			break;
 		}
-        //console.log('RenderWizardElement', obj);
 		return obj;
     }
 
@@ -371,8 +369,6 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 		var $obj = $('form', obj);
 		t.fnRenderElementDebug($obj, data);
         window.scrollTo(0,0);
-
-        //console.log('RenderWizard', obj);
         return obj; 
     }
 
