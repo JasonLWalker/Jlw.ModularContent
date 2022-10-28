@@ -24,28 +24,28 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
     protected string _adminUrl = null;
     public virtual string AdminUrl
     {
-        get => string.IsNullOrWhiteSpace(_adminUrl) ? LinkGenerator?.GetPathByAction("Index", ControllerName ?? "", new { Area = this.Area }) ?? "" : _adminUrl; 
+        get => string.IsNullOrWhiteSpace(_adminUrl) ? LinkGenerator?.GetPathByAction("Index", ControllerName ?? "", new { Area }) ?? "" : _adminUrl; 
         set => _adminUrl = value;
     }
 
     protected string _previewUrl = null;
     public virtual string PreviewUrl
     {
-        get => string.IsNullOrWhiteSpace(_previewUrl) ? LinkGenerator?.GetPathByAction("Preview", ControllerName ?? "", new { Area = this.Area }) ?? "" : _previewUrl;
+        get => string.IsNullOrWhiteSpace(_previewUrl) ? LinkGenerator?.GetPathByAction("Preview", ControllerName ?? "", new { Area }) ?? "" : _previewUrl;
         set => _previewUrl = value;
     }
 
     protected string _previewScreenUrl = null;
     public virtual string PreviewScreenUrl
     {
-        get => string.IsNullOrWhiteSpace(_previewScreenUrl) ? LinkGenerator?.GetPathByAction("PreviewScreen", ControllerName ?? "", new { Area = this.Area }) ?? "" : _previewScreenUrl;
+        get => string.IsNullOrWhiteSpace(_previewScreenUrl) ? LinkGenerator?.GetPathByAction("PreviewScreen", ControllerName ?? "", new { Area }) ?? "" : _previewScreenUrl;
         set => _previewScreenUrl = value;
     }
 
     protected string _exportUrl = null;
     public virtual string ExportUrl
     {
-        get => string.IsNullOrWhiteSpace(_exportUrl) ? LinkGenerator?.GetPathByAction("Export", ControllerName ?? "", new { Area = this.Area }) ?? "" : _exportUrl;
+        get => string.IsNullOrWhiteSpace(_exportUrl) ? LinkGenerator?.GetPathByAction("Export", ControllerName ?? "", new { Area }) ?? "" : _exportUrl;
         set => _exportUrl = value;
     }
 

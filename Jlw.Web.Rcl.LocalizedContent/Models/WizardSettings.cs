@@ -25,7 +25,7 @@ public class WizardSettings : IWizardSettings
     protected string _apiOverrideUrl;
     public string ApiOverrideUrl
     {
-        get => string.IsNullOrWhiteSpace(_apiOverrideUrl) ? LinkGenerator?.GetPathByAction("Index", ApiControllerName ?? "Api", new { Area = this.Area }) ?? "" : _apiOverrideUrl;
+        get => string.IsNullOrWhiteSpace(_apiOverrideUrl) ? LinkGenerator?.GetPathByAction("Index", ApiControllerName ?? "Api", new { Area }) ?? "" : _apiOverrideUrl;
         set => _apiOverrideUrl = value;
     }
 

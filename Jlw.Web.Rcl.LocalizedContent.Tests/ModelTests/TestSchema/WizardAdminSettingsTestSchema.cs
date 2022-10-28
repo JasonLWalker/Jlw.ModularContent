@@ -5,6 +5,7 @@ using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
 using TModel = Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings;
 
@@ -31,12 +32,16 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "PageTitle", Public, Public);
             AddProperty(typeof(string), "ExtraCss", Public, Public);
             AddProperty(typeof(string), "ExtraScript", Public, Public);
-            AddProperty(typeof(string), "Area", Public, Public);
-            AddProperty(typeof(string), "AdminUrl", Public, Public);
-            AddProperty(typeof(string), "ApiOverrideUrl", Public, Public);
-            AddProperty(typeof(string), "PreviewUrl", Public, Public);
-            AddProperty(typeof(string), "PreviewScreenUrl", Public, Public);
-            AddProperty(typeof(string), "JsRoot", Public, Public);
+            AddProperty(typeof(LinkGenerator), "LinkGenerator", Public, Public);
+            AddProperty(typeof(string), "Area", Public, Public, false);
+            AddProperty(typeof(string), "ControllerName", Public, Public);
+            AddProperty(typeof(string), "ApiControllerName", Public, Public);
+            AddProperty(typeof(string), "AdminUrl", Public, Public, false);
+            AddProperty(typeof(string), "ApiOverrideUrl", Public, Public, false);
+            AddProperty(typeof(string), "PreviewUrl", Public, Public, false);
+            AddProperty(typeof(string), "PreviewScreenUrl", Public, Public, false);
+            AddProperty(typeof(string), "ExportUrl", Public, Public, false);
+            AddProperty(typeof(string), "JsRoot", Public, Public, false);
             AddProperty(typeof(string), "ToolboxHeight", Public, Public);
             AddProperty(typeof(string), "HiddenFilterPrefix", Public, Public);
 
