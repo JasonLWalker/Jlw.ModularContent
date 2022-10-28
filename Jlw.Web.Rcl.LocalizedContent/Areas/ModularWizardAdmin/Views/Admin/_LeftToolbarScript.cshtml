@@ -215,6 +215,7 @@
                     var text = fieldData["GroupKey"] || "";
 					try {
 				        var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
+				        var reFilterPrefix = new RegExp("^@(Model.HiddenFilterPrefix)", "ig");
 				        text = text.replace(reFilterPrefix, '');
 			        } catch (e) { }
 
@@ -390,6 +391,8 @@
 
                         menuItems['sep2'] = "---------";
                         menuItems['preview'] = { "name": "Preview", "icon": "play" };
+                        menuItems['sep3'] = "---------";
+                        menuItems['export'] = { "name": "Export", "icon": "download" };
                     }
 
 					return {
@@ -412,6 +415,9 @@
 									break;
 								case 'preview':
 									window.postMessage({ 'action': 'previewScreen', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
+									break;
+								case 'export':
+									window.postMessage({ 'action': 'export', 'screenName': (fieldType === 'SCREEN') ? (fieldData.FieldKey || '') : '' });
 									break;
 								default:
 									bootbox.alert("This menu option has not yet been implemented.");
@@ -971,6 +977,11 @@
 
 	        });
         }
+		
+		function _fnOnExportScreen(screenName) {
+	        window.open("@(Model.ExportUrl?.TrimEnd('/'))/" + $('#slctWizard').val() + '/' + screenName, "jlwLocalizedContent_ScreenExport", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no', true);
+		
+		}
 
         function _fnOnPreviewScreen(screenName) {
 	        var w = 640;
@@ -1127,7 +1138,6 @@
                             position: function(opt, x, y){
 								var offset = $('#preview-frame').offset() || {top:0,left:0};
 								offset['top'] -= $(clientFrameWindow).scrollTop();
-								console.log(opt, x + offset['left'], y + offset['top'], offset, $(clientFrameWindow).scrollTop());
 	                            opt.$menu.css({top: y+offset['top'], left: x+offset['left']});
                             }, 
                             build: function ($trigger, e) {
@@ -1215,6 +1225,9 @@
 						break;
 	                case 'previewScreen':
 		                _fnOnPreviewScreen(event.data['screenName']);
+		                break;
+	                case 'export':
+		                _fnOnExportScreen(event.data['screenName']);
 		                break;
 					case 'renameTreeNode':
 						_fnOnRenameTreeNode(event.data['nodeId']);
