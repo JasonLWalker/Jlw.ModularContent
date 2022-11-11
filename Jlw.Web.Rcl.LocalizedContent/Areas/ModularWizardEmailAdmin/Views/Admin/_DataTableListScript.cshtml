@@ -3,7 +3,6 @@
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area, groupKey = (string)null, parentKey = (string)null }) + "/" : Model.ApiOverrideUrl;
 }
-
 <script>
 
     if (!window.jlwLibLocalizedContentField) {
@@ -45,11 +44,12 @@
                     t.initTinyMce(oFrm);
                 }
 
-                $(document).on('focusin', function(e) {
-                    if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
-                        e.stopImmediatePropagation();
-                    }
-                });
+		        // Prevent Bootstrap dialog from blocking focusin
+		        document.addEventListener('focusin', function (e) { 
+		            if (e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) { 
+		                e.stopImmediatePropagation();
+		            } 
+		        });
 
                 @if (string.IsNullOrWhiteSpace(Model.GroupKey) || string.IsNullOrWhiteSpace(Model.FieldKey))
                 {
@@ -107,7 +107,7 @@
                 s += row['Language'] + " - ";
                 s +=  row['Label'] + "<hr />";
                 s += '<b>Email Subject:</b> ' + row['Subject'] + "<br />";
-                s += '<div><strong>Email Body:</strong><br />' + row['Body'] + "</div>";
+                s += '<div><strong>Email Body:</strong><br /><div class="email-body">' + row['Body'] + "</div></div>";
                 return s;
             }, [4]);
 
@@ -118,12 +118,6 @@
                 return t.dtRenderButtons(data, type, row);
             }, [19]);
 
-            /*
-            t.addDtRenderer(function(data, type, row) {
-                // Do not output content for these columns
-                return '';
-            }, [9,10]);
-            */
             var dt = t.initializeDataTable(t.sDtSelector);
 
             dt.on('error.dt',
