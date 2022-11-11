@@ -1,12 +1,23 @@
 @using Microsoft.Extensions.DependencyInjection
 @model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
 @{
-    ViewData["Title"] = ViewData["PageTitle"];
-    string version = typeof(LocalizedContentExtensions).Assembly.GetName().Version?.ToString();
-    string jsRoot = Model?.JsRoot ?? "LocalizedContent";
+    ViewData["Title"] = Model.PageTitle ?? ViewData["PageTitle"];
+	string version = Model.Version;
+    string jsRoot = "LocalizedContent";
+}
+@section Style
+{
+	<style>
+        .email-body {
+	        max-height: 10em;
+	        overflow-y: auto;
+        }
+	</style>
+	@Html.Raw(Model.ExtraCss)
 }
 @section Scripts {
-    <script src="@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")"></script>
+    @Html.Raw(Model.ExtraScript)
+    <script src="@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js?_v={version}")"></script>
     <script>
 
         function jlwDefer(fnCb) {
@@ -23,15 +34,15 @@
             function onPageLoadInit() {
                 function fnInit() {
                     window.jlwUtility.showPleaseWait();
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css?_v={version}")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css?_v={version}")"));
                     $.when(
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,"@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")")
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,"@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js?_v={version}")")
                     ).done(function() {
                         bootbox.setDefaults({ centerVertical: true, scrollable: true });
 
@@ -66,7 +77,6 @@
         })('@version');
     </script>
 }
-
 <div class="col-xs-12">
     <div>
         @if (Model?.CanInsert ?? false)
@@ -78,12 +88,9 @@
         </div>
     </div>
     <br />
-    @Html.PartialAsync("~/Areas/ModularWizardEmailAdmin/Views/Admin/_DataTableList.cshtml").Result
+    @Html.PartialAsync(Model.DataTableListView).Result
 </div>
 <div class="d-none hidden">
-
-    @Html.PartialAsync("~/Areas/ModularWizardEmailAdmin/Views/Admin/_EditRecord.cshtml").Result
-
+	@Html.PartialAsync(Model.EditView).Result
 </div>
-
-@Html.PartialAsync("~/Areas/ModularWizardEmailAdmin/Views/Admin/_DataTableListScript.cshtml").Result
+@Html.PartialAsync(Model.DataTableScriptView).Result
