@@ -1,13 +1,15 @@
+@using Jlw.Web.Rcl.LocalizedContent
 @{
     string libRoot = "LocalizedContent";
 }
+@inject IWizardSettings _settings
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/@libRoot/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/@libRoot/css/bootstrap.min.css?_v=@_settings?.Version" />
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
@@ -16,8 +18,8 @@
             @RenderBody()
         </main>
     </div>
-    <script language="javascript" src="~/@libRoot/js/jquery.min.js"></script>
-    <script language="javascript" src="~/@libRoot/js/bootstrap.min.js"></script>
+    <script language="javascript" src="~/@libRoot/js/jquery.min.js?_v=@_settings?.Version"></script>
+    <script language="javascript" src="~/@libRoot/js/bootstrap.min.js?_v=@_settings?.Version"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

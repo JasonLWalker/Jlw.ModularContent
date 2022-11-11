@@ -19,6 +19,8 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
         public OverrideModularWizardAdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository) : base(settings, repository)
         {
             _groupFilter = "Sample%";
+            DefaultSettings.Area = "";
+            DefaultSettings.ControllerName = "OverrideModularWizardAdmin";
         }
 
         [HttpGet]

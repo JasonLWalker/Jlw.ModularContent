@@ -57,7 +57,6 @@
 		<Folder Include="resources\LocalizedContent\font-awesome\" />
 	</ItemGroup>
 
-
 	<!-- Workaround https://github.com/aspnet/LibraryManager/issues/370 -->
 	<Target Name="RestoreFrontEndLibraries" BeforeTargets="BeforeBuild">
 		<Exec Command="dotnet tool restore" />

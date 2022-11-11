@@ -498,7 +498,7 @@
 	        var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
 	        var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
 	        var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
-	        s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
+	        s = s.replace(t.rxButtons, '').replace('h-100', '').replace('w-100', '').trim();
 	        s += ' btn';
 	        if (btnStyle || btnOutline || btnLink)
 		        s += ' btn-' + (btnOutline ? 'outline-': '');
@@ -511,7 +511,7 @@
             
 
 	        if (btnBlock)
-		        s += ' btn-block';
+		        s += ' w-100';
 
 	        if (btnH100)
 		        s += ' h-100';
@@ -694,7 +694,6 @@
                     $('.bootbox-body', e.currentTarget).addClass('h-100');
                 },
                 onShown: function(e) {
-                    //console.log(e);
                     $('textarea.editing', e.currentTarget).off()
                         .on("input", function() { prismSyntaxHighlight(this.value, this); })
                         .on("scroll", function() { prismSyncScroll(this); })
@@ -732,7 +731,6 @@
                             var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
                             var jsonVal = {};
                             val = val.replace(re, function(match) {
-                                //console.log(match);
                                 return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
                             });
                             try {
@@ -770,7 +768,6 @@
                     $('.bootbox-body', e.currentTarget).addClass('h-100');
                 },
                 onShown: function(e) {
-                    console.log(e, evt);
                     window.jlwLibLocalizedContentText($('table.jlw-datatable-localizedcontenttext', e.currentTarget), '@apiUrl/localization/', data, $);
                 },
                 buttons: {
@@ -926,6 +923,10 @@
 
             if ((s || "").toLowerCase().indexOf('h-100') > -1) {
                 $('input[name="buttonH100"]').prop('checked', true);
+            }
+
+            if ((s || "").toLowerCase().indexOf('w-100') > -1) {
+                $('input[name="buttonBlock"]').prop('checked', true);
             }
         }
 

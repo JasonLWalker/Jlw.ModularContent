@@ -1,4 +1,5 @@
 ﻿using Jlw.Data.LocalizedContent;
+using Microsoft.AspNetCore.Routing;
 
 namespace Jlw.Web.Rcl.LocalizedContent;
 
@@ -13,7 +14,10 @@ public interface IWizardSettings
     string ExtraCss { get; set; }
     string ExtraScript { get; set; }
     string Area { get; set; }
+    string ApiControllerName { get; set; }
+    string ControllerName { get; set; }
 
+    public LinkGenerator LinkGenerator { get; set; }
     string ApiOverrideUrl { get; set; }
     string JsRoot { get; set; }
 }

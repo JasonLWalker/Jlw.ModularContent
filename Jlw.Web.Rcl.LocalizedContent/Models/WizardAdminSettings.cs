@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
 
 namespace Jlw.Web.Rcl.LocalizedContent;
@@ -19,9 +20,34 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
     public bool WireFrameDefault { get; set; } = false;
 
     public JToken TinyMceSettings { get; set; }
-    public string AdminUrl { get; set; }
-    public string PreviewUrl { get; set; }
-    public string PreviewScreenUrl { get; set; }
+
+    protected string _adminUrl = null;
+    public virtual string AdminUrl
+    {
+        get => string.IsNullOrWhiteSpace(_adminUrl) ? LinkGenerator?.GetPathByAction("Index", ControllerName ?? "", new { Area }) ?? "" : _adminUrl; 
+        set => _adminUrl = value;
+    }
+
+    protected string _previewUrl = null;
+    public virtual string PreviewUrl
+    {
+        get => string.IsNullOrWhiteSpace(_previewUrl) ? LinkGenerator?.GetPathByAction("Preview", ControllerName ?? "", new { Area }) ?? "" : _previewUrl;
+        set => _previewUrl = value;
+    }
+
+    protected string _previewScreenUrl = null;
+    public virtual string PreviewScreenUrl
+    {
+        get => string.IsNullOrWhiteSpace(_previewScreenUrl) ? LinkGenerator?.GetPathByAction("PreviewScreen", ControllerName ?? "", new { Area }) ?? "" : _previewScreenUrl;
+        set => _previewScreenUrl = value;
+    }
+
+    protected string _exportUrl = null;
+    public virtual string ExportUrl
+    {
+        get => string.IsNullOrWhiteSpace(_exportUrl) ? LinkGenerator?.GetPathByAction("Export", ControllerName ?? "", new { Area }) ?? "" : _exportUrl;
+        set => _exportUrl = value;
+    }
 
     public string ToolboxHeight { get; set; }
 
@@ -46,8 +72,10 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
         WireFrameDefault = DataUtility.ParseBool(o, "WireFrameDefault");
         TinyMceSettings = DataUtility.ParseBool(o, "TinyMceSettings");
 
-        AdminUrl = DataUtility.ParseString(o, "AdminUrl");
-        PreviewUrl = DataUtility.ParseString(o, "PreviewUrl");
+        _adminUrl = DataUtility.ParseString(o, "AdminUrl");
+        _previewUrl = DataUtility.ParseString(o, "PreviewUrl");
+        _previewScreenUrl = DataUtility.ParseString(o, "PreviewScreenUrl");
+        _exportUrl = DataUtility.ParseString(o, "ExportUrl");
 
         ToolboxHeight = DataUtility.ParseString(o, "ToolboxHeight");
         HiddenFilterPrefix = DataUtility.ParseString(o, "HiddenFilterPrefix");

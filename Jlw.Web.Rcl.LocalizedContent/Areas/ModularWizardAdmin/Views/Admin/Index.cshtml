@@ -1,44 +1,13 @@
 @model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
-    string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+	string version = Model.Version;
     version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
 	
-    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area }) + "/" : Model?.ApiOverrideUrl;
 
     string jsRoot = "LocalizedContent";
 }
-<script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
-<script>
-    var bPreviewFrameLoaded = false;
-    window.addEventListener('message', function(event) {
-        // IMPORTANT: Check the origin of the data!
-        if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
-            switch (event.data['action']) {
-                case 'onPreviewLoad':
-                    var oFrame = document.getElementById('preview-frame');
-                    oFrame.setAttribute('data-preview-initialized', 1);
-                    bPreviewFrameLoaded = true;
-
-                    document.getElementById('preview-frame').contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
-
-                    var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
-                    var clientFrameBody = $(clientFrameWindow.document.body);
-                    if ($('#showWireframe').is(':checked')) {
-                        clientFrameBody.addClass('bootstrap-sketchy');
-                    } else {
-                        clientFrameBody.removeClass('bootstrap-sketchy');
-                    }
-                    break;
-            }
-        } else {
-            // The data hasn't been sent from your site!
-            // Be careful! Do not use it.
-            return;
-        }
-    });
-
-</script>
 <div id="wizard-toolbox" class="flex-fill d-flex justify-content-start">
     <div class="d-flex flex-row w-100 p-0 m-0">
         <div class="row w-100 p-0 m-0">
@@ -96,7 +65,38 @@
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
 @section Scripts {
-	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css">
+	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css?_v=@version">
+	<script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
+	<script>
+    var bPreviewFrameLoaded = false;
+    window.addEventListener('message', function(event) {
+        // IMPORTANT: Check the origin of the data!
+        if (event.origin.indexOf('@String.Format(" {0}://{1}", Context.Request.Scheme, Context.Request.Host)')) {
+            switch (event.data['action']) {
+                case 'onPreviewLoad':
+                    var oFrame = document.getElementById('preview-frame');
+                    oFrame.setAttribute('data-preview-initialized', 1);
+                    bPreviewFrameLoaded = true;
+
+                    document.getElementById('preview-frame').contentWindow.postMessage({action:'showSideNav', value: $('#showWizardNav').is(':checked')});
+
+                    var clientFrameWindow = $('#preview-frame').get(0).contentWindow;
+                    var clientFrameBody = $(clientFrameWindow.document.body);
+                    if ($('#showWireframe').is(':checked')) {
+                        clientFrameBody.addClass('bootstrap-sketchy');
+                    } else {
+                        clientFrameBody.removeClass('bootstrap-sketchy');
+                    }
+                    break;
+            }
+        } else {
+            // The data hasn't been sent from your site!
+            // Be careful! Do not use it.
+            return;
+        }
+    });
+
+	</script>
 	<style>
 		html, body { height: 100% !important; }
 
@@ -426,7 +426,8 @@
             }
         })(window.jQuery);
     </script>
-	<script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js")"></script>
+	<script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js?_v={version}")"></script>
+	<script src="@Url.Content($"~/{jsRoot}/js/bootbox.min.js?_v={version}")"></script>
 	<script>
 
         (function(cacheVer) {
@@ -454,24 +455,31 @@
                             });
                         }
                     });
+
                     window.jlwUtility.showPleaseWait();
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css")"));
+					$.ajaxSetup({
+					  cache: true
+					});
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css?_v={version}")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css?_v={version}")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css?_v={version}")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css?_v={version}")"));
+                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css?_v={version}")"));
                     $.when(
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.fontawesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/fancytree/dist/jquery.fancytree-all-deps.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js")"),
-                        window.jlwUtility.lazyLoadLibrary(window.tinyMCE, "@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")")
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.___FONT_AWESOME___ && window.___FONT_AWESOME___.styles && window.___FONT_AWESOME___.styles.fas, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.FontAwesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/fancytree/dist/jquery.fancytree-all-deps.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js?_v={version}")"),
+                        window.jlwUtility.lazyLoadLibrary(window.tinyMCE, "@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js?_v={version}")")
                     ).done(function() {
+						$.ajaxSetup({
+						  cache: false
+						});
                         var t = new window.libJlwUtility() || {};
                         window.libJlwWizardAdmin(t,
                             window.jQuery,
@@ -526,7 +534,7 @@
                 var headTag = document.getElementsByTagName("head")[0];
                 var jqTag = document.createElement('script');
                 jqTag.type = 'text/javascript';
-                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_v=' + cacheVer;
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js?_v={version}")';
                 jqTag.onload = onPageLoadInit;
                 headTag.appendChild(jqTag);
             } else {

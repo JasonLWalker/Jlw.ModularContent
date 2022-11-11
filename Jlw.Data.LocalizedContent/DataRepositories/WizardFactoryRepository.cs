@@ -103,6 +103,12 @@ namespace Jlw.Data.LocalizedContent
         /// <inheritdoc />
         public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string language, string groupFilter) => GetWizardFields(groupKey, null, language, groupFilter);
 
+        public IEnumerable<ILocalizedContentText> GetLanguageValues(string groupKey)
+        {
+            return _dbClient.GetRecordList<LocalizedContentText>(new { nRowStart=0, nPageSize=100000, sGroupKey=groupKey}, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentTextDt", CommandType.StoredProcedure, new[] { "nRowStart", "nPageSize", "sGroupKey" }));
+
+        }
+
         /// <inheritdoc />
         public IEnumerable<IWizardSideNavItem> GetWizardSideNavData(string groupKey, string language=null, string groupFilter=null)
         {
@@ -129,8 +135,6 @@ namespace Jlw.Data.LocalizedContent
                 }, 
                 o => DataUtility.ParseString(o, "value")));
         }
-
-
 
 
         /// <inheritdoc />
