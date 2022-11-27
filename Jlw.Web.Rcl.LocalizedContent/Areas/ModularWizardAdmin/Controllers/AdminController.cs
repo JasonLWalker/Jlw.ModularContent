@@ -62,14 +62,16 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         // GET: Default 
         public virtual ActionResult Index()
         {
-            //return View("Index");
             return GetViewResult("Index");
         }
 
         [HttpGet("Preview")]
         public virtual ActionResult Preview()
         {
-            var settings = new WizardPreviewSettings(DefaultSettings);
+	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
+	        if (auth != null) return auth;
+
+	        var settings = new WizardPreviewSettings(DefaultSettings);
             settings.SideNav.Add(new WizardSideNavItem(new WizardContentField(new {Label = "Instructions", FieldType="SCREEN"})));
             return GetViewResult("Preview", settings);
         }
@@ -77,7 +79,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         [HttpGet("Export/{wizardName?}/{screenName?}")]
         public virtual ActionResult Export(string wizardName = null, string screenName = null)
         {
-            StringBuilder sb = new StringBuilder();
+	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
+	        if (auth != null) return auth;
+	        if ((auth = TestAuthDenial(DefaultSettings.CanExport, DefaultSettings)) != null) return auth;
+
+			StringBuilder sb = new StringBuilder();
             IEnumerable<ILocalizedContentField> fieldData;
             if (string.IsNullOrWhiteSpace(screenName))
                 fieldData = DataRepository.GetWizardFields(wizardName, _groupFilter);
@@ -148,7 +154,11 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
         [NonAction]
         public virtual ActionResult GetPreviewScreen(string wizardName, string screenName, IWizardAdminSettings settings, object recordData)
         {
-            var fields = DataRepository?.GetWizardFields(wizardName, _groupFilter);
+	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
+	        if (auth != null) return auth;
+	        if ((auth = TestAuthDenial(DefaultSettings.CanPreview, DefaultSettings)) != null) return auth;
+
+			var fields = DataRepository?.GetWizardFields(wizardName, _groupFilter);
             var model = new WizardPreviewSettings(settings ?? DefaultSettings, fields, recordData ?? new {})
             {
                 ShowWireFrame = DataUtility.ParseBool(Request.Query["wireframe"]),
@@ -160,23 +170,42 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
             return View(GetViewPath("PreviewScreen"), model);
         }
 
-
-
         /// <summary>Gets the view result.</summary>
         /// <param name="viewName">Name of the view</param>
         /// <param name="settings">Settings to customize the view</param>
         /// <returns>ActionResult.</returns>
         [NonAction]
-        public ActionResult GetViewResult(string viewName = null, WizardAdminSettings settings = null)
+        public ActionResult GetViewResult(string viewName = null, IWizardAdminSettings settings = null)
         {
+	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
+	        if (auth != null) return auth;
+
             return View(GetViewPath(viewName), settings ?? DefaultSettings);
         }
 
         [NonAction]
+        public ActionResult TestAuthDenial(bool? testValue = true, IWizardAdminSettings settings = null)
+        {
+	        if (settings is null)
+	        {
+		        PopulateDefaultSettings();
+		        settings = DefaultSettings;
+	        }
+	        if (!(testValue ?? false) || !settings.IsAuthorized) return View(GetViewPath("NotAuthorized"), settings ?? DefaultSettings);
+
+			return null;
+        }
+
+		[NonAction]
         public string GetViewPath(string viewName)
         {
             return $"~/Areas/ModularWizardAdmin/Views/Admin/{viewName ?? "Index"}.cshtml";
         }
 
+        [NonAction]
+        protected virtual void PopulateDefaultSettings()
+        {
+
+        }
     }
 }
