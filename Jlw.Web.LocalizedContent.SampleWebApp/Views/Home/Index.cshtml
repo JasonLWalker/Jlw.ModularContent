@@ -12,3 +12,17 @@
     <li><a href="@Url.Action("Index","OverrideLocalizedDataItems")">Data Items Override</a></li>
     <li><a href="@Url.Action("Language","OverrideLocalizedDataItems")">Language Admin</a></li>
 </ul>
+
+<ul class="d- none"> 
+	@foreach (var claim in User.Claims) 
+	{ 
+ 
+		<li> 
+			Claim: 
+			{ 
+			"@Html.Raw(claim.Type)", 
+			"@Html.Raw(claim.Value)" 
+			} 
+		</li> 
+	} 
+</ul>
