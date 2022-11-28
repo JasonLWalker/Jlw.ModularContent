@@ -19,10 +19,51 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 
         void InitProperties()
         {
+            AddProperty(typeof(bool), "IsAuthorized", Public, Public);
             AddProperty(typeof(bool), "IsAdmin", Public, Public);
-            AddProperty(typeof(bool), "CanDelete", Public, Public);
+
+            AddProperty(typeof(bool), "CanRead", Public, Public);
+            AddProperty(typeof(bool), "CanReadField", Public, Public);
+            AddProperty(typeof(bool), "CanOrderField", Public, Public);
+
+            AddProperty(typeof(bool), "CanRenameField", Public, Public);
+            AddProperty(typeof(bool), "CanRenameWizard", Public, Public);
+            AddProperty(typeof(bool), "CanRenameScreen", Public, Public);
+
             AddProperty(typeof(bool), "CanEdit", Public, Public);
+            AddProperty(typeof(bool), "CanEditField", Public, Public);
+            AddProperty(typeof(bool), "CanEditWizard", Public, Public);
+            AddProperty(typeof(bool), "CanEditScreen", Public, Public);
+            AddProperty(typeof(bool), "CanEditLabelText", Public, Public);
+            AddProperty(typeof(bool), "CanEditError", Public, Public);
+            AddProperty(typeof(bool), "CanEditErrorText", Public, Public);
+
+            AddProperty(typeof(bool), "CanDuplicateField", Public, Public);
+            AddProperty(typeof(bool), "CanDuplicateWizard", Public, Public);
+            AddProperty(typeof(bool), "CanDuplicateScreen", Public, Public);
+
+            AddProperty(typeof(bool), "CanDelete", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteField", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteWizard", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteScreen", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteLabel", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteLabelText", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteError", Public, Public);
+            AddProperty(typeof(bool), "CanDeleteErrorText", Public, Public);
+
             AddProperty(typeof(bool), "CanInsert", Public, Public);
+            AddProperty(typeof(bool), "CanInsertField", Public, Public);
+            AddProperty(typeof(bool), "CanInsertWizard", Public, Public);
+            AddProperty(typeof(bool), "CanInsertScreen", Public, Public);
+            AddProperty(typeof(bool), "CanInsertLabel", Public, Public);
+            AddProperty(typeof(bool), "CanInsertLabelText", Public, Public);
+            AddProperty(typeof(bool), "CanInsertError", Public, Public);
+            AddProperty(typeof(bool), "CanInsertErrorText", Public, Public);
+
+            AddProperty(typeof(bool), "CanPreview", Public, Public);
+            AddProperty(typeof(bool), "CanExport", Public, Public);
+
+
             AddProperty(typeof(bool), "UseWysiwyg", Public, Public);
             AddProperty(typeof(bool), "ShowSideNav", Public, Public);
             AddProperty(typeof(bool), "SideNavDefault", Public, Public);
