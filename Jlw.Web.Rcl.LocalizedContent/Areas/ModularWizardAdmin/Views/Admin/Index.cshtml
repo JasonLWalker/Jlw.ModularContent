@@ -64,7 +64,11 @@
     </div>
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
+@section Style {
+	@Html.Raw(Model.ExtraCss)
+}
 @section Scripts {
+	@Html.Raw(Model.ExtraScript)
 	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css?_v=@version">
 	<script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
 	<script>
@@ -223,6 +227,16 @@
 		.close {
 			border: none;
 			background: transparent;
+		}
+
+		.right-toolbar .button-icon.disabled > .dropdown, #btn-update-language:disabled, #field-type-edit:disabled {
+			background-color: #e9ecef;
+		}
+
+		.right-toolbar #dropdownButtonIcon.disabled {
+			background: transparent;
+			border: transparent;
+			opacity: unset;
 		}
 
 		.right-toolbar .form-floating > .form-control-sm + label, .right-toolbar .form-floating > .form-select-sm + label {
