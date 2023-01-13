@@ -14,6 +14,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
@@ -56,6 +57,10 @@
 	<ItemGroup>
 		<Folder Include="resources\LocalizedContent\font-awesome\" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
 
 	<!-- Workaround https://github.com/aspnet/LibraryManager/issues/370 -->
 	<Target Name="RestoreFrontEndLibraries" BeforeTargets="BeforeBuild">
