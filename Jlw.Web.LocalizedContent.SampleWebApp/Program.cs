@@ -89,10 +89,10 @@ public class Program
             DefaultSettings.ShowSideNav = true;
             //DefaultSettings.SideNavDefault = false;
             DefaultSettings.ShowWireFrame = true;
-            DefaultSettings.IsAdmin = true;
-            DefaultSettings.CanEdit = true;
-            DefaultSettings.CanInsert = true;
-            DefaultSettings.CanDelete = true;
+            //DefaultSettings.IsAdmin = true;
+            //DefaultSettings.CanEdit = true;
+            //DefaultSettings.CanInsert = true;
+            //DefaultSettings.CanDelete = true;
             DefaultSettings.HiddenFilterPrefix = "Sample";
             DefaultSettings.LanguageList.Add(new SelectListItem("Chinese", "CN"));
             DefaultSettings.TinyMceSettings = JObject.Parse(@"
@@ -153,7 +153,7 @@ public class Program
             {
                 policy.RequireAssertion(context =>
                 {
-                    return context.User.Claims.Any(claim => claim.Type.Equals("ContentOverrideAccess", StringComparison.InvariantCultureIgnoreCase));
+                    return context.User.Claims.Any(claim => claim.Type.Equals(nameof(LocalizedContentAccess), StringComparison.InvariantCultureIgnoreCase) && claim.Value.Equals(nameof(LocalizedContentAccess.Authorized), StringComparison.InvariantCultureIgnoreCase));
                 });
             });
         });

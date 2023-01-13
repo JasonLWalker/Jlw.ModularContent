@@ -1,6 +1,7 @@
 ﻿@using Jlw.Data.LocalizedContent
 @using Jlw.Web.Rcl.LocalizedContent
 @inject ICommonControlListModel ControlList
+@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 <div id="rightToolbar" class="col right-toolbar open p-0 flex-column">
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -17,55 +18,76 @@
         <div class="tab-content h-100">
 
             <div id="fieldproperties-pane" class="tab-pane fade show active h-100 p-1" role="tabpanel" aria-labelledby="advproperties-tab">
-                <div style="height: 1px; font-size: small;">
-                    <div class="card common-card d-none mb-2">
-                        <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-hidecaret="left" data-showcaret="down" data-bs-toggle="collapse" role="button" data-bs-target="#collapseCommonProperties" aria-expanded="true" aria-controls="collapseCommonProperties">
-                            <small class="font-weight-bold">Common Properties</small>
-                            <span class="fa fa-caret-down fa-fw mt-1 float-end"></span>
-                        </div>
-                        <div class="collapse show" id="collapseCommonProperties">
-                            <div class="card-body px-2 pt-1 pb-2">
-                                <input name="Id" type="hidden" class="form-control form-control-sm w-100"/>
-                                <input name="GroupKey" type="hidden" class="form-control form-control-sm w-100"/>
-                                <input name="Order" type="hidden" class="form-control form-control-sm w-100"/>
-                                <input name="ParentKey" type="hidden" class="form-control form-control-sm w-100"/>
-                                <div class="form-floating field-name my-1">
-                                    <input name="FieldKey" type="text" class="form-control form-control-sm w-100" placeholder="Name"/>
-                                    <label>Name</label>
-                                </div>
-                                <div class="form-floating field-label input-group input-group-sm mb-1">
-                                    <input name="DefaultLabel" type="text" class="form-control form-control-sm bg-transparent" placeholder="">
-                                    <label>Default Label</label>
-                                    <button id="btn-update-language" class="btn btn-outline-primary border-secondary py-0" type="button"><span class="fa fa-language"></span></button>
-                                </div>
-                                <div class="form-floating field-class mb-1">
-                                    <input name="FieldClass" type="text" class="form-control form-control-sm w-100"/>
-                                    <label>Field Class</label>
-                                </div>
-                                <div class="form-floating field-type input-group input-group-sm">
-                                    <select name="FieldType" class="form-select form-select-sm" disabled="disabled" placeholder="">
-                                        <option></option>
-                                        <option value="@nameof(WizardFieldTypes.BUTTON)">Button</option>
-                                        <option value="@nameof(WizardFieldTypes.EMBED)">Embed Form</option>
-                                        <option value="@nameof(WizardFieldTypes.FORM)">Form</option>
-                                        <option value="@nameof(WizardFieldTypes.INPUT)">Form Input</option>
-                                        <option value="@nameof(WizardFieldTypes.HTML)">HTML Text Block</option>
-                                        <option value="@nameof(WizardFieldTypes.BODY)">Page Body</option>
-                                        <option value="@nameof(WizardFieldTypes.HEADING)">Page Heading</option>
-                                        <option value="@nameof(WizardFieldTypes.SEPARATOR)">Horizontal Separator Bar</option>
-	                                    <option value="@nameof(WizardFieldTypes.VSEPARATOR)">Vertical Separator Bar</option>
-                                        <option value="@nameof(WizardFieldTypes.SELECT)">Form Drop-down</option>
-                                        <option value="@nameof(WizardFieldTypes.TEXTAREA)">Text Area</option>
-                                        <option value="@nameof(WizardFieldTypes.WIZARD)">Wizard</option>
-                                        <option value="@nameof(WizardFieldTypes.SCREEN)">Wizard Screen</option>
-                                        <option value="@nameof(WizardFieldTypes.CUSTOM)">Custom Control</option>
-                                    </select>
-                                    <label>Field Type</label>
-                                    <button id="field-type-edit" class="btn btn-outline-warning border-secondary text-dark py-0"><small><span class="fa fa-edit"></span></small></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+	            <input name="Id" type="hidden" class="form-control form-control-sm w-100"/>
+	            <input name="GroupKey" type="hidden" class="form-control form-control-sm w-100"/>
+	            <input name="Order" type="hidden" class="form-control form-control-sm w-100"/>
+	            <input name="ParentKey" type="hidden" class="form-control form-control-sm w-100"/>
+				<div style="height: 1px; font-size: small;">
+				<div class="card common-card d-none mb-2">
+					<div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-hidecaret="left" data-showcaret="down" data-bs-toggle="collapse" role="button" data-bs-target="#collapseCommonProperties" aria-expanded="true" aria-controls="collapseCommonProperties">
+						<small class="font-weight-bold">Field Properties</small>
+						<span class="fa fa-caret-down fa-fw mt-1 float-end"></span>
+					</div>
+					<div class="collapse show" id="collapseCommonProperties">
+						<div class="card-body px-2 pt-1 pb-2">
+							<div class="form-floating field-name my-1">
+								<input name="FieldKey" type="text" class="form-control form-control-sm w-100" placeholder="Name"/>
+								<label>Name</label>
+							</div>
+							<div class="form-floating field-type input-group input-group-sm mb-1">
+								<select name="FieldType" class="form-select form-select-sm" disabled="disabled" placeholder="">
+									<option></option>
+									<option value="@nameof(WizardFieldTypes.BUTTON)">Button</option>
+									<option value="@nameof(WizardFieldTypes.EMBED)">Embed Form</option>
+									<option value="@nameof(WizardFieldTypes.FORM)">Form</option>
+									<option value="@nameof(WizardFieldTypes.INPUT)">Form Input</option>
+									<option value="@nameof(WizardFieldTypes.HTML)">HTML Text Block</option>
+									<option value="@nameof(WizardFieldTypes.BODY)">Page Body</option>
+									<option value="@nameof(WizardFieldTypes.HEADING)">Page Heading</option>
+									<option value="@nameof(WizardFieldTypes.SEPARATOR)">Horizontal Separator Bar</option>
+									<option value="@nameof(WizardFieldTypes.VSEPARATOR)">Vertical Separator Bar</option>
+									<option value="@nameof(WizardFieldTypes.SELECT)">Form Drop-down</option>
+									<option value="@nameof(WizardFieldTypes.TEXTAREA)">Text Area</option>
+									<option value="@nameof(WizardFieldTypes.WIZARD)">Wizard</option>
+									<option value="@nameof(WizardFieldTypes.SCREEN)">Wizard Screen</option>
+									<option value="@nameof(WizardFieldTypes.CUSTOM)">Custom Control</option>
+								</select>
+								<label>Field Type</label>
+								<button id="field-type-edit" class="btn btn-outline-warning border-secondary text-dark py-0"><small><span class="fa fa-edit"></span></small></button>
+							</div>
+							<div class="form-floating field-class">
+								<input name="FieldClass" type="text" class="form-control form-control-sm w-100"/>
+								<label>Field Class</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card label-card d-none mb-2 ">
+					<div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-bs-toggle="collapse" data-hidecaret="left" data-showcaret="down" role="button" data-bs-target="#collapseLabelProperties" aria-expanded="true" aria-controls="collapseLabelProperties">
+						<small class="font-weight-bold">Label Properties</small>
+						<span class="fa fa-caret-down fa-fw mt-1 float-end"></span>
+					</div>
+					<div class="collapse show" id="collapseLabelProperties">
+						<div class="card-body px-2 pt-1 pb-2">
+	                                
+							<div class="form-floating field-label input-group input-group-sm my-1">
+								<input name="DefaultLabel" type="text" class="form-control form-control-sm bg-transparent" placeholder="">
+								<label>Default Label</label>
+								<button id="btn-update-language" class="btn btn-outline-primary border-secondary py-0" type="button"><span class="fa fa-language"></span></button>
+							</div>
+							<div class="form-floating label-class mb-1">
+								<input name="LabelClass" type="text" class="form-control form-control-sm w-100"/>
+								<label>Label Class</label>
+							</div>
+							<div class="form-check form-switch fs-6">
+								<input type="checkbox" role="switch" class="form-check-input" id="hideLabel" />
+								<label class="form-check-label" for="hideLabel"><small>Hide Label</small></label>
+							</div>
+						</div>
+					</div>
+				</div>
+
                     <div class="card input-card d-none mb-2">
                         <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-bs-toggle="collapse" data-hidecaret="left" data-showcaret="down" role="button" data-bs-target="#collapseInputProperties" aria-expanded="true" aria-controls="collapseInputProperties">
                             <small class="font-weight-bold">Input Properties</small>
@@ -257,17 +279,47 @@
                         <div class="collapse show" id="collapseEmbedProperties">
                             <div class="card-body px-2 pt-1 pb-2">
 
+	                            <div class="form-floating embed-screen my-1">
+		                            <input name="EmbedScreen" type="text" class="form-control form-control-sm w-100"/>
+		                            <label>Screen</label>
+	                            </div>
+	                            <div class="form-floating embed-form my-1">
+		                            <input name="EmbedForm" type="text" class="form-control form-control-sm w-100"/>
+		                            <label>Form</label>
+	                            </div>
+	                            <div class="form-check form-switch fs-6">
+		                            <input type="checkbox" role="switch" class="form-check-input" id="hasEditButton" />
+		                            <label class="form-check-label" for="hasEditButton"><small>Has Edit Button</small></label>
+	                            </div>
+	                            <div class="form-check form-switch fs-6">
+		                            <input type="checkbox" role="switch" class="form-check-input" id="isDisabled" />
+		                            <label class="form-check-label" for="isDisabled"><small>Disabled</small></label>
+	                            </div>
+	                            <div class="form-check form-switch fs-6">
+		                            <input type="checkbox" role="switch" class="form-check-input" id="useEmbedCardLayout" />
+		                            <label class="form-check-label" for="useEmbedCardLayout"><small>Use Card Layout</small></label>
+	                            </div>
+
+
                             </div>
                         </div>
                     </div>
-                    <div class="card form-card d-none mb-2 ">
+	                    
+
+					<div class="card form-card d-none mb-2 ">
                         <div class="card-header bg-secondary text-light px-2 py-0 card-toggle-thumb" data-bs-toggle="collapse" data-hidecaret="left" data-showcaret="down" role="button" data-bs-target="#collapseFormProperties" aria-expanded="true" aria-controls="collapseFormProperties">
                             <small class="font-weight-bold">Form Properties</small>
                             <span class="fa fa-caret-down fa-fw mt-1 float-end"></span>
                         </div>
                         <div class="collapse show" id="collapseFormProperties">
-                            <div class="card-body px-2 pt-1 pb-2">
-                            </div>
+	                        <div class="card-body px-2 pt-1 pb-2">
+                                
+		                        <div class="form-check form-switch fs-6">
+			                        <input type="checkbox" role="switch" class="form-check-input" id="useCardLayout" />
+			                        <label class="form-check-label" for="useCardLayout"><small>Use Card Layout</small></label>
+		                        </div>
+
+	                        </div>
                         </div>
                     </div>
 
@@ -650,18 +702,21 @@
 		                <div class="collapse show" id="collapseErrorMessages">
 			                <div class="form-floating card-body p-2">
 				                <div class="form-floating">
-                                    <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-fieldmessagetext" data-server-side="true" data-defer-loading="0" data-searching='false' data-ordering='false' data-paging="false" data-info="false" data-language='{"zeroRecords":"No Messages defined"}' width="100%">
+					                <table class="table table-bordered table-sm table-striped table-hover jlw-datatable jlw-datatable-fieldmessagetext" data-server-side="true" data-defer-loading="0" data-searching='false' data-ordering='false' data-paging="false" data-info="false" data-language='{"zeroRecords":"No Messages defined"}' width="100%">
 						                <thead class="d-none">
 						                <tr>
-							                <td data-name="FieldKey">Field Key</td>
-							                <td data-name="Language" data-visible="false" class="d-none">Language</td>
+							                <td data-data="FieldKey">Field Key</td>
+							                <td data-data="Language" data-visible="false" class="d-none">Language</td>
 							                <td width="30" class="align-middle text-center"></td>
 						                </tr>
 						                </thead>
 					                </table>
-					                <div class="text-center">
-						                <button type="button" class="btn btn-sm btn-outline-primary btn-add-errormessage"><span class="fa fa-plus"></span> Add Error Message</button>
-					                </div>
+                                    @if (Model?.CanInsertErrorText ?? false)
+                                    {
+	                                    <div class="text-center">
+		                                    <button type="button" class="btn btn-sm btn-outline-primary btn-add-errormessage"><span class="fa fa-plus"></span> Add Error Message</button>
+	                                    </div>
+                                    }
 				                </div>
 			                </div>
 		                </div>

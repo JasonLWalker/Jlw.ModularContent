@@ -122,9 +122,11 @@
 		        for (var i in wizardData) {
 			        var data = wizardData[i];
 					var elem = libComponents.renderWizardFormField(data, parent);
-					elem.addClass('position-relative');
-					if (data['UseCount']) {
-                        elem.append('<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info" title="Times used in wizard: ' + data['UseCount'] + '">'+ data['UseCount'] +'</span>');
+					if (elem) {
+						elem.addClass('position-relative');
+						if (data['UseCount']) {
+	                        elem.append('<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info" title="Times used in wizard: ' + data['UseCount'] + '">'+ data['UseCount'] +'</span>');
+						}
 					}
 		        }
 		        parent.children().attr('draggable', true);
@@ -259,9 +261,120 @@
 
         }
 
+		function addMenuSeparator(menuItems) {
+			var k = 'sep' + (Date.now().valueOf() + Math.random());
+			
+			if($.isEmptyObject(menuItems)) 
+				return;
+
+            menuItems[k] = "---------";			
+			return k;
+		}
+
+		function getContextMenu(fieldData) {
+			var menuItems = {};
+			var fieldType = (fieldData.FieldType || "").toUpperCase();
+			var fieldKey = (fieldData.FieldKey || "").toUpperCase();
+			
+			if (['BODY', 'HEADING', 'BUTTONGROUP'].includes(fieldType)) {
+				return menuItems;
+			}
+
+			if (['BODY', 'HEADING'].includes(fieldKey)) {
+				return menuItems;
+			}
+
+			@if (Model.CanDuplicateWizard || Model.CanDuplicateScreen || Model.CanDuplicateField)
+			{
+				// Add Duplicate menu item 
+				if (Model.CanDuplicateWizard)
+				{
+					@:if (fieldType === 'WIZARD' && !menuItems["duplicate"]) menuItems["duplicate"] = { "name": "Duplicate", "icon": "copy" };
+				}
+				if (Model.CanDuplicateScreen)
+				{
+					@:if (fieldType === 'SCREEN' && !menuItems["duplicate"]) menuItems["duplicate"] = { "name": "Duplicate", "icon": "copy" };
+				}
+				if (Model.CanDuplicateField)
+				{
+					@:if (fieldType !== 'WIZARD' && fieldType !== 'SCREEN' && !menuItems["duplicate"]) menuItems["duplicate"] = { "name": "Duplicate", "icon": "copy" };
+				}
+			}
+			@if (Model.CanRenameWizard || Model.CanRenameScreen || Model.CanRenameField)
+			{
+				// Add Rename menu item
+				if (Model.CanRenameWizard)
+				{
+					@:if (fieldType === 'WIZARD' && !menuItems["rename"]) menuItems["rename"] = { "name": "Rename", "icon": "edit" };
+				}
+				if (Model.CanRenameScreen)
+				{
+					@:if (fieldType === 'SCREEN' && !menuItems["rename"]) menuItems["rename"] = { "name": "Rename", "icon": "edit" };
+				}
+				if (Model.CanRenameField)
+				{
+					@:if (fieldType !== 'WIZARD' && fieldType !== 'SCREEN' && !menuItems["rename"]) menuItems["rename"] = { "name": "Rename", "icon": "edit" };
+				}
+			}
+			@if (Model.CanDeleteWizard || Model.CanDeleteScreen || Model.CanDeleteField)
+			{
+				if (Model.CanDeleteWizard)
+				{
+					@:if (fieldType === 'WIZARD' && !menuItems["delete"]) menuItems["delete"] = { "name": "Delete", "icon": "delete" };
+				}
+				if (Model.CanDeleteScreen)
+				{
+					@:if (fieldType === 'SCREEN' && !menuItems["delete"]) menuItems["delete"] = { "name": "Delete", "icon": "delete" };
+				}
+				if (Model.CanDeleteField)
+				{
+					@:if (fieldType !== 'WIZARD' && fieldType !== 'SCREEN' && !menuItems["delete"]) menuItems["delete"] = { "name": "Delete", "icon": "delete" };
+				}
+			}
+			@if (Model.CanInsertWizard || Model.CanInsertScreen)
+			{
+				@:if (fieldType === 'SCREEN' || fieldType === 'WIZARD') addMenuSeparator(menuItems);
+				if (Model.CanInsertWizard)
+				{
+					@:if (fieldType === 'WIZARD') menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
+				}
+
+				if (Model.CanInsertScreen)
+				{
+					@:if (fieldType === 'SCREEN' || fieldType === 'WIZARD') menuItems['addscreen'] = { "name": "Add New Screen", "icon": 'add' };
+				}
+			}
+			@if (Model.CanPreview)
+			{
+				// Add Preview menu item 
+				<text>
+				if (fieldType === 'SCREEN' || fieldType === 'WIZARD')  {
+					addMenuSeparator(menuItems);
+					menuItems['preview'] = { "name": "Preview", "icon": "play" };
+				}
+				</text>
+			}
+			@if (Model.CanExport)
+			{
+				// Add Export menu item 
+				<text>
+				if (fieldType === 'SCREEN' || fieldType === 'WIZARD')  {
+					addMenuSeparator(menuItems);
+					menuItems['export'] = { "name": "Export", "icon": "download" };
+				}
+				</text>
+			}
+
+			return menuItems;
+		}
+
+
+
         function initFancyTree(target) {
 	        var rexNoDrag = /(^HEADING_HEADING$|^HEADING_TEXT$|^BODY_HTML$|_BUTTONGROUP$)/i;
 	        var rexNoDrop = /(^HEADING_HEADING$|^HEADING_TEXT$|^BODY_HTML$)/i;
+			
+
 	        $(target).fancytree({
 		        source: onLoadTree,
 		        activeVisible: true, // Make sure, active nodes are visible (expanded)
@@ -347,27 +460,20 @@
 			$(target).contextMenu({
 				selector: ".fancytree-title",
 				zIndex: 1050,
-				/*
-				events: {
-					activated: function (options) {
-						//options.$menu.css('z-index', 950);
-					}
-				},
-				*/
 				build: function ($trigger, e) {
 					var node = $.ui.fancytree.getNode($trigger);
 					var parentNode = node.parent || {};
 
 					var fieldData = (node && node.data && node.data.field_data) ? node.data.field_data : {};
+					var fieldType = (fieldData.FieldType || "").toUpperCase();
                     var parentData = (parentNode && parentNode.data && parentNode.data.field_data) ? parentNode.data.field_data : {};
-					var menuItems = {
-                        "duplicate": { "name": "Duplicate", "icon": "copy" },
-						"rename" : { "name": "Rename", "icon": "edit" },
-                        "delete": { "name": "Delete", "icon": "delete" }
-					};
+					var menuItems = getContextMenu(fieldData);
+					
+					if ($.isEmptyObject(menuItems)) return false;
+
+					@*
 					var wizardKey = $('#slctWizard').val().toUpperCase() || "";
 
-					var fieldType = (fieldData.FieldType || "").toUpperCase();
                     var fieldKey = (fieldData.FieldKey || "").toUpperCase();
 					var parentKey = (fieldData.ParentKey || "").toUpperCase();
                     var parentType = (parentData.FieldType || "").toUpperCase();
@@ -381,19 +487,7 @@
 						}
 
 					}
-                    if (fieldType === 'SCREEN' || fieldType === 'WIZARD') {
-                        menuItems['sep1'] = "---------";
-                        if (fieldType === 'WIZARD') {
-							menuItems['addwizard'] = { "name": "Add New Wizard", "icon": "add" };
-							delete menuItems['rename'];
-                        }
-						menuItems['addscreen'] = { "name": "Add New Screen", "icon": 'add' };
-
-                        menuItems['sep2'] = "---------";
-                        menuItems['preview'] = { "name": "Preview", "icon": "play" };
-                        menuItems['sep3'] = "---------";
-                        menuItems['export'] = { "name": "Export", "icon": "download" };
-                    }
+					*@
 
 					return {
 						callback: function(action, options) {
@@ -533,7 +627,7 @@
 			var $source = $(clone);
 	        var type = ($source.data('field-type') || "").toLowerCase();
 			var groupName = to.options.group['name'];
-			event.preventDefault();
+			if (event && event.preventDefault) event.preventDefault();
 	        switch (groupName) {
 	        case 'wizardForms':
 		        if (validFormTypes.indexOf(type) >= 0) {
@@ -815,38 +909,6 @@
 		        }
 
 	        });
-			@*
-	        bootbox.confirm(txt,
-		        function (val) {
-			        if (val) {
-				        var data = { 'Id': nodeId, FieldType: fieldType, GroupKey: groupKey, FieldName: fieldName };
-				        t.post('@apiUrl/DuplicateField', data)
-					        .done(function(data) {
-						        placeholder.detach();
-						        if (obj) {
-							        obj.remove();
-						        }
-
-					        })
-					        .fail(function () {
-						        if (obj) {
-							        obj.removeClass('sortable-delete');
-							        obj.insertBefore(placeholder);
-						        }
-						        placeholder.detach();
-					        })
-					        .always(function() {
-						        tree.getNodeByKey(nodeId).remove();
-								if (fieldType.toUpperCase() == 'WIZARD')
-									onLoadWizard();
-								else
-									window.postMessage({ 'action': 'updateTree', 'tree-id': $(event.from).children().data('tree-id') || $(event.from).closest('[data-field-key]').data('tree-id') });
-						        t.hidePleaseWait();
-					        });
-			        }
-		        }
-	        );
-	*@
 
         }
 
@@ -1053,32 +1115,6 @@
 			}
         }
 
-        @*
-        function onEditWizard(event) {
-	        var dialog = bootbox.dialog({
-		        title: 'Edit Wizard',
-		        message: '<div class="form-group"><label>Wizard Name</label><input type="text" class="form-control" /></div>',
-		        inputType: 'text',
-		        size: 'md',
-		        buttons: {
-			        confirm: {
-				        label: '<span class="fa fa-save"></span> Save',
-				        className: 'btn-success',
-				        callback: function(event) {
-				        }
-			        },
-			        cancel: {
-				        label: '<span class="fa fa-ban"></span> Cancel',
-				        className: 'btn-danger'
-			        }
-		        }
-
-	        });
-
-        }
-		*@
-
-        @*// ReSharper restore InconsistentNaming*@
 
         function processWindowMessages(event) {
             // IMPORTANT: Check the origin of the data!
@@ -1142,18 +1178,22 @@
                             }, 
                             build: function ($trigger, e) {
                                 var node = tree.getNodeByKey($trigger.data('tree-id'));
-                                var parentNode = node.parent || {};
-
                                 var fieldData = (node && node.data && node.data.field_data) ? node.data.field_data : {};
+								var fieldType = (fieldData.FieldType || "").toUpperCase();
+								var menuItems = getContextMenu(fieldData);
+								if ($.isEmptyObject(menuItems)) return false;
+
+								@*
+                                var parentNode = node.parent || {};
                                 var parentData = (parentNode && parentNode.data && parentNode.data.field_data) ? parentNode.data.field_data : {};
-                                var menuItems = {
+								
+								var menuItems = {
 	                                "duplicate": { "name": "Duplicate", "icon": "copy" },
 	                                "rename" : { "name": "Rename", "icon": "edit" },
 	                                "delete": { "name": "Delete", "icon": "delete" }
                                 };
                                 var wizardKey = $('#slctWizard').val().toUpperCase() || "";
 
-                                var fieldType = (fieldData.FieldType || "").toUpperCase();
                                 var fieldKey = (fieldData.FieldKey || "").toUpperCase();
                                 var parentKey = (fieldData.ParentKey || "").toUpperCase();
                                 var parentType = (parentData.FieldType || "").toUpperCase();
@@ -1181,6 +1221,9 @@
 	                                menuItems['sep2'] = "---------";
 	                                menuItems['preview'] = { "name": "Preview", "icon": "play" };
                                 }
+								
+								if ($.isEmptyObject(menuItems)) menuItems['sep1'] = "---------";
+								*@
 
                                 return {
                                     callback: function (action, options) {
@@ -1253,15 +1296,23 @@
         onLoadWizard({});
 
         initDragDrop();
+		
+		@if (Model.CanInsertWizard)
+		{
+			@:$('#new-wizard-btn').on('click', function () { postMessage({ 'action': 'addWizard' }); });
+		}
+		else
+		{
+			@:$('#new-wizard-btn').prop('disabled', true);
+		}
 
-        $('#new-wizard-btn').on('click', function () { postMessage({ 'action': 'addWizard' }); });
-		@*
-        $('#edit-wizard-btn').on('click', function () {
-			var id = $('#slctWizard option:selected').data('tree-id');
-			//postMessage({ 'action': 'renameTreeNode', 'nodeId': id });
-        });*@
-        $('#new-screen-btn').on('click', function(){ postMessage({'action':'addScreen'}); });
-
-
-    }
+		@if (true || Model.CanInsertScreen)
+		{
+			@:$('#new-screen-btn').on('click', function(){ postMessage({'action':'addScreen'}); });
+		}
+		else
+		{
+			@:$('#new-screen-btn').prop('disabled', true);
+		}
+	}
 </script>

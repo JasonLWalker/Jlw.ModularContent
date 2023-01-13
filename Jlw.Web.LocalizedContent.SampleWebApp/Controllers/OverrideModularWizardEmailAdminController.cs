@@ -62,38 +62,5 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
             return GetViewResult("~/Areas/ModularWizardEmailAdmin/Views/Admin/Index.cshtml", settings);
 
         }
-/*
-        [HttpGet("{groupKey}/{parentKey}")]
-        public override ActionResult Index(string groupKey, string parentKey)
-        {
-            string adminApiUrl = Url.Action("Index", "OverrideModularWizardEmailAdminApi", new { Area = "" }) + "/";
-
-            var aBreadcrumb = new List<KeyValuePair<string, string>>()
-            {
-                new KeyValuePair<string, string>(Url.Action("Index", "Home"), "Home"),
-                new KeyValuePair<string, string>(Url.Action("Index", "Admin"), "Administration"),
-            };
-
-            ViewData["Breadcrumb"] = aBreadcrumb;
-            var settings = new AdminController.WizardAdminSettings()
-            {
-                PageTitle = "Email Admin",
-                IsAdmin = true,
-                CanEdit = true,
-                CanInsert = true,
-                CanDelete = true,
-                GroupKey = groupKey,
-                FieldKey = parentKey,
-                ApiOverrideUrl = adminApiUrl,
-            };
-
-            settings.TinyMceSettings = new JObject()
-            {
-                "test1", "test2"
-            };
-
-            return GetViewResult("~/Areas/ModularWizardEmailAdmin/Views/Admin/Index.cshtml", settings);
-        }
-*/
     }
 }
