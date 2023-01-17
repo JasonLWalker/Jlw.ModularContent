@@ -52,6 +52,9 @@ namespace Jlw.Data.LocalizedContent
         /// <summary>Field is an HR Html element</summary>
         SEPARATOR,
 
+        /// <summary>Field is a Vertical Separator bar (bootstrap 5)</summary>
+        VSEPARATOR,
+
         /// <summary>Field is a Custom form element</summary>
         CUSTOM
     }

@@ -10,7 +10,10 @@
         var oRightToolbar = $('#rightToolbar');
         var oFieldClass = $('input[name=FieldClass]', oRightToolbar);
         var oFieldData = $('input[name=FieldData]', oRightToolbar);
+        
         t.oRightToolbar = oRightToolbar;
+        t.dtErrorMessages = {};
+
 
         function initMemberRegex() {
 	        // Regular expressions
@@ -47,7 +50,7 @@
 	        $('input[name="ColSize"]', t.oRightToolbar).data('display-values', t.aColSize);
 	        $('.padding-p', t.oRightToolbar).data('display-values', t.aPaddingSize);
 	        $('.margin-m', t.oRightToolbar).data('display-values', t.aMarginSize);
-            
+    
 	        $('.padding-p', t.oRightToolbar).on('change', onChangePaddingSize);
 	        $('.margin-m', t.oRightToolbar).on('change', onChangeMarginSize);
 
@@ -57,29 +60,136 @@
 	        $('input[name="FieldPaddingBreakpoint"],input[name="WrapperPaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
 	        $('input[name="FieldMarginBreakpoint"], input[name="WrapperMarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
     
-
-
 	        $('.form-range', t.oRightToolbar).on('input',onChangeSlider);
 	        $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
 	        $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
-
-	        $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
-	        $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
 
 	        $('select[name=buttonIcon] option', t.oRightToolbar).each(function() {
 		        var elem = $(this);
 		        var val = elem.val();
 		        $('.button-icon .dropdown-menu', t.oRightToolbar).append('<a href="#" class="dropdown-item small" data-icon=' + val + '>' + (val == "" ? '' : '<span class="fa fa-fw ' + val + '"></span> - ') + elem.text() + '</a>');
 	        });
+            
+			$('#btn-update-language').on('click', onClickBtnLanguage);
+			$('.btn-field-data').on('click', onClickBtnFieldData);
+            @if(Model?.CanEditField ?? false) {
+		        <text>
+			        $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
+			        $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
 
-	        $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
-	        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputData);
+		            $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
+			        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputType);
+			        $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
+			        $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);          
+			        $('#field-type-edit').on('click', onClickBtnFieldTypeEdit);
+				</text>
+		    }
+            else
+            {
+				@:$('input[type=text], input[type=checkbox], input[type=range], input[type=text], #btn-update-language, #field-type-edit, textarea, select', t.oRightToolbar).prop('disabled', true);
+	            @:$('#dropdownButtonIcon, .button-icon', t.oRightToolbar).addClass('disabled');
+	            if (Model?.CanEditLabelText ?? false)
+	            {
+		            @:$('input[name=DefaultLabel], #btn-update-language', t.oRightToolbar).prop('disabled', false);
+		            @:$('input[name=DefaultLabel]', t.oRightToolbar).off().on('change', saveFieldData);
+	            }
+	            else
+	            {
+		            @:$('input[name=DefaultLabel]', t.oRightToolbar).removeClass('bg-transparent');
+	            }
+            }
 
-	        $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
-	        $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);
 
-	        $('.btn-field-data').on('click', onClickBtnFieldData);
-	        $('#btn-update-language').on('click', onClickBtnLanguage);
+
+
+			    t.libErrorMessages = new jlwLibErrorMessages('table.jlw-datatable.jlw-datatable-fieldmessagetext', t.urlApiRoot + '/ErrorMessage/', $);
+        }
+
+
+        function jlwLibErrorMessages($target, urlRoot, $) {
+	        if (!$) $ = window.jQuery;
+
+	        $.fn.dataTable.ext.errMode = 'none';
+	        var lib = new libJlwAppBuilder(urlRoot, $target);
+            
+            @if (Model?.CanEditErrorText ?? false)
+            {
+				@:lib.frmEdit = $('#jlwEditFormErrorMessageText').html();
+            }
+
+            @if (Model?.CanInsertErrorText ?? false)
+            {
+	            <text>
+		            function fnOnAddRecord(fnOnShow) {
+		                function fnShow(o, data) {
+			                var oFrm = $(o);
+			                $('input[name=GroupKey]', oFrm).val($('input[name=GroupKey]', t.oRightToolbar).val());
+			                $('input[name=FieldKey]', oFrm).val();
+			                $('select[name=Language]', oFrm).val('EN');
+		                    $('input[name=ParentKey]', oFrm).val($('input[name=FieldKey]', t.oRightToolbar).val());
+			                if (typeof fnOnShow == 'function')
+				                fnOnShow(o, data);
+		                }
+		                return lib.onAddRecord(fnShow);
+		            }
+	            </text>
+            }
+
+            @if (Model?.CanEditErrorText ?? false)
+            {
+	            <text>
+			        function fnOnEditRecord(oBtn, fnOnShow) {
+				        function fnShow(o, data) {
+					        var oFrm = $(o);
+					        $('input[name=FieldKey]', oFrm).prop('readonly', true);
+					        $('select[name=Language]', oFrm).prop('disabled', true);
+					        if (typeof fnOnShow == 'function')
+						        fnOnShow(o, data);
+				        }
+				        return lib.onEditRecord(oBtn, fnShow);
+			        }
+
+			        lib.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
+	            </text>
+            }
+
+            @if (Model?.CanDeleteErrorText ?? false)
+            {
+	            @:lib.addDtRowButton('', 'btn-delete-message', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', lib.onDeleteRecord);
+            }
+
+
+	        function fnRenderErrorMessage(cell, type, row) { return '<small><b><em>' + row['Language'] + ' - '+ row['FieldKey'] + '</em></b><br />' + row['Text'] + '</small>'; }
+            
+
+
+
+	        lib.fnPostDtAjaxData = function(dta) {
+		        dta['GroupKey'] = $('input[name=GroupKey]', t.oRightToolbar).val();
+		        dta['ParentKey'] = $('input[name=FieldKey]', t.oRightToolbar).val();
+	        }
+
+	        lib.addDtRenderer(fnRenderErrorMessage, [0]);
+	        lib.addDtRenderer(lib.dtRenderButtons, [2]);
+	        var dt = lib.initializeDataTable(lib.sDtSelector);
+
+	        dt.on('error.dt',
+			        function(e, settings, techNote, message) {
+				        if (console)
+					        console.log('An error has been reported by DataTables: ', message);
+			        })
+		        .on('xhr.dt', function ( e, settings, json, xhr ) {
+			        var data = xhr["responseJSON"];
+			        t.checkAjaxMessage(data);
+		        } );
+                
+            @if (Model?.CanInsertErrorText ?? false)
+            {
+	            @:lib.addDtFooterButton(' Add New Record', '.btn-add-errormessage', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
+	            @:$('.btn-add-errormessage', t.oRightToolbar).off('click').on('click', fnOnAddRecord);
+            }
+
+	        return lib;
         }
 
         function getParentBreakpoint(parent) {
@@ -89,7 +199,7 @@
         function loadProperties(fieldId) {
 	        t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
 		        .done(function(data) {
-			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+			        $('.common-card, .label-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
 			        var p = $('#propertylist');
 			        $('.form-group', p).addClass('d-none');
 			        $('input', p).val('');
@@ -153,11 +263,17 @@
 			        $('.input-group-append', o).addClass('d-none');
 
 			        s = JSON.stringify(fieldData);
-			        //$('input[name=FieldData]', t.oRightToolbar).val(s);
 			        oFieldData.val(s);
 
 
+					$('.label-card').removeClass('d-none');
+                    var b = (fieldData['hideLabel'] || "") ? true : false;
+                    $('input#hideLabel').prop('checked', b);
+                    
 			        switch (fieldType) {
+				        case 'WIZARD':
+					$('.label-card').addClass('d-none');
+							break;
 				        case 'BUTTON':
 					        $('.button-card').removeClass('d-none');
 					        s = (fieldData['type'] || "").toUpperCase();
@@ -169,26 +285,62 @@
 					        break;
 				        case 'INPUT':
 					        $('.input-card').removeClass('d-none');
+					        $('.error-message-card').removeClass('d-none');
 					        s = (fieldData['type'] || "").toUpperCase();
 					        $('select[name=InputType]').val(s);
 					        o = $('.field-type');
 					        $('.input-group-sm', o).addClass('input-group');
 					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+					        break;
+				        case 'FORM':
+					        $('.form-card').removeClass('d-none');
+					        $('.error-message-card').addClass('d-none');
+                            b = (fieldData['useCardLayout'] || "") ? true : false;
+                            $('input#useCardLayout').prop('checked', b);
+					        t.libErrorMessages.redrawTable();
+					        break;
+				        case 'EMBED':
+					        $('.embed-card').removeClass('d-none');
+					        $('.error-message-card').addClass('d-none');
+
+					        $('input[name=EmbedScreen]').val((fieldData['screen'] || fieldData['Screen'] || ""));
+					        $('input[name=EmbedForm]').val((fieldData['form'] || fieldData['Form'] || ""));
+
+                            b = (fieldData['hasEditButton'] || "") ? true : false;
+                            $('input#hasEditButton').prop('checked', b);
+                            b = (fieldData['disabled'] || "") ? true : false;
+                            $('input#isDisabled').prop('checked', b);
+                            b = (fieldData['useCardLayout'] || "") ? true : false;
+                            $('input#useEmbedCardLayout').prop('checked', b);
+					        t.libErrorMessages.redrawTable();
 					        break;
 				        case 'SELECT':
+					        $('.error-message-card').removeClass('d-none');
 					        s = (fieldData['type'] || "").toUpperCase();
 					        o = $('.select-type');
 					        o.removeClass('d-none');
 					        $('select', o).val(s);
 					        $('.input-group-sm', o).addClass('input-group');
 					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
                             break;
+						case 'TEXTAREA':
+					        $('.error-message-card').removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+					        break;
 			        }
+                    
+	                $('input[name=FieldKey]', toolbar).prop('disabled', true);
 
-                    if (['WIZARD', 'SCREEN', 'FORM', 'BODY', 'HEADING'].includes(fieldType)) {
-	                    $('input[name=FieldKey]', toolbar).prop('disabled', true);
-                    } else 
-	                    $('input[name=FieldKey]', toolbar).prop('disabled', false);
+                    @if (Model.CanEditField)
+				    {
+					    <text>
+						    if (!(['WIZARD', 'SCREEN', 'FORM', 'BODY', 'HEADING'].includes(fieldType))) {
+			                    $('input[name=FieldKey]', toolbar).prop('disabled', false);
+		                    }
+					    </text>
+				    }
 
 
 			        o = $('.field-class');
@@ -203,12 +355,12 @@
 			        window.setTimeout(function() { o.removeClass('updating'); }, 10);
 		        })
 		        .fail(function() {
-			        $('.common-card, .input-card, .select-type, .button-card, .form-card, .embed-card').addClass('d-none');
+			        $('.common-card, .label-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
 		        });
         }
 
         function onChangeColBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -225,7 +377,7 @@
         }
 
         function onChangeMarginBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -276,7 +428,7 @@
         }
 
         function onChangeMarginSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var m = $('input[name=MarginSize]', parent);
 	        var coll;
@@ -300,7 +452,7 @@
         }
 
         function onChangePaddingBreakpoint(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var bp = getParentBreakpoint(parent);
@@ -352,7 +504,7 @@
         }
 
         function onChangePaddingSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var p = $('input[name=PaddingSize]', parent);
 	        var coll;
@@ -376,7 +528,7 @@
         }
 
         function onChangeColSpanSize(evt) {
-	        var target = $(evt.target);
+	        var target = $(evt.delegateTarget);
 	        var parent = $(target.data('container'), t.oRightToolbar);
 	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
 	        var data = parseColClass(updateClass.val());
@@ -392,7 +544,7 @@
         }
 
         function onChangeSlider(evt) {
-	        var o = $(evt.target);
+	        var o = $(evt.delegateTarget);
 	        var s = o.val() || '0';
 	        var data = o.data('display-values') || [];
 	        s = data[s] === undefined ? s : data[s];
@@ -416,7 +568,7 @@
 	        var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
 	        var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
 	        var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
-	        s = s.replace(t.rxButtons, '').replace('h-100', '').trim();
+	        s = s.replace(t.rxButtons, '').replace('h-100', '').replace('w-100', '').trim();
 	        s += ' btn';
 	        if (btnStyle || btnOutline || btnLink)
 		        s += ' btn-' + (btnOutline ? 'outline-': '');
@@ -429,7 +581,7 @@
             
 
 	        if (btnBlock)
-		        s += ' btn-block';
+		        s += ' w-100';
 
 	        if (btnH100)
 		        s += ' h-100';
@@ -519,9 +671,27 @@
 	        oFieldData.trigger('change');
         }
 
-        function onChangeInputData(evt) {
+        function onChangeInputType(evt) {
+	        var fieldData = null;
+	        var inputType = ($('select[name=InputType]', t.oRightToolbar).val() || "text").toLowerCase();
+            try {
+                fieldData = $.parseJSON(oFieldData.val());
+            } catch {
+				// JSON parsing error, do nothing
+            }
+            
+            if (!$.isPlainObject(fieldData))
+            {
+                return;
+            }
+            
+            fieldData["type"] = inputType;
+	        var s = JSON.stringify(fieldData);
+	        oFieldData.val(s);
+	        oFieldData.trigger('change');
 
         }
+
         @*
         function fnEditTextarea(evt) {
             prismSyntaxHighlight(this.value, this);
@@ -590,11 +760,25 @@
                 message: '<div class="row h-100"><div class="col h-100 mx-3"><textarea name="codeFieldData" class="w-100 h-100 form-control editing" spellcheck="false">' + data + '</textarea><pre aria-hidden="true" class="highlighting form-control"><code class="language-javascript highlighting-content"></code></pre></div></div>',
                 size: 'xl',
                 onShow: function(e) {
-                    $('.modal-content', e.currentTarget).css('height', '85%');
-                    $('.bootbox-body', e.currentTarget).addClass('h-100');
+                    var $targetObj = $(e.currentTarget);
+                    var fieldType = ($('select[name=FieldType]').val() || "").toUpperCase()
+                    $('.modal-content', $targetObj).css('height', '85%');
+                    $('.bootbox-body', $targetObj).addClass('h-100');
+                    var btnSave = $('.modal-footer > button.bootbox-accept');
+                    @if (Model.CanEditWizard)
+                    {
+                        @:if (fieldType == 'WIZARD') btnSave.removeClass('d-none');
+                    }
+                    @if (Model.CanEditScreen)
+                    {
+	                    @:if (fieldType == 'SCREEN') btnSave.removeClass('d-none');
+                    }
+                    @if (Model.CanEditField)
+                    {
+	                    @:if (fieldType != 'WIZARD' && fieldType != 'SCREEN') btnSave.removeClass('d-none');
+                    }
                 },
                 onShown: function(e) {
-                    //console.log(e);
                     $('textarea.editing', e.currentTarget).off()
                         .on("input", function() { prismSyntaxHighlight(this.value, this); })
                         .on("scroll", function() { prismSyncScroll(this); })
@@ -624,15 +808,17 @@
 
                 },
                 buttons: {
+                    @if (Model.CanEditWizard || Model.CanEditScreen || Model.CanEditField)
+                    {
+	                <text>
                     confirm: {
                         label: 'Save',
-                        className: 'btn-success',
+                        className: 'btn-success d-none',
                         callback: function(result) {
                             // ...
                             var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
                             var jsonVal = {};
                             val = val.replace(re, function(match) {
-                                //console.log(match);
                                 return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
                             });
                             try {
@@ -647,6 +833,8 @@
                             $('input[name=FieldData]').trigger('change');
                         }
                     },
+	                </text>
+                    }
                     cancel: {
                         label: 'Cancel',
                         className: 'btn-danger'
@@ -657,7 +845,7 @@
 
         function onClickBtnLanguage(evt) {
             var content = $('#jlw-dtlist-localizedcontenttext').html() || '<div></div>';
-            var data = t.serializeFormToJson($(evt.currentTarget).closest('.card-body'));
+            var data = t.serializeFormToJson($(evt.delegateTarget).closest('#fieldproperties-pane'));
             function fnOnClose(result) { window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']}); }
             var dialog = bootbox.dialog({
                 title: 'Label / Content Localization',
@@ -670,7 +858,6 @@
                     $('.bootbox-body', e.currentTarget).addClass('h-100');
                 },
                 onShown: function(e) {
-                    console.log(e, evt);
                     window.jlwLibLocalizedContentText($('table.jlw-datatable-localizedcontenttext', e.currentTarget), '@apiUrl/localization/', data, $);
                 },
                 buttons: {
@@ -682,7 +869,11 @@
                 }
             });
         }
-
+        
+        function onClickBtnFieldTypeEdit(evt) {
+			$('select[name=FieldType]', t.oRightToolbar).prop('disabled', false);
+        }
+        
         function parseColClass(s) {
             var data = {
                 'col': -1,
@@ -822,6 +1013,10 @@
 
             if ((s || "").toLowerCase().indexOf('h-100') > -1) {
                 $('input[name="buttonH100"]').prop('checked', true);
+            }
+
+            if ((s || "").toLowerCase().indexOf('w-100') > -1) {
+                $('input[name="buttonBlock"]').prop('checked', true);
             }
         }
 
@@ -1059,7 +1254,7 @@
             if (t.oRightToolbar.hasClass('updating')) 
                 return;
 
-            var o = $(evt.target);
+            var o = $(evt.delegateTarget);
 
             t.oRightToolbar.addClass('updating');
 
@@ -1088,6 +1283,7 @@
                         }
 
                     }
+                    $('select[name=FieldType]', t.oRightToolbar).prop('disabled', true);
                     t.oRightToolbar.removeClass('updating');
                 });
         }

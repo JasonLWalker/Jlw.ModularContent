@@ -11,20 +11,17 @@
             $.fn.dataTable.ext.errMode = 'none';
             var t = new libJlwAppBuilder(urlRoot, $target);
 
-            @if (Model.CanEdit)
+            @if (Model?.CanEditLabelText ?? false)
             {
-                <text>
-                    t.frmEdit = $('#jlwEditFormLocalizedContentText').html();
-                </text>
+	            @:t.frmEdit = $('#jlwEditFormLocalizedContentText').html();
             }
 
-            @if (Model.CanInsert)
+            @if (Model?.CanInsertLabelText ?? false)
             {
                 <text>
                     function fnOnAddRecord(fnOnShow) {
                         function fnShow(o, data) {
                             var oFrm = $(o);
-                            //console.log(oFrm);
                             $('input[name=GroupKey]', oFrm).val(elemData['GroupKey']);
                             $('input[name=FieldKey]', oFrm).val(elemData['FieldKey']);
                             $('select[name=Language]', oFrm).val('EN');
@@ -34,14 +31,12 @@
                             if (typeof fnOnShow == 'function')
                                 fnOnShow(o, data);
                         }
-
                         return t.onAddRecord(fnShow);
                     }
-
                 </text>
             }
 
-            @if (Model.CanEdit)
+            @if (Model?.CanEditLabelText ?? false)
             {
                 <text>
                     function fnOnEditRecord(oBtn, fnOnShow) {
@@ -50,27 +45,23 @@
                             $('input[name=GroupKey]', oFrm).val(elemData['GroupKey']);
                             $('input[name=FieldKey]', oFrm).val(elemData['FieldKey']);
                             $('input[name=ParentKey]', oFrm).val(elemData['ParentKey']);
-//                            $('select[name=Language]', oFrm).val(elemData['Language']);
                             $('select[name=Language]', oFrm).parent().addClass('d-none');
-
                             if (typeof fnOnShow == 'function')
                                 fnOnShow(o, data);
                         }
-
                         return t.onEditRecord(oBtn, fnShow);
                     }
-
 
                     t.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
                 </text>
             }
 
-            @if (Model.CanDelete)
+            @if (Model?.CanDeleteLabelText ?? false)
             {
                 @:t.addDtRowButton('', 'btn-delete', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', t.onDeleteRecord);
             }
 
-            @if (Model.CanInsert || Model.CanEdit)
+            @if ((Model?.CanInsertLabelText ?? false) || (Model?.CanEditLabelText ?? false))
             {
                 <text>
                     t.optionsWysiwyg = @Html.Raw(JsonConvert.SerializeObject(Model?.TinyMceSettings ?? new object()));
@@ -105,7 +96,7 @@
 
 
 
-            @if (Model.CanInsert)
+            @if (Model?.CanInsertLabelText ?? false)
             {
                 @:t.addDtFooterButton(' Add New Record', 'btn-newrecord', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
                 @:$('.btn-newrecord').off('click').on('click', fnOnAddRecord);

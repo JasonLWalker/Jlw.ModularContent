@@ -1,17 +1,17 @@
 @model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 <div id='jlwEditFormLocalizedContentText'> 
-    <form class='jlw-editform-localizedcontenttext'> 
-        <div class="form-group-sm"> 
-            <div class="row"> 
-                <div class="col-sm-4 d-none">
-                    <input type="hidden" name="GroupKey" value="" class="form-control" placeholder="Group Key" />
-                    <input type="hidden" name="FieldKey" value="" class="form-control" placeholder="Field Key" />
-                    <input type="hidden" name="ParentKey" value="" class="form-control" placeholder="Parent Key" />
-                    <label class="control-label">Language</label><select name="Language" class="form-control" asp-items="Model.LanguageList"></select>
-                </div>
+	<form class='jlw-editform-localizedcontenttext'> 
+		<div class="form-group-sm"> 
+			<div class="row"> 
+				<div class="col-sm-4 d-none">
+					<input type="hidden" name="GroupKey" value="" class="form-control" placeholder="Group Key" />
+					<input type="hidden" name="FieldKey" value="" class="form-control" placeholder="Field Key" />
+					<input type="hidden" name="ParentKey" value="" class="form-control" placeholder="Parent Key" />
+					<label class="control-label">Language</label><select name="Language" class="form-select" asp-items="Model.LanguageList"></select>
+				</div>
 				<div class="col-sm-12">
-                    <label class="control-label">Text</label>
-                    <textarea name="Text" class="jlw-wysiwyg form-control" placeholder="Text" cols="40" rows="10" style="min-height: 80vh;"></textarea>
+					<label class="control-label">Text</label>
+					<textarea name="Text" class="jlw-wysiwyg form-control" placeholder="Text" cols="40" rows="10" style="min-height: 80vh;"></textarea>
 				</div>
 				<div class="col-sm-4 d-none">
 					<label class="control-label">Audit Change Type</label><input type="text" name="AuditChangeType" value="" class="form-control" placeholder="Audit Change Type" disabled="disabled" />
@@ -22,8 +22,38 @@
 				<div class="col-sm-4 d-none">
 					<label class="control-label">Audit Change Date</label><input type="datetime" name="AuditChangeDate" value="" class="form-control" placeholder="Audit Change Date" disabled="disabled" />
 				</div> 
-            </div> 
-        </div> 
-        <input type="hidden" name="EditToken" value="" /> 
-    </form> 
+			</div> 
+		</div> 
+		<input type="hidden" name="EditToken" value="" /> 
+	</form> 
+</div>
+<div id='jlwEditFormErrorMessageText'>
+	<form class='jlw-editform-errormessagetext'>
+		<div class="form-group-sm">
+			<div class="row">
+				<div class="col-sm-6">
+					<input type="hidden" name="GroupKey" value="" class="form-control" placeholder="Group Key" />
+					<input type="hidden" name="ParentKey" value="" class="form-control" placeholder="Parent Key" />
+					<label class="control-label">Language</label><select name="Language" class="form-select" asp-items="Model.LanguageList"></select>
+				</div>
+				<div class="col-sm-6">
+					<label class="control-label">Error Type</label><input name="FieldKey" class="form-control" />
+				</div>
+				<div class="col-sm-12">
+					<label class="control-label">Text</label>
+					<input name="Text" class="form-control" placeholder="Error Message" />
+				</div>
+				<div class="col-sm-4 d-none">
+					<label class="control-label">Audit Change Type</label><input type="text" name="AuditChangeType" value="" class="form-control" placeholder="Audit Change Type" disabled="disabled" />
+				</div>
+				<div class="col-sm-4 d-none">
+					<label class="control-label">Audit Change By</label><input type="text" name="AuditChangeBy" value="" class="form-control" placeholder="Audit Change By" disabled="disabled" />
+				</div>
+				<div class="col-sm-4 d-none">
+					<label class="control-label">Audit Change Date</label><input type="datetime" name="AuditChangeDate" value="" class="form-control" placeholder="Audit Change Date" disabled="disabled" />
+				</div>
+			</div>
+		</div>
+		<input type="hidden" name="EditToken" value="" />
+	</form>
 </div>

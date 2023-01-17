@@ -103,11 +103,7 @@ namespace Jlw.Data.LocalizedContent
                         new KeyValuePair<string, object>("@parentKey", "ParentKey"),
                         new KeyValuePair<string, object>("@language", "language"),
                     }; 
-                //case SpListRecord: 
-                //    return new KeyValuePair<string, object>[] { }; 
             }
-
-            //return base.GetParamsForSql(o, sSql); 
 
             var t = new StackTrace();
             var m = t.GetFrame(1).GetMethod();

@@ -14,6 +14,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
@@ -41,7 +42,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" /> 
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.13" /> 
     <PackageReference Include="Jlw.Utilities.WebApiUtility" Version="1.5.7928.8091" />
   </ItemGroup>
 
@@ -55,6 +56,9 @@
 
 	<ItemGroup>
 		<Folder Include="resources\LocalizedContent\font-awesome\" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 

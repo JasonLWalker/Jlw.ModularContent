@@ -14,11 +14,11 @@
   <ItemGroup>
     <PackageReference Include="Jlw.Extensions.Identity.Mock" Version="1.5.7948.38389" />
     <PackageReference Include="Jlw.Extensions.Identity.Stores" Version="2.5.7948.38386" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.13" />
     <PackageReference Include="MartinCostello.SqlLocalDb" Version="3.2.0" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.47021.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.7" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.7" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
   </ItemGroup>
 
 

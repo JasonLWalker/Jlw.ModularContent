@@ -26,13 +26,18 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     t.fnOnClickSave = t.fnOnClickSave || fnOnClickSave;
     t.fnOnClickAction = t.fnOnClickAction || fnOnClickAction;
     t.fnOnWizardOnLoad = t.fnOnWizardOnLoad || fnOnWizardOnLoad;
+    t.fnGetElementDebug = t.fnGetElementDebug || fnGetElementDebug;
+	t.fnRenderElementDebug = t.fnRenderElementDebug || fnRenderElementDebug;
     t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+    t.onRenderWizardElement = t.onRenderWizardElement || onRenderWizardElement;
+    t.onRenderWizard = t.onRenderWizard || onRenderWizard;
 
     t.ajaxFail = t.ajaxFail || ajaxFail;
     t.navTo = t.navTo || navTo;
     t.navToStep = t.navToStep || navToStep;
     t.navToScreen = t.navToScreen || navToScreen;
     t.navToWizardScreen = t.navToWizardScreen || navToWizardScreen;
+
 
     t.saveStep = t.saveStep || saveStep;
 
@@ -55,21 +60,23 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnClickNav(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.delegateTarget);
         var section = btn.data('section');
         var step = btn.data('step');
         var wizard = btn.data('wizard');
         var screen = btn.data('screen');
         var fn = btn.data('fnclick');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+	        var ret = t[fn](evt);
+	        if (ret === false)
+		        return false;
         }
         t.navTo(screen, wizard, section, step);
         return false;
     }
 
     function fnOnClickBack(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.delegateTarget);
         var section = lastSection;
         var step = lastStep;
         t.navToStep(section, step);
@@ -77,26 +84,28 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnClickLink(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.delegateTarget);
         var url = btn.data('url');
         window.location = url.replace('~/', t.urlRoot);
         return false;
     }
 
     function fnOnClickSave(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.delegateTarget);
         var section = btn.data('section');
         var step = btn.data('step');
         var fn = btn.data('fnclick');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+	        var ret = t[fn](evt);
+	        if (ret === false)
+		        return false;
         }
         t.saveStep(section, step);
         return false;
     }
 
     function fnOnClickAction(evt) {
-        var btn = $(evt.target);
+        var btn = $(evt.delegateTarget);
         switch (btn.data("type")) {
         case 'nav':
             return t.fnOnClickNav(evt);
@@ -109,7 +118,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         default:
             var fn = btn.data('fnclick');
             if (fn && typeof t[fn] == 'function') {
-                t[fn](evt);
+                return t[fn](evt);
             }
             break;
         }
@@ -118,10 +127,10 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     function fnOnChange(evt) {
-        var o = $(evt.target);
+        var o = $(evt.delegateTarget);
         var fn = o.data('fnChange');
         if (fn && typeof t[fn] == 'function') {
-            t[fn](evt);
+            return t[fn](evt);
         }
         return false;
     }
@@ -144,6 +153,17 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     function navToScreen(screenId) { return navTo(screenId, "", "", ""); }
 
     function renderButton(o) {
+        var fieldData = o["FieldData"] || {};
+        if (!$.isPlainObject(fieldData) && typeof(fieldData) === 'string') {
+			try {
+                fieldData = $.parseJSON(fieldData);
+            } catch {
+				// JSON Parse error, do nothing
+            }
+        }
+        var hideLabel = fieldData["hideLabel"] || false;
+        var labelClass = fieldData["labelClass"] || "";
+
         var icon = o['Icon'] ? '<span class="' + o['Icon'] + '" /></span> ' : '';
         var col = $('<div class="' + o["Wrapper"] + '"></div>');
         var action = o["Action"] || {}
@@ -154,7 +174,16 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         if (action['step']) data += ' data-step="' + action['step'] + '"';
         if (action['url']) data += ' data-url="' + action['url'] + '"';
         if (action['fnClick']) data += ' data-fnclick="' + action['fnClick'] + '"';
-        var btn = $('<button type="button" class="' + o["Class"] + '" ' + data + '>' + icon + o["Label"] + '</button>');
+        var html = '<button type="button" class="' + o["Class"] + '" ' + data + '>' + icon;
+        if (!hideLabel) { 
+            if (labelClass)
+				html += '<span class="' + labelClass + '">' + o["Label"] + '</span>'; 
+            else 
+				html += o["Label"]; 
+        }
+        html += '</button>';
+
+        var btn = $(html);
         col.append(btn);
         btn.on('click', fnOnClickAction);
 
@@ -176,6 +205,33 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     function setButtonAction(btnWrapper, action) {
     }
 
+	function fnRenderElementDebug($elem, dta) {
+		$elem.prepend(t.fnGetElementDebug(dta));
+	}
+
+	function fnGetElementDebug(dta) {
+		if (t.debugLevel < 1)
+			return;
+
+		var type = 'Field: ';
+		switch ((dta["FieldType"] || "").toLowerCase()) {
+		case 'screen':
+			type = 'Screen: ';
+			break;
+		case 'heading':
+		case 'body':
+			type = '';
+			break;
+		case 'form':
+			type = 'Form: ';
+			break;
+		case 'button':
+			type = 'Button: ';
+			break;
+		}
+		return '<div class="text-muted fs-6 fw-normal mb-0 text-truncate" title="' + type + dta['FieldKey'] + '"><small>[<span class="fst-italic">' + type + '</span>' + dta['FieldKey'] + ']</small></div>';
+	}
+
     function renderWizardButtons(buttons) {
         var btns = $('.wizard-buttons');
         btns.empty();
@@ -193,15 +249,29 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         var formBody = $('<div class="form-body"></div>');
         var headingText = data["Label"];
         var fields = data['Fields'] || [];
+        var fieldData = data["FieldData"] || {};
+        if (!$.isPlainObject(fieldData) && typeof(fieldData) === 'string') {
+			try {
+                fieldData = $.parseJSON(fieldData);
+            } catch {
+				// JSON Parse error, do nothing
+            }
+        }
+        var hideLabel = fieldData["hideLabel"] || false;
+        var labelClass = fieldData["labelClass"] || "h5";
+
         var wrapperStart = data["WrapperHtmlStart"] || "";
         var wrapperEnd = data["WrapperHtmlEnd"] || "";
+        
+        if ((data["FieldType"] || '').toLowerCase() == 'embed')
+        {
+	        formBody.removeClass("form-body");
+            wrapper.addClass("embed-body");
+        } 
 
         wrapper.append(formCard);
 
         var i = 0;
-
-        //Todo: Remove next line after debugging:
-        if (t.debugLevel >= 10) headingText = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + headingText;
 
         if (data['WrapperClass'])
             wrapper.addClass(data['WrapperClass']);
@@ -217,8 +287,8 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         var btn = "";
         if (data["UseCardLayout"]) {
             formCard.addClass('card');
-            if (data["Label"]) {
-                var header = $('<div class="card-header"><div class="h5">' + headingText + '</div></div>');
+            if (data["Label"] && !hideLabel) {
+                var header = $('<div class="card-header"><div class="' + labelClass + '">' + headingText + '</div></div>');
                 if (data["EditButton"] && typeof (data["EditButton"]) == "object") {
                     btn = renderButton(data["EditButton"]);
                     btn.addClass('float-end');
@@ -258,13 +328,49 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
     }
 
     // Callback when a form field is rendered
-    function onRenderWizardFormField(obj, data, parent) { return obj; }
+    function onRenderWizardFormField(obj, data, parent) { 
+		var $obj = $(obj);
+		switch ((data["FieldType"] || "").toLowerCase()) {
+		case 'heading':
+		case 'buttongroup':
+		case 'body':
+		case "separator":
+		case "vseparator":
+		case "undefined":
+		case "":
+
+			break;
+		default:
+			t.fnRenderElementDebug($obj, data);
+			break;
+		}
+
+        return obj; 
+    }
 
     // Callback when a form field is rendered
-    function onRenderWizardElement(obj, data, parent) { return obj; }
+    function onRenderWizardElement(obj, data, parent) { 
+		var $obj = $(obj);
+		switch ((data["FieldType"] || "").toLowerCase()) {
+		case "undefined":
+		case "":
+		case "separator":
+		case "vseparator":
+			break;
+		default:
+			t.fnRenderElementDebug($obj, data);
+			break;
+		}
+		return obj;
+    }
 
     // Callback when a wizard is rendered
-    function onRenderWizard(obj, data, parent) { return obj; }
+    function onRenderWizard(obj, data, parent) { 
+		var $obj = $('form', obj);
+		t.fnRenderElementDebug($obj, data);
+        window.scrollTo(0,0);
+        return obj; 
+    }
 
     function renderWizardElement(data, parent, wizardData) {
         var obj = {};
@@ -290,10 +396,6 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         if (obj && obj.length < 1)
             return {};
 
-        //data['ElementId'] = data['GroupKey'] + '-' + data['FieldType'] + '-' + data['FieldKey'] + '-' + (data['Id']||(new Date()).valueOf());
-        //obj.attr('id', 'jlwElement-' + data['ElementId']);
-        //obj.html(data['Label'] || data["DefaultLabel"] || "");
-
         if (typeof(t.onRenderWizardElement) === 'function')
             obj = t.onRenderWizardElement(obj, data, parent);
         return obj;
@@ -303,20 +405,24 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         var field = data["FieldType"] || "";
         var fieldData = data["FieldData"] || {};
         var type = fieldData["type"] || "";
-        var values = fieldData["values"] || {};
+        var values = fieldData["values"] || fieldData["data"] || {};
         var group = data["GroupKey"];
         var name = data["FieldKey"];
         var label = data["Label"] || "&nbsp;";
+        var labelClass = fieldData["labelClass"] || "";
+        var groupClass = fieldData["groupClass"];
         var wrapperClass = data["WrapperClass"] || "";
         var wrapperStart = data["WrapperHtmlStart"] || "";
         var wrapperEnd = data["WrapperHtmlEnd"] || "";
         var isInline = fieldData["inline"] || false;
+        var hideLabel = fieldData["hideLabel"] || false;
+
         var obj;
         var id = group + '-' + field + '-' + name + '-' +(data['Id']||(new Date()).valueOf());
         id = (id).replace(/[^\w\d-_]/i, '');
 
         var props = '';
-
+        
         if (type.toLowerCase() != 'radio') {
             props += ' id="' + id + '" ';
         }
@@ -376,58 +482,106 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
                 obj = $('<div><hr ' + props + '/></div>');
                 break;
+            case 'vseparator':
+                obj = $('<div><div class="vr ' + data["FieldClass"] + '" ' + props + '/></div>');
+                break;
             case 'select':
                 if (data["FieldClass"]) {
-                    props += 'class="' + data.FieldClass + '" ';
+                    props += ' class="' + data.FieldClass + '" ';
                 }
+
                 var slct = $('<select name="' + name + '"' + props + '></select>');
 
                 if (fieldData['onchange']) {
                     slct.data('fnChange', fieldData['onchange']);
                     slct.on('change', fnOnChange);
                 }
+                var html = '<div>' + wrapperStart;
+                if (!hideLabel) {
+					html += '<label id="lbl-' + id + '" for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label>';
+                } else {
+					html += '<div id="lbl-' + id + '" class="d-none"></div>';
+                }
+                html += wrapperEnd + '</div>';
 
-                obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label></div>');
-                obj.append(slct);
+                obj = $(html);
+				$('#lbl-' + id, obj).after(slct);
 
-                if (wrapperEnd)
-                    obj.append($(wrapperEnd));
-                if (fieldData["data"]) {
-                    for (var i = 0; i < fieldData["data"].length; i++) {
-                        var opt = fieldData["data"][i];
-                        slct.append($('<option value="' + opt["Key"] + '">' + opt["Value"] + '</option>'));
+                if (values) {
+                    if ($.isArray(values)) {
+	                    for (var i = 0; i < values.length; i++) {
+	                        var opt = values[i];
+	                        var k = opt["Key"] || opt["key"] || '';
+	                        var v = opt["Value"] || opt["value"] || '';
+	                        slct.append($('<option value="' + k + '">' + v + '</option>'));
+	                    }
+                    } else if ($.isPlainObject(values)) {
+                        for (var i in values) {
+	                        var k = i;
+	                        var v = values[i] || '';
+	                        slct.append($('<option value="' + k + '">' + v + '</option>'));
+                        }                        
                     }
                 }
                 break;
             case 'input':
                 switch (type.toLowerCase()) {
                     case 'hidden':
-                        obj = $(wrapperStart + '<div class="form-hidden"><span class="d-none">' + label + '</span><input type="hidden" name="' + name + '" ' + props + ' value="" /></div>' + wrapperEnd);
+						var html = wrapperStart + '<div class="form-hidden">';
+                        
+                        if (!hideLabel) { html += '<span class="d-none">' + label + '</span>'; }
+
+                        html += '<input type="hidden" name="' + name + '" ' + props + ' value="" /></div>' + wrapperEnd;
+                        obj = $(html);
                         break;
                     case 'radio':
-	                    if (data["FieldClass"])
-                            props += 'class="' + data.FieldClass + '" ';
+                        props += ' class="form-check-input" ';
 
                         var html = '<div' + (Object.keys(values).length > 0 ? ' id="' + id + '"' : "") + '>' + wrapperStart;
 
                         if (Object.keys(values).length > 0) {
                             var nCount = 1;
-                            html += '<div><label for="' + id + '">' + label + '</label></div>';
-                            for(var key in values) {
-                                html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '_' + nCount + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '" id="' + id + '_' + nCount + '" />' + values[key] + '</label></div>';
-                                nCount++;
+                            if (!hideLabel) {
+								html += '<label for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label>';
+                            }
+                            if (groupClass) {
+                                html += '<div class="' + groupClass + '" id="' + id + '" >';
+                            }
+                            
+                            if ($.isArray(values)) {
+			                    for (var i = 0; i < values.length; i++) {
+			                        var opt = values[i];
+			                        var k = opt["Key"] || opt["key"] || '';
+			                        var v = opt["Value"] || opt["value"] || '';
+	                                html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + ' ' + data.FieldClass + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + k + '" id="' + id + '_' + nCount + '" /><label class="form-check-label ' + labelClass + '" for="' + id + '_' + nCount + '">' + v + '</label></div>';
+	                                nCount++;
+	                            }                            
+                            } else if($.isPlainObject(values)) {
+	                            for(var key in values) {
+	                                html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + ' ' + data.FieldClass + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' value="' + key + '" id="' + id + '_' + nCount + '" /><label class="form-check-label ' + labelClass + '" for="' + id + '_' + nCount + '">' + values[key] + '</label></div>';
+	                                nCount++;
+	                            }
+                            }
+                            if (groupClass) {
+                                html += '</div>';
                             }
                         } else {
-                            html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' id="' + id + '" />' + label + '</label></div>';
+                            html += '<div class="form-check' + (isInline ? " form-check-inline" : "") + ' ' + data.FieldClass + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + ' id="' + id + '" /><label class="form-check-label ' + labelClass + '" for="' + id + '">' + label + '</label></div>';
                         }
                         html += wrapperEnd + '</div>';
                         obj = $(html);
                         break;
                     case 'checkbox':
                         if (data["FieldClass"])
-                            props += 'class="' + data.FieldClass + '" ';
+                            props += ' class=" ' + data.FieldClass + '" ';
+                        else 
+                            props += ' class="form-check-input" ';
 
-                        obj = $('<div>' + wrapperStart + '<div class="form-check' + (isInline ? " form-check-inline" : "") + '"><label class="form-check-label" for="' + id + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + '/>' + label + '</label></div>' + wrapperEnd + '</div>');
+                        if (!labelClass) {
+							labelClass = 'form-check-label';
+                        }
+
+                        obj = $('<div>' + wrapperStart + '<div class="form-check ' + (isInline ? "form-check-inline " : "") + groupClass + '"><input type="' + type.toLowerCase() + '" name="' + name + '" ' + props + '/><label class="' + labelClass + '" for="' + id + '">' + label + '</label></div>' + wrapperEnd + '</div>');
                         break;
                     case 'password':
                     case 'email':
@@ -438,13 +592,23 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                     case 'search':
                         var defaultValue = fieldData['defaultValue'] || '';
 
-	                    if (data["FieldClass"])
+	                    if (data["FieldClass"]) {
                             props += 'class="' + data.FieldClass + '" ';
+                        }
 
-                        if (fieldData["maxlength"])
-                            props += 'maxlength="' + fieldData['maxlength'] + '"';
+                        if (fieldData["maxlength"]) {
+                            props += 'maxlength="' + fieldData['maxlength'] + '" ';
+						}
 
-                        obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value="' + defaultValue.replace('"', '\\"') + '"' + props + '/>' + wrapperEnd + '</div>');
+                        var html = '<div>' + wrapperStart;
+                        
+                       if (!hideLabel) {
+	                        html += '<label for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label>';
+                        }
+                        html += '<input type="' + type.toLowerCase() + '" name="' + name + '" value="' + defaultValue.replace('"', '\\"') + '"' + props + '/>' + wrapperEnd + '</div>';
+						
+ 
+                        obj = $(html);
                         break;
                     case 'range':
                     case 'number':
@@ -460,7 +624,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                         if (fieldData["max"])
                             props += 'max="' + fieldData['max'] + '"';
 
-                        obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
+                        obj = $('<div>' + wrapperStart + '<label for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
                         break;
                     case 'date':
                     case 'time':
@@ -473,7 +637,12 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                         if (fieldData["pattern"])
                             props += 'pattern="' + fieldData['pattern'] + '"';
 
-                        obj = $('<div>' + wrapperStart + '<label for="' + id + '">' + label + '</label><input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>');
+                        var html = '<div>' + wrapperStart;
+                        
+                        if (!hideLabel) { html += '<label for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label>'; }
+
+                        html += '<input type="' + type.toLowerCase() + '" name="' + name + '" value=""' + props + '/>' + wrapperEnd + '</div>';
+                        obj = $(html);
                         break;
                 }
                 break;
@@ -482,13 +651,11 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
                     props += 'class="' + data.FieldClass + '" ';
 
 
-                obj = $('<div>' + wrapperStart + (label ? '<label for="' + id + '">' + label + '</label>' : '') + '<textarea name="' + name + '" ' + props + '></textarea>' + wrapperEnd + '</div>');
+                obj = $('<div>' + wrapperStart + (label ? '<label for="' + id + '"' + ((labelClass) ? ' class="' + labelClass + '"' : '') + '>' + label + '</label>' : '') + '<textarea name="' + name + '" ' + props + '></textarea>' + wrapperEnd + '</div>');
                 break;
             case 'heading':
             case 'body':
             case 'html':
-                //Todo: Remove next line after debugging:
-                if (t.debugLevel >= 10) label = '[' + data["GroupKey"] + ' ' + data["FieldKey"] + ']' + label;
                 obj = $('<div>' + wrapperStart + label + wrapperEnd + '</div>');
                 obj.addClass(data["FieldClass"]);
                 break;
@@ -532,9 +699,6 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         var wizard = fieldType === "@nameof(WizardFieldTypes.SCREEN)" ? parentKey : "";
         var usedFields = {};
         var i;
-        //Todo: Remove next line after debugging:
-        if (t.debugLevel >= 10 && data['GroupKey']) heading = '[' + data["GroupKey"] + ' Heading]' + heading;
-        if (t.debugLevel >= 10 && data['GroupKey']) body = '[' + data["GroupKey"] + ' Body]' + body;
 
         if (typeof(heading) === 'string')
             data["Heading"] = heading = { 'GroupKey':data["GroupKey"], 'FieldKey':'Heading', 'FieldType':'HEADING', 'Label': heading };
@@ -597,8 +761,10 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 
         $('.wizard-nav button').removeClass('active');
         var nav = {};
-
-        if (wizard && screen )
+        
+        if (fieldData['sideNav'] && fieldData.sideNav['screen'])
+	        nav = $('.wizard-nav button[data-screen=' + fieldData.sideNav.screen + ']').first();
+        if (!nav.length && wizard && screen )
 	        nav = $('.wizard-nav button[data-wizard=' + wizard + '][data-screen=' + screen + ']').first();
         if (!nav.length && screen )
 	        nav = $('.wizard-nav button[data-screen=' + screen + ']').first();
@@ -609,7 +775,7 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
         if (nav.length)
 	        nav.addClass('active');
 
-        $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first().focus();
+        $('input[type!=hidden], select, textarea, button', $('.wizard-form')).first();
 
         t.populateFormData(data["FormData"] || {}, $('.wizard-form'));
 
@@ -642,14 +808,35 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 	    if (validFields) {
 		    for (var key in validFields) {
 			    var feedback = validFields[key];
-			    var o = $('input[type!=hidden][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
-			    o.addClass('is-valid');
+			    var o = $('input[type!=hidden][type!=radio][name=' + key + '], select[name=' + key + '], textarea[' + key + ']', $('.wizard-form')).first();
 			    var id;
+			    if (o.length > 0) {
+				    o.addClass('is-valid');
+				    if (o[0] && feedback) {
+					    id = o[0].id;
+					    o.attr('aria-describedby', id + "Feedback");
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="valid-feedback">' + feedback + '</div>'));
+					    nCount++;
+				    }
+			    } else {
+				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form'));
+				    o.addClass('is-valid');
+				    if (o[0] && feedback) {
+					    id = o[0].id;
+					    o.attr('aria-describedby', id + "Feedback");
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="valid-feedback d-inline-block">' + feedback + '</div>'));
+					    nCount++;
+				    }
+
+			    }
+			    /*
+                o.addClass('is-valid');
 			    if (o[0] && feedback) {
 				    id = o[0].id;
 				    o.attr('aria-describedby', id + "Feedback");
 				    o.parent().append($('<div id="' + id + 'Feedback" class="valid-feedback">' + feedback + '</div>'));
 			    }
+                */
 		    }
 	    }
     }
@@ -666,16 +853,16 @@ function libJlwWizardBase(t, $, initOptions, undefined) {
 				    if (o[0] && feedback) {
 					    id = o[0].id;
 					    o.attr('aria-describedby', id + "Feedback");
-					    o.parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="invalid-feedback">' + feedback + '</div>'));
 					    nCount++;
 				    }
 			    } else {
-				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form')).first();
+				    o = $('input[type=radio][name=' + key + ']', $('.wizard-form'));
 				    o.addClass('is-invalid');
 				    if (o[0] && feedback) {
 					    id = o[0].id;
 					    o.attr('aria-describedby', id + "Feedback");
-					    o.parent().parent().parent().append($('<div id="' + id + 'Feedback" class="invalid-feedback d-inline-block">' + feedback + '</div>'));
+					    o.closest('div[id^=jlwContainer]').append($('<div id="' + id + 'Feedback" class="invalid-feedback d-inline-block">' + feedback + '</div>'));
 					    nCount++;
 				    }
 

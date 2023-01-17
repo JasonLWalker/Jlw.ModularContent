@@ -39,7 +39,7 @@ namespace Jlw.Data.LocalizedContent
         /// <param name="screenKey"></param>
         /// <param name="formData"></param>
         /// <returns></returns>
-        IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null);
+        IWizardContent CreateWizardScreenContent(string groupKey, string screenKey, object formData = null, string language=null, string groupFilter=null);
 
         /// <summary>
         /// Generates the structure and performs placeholder parsing for a Wizard Email 

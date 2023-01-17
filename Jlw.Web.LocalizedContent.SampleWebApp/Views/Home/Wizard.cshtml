@@ -18,8 +18,9 @@
     };
 	string jsRoot = WizardSettings.JsRoot;
 	string wizardName = "SampleWizard";
+	var sideNav = FactoryRepository.GetWizardSideNavData(wizardName, null, WizardSettings?.GroupFilter);
+	var modelFields = FactoryRepository.GetWizardModelFields(wizardName, WizardSettings?.GroupFilter);
 
-	var sideNav = FactoryRepository.GetWizardSideNavData(wizardName);
 }
 <div class="row">
     @{//if (!Model.WizardComplete)
@@ -29,13 +30,17 @@
 		    <div class=" d-lg-inline-block wizard-nav-col col-lg-auto border-right">
 			    <form method="post">
 				    <div class="list-group wizard-nav">
-					    @foreach (var item in sideNav)
-					    {
-						    if (!item.IsHidden)
-						    {
-							    <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+					    <div class="list-group wizard-nav">
+						    @{
+							    foreach (var item in sideNav)
+							    {
+								    if (!item.IsHidden && !string.IsNullOrWhiteSpace(item.Label))
+								    {
+									    <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+								    }
+							    }
 						    }
-					    }
+					    </div>
 				    </div>
 			    </form>
 		    </div>
@@ -48,9 +53,15 @@
 
                 <div class="spinner-border spinner-border-sm float-start my-1" role="status"></div>
                 <div class="p-0">
-                    <div class="h5">&nbsp;Please wait, loading...</div>
-                    <input type="hidden" name="step" value="" />
-                    <input type="hidden" name="section" value="" />
+	                <div class="h5">&nbsp;Please wait, loading...</div>
+	                <input type="hidden" name="step" value="" />
+	                <input type="hidden" name="section" value="" />
+	                @{
+		                foreach (var field in modelFields)
+		                {
+			                <input type="hidden" name="@field" value="" />
+		                }
+	                }
                 </div>
             </div>
             <div class="wizard-buttons row clearfix">
@@ -59,7 +70,7 @@
     </div>
 </div>
 @section Scripts{
-    <script src="@Url.Action("WizardLibScript", "WizardJs")?_=@version"></script>
+    <script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
     <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
     <script src="~/LocalizedContent/js/bootbox.min.js"></script>
     <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/all.min.js")"></script>

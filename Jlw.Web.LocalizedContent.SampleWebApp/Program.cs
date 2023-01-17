@@ -61,22 +61,38 @@ public class Program
             return new ModularDbClient<SqlConnection, SqlCommand, SqlParameter, SqlConnectionStringBuilder>();
         });
 
+        builder.Services.TryAddSingleton<IWizardSettings>(provider =>
+        {
+            var defaultSettings = new WizardSettings
+            {
+                Area = "",
+                LinkGenerator = provider.GetRequiredService<LinkGenerator>(),
+                ShowSideNav = true
+            };
+            defaultSettings.JsRoot = defaultSettings.Area;
+            return defaultSettings;
+        });
+
+
+
         builder.Services.TryAddSingleton<IWizardAdminSettings>(provider =>
         {
             var linkGenerator = provider.GetRequiredService<LinkGenerator>();
 
             var DefaultSettings = new WizardAdminSettings();
-            DefaultSettings.Area = "LocalizedContent";
+            DefaultSettings.Area = "";
+            DefaultSettings.LinkGenerator = linkGenerator;
             DefaultSettings.JsRoot = DefaultSettings.Area;
-            DefaultSettings.ApiOverrideUrl = linkGenerator.GetPathByAction("Index", "OverrideModularWizardAdminApi", new { Area = "" });
-            DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
+            DefaultSettings.ApiControllerName = "OverrideModularWizardAdminApi";
+            DefaultSettings.ControllerName = "OverrideModularWizardAdmin";
+            //DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
             DefaultSettings.ShowSideNav = true;
             //DefaultSettings.SideNavDefault = false;
             DefaultSettings.ShowWireFrame = true;
-            DefaultSettings.IsAdmin = true;
-            DefaultSettings.CanEdit = true;
-            DefaultSettings.CanInsert = true;
-            DefaultSettings.CanDelete = true;
+            //DefaultSettings.IsAdmin = true;
+            //DefaultSettings.CanEdit = true;
+            //DefaultSettings.CanInsert = true;
+            //DefaultSettings.CanDelete = true;
             DefaultSettings.HiddenFilterPrefix = "Sample";
             DefaultSettings.LanguageList.Add(new SelectListItem("Chinese", "CN"));
             DefaultSettings.TinyMceSettings = JObject.Parse(@"
@@ -103,19 +119,6 @@ public class Program
 
         
         
-        /*
-        builder.Services.TryAddSingleton<IModularDbOptions>(provider => new ModularDbOptions
-        {
-            DbClient = provider.GetRequiredService<IModularDbClient>(),
-            ConnectionString = connString
-        });
-        */
-
-        //builder.Services.AddLocalizedContentFieldRepository(options => options.ConnectionString = connString);
-        //builder.Services.AddLocalizedContentTextRepository(options => options.ConnectionString = connString);
-        //builder.Services.AddLocalizedGroupDataItemRepository(options => options.ConnectionString = connString);
-
-        //var provider = services.BuildServiceProvider();
         builder.Services.AddLocalizedContentAdmin(options=>options.ConnectionString = connString);
 
 
@@ -150,7 +153,7 @@ public class Program
             {
                 policy.RequireAssertion(context =>
                 {
-                    return context.User.Claims.Any(claim => claim.Type.Equals("ContentOverrideAccess", StringComparison.InvariantCultureIgnoreCase));
+                    return context.User.Claims.Any(claim => claim.Type.Equals(nameof(LocalizedContentAccess), StringComparison.InvariantCultureIgnoreCase) && claim.Value.Equals(nameof(LocalizedContentAccess.Authorized), StringComparison.InvariantCultureIgnoreCase));
                 });
             });
         });
