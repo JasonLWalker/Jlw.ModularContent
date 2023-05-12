@@ -116,7 +116,7 @@ function libJlwAppBuilder(sUrlRoot, sDtSelector, parentLib, jlwUtility, $, momen
                     if (typeof fnOnShow === "function") {
                         fnOnShow(oFrm, o);
                     }
-                }, 500);
+                }, 10);
             });
     }
 
@@ -158,7 +158,7 @@ function libJlwAppBuilder(sUrlRoot, sDtSelector, parentLib, jlwUtility, $, momen
                     if (typeof fnOnShow === "function") {
                         fnOnShow(oFrm, o);
                     }
-                }, 500);
+                }, 10);
         }
         t.post(t.sUrlRoot + "Data", oData, onSuccessCallback);
     }
@@ -211,7 +211,7 @@ function libJlwAppBuilder(sUrlRoot, sDtSelector, parentLib, jlwUtility, $, momen
                 fnOnShow(oFrm, { });
             }
 
-        }, 500);
+        }, 10);
     }
 
 
@@ -227,7 +227,7 @@ function libJlwAppBuilder(sUrlRoot, sDtSelector, parentLib, jlwUtility, $, momen
     }
 
     function getButton(o) {
-        return '<button type="button" class="btn btn-sm ' + o.skin + " " + o.class + '"><i class="' + o.icon + '"></i>' + o.label + "</button>";
+        return '<button type="button" class="btn btn-sm ' + o.skin + " " + o.class + '"><span class="' + o.icon + '"></span>' + o.label + "</button>";
     }
 
     function addDtRowButton(sLabel, sBtnClass, sIconClass, sSkin, fnCallback) {
@@ -260,7 +260,7 @@ function libJlwAppBuilder(sUrlRoot, sDtSelector, parentLib, jlwUtility, $, momen
         var s = '';
         s += '<div class="text-center">';
         for (var k in row) { s += '<span class="d-none" data-name="' + k + '">' + row[k] + '</span>'; }
-        for (var n in aRowButtons) { s += t.getButton(aRowButtons[n]) + "&nbsp;"; }
+        for (var n in aRowButtons) { s += t.getButton(aRowButtons[n]); }
         s += "</div>";
         return s;
     }

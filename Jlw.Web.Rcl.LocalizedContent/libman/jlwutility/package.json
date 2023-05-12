@@ -1,9 +1,18 @@
 {
   "name": "@jasonlwalker/jlwutility",
-  "version": "1.1.9",
-  "description": "Utility library for HTML5 web applications",
+  "version": "1.1.12",
+  "description": "Utility library for HTML5 web applications that use JQuery, Bootstrap, Bootbox, Font-Awesome, and Toastr",
   "author": {
     "name": "Jason L Walker"
+  },
+  "scripts": {
+    "minifyJS": "uglifyjs libJlwUtility.js --compress --mangle --warn --output libJlwUtility.min.js",
+    "msbuild": "npm config set script-shell 'C:\\Program Files\\git\\bin\\bash.exe' && npm run build",
+    "build": "npm run version:bump --silent && rm -f libJlwUtility.min.js && npm run minifyJS --silent && npm run version:add --silent",
+    "clean": "rm -f libJlwUtility.min.js && rm -f package-lock.json",
+    "version:add": "echo \"/* Jlw Utility Library $(npm run version:extract --silent)\n* ©2012-2023 Jason L Walker \n* Build time: $(date '+%m-%d-%Y %H:%M:%S')\n*/\n$(cat libJlwUtility.min.js)\" > libJlwUtility.min.js",
+    "version:bump": "npm version patch --no-git-tag-version --silent",
+    "version:extract": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'"
   },
   "repository": {
     "type": "git",
@@ -15,5 +24,8 @@
     "libJlwUtility.min.js"
   ],
   "license": "MIT",
-  "module": "libJlwUtility.js"
+  "module": "libJlwUtility.js",
+  "devDependencies": {
+    "uglify-js": "^3.3.11"
+  }
 }
