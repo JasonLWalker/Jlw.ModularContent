@@ -4,7 +4,7 @@
 # A powershell library module to read code/metadata from various sources and 
 # automatically generate a README file during CI/CD operations
 #
-# Copyright (c)2021-2022 Jason L Walker
+# Copyright (c)2021-2023 Jason L Walker
 # Released under the MIT open-source license
 #
 ############################################################################
