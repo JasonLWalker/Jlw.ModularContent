@@ -40,6 +40,16 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 				(x.Value?.Equals(nameof(LocalizedContentAccess.ReadFieldRecords), StringComparison.InvariantCultureIgnoreCase) ?? false)
 			) ?? false;
 
+			DefaultSettings.CanEditWizard = User?.HasClaim(x =>
+				(x?.Type?.Equals(nameof(LocalizedContentAccess), StringComparison.InvariantCultureIgnoreCase) ?? false) &&
+				(x.Value?.Equals(nameof(LocalizedContentAccess.SaveFieldRecords), StringComparison.InvariantCultureIgnoreCase) ?? false)
+			) ?? false;
+
+			DefaultSettings.CanEditScreen = User?.HasClaim(x =>
+				(x?.Type?.Equals(nameof(LocalizedContentAccess), StringComparison.InvariantCultureIgnoreCase) ?? false) &&
+				(x.Value?.Equals(nameof(LocalizedContentAccess.SaveFieldRecords), StringComparison.InvariantCultureIgnoreCase) ?? false)
+			) ?? false;
+
 			DefaultSettings.CanEditField = User?.HasClaim(x =>
 				(x?.Type?.Equals(nameof(LocalizedContentAccess), StringComparison.InvariantCultureIgnoreCase) ?? false) &&
 				(x.Value?.Equals(nameof(LocalizedContentAccess.SaveFieldRecords), StringComparison.InvariantCultureIgnoreCase) ?? false)
