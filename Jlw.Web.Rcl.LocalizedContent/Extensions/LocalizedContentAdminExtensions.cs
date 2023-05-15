@@ -16,6 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static partial class LocalizedContentExtensions
     {
+        public const string AreaName = "LocalizedContent";
+
         internal class LocalizedContentAdminConfigureOptions : IPostConfigureOptions<StaticFileOptions>
         {
             private readonly IWebHostEnvironment _environment;

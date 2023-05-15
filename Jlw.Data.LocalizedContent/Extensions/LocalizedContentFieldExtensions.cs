@@ -4,7 +4,7 @@
 // Created          : 05-20-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="LocalizedContentFieldExtensions.cs" company="Jason L. Walker">
 //     Copyright ©2012-2021 Jason L. Walker
@@ -26,6 +26,8 @@ namespace Microsoft.Extensions.DependencyInjection
     /// TODO Edit XML Comment Template for LocalizedContentFieldExtensions
     public static partial class LocalizedContentExtensions
     {
+        public const string AreaName = "LocalizedContent";
+
         /// <summary>
         /// Adds the localized content field repository to the service collection as a singleton instance.
         /// </summary>
