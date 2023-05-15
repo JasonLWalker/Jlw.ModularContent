@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Jlw.Data.LocalizedContent;
+using Jlw.Extensions.DataParsing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -56,7 +57,32 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
             public string DataTableScriptView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/Admin/_DataTableListScript.cshtml";
 
             public WizardAdminSettings() : this(null) {}
-            public WizardAdminSettings(object o) : base(o) { }
+
+            public WizardAdminSettings(object o) : base(o)
+            {
+                if (o is null)
+                    return;
+
+                ShowGroup = o.ParseTo<bool>(nameof(ShowGroup));
+                ShowFieldName = o.ParseTo<bool>(nameof(ShowFieldName));
+                ShowLanguage = o.ParseTo<bool>(nameof(ShowLanguage));
+                ShowParent = o.ParseTo<bool>(nameof(ShowParent));
+                ShowKey = o.ParseTo<bool>(nameof(ShowKey));
+                GroupKey = o.ParseTo<string>(nameof(GroupKey));
+                FieldKey = o.ParseTo<string>(nameof(FieldKey));
+                ParentKey = o.ParseTo<string>(nameof(ParentKey));
+                Language = o.ParseTo<string>(nameof(Language));
+                DataTableClass = o.NullIfWhiteSpace(nameof(DataTableClass)) ?? DataTableClass;
+                DataTablePaging = o.ParseTo<bool>(nameof(DataTablePaging));
+                DataTableSearch = o.ParseTo<bool>(nameof(DataTableSearch));
+                DataTableInfo = o.ParseTo<bool>(nameof(DataTableInfo));
+                DataTableAttributes = o.ParseTo<string>(nameof(DataTableAttributes));
+
+                EditView = o.NullIfWhiteSpace(nameof(EditView)) ?? EditView;
+                DataTableListView = o.NullIfWhiteSpace(nameof(DataTableListView)) ?? DataTableListView;
+                DataTableScriptView = o.NullIfWhiteSpace(nameof(DataTableScriptView)) ?? DataTableScriptView;
+
+            }
         }
     }
 }
