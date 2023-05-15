@@ -12,7 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;

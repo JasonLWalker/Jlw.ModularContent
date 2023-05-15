@@ -4,7 +4,7 @@ using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Testing;
 using Newtonsoft.Json;
-using TModel = Jlw.Data.LocalizedContent.LocalizedContentTextDataTablesInput;
+using TModel = Jlw.LocalizedContent.LocalizedContentTextDataTablesInput;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

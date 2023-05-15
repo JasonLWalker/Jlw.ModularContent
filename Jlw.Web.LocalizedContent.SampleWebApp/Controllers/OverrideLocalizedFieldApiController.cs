@@ -1,4 +1,4 @@
-﻿using Jlw.Data.LocalizedContent;
+﻿using Jlw.LocalizedContent;
 using Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DbUtility;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TInterface = Jlw.Data.LocalizedContent.ILocalizedContentTextRepository;
+using TInterface = Jlw.LocalizedContent.ILocalizedContentTextRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TInterface = Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository;
+using TInterface = Jlw.LocalizedContent.ILocalizedContentFieldRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

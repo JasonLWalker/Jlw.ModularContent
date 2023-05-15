@@ -3,7 +3,7 @@ using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Data.LocalizedContent 
+namespace Jlw.LocalizedContent 
 { 
     /// <summary> 
     /// Class to encapsulate a row from the LocalizedGroupDataItems database table 

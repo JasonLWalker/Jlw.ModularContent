@@ -1,4 +1,4 @@
-﻿using Jlw.Data.LocalizedContent;
+﻿using Jlw.LocalizedContent;
 using Microsoft.AspNetCore.Routing;
 
 namespace Jlw.Web.Rcl.LocalizedContent;

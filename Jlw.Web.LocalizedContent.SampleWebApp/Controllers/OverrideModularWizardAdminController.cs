@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Web.Rcl.LocalizedContent;
 using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;

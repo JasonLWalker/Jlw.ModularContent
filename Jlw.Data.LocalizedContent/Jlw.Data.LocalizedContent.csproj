@@ -21,7 +21,7 @@
 
   <PropertyGroup>
     <AssemblyName>$(PackageId)</AssemblyName>
-    <RootNamespace>$(PackageId)</RootNamespace>
+    <RootNamespace>$(Product)</RootNamespace>
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Shared Data Models and Data Repository to implement form and content creation.</Description>

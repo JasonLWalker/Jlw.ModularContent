@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Data.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Class WizardButtonData.

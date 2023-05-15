@@ -1,4 +1,5 @@
-﻿using Jlw.Utilities.Testing;
+﻿using Jlw.LocalizedContent;
+using Jlw.Utilities.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jlw.Data.LocalizedContent.Tests

@@ -16,7 +16,7 @@ using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Data.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Interface IWizardContentField

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Data.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Class to encapsulate the content of each screen in the Wizard

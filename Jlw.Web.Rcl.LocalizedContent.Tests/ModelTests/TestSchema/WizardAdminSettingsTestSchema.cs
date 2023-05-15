@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;

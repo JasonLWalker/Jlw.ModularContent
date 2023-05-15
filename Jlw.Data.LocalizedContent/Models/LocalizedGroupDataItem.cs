@@ -15,7 +15,7 @@
 using System;
 using Jlw.Utilities.Data;
 
-namespace Jlw.Data.LocalizedContent 
+namespace Jlw.LocalizedContent 
 {
     /// <summary>
     /// Class to encapsulate a row from the [LocalizedGroupDataItems] database table

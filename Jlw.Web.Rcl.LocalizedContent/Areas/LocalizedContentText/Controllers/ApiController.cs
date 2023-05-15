@@ -1,5 +1,5 @@
 using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +24,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers
         protected string _groupFilter;
         protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
 
-		public class LocalizedContentTextRecordInput : Data.LocalizedContent.LocalizedContentText
+		public class LocalizedContentTextRecordInput : Jlw.LocalizedContent.LocalizedContentText
 		{ 
 			public string EditToken { get; set; }
 

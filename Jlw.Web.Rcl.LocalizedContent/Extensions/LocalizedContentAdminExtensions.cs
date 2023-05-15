@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

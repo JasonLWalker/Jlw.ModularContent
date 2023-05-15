@@ -1,4 +1,4 @@
-﻿namespace Jlw.Data.LocalizedContent
+﻿namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Interface to define an individual item in the side navigation of a wizard.

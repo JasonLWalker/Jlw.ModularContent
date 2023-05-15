@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Testing;
-using TModel = Jlw.Data.LocalizedContent.LocalizedGroupDataItem;
+using TModel = Jlw.LocalizedContent.LocalizedGroupDataItem;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

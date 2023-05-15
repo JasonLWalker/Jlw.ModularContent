@@ -2,7 +2,7 @@
 using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Data.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     /// <inheritdoc />
     public class WizardSideNavItem : IWizardSideNavItem

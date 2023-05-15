@@ -1,4 +1,4 @@
-﻿namespace Jlw.Data.LocalizedContent
+﻿namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Specific types of elements defined for Html INPUT elements

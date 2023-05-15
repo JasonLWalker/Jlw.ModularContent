@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Web.Rcl.LocalizedContent;
 using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 

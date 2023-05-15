@@ -13,7 +13,7 @@
 // ***********************************************************************
 
 using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
@@ -62,7 +62,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
         /// Class LocalizedContentFieldRecordInput.
         /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
         /// </summary>
-        public class LocalizedContentFieldRecordInput : Data.LocalizedContent.LocalizedContentField, ILocalizedContentField
+        public class LocalizedContentFieldRecordInput : Jlw.LocalizedContent.LocalizedContentField, ILocalizedContentField
 		{
             /// <summary>
             /// Gets or sets the edit token.

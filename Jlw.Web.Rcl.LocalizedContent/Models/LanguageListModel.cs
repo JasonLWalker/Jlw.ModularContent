@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

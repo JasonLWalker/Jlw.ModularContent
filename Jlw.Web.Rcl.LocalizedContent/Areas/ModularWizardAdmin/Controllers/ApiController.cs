@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
@@ -135,7 +135,7 @@ public abstract class ApiController : WizardApiBaseController
 		    o.AuditChangeBy = User.Identity?.Name ?? "";
 		    if (o.FieldName.Equals("FieldKey", StringComparison.InvariantCultureIgnoreCase))
 		    {
-			    var field = _fieldRepository.GetRecord(new Data.LocalizedContent.LocalizedContentField(o));
+			    var field = _fieldRepository.GetRecord(new Jlw.LocalizedContent.LocalizedContentField(o));
 			    //return DataRepository.RenameWizardFieldRecursive(new WizardContentField(new { Id = o.Id }), o.FieldValue);
 			    return RenameField(new WizardField(field) { NewFieldKey = o.FieldValue });
 		    }
@@ -209,7 +209,7 @@ public abstract class ApiController : WizardApiBaseController
 
 		try
 		{
-			oResult = _fieldRepository.SaveRecord(new Data.LocalizedContent.LocalizedContentField(field));
+			oResult = _fieldRepository.SaveRecord(new Jlw.LocalizedContent.LocalizedContentField(field));
 			bResult = oResult != null;
 		}
 		catch (Exception ex)

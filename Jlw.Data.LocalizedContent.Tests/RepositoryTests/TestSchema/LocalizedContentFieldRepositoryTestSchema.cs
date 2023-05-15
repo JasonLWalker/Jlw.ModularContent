@@ -1,7 +1,8 @@
 ﻿using System;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
-using TRepo = Jlw.Data.LocalizedContent.LocalizedContentFieldRepository;
+using TRepo = Jlw.LocalizedContent.LocalizedContentFieldRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

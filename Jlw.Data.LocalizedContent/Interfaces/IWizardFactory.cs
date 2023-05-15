@@ -4,18 +4,17 @@
 // Created          : 05-27-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="IWizardFactory.cs" company="Jason L. Walker">
-//     Copyright ©2012-2021 Jason L. Walker
+//     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
 
-namespace Jlw.Data.LocalizedContent
+using System.Collections.Generic;
+
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Interface IWizardFactory
@@ -49,6 +48,22 @@ namespace Jlw.Data.LocalizedContent
         /// <param name="formData"></param>
         /// <returns></returns>
         WizardContentEmail CreateWizardContentEmail(string groupKey, string parentKey, object formData = null);
+
+        /// <summary>
+        /// Adds the embedded form.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="content">The content.</param>
+        /// <param name="extraFields">The extra fields.</param>
+        /// <param name="isDisabled">if set to <c>true</c> [is disabled].</param>
+        /// <param name="hasEditButton">if set to <c>true</c> [has edit button].</param>
+        void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false);
+
+        /// ToDo: Add XMLDoc comments
+        WizardFormData CreateEmbeddedScreenFormData(IWizardContentField embed, IEnumerable<WizardContentField> fieldData);
+
+        /// ToDo: Add XMLDoc comments
+        void ProcessPlaceholders(IWizardContentField field, object replacementObject);
 
         /// <summary>
         /// Resolves placeholders in the string using data provided by the replacementObject

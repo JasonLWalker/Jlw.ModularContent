@@ -1,5 +1,5 @@
 ﻿using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Routing;
 

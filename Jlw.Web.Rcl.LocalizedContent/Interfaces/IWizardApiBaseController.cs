@@ -1,4 +1,4 @@
-﻿using Jlw.Data.LocalizedContent;
+﻿using Jlw.LocalizedContent;
 
 namespace Jlw.Web.Rcl.LocalizedContent
 {

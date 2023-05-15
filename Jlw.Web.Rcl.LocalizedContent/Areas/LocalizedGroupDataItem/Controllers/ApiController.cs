@@ -1,5 +1,5 @@
 using System;
-using Jlw.Data.LocalizedContent;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +33,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers
         protected bool _unlockApi = false; // Set this flag to true when overriding API in order to enable access to API methods
         protected string _forcedGroupKey = null;
 
-		public class LocalizedGroupDataItemRecordInput : Data.LocalizedContent.LocalizedGroupDataItem 
+		public class LocalizedGroupDataItemRecordInput : Jlw.LocalizedContent.LocalizedGroupDataItem 
 		{ 
 			public string EditToken { get; set; } 
 			public new long Id  { get; set; } 

@@ -14,7 +14,7 @@
 
 using Jlw.Utilities.Data.DataTables;
 
-namespace Jlw.Data.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Class LocalizedContentTextDataTablesInput.

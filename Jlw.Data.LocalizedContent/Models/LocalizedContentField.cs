@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Data.LocalizedContent 
+namespace Jlw.LocalizedContent 
 {
     /// <summary>
     /// Class to encapsulate a row from the [LocalizedContentFields] database table.
