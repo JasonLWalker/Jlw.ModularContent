@@ -1,9 +1,8 @@
-@using Microsoft.Extensions.DependencyInjection
-@model Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
+@model AdminController.WizardAdminSettings
 @{
     ViewData["Title"] = Model.PageTitle ?? ViewData["PageTitle"];
 	string version = Model.Version;
-    string jsRoot = "LocalizedContent";
+    string jsRoot = LocalizedContentExtensions.AreaName;
 }
 @section Style
 {

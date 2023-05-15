@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Web.Rcl.LocalizedContent;
 using Microsoft.AspNetCore.Builder;
@@ -69,11 +68,9 @@ public class Program
                 LinkGenerator = provider.GetRequiredService<LinkGenerator>(),
                 ShowSideNav = true
             };
-            defaultSettings.JsRoot = defaultSettings.Area;
+            defaultSettings.JsRoot = LocalizedContentExtensions.AreaName;
             return defaultSettings;
         });
-
-
 
         builder.Services.TryAddSingleton<IWizardAdminSettings>(provider =>
         {
@@ -82,7 +79,7 @@ public class Program
             var DefaultSettings = new WizardAdminSettings();
             DefaultSettings.Area = "";
             DefaultSettings.LinkGenerator = linkGenerator;
-            DefaultSettings.JsRoot = DefaultSettings.Area;
+            DefaultSettings.JsRoot = LocalizedContentExtensions.AreaName;
             DefaultSettings.ApiControllerName = "OverrideModularWizardAdminApi";
             DefaultSettings.ControllerName = "OverrideModularWizardAdmin";
             //DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";

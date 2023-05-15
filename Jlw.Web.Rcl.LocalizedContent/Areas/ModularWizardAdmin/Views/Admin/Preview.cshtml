@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Jlw.Data.LocalizedContent
 @using Jlw.Utilities.Data
+@using Microsoft.Extensions.DependencyInjection
 @using Newtonsoft.Json.Linq
+@using Jlw.Data.LocalizedContent
 @inject IWizardFactoryRepository FactoryRepository
 @model Jlw.Web.Rcl.LocalizedContent.WizardPreviewSettings
 @{
@@ -11,7 +12,7 @@
 	string version = Model?.Version ?? ""; 
 	string apiUrl = Model?.ApiOverrideUrl;
 
-    string jsRoot = "LocalizedContent";
+    string jsRoot = LocalizedContentExtensions.AreaName;
 
     var sideNav = Model?.SideNav.Items;
 	string wizardName = string.IsNullOrWhiteSpace(Model?.Wizard) ? Model?.DefaultWizard ?? "" : Model.Wizard;

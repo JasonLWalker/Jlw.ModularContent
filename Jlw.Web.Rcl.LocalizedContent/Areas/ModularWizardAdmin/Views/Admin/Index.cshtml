@@ -1,3 +1,4 @@
+@using Microsoft.Extensions.DependencyInjection
 @model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
@@ -6,7 +7,7 @@
 	
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area }) + "/" : Model?.ApiOverrideUrl;
 
-    string jsRoot = "LocalizedContent";
+    string jsRoot = LocalizedContentExtensions.AreaName;
 }
 <div id="wizard-toolbox" class="flex-fill d-flex justify-content-start">
     <div class="d-flex flex-row w-100 p-0 m-0">

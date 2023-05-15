@@ -1,5 +1,3 @@
-@using Jlw.Utilities.Data
-@using Jlw.Web.Rcl.LocalizedContent
 @model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings
 @{
     bool hideLanguage = DataUtility.ParseNullableBool(ViewData, "hideLanguage") ?? !(Model?.ShowLanguage ?? false);

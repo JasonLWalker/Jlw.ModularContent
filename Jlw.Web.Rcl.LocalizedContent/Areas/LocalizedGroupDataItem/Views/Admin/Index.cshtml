@@ -1,7 +1,8 @@
+@using Microsoft.Extensions.DependencyInjection
 @model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings
 @{
     ViewData["Title"] = Model?.PageTitle ?? "Configuration Settings Admin";
-    string jsRoot = Model?.Area ?? "LocalizedContent";
+    string jsRoot = Model?.Area ?? LocalizedContentExtensions.AreaName;
 
     if (!(ViewData["Breadcrumb"] is IEnumerable<KeyValuePair<string, string>>))
     {
