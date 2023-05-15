@@ -7,7 +7,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class OverrideLocalizedDataItemsController : Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController
+    public class OverrideLocalizedDataItemsController : AdminController
     {
 
         public OverrideLocalizedDataItemsController(LinkGenerator linkGenerator) : base()

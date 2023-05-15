@@ -4,26 +4,26 @@
 // Created          : 05-27-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="WizardContent.cs" company="Jason L. Walker">
-//     Copyright ©2012-2021 Jason L. Walker
+//     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jlw.Utilities.Data;
 using Newtonsoft.Json.Linq;
 
 namespace Jlw.Data.LocalizedContent
 {
     /// <summary>
     /// Class WizardContent.
-    /// Implements the <see cref="Jlw.Data.LocalizedContent.IWizardContent" />
+    /// Implements the <see cref="IWizardContent" />
     /// </summary>
-    /// <seealso cref="Jlw.Data.LocalizedContent.IWizardContent" />
+    /// <seealso cref="IWizardContent" />
     /// TODO Edit XML Comment Template for WizardContent
     public class WizardContent : WizardContentField, IWizardContent
     {
@@ -87,19 +87,12 @@ namespace Jlw.Data.LocalizedContent
                 return;
             }
 
-            Label = wizard.Label;//wizard.ResolvePlaceholders(wizard.Label, formData);
-            WrapperHtmlStart = wizard.WrapperHtmlStart;//wizard.ResolvePlaceholders(wizard.WrapperHtmlStart, formData);
-            WrapperHtmlEnd = wizard.WrapperHtmlEnd;//wizard.ResolvePlaceholders(wizard.WrapperHtmlEnd, formData);
+            Label = wizard.Label;
+            WrapperHtmlStart = wizard.WrapperHtmlStart;
+            WrapperHtmlEnd = wizard.WrapperHtmlEnd;
 
             var fields = data.Where(o => o.ParentKey.Equals(wizard.FieldKey, StringComparison.CurrentCultureIgnoreCase)).OrderBy(o => o.Order).ToList();
-            /*
-            foreach (var field in fields)
-            {
-                field.Label = field.ResolvePlaceholders(field.Label, formData);
-                field.WrapperHtmlStart = field.ResolvePlaceholders(field.WrapperHtmlStart, formData);
-                field.WrapperHtmlEnd = field.ResolvePlaceholders(field.WrapperHtmlEnd, formData);
-            }
-            */
+
             HeadingData = fields.FirstOrDefault(o => o.FieldKey.Equals("Heading", StringComparison.InvariantCultureIgnoreCase));
             Heading = HeadingData?.Label ?? "";
             BodyData = fields.FirstOrDefault(o => o.FieldKey.Equals("Body", StringComparison.InvariantCultureIgnoreCase));

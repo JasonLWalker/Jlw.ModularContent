@@ -4,13 +4,14 @@
 // Created          : 05-27-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="WizardContentField.cs" company="Jason L. Walker">
-//     Copyright ©2012-2021 Jason L. Walker
+//     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,11 +20,11 @@ namespace Jlw.Data.LocalizedContent
 {
     /// <summary>
     /// Class WizardContentField.
-    /// Implements the <see cref="Jlw.Data.LocalizedContent.LocalizedContentField" />
-    /// Implements the <see cref="Jlw.Data.LocalizedContent.IWizardContentField" />
+    /// Implements the <see cref="LocalizedContentField" />
+    /// Implements the <see cref="IWizardContentField" />
     /// </summary>
-    /// <seealso cref="Jlw.Data.LocalizedContent.LocalizedContentField" />
-    /// <seealso cref="Jlw.Data.LocalizedContent.IWizardContentField" />
+    /// <seealso cref="LocalizedContentField" />
+    /// <seealso cref="IWizardContentField" />
     /// TODO Edit XML Comment Template for WizardContentField
     public class WizardContentField : LocalizedContentField, IWizardContentField
     {

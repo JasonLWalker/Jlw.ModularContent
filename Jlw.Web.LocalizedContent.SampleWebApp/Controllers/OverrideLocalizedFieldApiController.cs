@@ -1,4 +1,5 @@
 ﻿using Jlw.Data.LocalizedContent;
+using Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideLocalizedField/")]
-    public class OverrideLocalizedFieldApiController : Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers.ApiController
+    public class OverrideLocalizedFieldApiController : ApiController
     {
         public OverrideLocalizedFieldApiController(ILocalizedContentFieldRepository repository) : base (repository)
         {

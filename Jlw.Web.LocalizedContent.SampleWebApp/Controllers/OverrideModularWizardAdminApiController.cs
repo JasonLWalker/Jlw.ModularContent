@@ -1,16 +1,17 @@
-﻿using Jlw.Data.LocalizedContent;
-using Jlw.Utilities.Data.DataTables;
-using Jlw.Web.Rcl.LocalizedContent;
+﻿using Jlw.Utilities.Data.DataTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
+using Jlw.Data.LocalizedContent;
+using Jlw.Web.Rcl.LocalizedContent;
+using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideModularWizard/")]
-    public class OverrideModularWizardAdminApiController : Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.ApiController
+    public class OverrideModularWizardAdminApiController : ApiController
     {
         public OverrideModularWizardAdminApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository, IWizardAdminSettings settings) : base (repository, wizardFactory, fieldRepository, languageRepository, settings)
         {

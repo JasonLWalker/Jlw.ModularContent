@@ -1,6 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-27-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 05-15-2023
+// ***********************************************************************
+// <copyright file="WizardFieldTypes.cs" company="Jason L. Walker">
+//     Copyright ©2012-2023 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 
 namespace Jlw.Data.LocalizedContent
 {

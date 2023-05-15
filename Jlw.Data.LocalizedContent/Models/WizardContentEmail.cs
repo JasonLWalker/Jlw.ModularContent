@@ -1,7 +1,20 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : Jlw.Data.LocalizedContent
+// Author           : jlwalker
+// Created          : 05-27-2021
+//
+// Last Modified By : jlwalker
+// Last Modified On : 05-15-2023
+// ***********************************************************************
+// <copyright file="WizardContentEmail.cs" company="Jason L. Walker">
+//     Copyright ©2012-2023 Jason L. Walker
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 

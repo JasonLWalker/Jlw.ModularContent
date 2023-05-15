@@ -6,7 +6,7 @@ using TModel = Jlw.Data.LocalizedContent.LocalizedContentText;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentTextTestSchema : BaseModelSchema<LocalizedContentText>
+    public class LocalizedContentTextTestSchema : BaseModelSchema<TModel>
     {
         public override IEnumerable<InstanceMemberTestData<TModel>> InstanceMemberTestList
         {

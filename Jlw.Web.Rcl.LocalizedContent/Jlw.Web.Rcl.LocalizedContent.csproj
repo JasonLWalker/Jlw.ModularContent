@@ -27,7 +27,7 @@
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>
-    <Copyright>Copyright ©2019-2022 Jason L. Walker</Copyright>
+    <Copyright>Copyright ©2019-2023 Jason L. Walker</Copyright>
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">0.0.0.1</VersionPrefix>
     <Version>$(VersionPrefix)$(VersionSuffix)</Version>
     <SignAssembly>true</SignAssembly>
@@ -49,6 +49,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="resources\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="resources\LocalizedContent\js\tinycePlaceholder.js" />
   </ItemGroup>
 
   <ItemGroup>

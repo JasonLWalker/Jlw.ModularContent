@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 {

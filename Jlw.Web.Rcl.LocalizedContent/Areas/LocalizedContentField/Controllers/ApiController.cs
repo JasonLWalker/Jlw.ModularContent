@@ -4,13 +4,14 @@
 // Created          : 05-21-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="ApiController.cs" company="Jason L. Walker">
-//     Copyright ©2019-2021 Jason L. Walker
+//     Copyright ©2019-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using Jlw.Data.LocalizedContent;
 using Jlw.Utilities.Data;
@@ -59,9 +60,9 @@ namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers
 
         /// <summary>
         /// Class LocalizedContentFieldRecordInput.
-        /// Implements the <see cref="Jlw.Data.LocalizedContent.LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
+        /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
         /// </summary>
-        public class LocalizedContentFieldRecordInput : Data.LocalizedContent.LocalizedContentField, Data.LocalizedContent.ILocalizedContentField
+        public class LocalizedContentFieldRecordInput : Data.LocalizedContent.LocalizedContentField, ILocalizedContentField
 		{
             /// <summary>
             /// Gets or sets the edit token.

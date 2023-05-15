@@ -6,7 +6,7 @@
 @inject IWizardAdminSettings WizardSettings
 @model object
 @{
-	string version = typeof(Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers.AdminController).Assembly.GetName().Version?.ToString();
+	string version = typeof(AdminController).Assembly.GetName().Version?.ToString();
 	version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
 
 	ViewData["Title"] = "Sample Wizard";

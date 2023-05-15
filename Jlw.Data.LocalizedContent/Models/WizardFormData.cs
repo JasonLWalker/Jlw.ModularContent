@@ -4,13 +4,14 @@
 // Created          : 05-27-2021
 //
 // Last Modified By : jlwalker
-// Last Modified On : 06-15-2021
+// Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="WizardFormData.cs" company="Jason L. Walker">
-//     Copyright ©2012-2021 Jason L. Walker
+//     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,9 @@ namespace Jlw.Data.LocalizedContent
 {
     /// <summary>
     /// Class WizardFormData.
-    /// Implements the <see cref="Jlw.Data.LocalizedContent.WizardContentField" />
+    /// Implements the <see cref="WizardContentField" />
     /// </summary>
-    /// <seealso cref="Jlw.Data.LocalizedContent.WizardContentField" />
+    /// <seealso cref="WizardContentField" />
     /// TODO Edit XML Comment Template for WizardFormData
     public class WizardFormData : WizardContentField
     {

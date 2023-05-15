@@ -10,7 +10,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class OverrideModularWizardEmailAdminController : Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController
+    public class OverrideModularWizardEmailAdminController : AdminController
     {
         [HttpGet("{groupKey?}/{parentKey?}")]
         public override ActionResult Index(string groupKey=null, string parentKey=null)

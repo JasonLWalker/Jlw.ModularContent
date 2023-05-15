@@ -1,6 +1,7 @@
 @using Jlw.Web.Rcl.LocalizedContent
+@using Microsoft.Extensions.DependencyInjection
 @{
-    string libRoot = "LocalizedContent";
+    string libRoot = LocalizedContentExtensions.AreaName;
 }
 @inject IWizardSettings _settings
 <!DOCTYPE html>

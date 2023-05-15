@@ -1,4 +1,5 @@
 ﻿using Jlw.Data.LocalizedContent;
+using Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideLocalizedContentLanguage/")]
-    public class OverrideLocalizedContentLanguageApiController : Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.ApiController
+    public class OverrideLocalizedContentLanguageApiController : ApiController
     {
         public OverrideLocalizedContentLanguageApiController(ILocalizedGroupDataItemRepository repository) : base (repository)
         {
