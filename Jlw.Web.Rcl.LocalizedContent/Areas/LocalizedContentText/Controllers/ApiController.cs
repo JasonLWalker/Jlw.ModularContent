@@ -1,5 +1,4 @@
 using System;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers 
+namespace Jlw.LocalizedContent.Areas.LocalizedContentText.Controllers 
 {
     [Area("LocalizedContentText")]
     [ApiController]

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers
+namespace Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers
 {
     public abstract class AdminController : Controller
     {

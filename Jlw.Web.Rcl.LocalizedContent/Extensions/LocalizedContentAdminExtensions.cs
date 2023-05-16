@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Jlw.LocalizedContent;
+using Jlw.Utilities.Data.DbUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
-using Jlw.Utilities.Data.DbUtility;
-using Jlw.Web.Rcl.LocalizedContent;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Jlw.LocalizedContent
 {
     public static partial class LocalizedContentAdminExtensions
     {

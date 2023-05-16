@@ -1,6 +1,4 @@
-﻿using Jlw.LocalizedContent;
-
-namespace Jlw.Web.Rcl.LocalizedContent
+﻿namespace Jlw.LocalizedContent
 {
     public interface IWizardApiBaseController
     {

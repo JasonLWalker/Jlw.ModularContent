@@ -23,7 +23,7 @@
 
   <PropertyGroup>
     <AssemblyName>$(PackageId)</AssemblyName>
-    <RootNamespace>$(PackageId)</RootNamespace>
+    <RootNamespace>$(Product)</RootNamespace>
     <Company>Jason L. Walker</Company>
     <Authors>Jason L. Walker</Authors>
     <Description>Razor Class Library to implement form and content creation via a database-driven UI</Description>

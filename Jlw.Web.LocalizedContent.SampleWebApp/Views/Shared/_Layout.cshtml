@@ -1,5 +1,6 @@
-﻿@using Jlw.Web.Rcl.LocalizedContent
+﻿@using Jlw.LocalizedContent
 @using Microsoft.Extensions.DependencyInjection
+@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
 @{
     string libRoot = LocalizedContentExtensions.AreaName;
     IList<KeyValuePair<string, string>> oBreadcrumb = (List<KeyValuePair<string, string>>)ViewData["Breadcrumb"] ?? new List<KeyValuePair<string, string>>();

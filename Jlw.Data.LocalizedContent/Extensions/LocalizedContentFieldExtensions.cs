@@ -7,18 +7,18 @@
 // Last Modified On : 05-15-2023
 // ***********************************************************************
 // <copyright file="LocalizedContentFieldExtensions.cs" company="Jason L. Walker">
-//     Copyright ©2012-2021 Jason L. Walker
+//     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Class LocalizedContentFieldExtensions.

@@ -7,7 +7,7 @@ using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
-using TModel = Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings;
+using TModel = Jlw.LocalizedContent.WizardAdminSettings;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {

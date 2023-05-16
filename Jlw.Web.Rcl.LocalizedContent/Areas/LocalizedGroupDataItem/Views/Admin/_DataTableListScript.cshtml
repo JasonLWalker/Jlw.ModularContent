@@ -1,4 +1,4 @@
-@model Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings 
+@model Jlw.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers.AdminController.AdminSettings 
 @{ 
     bool isAdmin = Model?.IsAdmin ?? false;
     bool canView = isAdmin || (Model?.CanView ?? false);

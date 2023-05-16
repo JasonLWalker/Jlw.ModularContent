@@ -1,7 +1,6 @@
-﻿using Jlw.LocalizedContent;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.Rcl.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     [ApiController]
     public abstract class WizardApiBaseController : ControllerBase

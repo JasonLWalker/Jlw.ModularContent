@@ -1,5 +1,6 @@
 @using Microsoft.Extensions.DependencyInjection
-@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
+@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@model Jlw.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
 	string version = Model.Version;

@@ -1,4 +1,5 @@
-@model AdminController.WizardAdminSettings
+@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@model Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
 @{
     ViewData["Title"] = Model.PageTitle ?? ViewData["PageTitle"];
 	string version = Model.Version;

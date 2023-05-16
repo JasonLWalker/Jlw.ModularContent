@@ -2,8 +2,9 @@
 @using Jlw.Utilities.Data
 @using Microsoft.Extensions.DependencyInjection
 @using Jlw.LocalizedContent
+@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
 @inject IWizardFactoryRepository FactoryRepository
-@model Jlw.Web.Rcl.LocalizedContent.WizardPreviewSettings
+@model WizardPreviewSettings
 @{
     ViewData["Title"] = "Preview Screen";
     Layout = "_EmptyLayout";

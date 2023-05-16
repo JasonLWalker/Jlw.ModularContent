@@ -1,7 +1,7 @@
 using Jlw.Extensions.DataParsing;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>

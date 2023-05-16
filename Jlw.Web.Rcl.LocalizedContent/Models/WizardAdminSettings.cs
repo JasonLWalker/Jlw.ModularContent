@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Web.Rcl.LocalizedContent;
+namespace Jlw.LocalizedContent;
 
 public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
 {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 
-namespace Jlw.Web.Rcl.LocalizedContent;
+namespace Jlw.LocalizedContent;
 
 public class WizardPreviewSettings : WizardAdminSettings
 {

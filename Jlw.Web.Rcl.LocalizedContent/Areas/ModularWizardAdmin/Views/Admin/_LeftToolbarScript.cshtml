@@ -1,4 +1,4 @@
-﻿@model Jlw.Web.Rcl.LocalizedContent.WizardAdminSettings
+﻿@model Jlw.LocalizedContent.WizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area ?? "", groupKey = (string)null, fieldKey = (string)null }) + "/" : Model?.ApiOverrideUrl;
 }

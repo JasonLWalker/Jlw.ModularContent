@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Web.Rcl.LocalizedContent;
+namespace Jlw.LocalizedContent;
 
 public interface IWizardAdminSettings : IWizardSettings
 { 

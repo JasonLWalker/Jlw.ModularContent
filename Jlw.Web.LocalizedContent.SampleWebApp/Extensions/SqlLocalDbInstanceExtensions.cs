@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Jlw.Utilities.Data.DbUtility;
 using MartinCostello.SqlLocalDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using TOptions = Jlw.Web.LocalizedContent.SampleWebApp.SqlLocalDbInstanceExtensions.LocalDbInstanceOptions;
 
-using TOptions = Microsoft.Extensions.DependencyInjection.SqlLocalDbInstanceExtensions.LocalDbInstanceOptions;
-
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Jlw.Web.LocalizedContent.SampleWebApp
 {
     public static class SqlLocalDbInstanceExtensions
     {

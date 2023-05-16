@@ -14,7 +14,6 @@
 
 using System;
 using System.Linq;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
@@ -24,7 +23,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
 {
     /// <summary>
     /// Class ApiController.

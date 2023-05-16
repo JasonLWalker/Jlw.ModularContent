@@ -1,7 +1,6 @@
-﻿using Jlw.LocalizedContent;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Routing;
 
-namespace Jlw.Web.Rcl.LocalizedContent;
+namespace Jlw.LocalizedContent;
 
 public interface IWizardSettings
 {

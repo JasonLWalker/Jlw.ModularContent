@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
-using Jlw.Web.Rcl.LocalizedContent;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions;
 using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp;

@@ -3,8 +3,9 @@
 @using Microsoft.Extensions.DependencyInjection
 @using Newtonsoft.Json.Linq
 @using Jlw.LocalizedContent
+@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
 @inject IWizardFactoryRepository FactoryRepository
-@model Jlw.Web.Rcl.LocalizedContent.WizardPreviewSettings
+@model WizardPreviewSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";

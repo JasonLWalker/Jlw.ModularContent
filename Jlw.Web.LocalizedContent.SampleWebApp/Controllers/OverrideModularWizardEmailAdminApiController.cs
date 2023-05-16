@@ -1,5 +1,5 @@
 ﻿using Jlw.LocalizedContent;
-using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers;
+using Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

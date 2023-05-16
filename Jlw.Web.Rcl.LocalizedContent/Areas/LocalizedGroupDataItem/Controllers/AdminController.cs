@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers 
+namespace Jlw.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers 
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>

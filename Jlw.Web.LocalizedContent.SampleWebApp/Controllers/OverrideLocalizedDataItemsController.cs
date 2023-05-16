@@ -1,4 +1,4 @@
-﻿using Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers;
+﻿using Jlw.LocalizedContent.Areas.LocalizedGroupDataItem.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;

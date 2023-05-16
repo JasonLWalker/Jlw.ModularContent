@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentText.Controllers 
+namespace Jlw.LocalizedContent.Areas.LocalizedContentText.Controllers 
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>

@@ -11,14 +11,14 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data.DbUtility;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Jlw.LocalizedContent
 {
     /// <summary>
     /// Class LocalizedContentTextExtensions.

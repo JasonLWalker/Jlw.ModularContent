@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
 using Jlw.LocalizedContent;
-using Jlw.Web.Rcl.LocalizedContent;
-using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
+using Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
 {

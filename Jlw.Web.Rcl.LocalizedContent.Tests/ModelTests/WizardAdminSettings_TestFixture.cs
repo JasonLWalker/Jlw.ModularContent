@@ -1,5 +1,5 @@
+using Jlw.LocalizedContent;
 using Jlw.Utilities.Testing;
-using Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 

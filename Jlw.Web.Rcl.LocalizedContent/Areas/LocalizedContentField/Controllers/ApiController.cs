@@ -13,7 +13,6 @@
 // ***********************************************************************
 
 using System;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.WebApiUtility;
@@ -23,7 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.LocalizedContentField.Controllers 
+namespace Jlw.LocalizedContent.Areas.LocalizedContentField.Controllers 
 {
     /// <summary>
     /// Class ApiController.

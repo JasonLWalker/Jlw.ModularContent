@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Jlw.LocalizedContent;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Rcl.LocalizedContent
+namespace Jlw.LocalizedContent
 {
     public interface ILanguageListModel
     {

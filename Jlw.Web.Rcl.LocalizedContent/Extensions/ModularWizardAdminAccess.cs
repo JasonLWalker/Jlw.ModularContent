@@ -1,4 +1,4 @@
-﻿namespace Jlw.Web.Rcl.LocalizedContent.Extensions
+﻿namespace Jlw.LocalizedContent
 {
     public enum ModularWizardAdminAccess
     {

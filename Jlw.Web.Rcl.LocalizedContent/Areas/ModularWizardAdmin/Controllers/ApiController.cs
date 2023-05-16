@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Jlw.LocalizedContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.WebApiUtility;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.Web.Rcl.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
+namespace Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 
 [ApiController]
 [Authorize]
