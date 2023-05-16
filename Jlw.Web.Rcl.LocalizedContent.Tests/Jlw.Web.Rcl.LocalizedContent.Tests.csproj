@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj" />
+    <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.LocalizedContent.Rcl.csproj" />
   </ItemGroup>
 
 </Project>

@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.LocalizedContent.Data.csproj" />
   </ItemGroup>
 
 </Project>

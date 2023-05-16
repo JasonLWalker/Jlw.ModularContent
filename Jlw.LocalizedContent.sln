@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent", "Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj", "{A0329EAE-26A9-4407-B373-49DF6A7C43F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.LocalizedContent.Data", "Jlw.Data.LocalizedContent\Jlw.LocalizedContent.Data.csproj", "{A0329EAE-26A9-4407-B373-49DF6A7C43F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Data.LocalizedContent.Tests", "Jlw.Data.LocalizedContent.Tests\Jlw.Data.LocalizedContent.Tests.csproj", "{08ABF279-0AD1-4B42-9FD2-89E2C8DDF905}"
 EndProject
@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{B9C7434B-F
 		wiki\_Sidebar.md = wiki\_Sidebar.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.Web.Rcl.LocalizedContent", "Jlw.Web.Rcl.LocalizedContent\Jlw.Web.Rcl.LocalizedContent.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jlw.LocalizedContent.Rcl", "Jlw.Web.Rcl.LocalizedContent\Jlw.LocalizedContent.Rcl.csproj", "{AA332A19-CB14-4C82-AC9F-28252C781065}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A0329EAE-26A9-4407-B373-49DF6A7C43F7} = {A0329EAE-26A9-4407-B373-49DF6A7C43F7}
 	EndProjectSection

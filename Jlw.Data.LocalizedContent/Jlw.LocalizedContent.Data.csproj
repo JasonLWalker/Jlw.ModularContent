@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <Product>Jlw.LocalizedContent</Product>
-    <PackageId>Jlw.Data.LocalizedContent</PackageId>
+    <PackageId>Jlw.LocalizedContent.Data</PackageId>
     <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>

@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <Product>Jlw.LocalizedContent</Product>
-    <PackageId>Jlw.Web.Rcl.LocalizedContent</PackageId>
+    <PackageId>Jlw.LocalizedContent.Rcl</PackageId>
     <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
@@ -56,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.Data.LocalizedContent.csproj" />
+    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.LocalizedContent.Data.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

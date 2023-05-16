@@ -13,7 +13,7 @@
 
 # Data Repository
 <!-- $( 
-	$projectName = "Jlw.Data.LocalizedContent"
+	$projectName = "Jlw.LocalizedContent.Data"
 	$projectPath = "$($buildPath)**\$($projectName).csproj"
 ) -->
 [![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab)
@@ -27,7 +27,7 @@ $(Get-ProjectDependencyTable $projectPath)
 
 # Razor Class Library
 <!-- $(
-	$projectName = "jlw.Web.Rcl.LocalizedContent"
+	$projectName = "jlw.LocalizedContent.Rcl"
 	$projectPath = "$($buildPath)**\$($projectName).csproj"
 	$libmanPath = "$($buildPath)\$($projectName)"
 	$purposes = @{ 
