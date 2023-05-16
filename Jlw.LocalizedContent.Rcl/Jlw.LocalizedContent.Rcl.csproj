@@ -56,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Data.LocalizedContent\Jlw.LocalizedContent.Data.csproj" />
+    <ProjectReference Include="..\Jlw.LocalizedContent.Data\Jlw.LocalizedContent.Data.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

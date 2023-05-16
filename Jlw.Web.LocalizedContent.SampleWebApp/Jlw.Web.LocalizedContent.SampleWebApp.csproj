@@ -24,7 +24,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.Web.Rcl.LocalizedContent\Jlw.LocalizedContent.Rcl.csproj" />
+    <ProjectReference Include="..\Jlw.LocalizedContent.Rcl\Jlw.LocalizedContent.Rcl.csproj" />
   </ItemGroup>
 
 
