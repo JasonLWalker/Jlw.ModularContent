@@ -484,7 +484,7 @@ public abstract class ApiController : WizardApiBaseController
 	
 
     [HttpPost("NewWizard")]
-    public virtual object NewWizard(LocalizedContentField.Controllers.ApiController.LocalizedContentFieldRecordInput o)
+    public virtual object NewWizard(LocalizedContentFieldRecordInput o)
     {
 	    var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 	    if (auth != null) return auth;
@@ -603,7 +603,7 @@ public abstract class ApiController : WizardApiBaseController
 	#region Screen Actions
 
 	[HttpPost("NewScreen")]
-    public virtual object NewScreen(LocalizedContentField.Controllers.ApiController.LocalizedContentFieldRecordInput o) 
+    public virtual object NewScreen(LocalizedContentFieldRecordInput o) 
     {
 	    var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 	    if (auth != null) return auth;
@@ -696,7 +696,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("Localization/Data")]
-    public virtual object LocalizationData(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationData(LocalizedContentTextRecordInput o)
     {
 		var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 		if (auth != null) return auth;
@@ -719,7 +719,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("Localization/Save")]
-    public virtual object LocalizationSave(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationSave(LocalizedContentTextRecordInput o)
     {
 	    var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 	    if (auth != null) return auth;
@@ -756,7 +756,7 @@ public abstract class ApiController : WizardApiBaseController
 
 
     [HttpPost("Localization/Delete")]
-    public virtual object LocalizationDelete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object LocalizationDelete(LocalizedContentTextRecordInput o)
     {
 	    var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 	    if (auth != null) return auth;
@@ -804,7 +804,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("ErrorMessage/Data")]
-    public virtual object ErrorMessageData(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object ErrorMessageData(LocalizedContentTextRecordInput o)
     {
         var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
         if (auth != null) return auth;
@@ -815,7 +815,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("ErrorMessage/Save")]
-    public virtual object ErrorMessageSave(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object ErrorMessageSave(LocalizedContentTextRecordInput o)
     {
         var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
         if (auth != null) return auth;
@@ -832,7 +832,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
     [HttpPost("ErrorMessage/Delete")]
-    public virtual object ErrorMessageDelete(LocalizedContentText.Controllers.ApiController.LocalizedContentTextRecordInput o)
+    public virtual object ErrorMessageDelete(LocalizedContentTextRecordInput o)
     {
         var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
         if (auth != null) return auth;
@@ -1115,9 +1115,191 @@ public abstract class ApiController : WizardApiBaseController
             //base.Initialize(o);
         }
     }
+
+
+    public class LocalizedContentTextRecordInput : Jlw.LocalizedContent.LocalizedContentText
+    {
+        public string EditToken { get; set; }
+
+        public new string GroupKey
+        {
+            get => base.GroupKey;
+            set => base.GroupKey = value;
+        }
+
+        public new string FieldKey
+        {
+            get => base.FieldKey;
+            set => base.FieldKey = value;
+        }
+
+        public new string Language
+        {
+            get => base.Language;
+            set => base.Language = value;
+        }
+
+        public new string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
+        public new string AuditChangeType
+        {
+            get => base.AuditChangeType;
+            set => base.AuditChangeType = value;
+        }
+
+        public new string AuditChangeBy
+        {
+            get => base.AuditChangeBy;
+            set => base.AuditChangeBy = value;
+        }
+
+        public new DateTime AuditChangeDate
+        {
+            get => base.AuditChangeDate;
+            set => base.AuditChangeDate = value;
+        }
+        public string GroupFilter { get; set; }
+    }
+
+
+    /// <summary>
+    /// Class LocalizedContentFieldRecordInput.
+    /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
+    /// </summary>
+    public class LocalizedContentFieldRecordInput : Jlw.LocalizedContent.LocalizedContentField, ILocalizedContentField
+    {
+        /// <summary>
+        /// Gets or sets the edit token.
+        /// </summary>
+        /// <value>The edit token.</value>
+        /// TODO Edit XML Comment Template for EditToken
+        public string EditToken { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
+        [JsonConverter(typeof(JlwJsonConverter<long>))]
+        public new long Id
+        {
+            get => base.Id;
+            set => base.Id = value;
+        }
+
+        /// <inheritdoc />
+        public new string GroupKey
+        {
+            get => base.GroupKey;
+            set => base.GroupKey = value;
+        }
+
+        /// <inheritdoc />
+        public new string FieldKey
+        {
+            get => base.FieldKey;
+            set => base.FieldKey = value;
+        }
+
+        /// <inheritdoc />
+        public new string FieldType
+        {
+            get => base.FieldType;
+            set => base.FieldType = value;
+        }
+
+        /// <inheritdoc />
+        public new string FieldData
+        {
+            get => base.FieldData;
+            set => base.FieldData = value;
+        }
+
+        /// <inheritdoc />
+        public new string FieldClass
+        {
+            get => base.FieldClass;
+            set => base.FieldClass = value;
+        }
+
+        /// <inheritdoc />
+        public new string ParentKey
+        {
+            get => base.ParentKey;
+            set => base.ParentKey = value;
+        }
+
+        /// <inheritdoc />
+        public new string DefaultLabel
+        {
+            get => base.DefaultLabel;
+            set => base.DefaultLabel = value;
+        }
+
+        /// <inheritdoc />
+        public new string WrapperClass
+        {
+            get => base.WrapperClass;
+            set => base.WrapperClass = value;
+        }
+
+        /// <inheritdoc />
+        public new string WrapperHtmlStart
+        {
+            get => base.WrapperHtmlStart;
+            set => base.WrapperHtmlStart = value;
+        }
+
+        /// <inheritdoc />
+        public new string WrapperHtmlEnd
+        {
+            get => base.WrapperHtmlEnd;
+            set => base.WrapperHtmlEnd = value;
+        }
+
+        /// <inheritdoc />
+        public new string AuditChangeType
+        {
+            get => base.AuditChangeType;
+            set => base.AuditChangeType = value;
+        }
+
+        /// <inheritdoc />
+        public new string AuditChangeBy
+        {
+            get => base.AuditChangeBy;
+            set => base.AuditChangeBy = value;
+        }
+
+        /// <inheritdoc />
+        public new DateTime AuditChangeDate
+        {
+            get => base.AuditChangeDate;
+            set => base.AuditChangeDate = value;
+        }
+
+        /// <inheritdoc />
+        public new int Order
+        {
+            get => base.Order;
+            set => base.Order = value;
+        }
+
+        /// <inheritdoc />
+        public new string GroupFilter
+        {
+            get => base.GroupFilter;
+            set => base.GroupFilter = value;
+        }
+    }
+
+
     #endregion
 
-	[Flags]
+
+
+    [Flags]
     public enum ValidationOptions
     {
         None,
