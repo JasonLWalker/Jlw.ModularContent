@@ -26,7 +26,7 @@ namespace Jlw.LocalizedContent
     /// TODO Edit XML Comment Template for LocalizedContentFieldExtensions
     public static partial class LocalizedContentExtensions
     {
-        public const string AreaName = "LocalizedContent";
+        public const string AreaName = "LocalizedContent5";
 
         /// <summary>
         /// Adds the localized content field repository to the service collection as a singleton instance.
