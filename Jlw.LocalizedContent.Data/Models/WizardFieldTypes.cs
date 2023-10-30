@@ -12,7 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Field types for the [FieldType] column of the [LocalizedContentFields]

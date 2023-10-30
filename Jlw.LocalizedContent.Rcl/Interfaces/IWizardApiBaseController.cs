@@ -1,4 +1,4 @@
-﻿namespace Jlw.LocalizedContent
+﻿namespace Jlw.ModularContent
 {
     public interface IWizardApiBaseController
     {

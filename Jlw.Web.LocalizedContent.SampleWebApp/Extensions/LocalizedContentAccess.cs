@@ -1,4 +1,4 @@
-namespace Jlw.Web.LocalizedContent.SampleWebApp;
+namespace Jlw.Web.ModularContent.SampleWebApp;
 
 public enum LocalizedContentAccess
 {

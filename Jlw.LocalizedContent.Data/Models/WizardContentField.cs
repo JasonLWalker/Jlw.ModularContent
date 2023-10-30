@@ -16,7 +16,7 @@ using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Class WizardContentField.

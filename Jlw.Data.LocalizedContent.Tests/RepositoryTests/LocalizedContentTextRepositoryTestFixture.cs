@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Jlw.LocalizedContent;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Data.DbUtility;
@@ -11,8 +11,8 @@ using Jlw.Utilities.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using TRepo = Jlw.LocalizedContent.LocalizedContentTextRepository;
-using TModel = Jlw.LocalizedContent.LocalizedContentText;
+using TRepo = Jlw.ModularContent.LocalizedContentTextRepository;
+using TModel = Jlw.ModularContent.LocalizedContentText;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

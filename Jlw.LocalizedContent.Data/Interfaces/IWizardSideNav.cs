@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Interface to define a collection of screens for use in the side navigation of a wizard.

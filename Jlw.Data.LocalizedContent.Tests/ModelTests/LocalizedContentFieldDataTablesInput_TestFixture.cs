@@ -1,4 +1,4 @@
-﻿using Jlw.LocalizedContent;
+﻿using Jlw.ModularContent;
 using Jlw.Utilities.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

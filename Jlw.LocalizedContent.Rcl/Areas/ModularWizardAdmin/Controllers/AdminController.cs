@@ -5,7 +5,7 @@ using System.Text;
 using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers
+namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 {
     public abstract class AdminController : Controller
     {

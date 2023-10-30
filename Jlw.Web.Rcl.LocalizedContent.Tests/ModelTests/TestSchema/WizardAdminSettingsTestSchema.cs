@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jlw.LocalizedContent;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
-using TModel = Jlw.LocalizedContent.WizardAdminSettings;
+using TModel = Jlw.ModularContent.WizardAdminSettings;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {

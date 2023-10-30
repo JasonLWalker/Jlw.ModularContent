@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// ToDo: add XMLDoc comments
     public class WizardComponentField : WizardContentField

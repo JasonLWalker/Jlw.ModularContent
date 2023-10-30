@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jlw.LocalizedContent;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Testing;
-using TModel = Jlw.LocalizedContent.LocalizedContentField;
+using TModel = Jlw.ModularContent.LocalizedContentField;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

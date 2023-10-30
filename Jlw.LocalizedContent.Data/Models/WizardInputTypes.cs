@@ -1,4 +1,4 @@
-﻿namespace Jlw.LocalizedContent
+﻿namespace Jlw.ModularContent
 {
     /// <summary>
     /// Specific types of elements defined for Html INPUT elements

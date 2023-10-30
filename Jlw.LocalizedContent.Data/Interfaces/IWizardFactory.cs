@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Interface IWizardFactory

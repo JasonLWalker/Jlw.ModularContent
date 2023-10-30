@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers;
+using Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]

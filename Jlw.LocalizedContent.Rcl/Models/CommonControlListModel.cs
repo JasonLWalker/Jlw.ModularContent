@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.LocalizedContent;
+namespace Jlw.ModularContent;
 
 public interface ICommonControlListModel
 {

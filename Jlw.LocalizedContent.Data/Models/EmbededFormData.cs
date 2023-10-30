@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     public class EmbededFormData : WizardFormData
     {

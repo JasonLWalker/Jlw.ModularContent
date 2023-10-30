@@ -14,7 +14,7 @@
 
 using Jlw.Utilities.Data.DataTables;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Class LocalizedGroupDataItemDataTablesInput.

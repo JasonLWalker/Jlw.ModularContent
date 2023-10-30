@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Route("~/SampleWizard/[controller]")]
     public class HomeController : Controller

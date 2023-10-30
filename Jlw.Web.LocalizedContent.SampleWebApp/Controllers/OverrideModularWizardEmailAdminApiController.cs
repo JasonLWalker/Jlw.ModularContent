@@ -1,9 +1,9 @@
-﻿using Jlw.LocalizedContent;
-using Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers;
+﻿using Jlw.ModularContent;
+using Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideModularWizardEmail/")]

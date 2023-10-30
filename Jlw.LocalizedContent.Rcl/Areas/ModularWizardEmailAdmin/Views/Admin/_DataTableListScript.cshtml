@@ -1,5 +1,5 @@
 @using Newtonsoft.Json
-@model Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
+@model Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area, groupKey = (string)null, parentKey = (string)null }) + "/" : Model.ApiOverrideUrl;
 }

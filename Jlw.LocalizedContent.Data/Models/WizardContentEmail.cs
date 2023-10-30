@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <inheritdoc />
     public class WizardContentEmail : IWizardContentEmail

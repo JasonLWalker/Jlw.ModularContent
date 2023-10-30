@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     [ApiController]
     public abstract class WizardApiBaseController : ControllerBase

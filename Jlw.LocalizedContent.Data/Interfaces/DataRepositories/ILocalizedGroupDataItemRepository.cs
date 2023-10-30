@@ -15,7 +15,7 @@
 using System.Collections.Generic;
 using Jlw.Utilities.Data.DbUtility;
 
-namespace Jlw.LocalizedContent 
+namespace Jlw.ModularContent 
 {
     /// <summary>
     /// Interface ILocalizedGroupDataItemRepository

@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Jlw.LocalizedContent</Product>
-    <PackageId>Jlw.LocalizedContent.Rcl</PackageId>
+    <Product>Jlw.ModularContent</Product>
+    <PackageId>Jlw.ModularContent.Rcl</PackageId>
     <RepositoryUrl>https://github.com/JasonLWalker/$(Product).git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Provided as is</PackageReleaseNotes>
@@ -52,11 +52,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="resources\LocalizedContent\js\tinycePlaceholder.js" />
+    <None Remove="resources\ModularContent\js\tinycePlaceholder.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jlw.LocalizedContent.Data\Jlw.LocalizedContent.Data.csproj" />
+    <ProjectReference Include="..\Jlw.LocalizedContent.Data\Jlw.ModularContent.Data.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

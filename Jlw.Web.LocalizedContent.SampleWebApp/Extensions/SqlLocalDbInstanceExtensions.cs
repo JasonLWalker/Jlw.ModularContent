@@ -9,9 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using TOptions = Jlw.Web.LocalizedContent.SampleWebApp.SqlLocalDbInstanceExtensions.LocalDbInstanceOptions;
+using TOptions = Jlw.Web.ModularContent.SampleWebApp.SqlLocalDbInstanceExtensions.LocalDbInstanceOptions;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp
+namespace Jlw.Web.ModularContent.SampleWebApp
 {
     public static class SqlLocalDbInstanceExtensions
     {

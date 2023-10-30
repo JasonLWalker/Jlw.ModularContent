@@ -1,12 +1,12 @@
-﻿using Jlw.Utilities.Data.DataTables;
+﻿using System;
+using Jlw.ModularContent;
+using Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
+using Jlw.Utilities.Data.DataTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using System;
-using Jlw.LocalizedContent;
-using Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp.Controllers
+namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Authorize("ContentOverrideAdmin")]
     [Route("admin/api/OverrideModularWizard/")]

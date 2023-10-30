@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Jlw.Utilities.Data;
 
-namespace Jlw.LocalizedContent;
+namespace Jlw.ModularContent;
 
 public class WizardPreviewSettings : WizardAdminSettings
 {

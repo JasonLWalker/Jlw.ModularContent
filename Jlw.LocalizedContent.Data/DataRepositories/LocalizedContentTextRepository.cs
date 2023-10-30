@@ -20,7 +20,7 @@ using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Data.DbUtility;
 
-namespace Jlw.LocalizedContent 
+namespace Jlw.ModularContent 
 {
     /// <summary>
     /// Class LocalizedContentTextRepository.

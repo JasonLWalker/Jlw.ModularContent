@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers 
 {
     /// <summary>
     /// Class ApiController.
@@ -251,7 +251,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["Text"] = o.Label;
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
-                    _textRepository.SaveRecord(text.ToObject<Jlw.LocalizedContent.LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
                 }
                 else
                 {
@@ -269,7 +269,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
                     field["FieldType"] = "BODY";
                     field["FieldKey"] = o.FieldKey + "_Body";
                     field["ParentKey"] = o.FieldKey;
-                    body = _fieldRepository.SaveRecord(field.ToObject<Jlw.LocalizedContent.LocalizedContentField>());
+                    body = _fieldRepository.SaveRecord(field.ToObject<LocalizedContentField>());
                 }
 
                 if (body != null)
@@ -279,7 +279,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
                     text["GroupFilter"] = _groupFilter;
-                    _textRepository.SaveRecord(text.ToObject<Jlw.LocalizedContent.LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
                 }
 
                 if (subject is null)
@@ -290,7 +290,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
                     field["FieldType"] = "SUBJECT";
                     field["FieldKey"] = o.FieldKey + "_Subject";
                     field["ParentKey"] = o.FieldKey;
-                    subject = _fieldRepository.SaveRecord(field.ToObject<Jlw.LocalizedContent.LocalizedContentField>());
+                    subject = _fieldRepository.SaveRecord(field.ToObject<LocalizedContentField>());
                 }
 
                 if (subject != null)
@@ -300,7 +300,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
                     text["GroupFilter"] = _groupFilter;
-                    _textRepository.SaveRecord(text.ToObject<Jlw.LocalizedContent.LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
                 }
 
 

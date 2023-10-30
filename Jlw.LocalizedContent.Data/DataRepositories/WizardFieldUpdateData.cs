@@ -1,4 +1,4 @@
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Class used as a data record for updating a database field for stored procedure [sp_SaveLocalizedContentFieldData]

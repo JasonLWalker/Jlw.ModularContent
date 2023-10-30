@@ -17,7 +17,7 @@ using Jlw.Utilities.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Interface IWizardContent

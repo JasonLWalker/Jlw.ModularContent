@@ -1,24 +1,24 @@
 using System;
 using System.Linq;
-using Jlw.LocalizedContent;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data.DbUtility;
+using MartinCostello.SqlLocalDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using MartinCostello.SqlLocalDb;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
 
-namespace Jlw.Web.LocalizedContent.SampleWebApp;
+namespace Jlw.Web.ModularContent.SampleWebApp;
 
 public class Program
 {

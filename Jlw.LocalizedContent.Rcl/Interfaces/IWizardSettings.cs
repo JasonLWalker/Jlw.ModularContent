@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace Jlw.LocalizedContent;
+namespace Jlw.ModularContent;
 
 public interface IWizardSettings
 {

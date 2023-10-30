@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers
+namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 {
     public class WizardJs5Controller : Controller
     {

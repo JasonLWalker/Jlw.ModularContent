@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Jlw.LocalizedContent;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Data.DbUtility;
@@ -13,8 +13,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using TRepo = Jlw.LocalizedContent.LocalizedContentFieldRepository;
-using TModel = Jlw.LocalizedContent.LocalizedContentField;
+using TRepo = Jlw.ModularContent.LocalizedContentFieldRepository;
+using TModel = Jlw.ModularContent.LocalizedContentField;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {

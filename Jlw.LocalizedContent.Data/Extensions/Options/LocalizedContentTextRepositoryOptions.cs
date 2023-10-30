@@ -14,7 +14,7 @@
 
 using Jlw.Utilities.Data.DbUtility;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     /// <summary>
     /// Class LocalizedContentTextRepositoryOptions.

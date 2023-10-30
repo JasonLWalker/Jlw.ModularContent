@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
-namespace Jlw.LocalizedContent
+namespace Jlw.ModularContent
 {
     public static partial class ModularWizardAdminExtensions
     {

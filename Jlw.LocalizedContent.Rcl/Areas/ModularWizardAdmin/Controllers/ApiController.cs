@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.LocalizedContent.Areas.ModularWizardAdmin.Controllers;
+namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
 
 [ApiController]
 [Authorize]
@@ -134,7 +134,7 @@ public abstract class ApiController : WizardApiBaseController
 		    o.AuditChangeBy = User.Identity?.Name ?? "";
 		    if (o.FieldName.Equals("FieldKey", StringComparison.InvariantCultureIgnoreCase))
 		    {
-			    var field = _fieldRepository.GetRecord(new Jlw.LocalizedContent.LocalizedContentField(o));
+			    var field = _fieldRepository.GetRecord(new LocalizedContentField(o));
 			    //return DataRepository.RenameWizardFieldRecursive(new WizardContentField(new { Id = o.Id }), o.FieldValue);
 			    return RenameField(new WizardField(field) { NewFieldKey = o.FieldValue });
 		    }
@@ -208,7 +208,7 @@ public abstract class ApiController : WizardApiBaseController
 
 		try
 		{
-			oResult = _fieldRepository.SaveRecord(new Jlw.LocalizedContent.LocalizedContentField(field));
+			oResult = _fieldRepository.SaveRecord(new LocalizedContentField(field));
 			bResult = oResult != null;
 		}
 		catch (Exception ex)
@@ -1117,7 +1117,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
 
-    public class LocalizedContentTextRecordInput : Jlw.LocalizedContent.LocalizedContentText
+    public class LocalizedContentTextRecordInput : LocalizedContentText
     {
         public string EditToken { get; set; }
 
@@ -1170,7 +1170,7 @@ public abstract class ApiController : WizardApiBaseController
     /// Class LocalizedContentFieldRecordInput.
     /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
     /// </summary>
-    public class LocalizedContentFieldRecordInput : Jlw.LocalizedContent.LocalizedContentField, ILocalizedContentField
+    public class LocalizedContentFieldRecordInput : LocalizedContentField, ILocalizedContentField
     {
         /// <summary>
         /// Gets or sets the edit token.

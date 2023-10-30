@@ -2,7 +2,7 @@
 using Jlw.Utilities.Data;
 using Microsoft.AspNetCore.Routing;
 
-namespace Jlw.LocalizedContent;
+namespace Jlw.ModularContent;
 
 public class WizardSettings : IWizardSettings
 {

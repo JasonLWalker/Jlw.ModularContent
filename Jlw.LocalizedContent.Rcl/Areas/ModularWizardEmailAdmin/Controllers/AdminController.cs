@@ -1,7 +1,7 @@
 using Jlw.Extensions.DataParsing;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers 
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>
@@ -27,7 +27,7 @@ namespace Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers
             return View(viewName ?? "Index", settings ?? new WizardAdminSettings());
         }
 
-        public class WizardAdminSettings : LocalizedContent.WizardAdminSettings
+        public class WizardAdminSettings : ModularContent.WizardAdminSettings
         {
             public bool ShowGroup { get; set; } = false;
             public bool ShowFieldName { get; set; } = false;
