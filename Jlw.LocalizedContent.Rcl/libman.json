@@ -9,7 +9,7 @@
     {
       "provider": "jsdelivr",
       "library": "swisnl/jQuery-contextMenu@2.9.2",
-      "destination": "resources/LocalizedContent/jquery-contextmenu",
+      "destination": "resources/LocalizedContent5/jquery-contextmenu",
       "files": [
         "dist/**",
         "*.md",
@@ -61,11 +61,11 @@
     },
     {
       "library": "font-awesome@5.15.4",
-      "destination": "resources/LocalizedContent/font-awesome/"
+      "destination": "resources/LocalizedContent5/font-awesome/"
     },
     {
       "library": "tinymce@5.8.1",
-      "destination": "resources/LocalizedContent/tinymce/"
+      "destination": "resources/LocalizedContent5/tinymce/"
     },
     {
       "library": "prism@1.28.0",
@@ -79,7 +79,7 @@
     {
       "provider": "jsdelivr",
       "library": "mar10/fancytree@2.38.2",
-      "destination": "resources/LocalizedContent/fancytree/",
+      "destination": "resources/LocalizedContent5/fancytree/",
       "files": [
         "dist/skin-lion/**",
         "dist/*.js",
