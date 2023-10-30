@@ -44,7 +44,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// </summary>
         protected readonly ILocalizedContentFieldRepository _fieldRepository;
         protected readonly IWizardFactoryRepository _factoryRepository;
-        protected readonly ILocalizedContentTextRepository _textRepository;
+        protected readonly IModularContentTextRepository _textRepository;
         /// <summary>
         /// The primary group filter
         /// for this class. This will be set in descendant classes to allow those classes to only modify a subset of database records.
@@ -59,7 +59,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         
         /// <summary>
         /// Class LocalizedContentFieldRecordInput.
-        /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
+        /// Implements the <see cref="ModularContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
         /// </summary>
         public class ModularWizardEmailRecordInput : WizardContentField
 		{
@@ -123,7 +123,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public ApiController(ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository textRepository, IWizardFactoryRepository factoryRepository) 
+        public ApiController(ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IWizardFactoryRepository factoryRepository) 
         { 
             _fieldRepository = fieldRepository;
             _textRepository = textRepository;
@@ -232,7 +232,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
             o.Language = string.IsNullOrWhiteSpace(o.Language) ? "EN" : o.Language;
             if (!_unlockApi) return JToken.FromObject(new ApiStatusMessage("You do not have permissions to perform that action", "Permissions Denied", ApiMessageType.Alert));
 
-            ILocalizedContentField oResult = null;
+            IModularContentField oResult = null;
             //try
             {
                 o.AuditChangeBy = User.Identity.Name;
@@ -251,7 +251,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["Text"] = o.Label;
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
-                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<ModularContentText>());
                 }
                 else
                 {
@@ -259,8 +259,8 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                 }
 
                 var fields = _factoryRepository.GetWizardFields(oResult.GroupKey, oResult.FieldKey, o.Language, _groupFilter).ToList();
-                ILocalizedContentField body = fields.FirstOrDefault(x => x.GroupKey == oResult.GroupKey && x.ParentKey == oResult.FieldKey && x.FieldType.ToUpper() == "BODY");
-                ILocalizedContentField subject = fields.FirstOrDefault(x => x.GroupKey == oResult.GroupKey && x.ParentKey == oResult.FieldKey && x.FieldType.ToUpper() == "SUBJECT");
+                IModularContentField body = fields.FirstOrDefault(x => x.GroupKey == oResult.GroupKey && x.ParentKey == oResult.FieldKey && x.FieldType.ToUpper() == "BODY");
+                IModularContentField subject = fields.FirstOrDefault(x => x.GroupKey == oResult.GroupKey && x.ParentKey == oResult.FieldKey && x.FieldType.ToUpper() == "SUBJECT");
                 if (body is null)
                 {
                     var field = JObject.FromObject(o);
@@ -269,7 +269,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     field["FieldType"] = "BODY";
                     field["FieldKey"] = o.FieldKey + "_Body";
                     field["ParentKey"] = o.FieldKey;
-                    body = _fieldRepository.SaveRecord(field.ToObject<LocalizedContentField>());
+                    body = _fieldRepository.SaveRecord(field.ToObject<ModularContentField>());
                 }
 
                 if (body != null)
@@ -279,7 +279,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
                     text["GroupFilter"] = _groupFilter;
-                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<ModularContentText>());
                 }
 
                 if (subject is null)
@@ -290,7 +290,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     field["FieldType"] = "SUBJECT";
                     field["FieldKey"] = o.FieldKey + "_Subject";
                     field["ParentKey"] = o.FieldKey;
-                    subject = _fieldRepository.SaveRecord(field.ToObject<LocalizedContentField>());
+                    subject = _fieldRepository.SaveRecord(field.ToObject<ModularContentField>());
                 }
 
                 if (subject != null)
@@ -300,7 +300,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     text["AuditChangeBy"] = o.AuditChangeBy;
                     text["Language"] = o.Language;
                     text["GroupFilter"] = _groupFilter;
-                    _textRepository.SaveRecord(text.ToObject<LocalizedContentText>());
+                    _textRepository.SaveRecord(text.ToObject<ModularContentText>());
                 }
 
 

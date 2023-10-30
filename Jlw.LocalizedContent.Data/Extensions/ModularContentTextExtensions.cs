@@ -37,7 +37,7 @@ namespace Jlw.ModularContent
             if (setupAction != null)
                 services.Configure(setupAction);
 
-            services.TryAddSingleton<ILocalizedContentTextRepository>(provider =>
+            services.TryAddSingleton<IModularContentTextRepository>(provider =>
             {
                 ModularDbOptions options = (provider.GetService<IOptions<LocalizedContentTextRepositoryOptions>>() ?? new OptionsWrapper<LocalizedContentTextRepositoryOptions>(provider.GetService<LocalizedContentTextRepositoryOptions>()))?.Value;
 

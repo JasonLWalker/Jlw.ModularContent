@@ -22,14 +22,14 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// TODO Edit XML Comment Template for ILocalizedContentFieldRepository
-    public interface ILocalizedContentFieldRepository : IModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>
+    public interface ILocalizedContentFieldRepository : IModularDataRepositoryBase<IModularContentField, ModularContentField>
     {
         /// <summary>
         /// Retrieves a field by matching properties rather than by Id number.
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        ILocalizedContentField GetRecordByName(ILocalizedContentField o);
+        IModularContentField GetRecordByName(IModularContentField o);
 
         /// <summary>
         /// Gets the data table list.

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Testing;
-using TModel = Jlw.ModularContent.LocalizedContentText;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentTextTestSchema : BaseModelSchema<TModel>
+    public class LocalizedContentTextTestSchema : BaseModelSchema<ModularContentText>
     {
-        public override IEnumerable<InstanceMemberTestData<TModel>> InstanceMemberTestList
+        public override IEnumerable<InstanceMemberTestData<ModularContentText>> InstanceMemberTestList
         {
             get
             {
@@ -25,7 +24,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 var auditChangeDate = DataUtility.GenerateRandom<DateTime>();
                 var order = DataUtility.GenerateRandom<int>();
 
-                var sut = new TModel(new
+                var sut = new ModularContentText(new
                 {
                     GroupKey = groupKey,
                     FieldKey = fieldKey,
@@ -37,14 +36,14 @@ namespace Jlw.Data.LocalizedContent.Tests
                     AuditChangeDate = auditChangeDate
                 });
 
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.ParentKey), parentKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Language), language);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Text), text);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeType), auditChangeType);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.GroupKey), groupKey);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.FieldKey), fieldKey);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.ParentKey), parentKey);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.Language), language);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.Text), text);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.AuditChangeType), auditChangeType);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
+                yield return new InstanceMemberTestData<ModularContentText>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
             }
         }
 
@@ -63,7 +62,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
         public void InitInterfaces()
         {
-            AddInterface(typeof(ILocalizedContentText));
+            AddInterface(typeof(IModularContentText));
         }
 
         public void InitFields()

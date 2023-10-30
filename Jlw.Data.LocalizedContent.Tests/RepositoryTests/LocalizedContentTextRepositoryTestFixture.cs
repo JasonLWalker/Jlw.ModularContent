@@ -12,7 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using TRepo = Jlw.ModularContent.LocalizedContentTextRepository;
-using TModel = Jlw.ModularContent.LocalizedContentText;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
@@ -24,22 +23,22 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
-            var input = new TModel(new { Id = 1 });
-            var output = new TModel(new { Id = 1 });
+            var input = new ModularContentText(new { Id = 1 });
+            var output = new ModularContentText(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
             TRepo sut = new TRepo(mockClient.Object, "");
             var o = sut.GetRecord(input);
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
 
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 4)));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@auditchangeby"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 4)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -50,19 +49,19 @@ namespace Jlw.Data.LocalizedContent.Tests
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
             //var input = new TModel(new { Id = 1 });
-            IEnumerable<TModel> output = new []{ new TModel(new { GroupKey = "testGroup" }) };
+            IEnumerable<ModularContentText> output = new []{ new ModularContentText(new { GroupKey = "testGroup" }) };
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
             TRepo sut = new TRepo(mockClient.Object, "");
             var o = sut.GetAllRecords();
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@groupKey"))));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@fieldKey"))));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@language"))));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordList<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => !def.Parameters.Any())));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@groupKey"))));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@language"))));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@auditchangeby"))));
+            mockClient.Verify(m => m.GetRecordList<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => !def.Parameters.Any())));
             
             mockClient.VerifyNoOtherCalls();
         }
@@ -72,10 +71,10 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
-            var input = new TModel(new { Id = 1 });
-            var output = new TModel(new { Id = 1 });
+            var input = new ModularContentText(new { Id = 1 });
+            var output = new ModularContentText(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
             TRepo sut = new TRepo(mockClient.Object, "");
 
@@ -83,13 +82,13 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
 
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@text"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 6)));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@text"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 6)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -99,10 +98,10 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
-            var input = new TModel(new { Id = 1 });
-            var output = new TModel(new { Id = 1 });
+            var input = new ModularContentText(new { Id = 1 });
+            var output = new ModularContentText(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
             TRepo sut = new TRepo(mockClient.Object, "");
 
@@ -110,13 +109,13 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
 
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
-            mockClient.Verify(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 5)));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@groupKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@fieldKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@parentKey"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@language"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.All(param => param.ParameterName != "@text"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Any(param => param.ParameterName == "@auditchangeby"))));
+            mockClient.Verify(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.Is<IRepositoryMethodDefinition>(def => def.Parameters.Count() == 5)));
 
             mockClient.VerifyNoOtherCalls();
         }
@@ -179,10 +178,10 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
-            var input = new TModel(new { Id = 1 });
-            var output = new TModel(new { Id = 1 });
+            var input = new ModularContentText(new { Id = 1 });
+            var output = new ModularContentText(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
             TRepo sut = new TRepo(mockClient.Object, "");
 
@@ -194,10 +193,10 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var connStr = new DbConnectionStringBuilder();
-            var input = new TModel(new { Id = 1 });
-            var output = new TModel(new { Id = 1 });
+            var input = new ModularContentText(new { Id = 1 });
+            var output = new ModularContentText(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
-            mockClient.Setup(m => m.GetRecordObject<TModel>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
+            mockClient.Setup(m => m.GetRecordObject<ModularContentText>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
             TRepo sut = new TRepo(mockClient.Object, "");
 

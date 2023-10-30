@@ -6,7 +6,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TInterface = Jlw.ModularContent.ILocalizedContentTextRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
@@ -55,10 +54,10 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             using var scope = scopeFactory.CreateScope();
             var provider = scope.ServiceProvider;
-            var repo = provider.GetRequiredService<TInterface>();
+            var repo = provider.GetRequiredService<IModularContentTextRepository>();
 
             Assert.IsNotNull(repo);
-            Assert.IsInstanceOfType(repo, typeof(TInterface));
+            Assert.IsInstanceOfType(repo, typeof(IModularContentTextRepository));
 
         }
 
@@ -87,7 +86,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             using var scope = scopeFactory.CreateScope();
             var provider = scope.ServiceProvider;
-            var repo = provider.GetRequiredService<TInterface>();
+            var repo = provider.GetRequiredService<IModularContentTextRepository>();
 
             var actualClient = DataUtility.GetReflectedMemberValueByName(repo, "_dbClient");
             // Test seems to fail for equivalency when testing for same object, so will fall back to checking for signatures for now) 
@@ -122,7 +121,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
             using var scope = scopeFactory.CreateScope();
             var provider = scope.ServiceProvider;
-            var repo = provider.GetRequiredService<TInterface>();
+            var repo = provider.GetRequiredService<IModularContentTextRepository>();
 
             var actualClient = DataUtility.GetReflectedMemberValueByName(repo, "_dbClient");
             // Test seems to fail for equivalency when testing for same object, so will fall back to checking for signatures for now) 
@@ -159,7 +158,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using var scope = scopeFactory.CreateScope();
             var provider = scope.ServiceProvider;
-            var repo = provider.GetRequiredService<TInterface>();
+            var repo = provider.GetRequiredService<IModularContentTextRepository>();
 
             var actualDbClient = DataUtility.GetReflectedMemberValueByName(repo, "_dbClient");
             Assert.AreEqual(dbClient ?? _dbClient, actualDbClient);
@@ -180,12 +179,12 @@ namespace Jlw.Data.LocalizedContent.Tests
                 options.ConnectionString = _connString;
             });
             var svcProvider = services.BuildServiceProvider();
-            var repo = svcProvider.GetRequiredService<TInterface>();
+            var repo = svcProvider.GetRequiredService<IModularContentTextRepository>();
             var scopeFactory = svcProvider.GetRequiredService<IServiceScopeFactory>();
 
             using var scope = scopeFactory.CreateScope();
             var scopeProvider = scope.ServiceProvider;
-            var scopedRepo = scopeProvider.GetRequiredService<TInterface>();
+            var scopedRepo = scopeProvider.GetRequiredService<IModularContentTextRepository>();
 
             Assert.AreSame(repo, scopedRepo);
         }

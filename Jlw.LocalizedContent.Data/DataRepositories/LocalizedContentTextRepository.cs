@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentText, Jlw.Data.LocalizedContent.LocalizedContentText}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedContentTextRepository" />
     /// TODO Edit XML Comment Template for LocalizedContentTextRepository
-    public class LocalizedContentTextRepository : ModularDataRepositoryBase<ILocalizedContentText, LocalizedContentText>, ILocalizedContentTextRepository 
+    public class LocalizedContentTextRepository : ModularDataRepositoryBase<IModularContentText, ModularContentText>, IModularContentTextRepository 
     {
         /// <summary>
         /// The sp get record
@@ -75,7 +75,7 @@ namespace Jlw.ModularContent
         /// <returns>IEnumerable&lt;KeyValuePair&lt;System.String, System.Object&gt;&gt;.</returns>
         /// <exception cref="System.NotImplementedException">The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.</exception>
         /// TODO Edit XML Comment Template for GetParamsForSql
-        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedContentText o, string sSql) 
+        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IModularContentText o, string sSql) 
         { 
             switch (sSql) 
             { 

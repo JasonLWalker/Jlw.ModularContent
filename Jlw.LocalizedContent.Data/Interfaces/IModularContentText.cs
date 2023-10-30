@@ -22,7 +22,7 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class to encapsulate a row from the LocalizedContentText database table
     /// </summary>
-    public interface ILocalizedContentText 
+    public interface IModularContentText 
     {
 
         /// <summary>

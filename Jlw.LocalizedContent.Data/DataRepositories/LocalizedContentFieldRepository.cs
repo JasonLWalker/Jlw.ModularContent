@@ -31,7 +31,7 @@ namespace Jlw.ModularContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository" />
     /// TODO Edit XML Comment Template for LocalizedContentFieldRepository
-    public class LocalizedContentFieldRepository : ModularDataRepositoryBase<ILocalizedContentField, LocalizedContentField>, ILocalizedContentFieldRepository 
+    public class LocalizedContentFieldRepository : ModularDataRepositoryBase<IModularContentField, ModularContentField>, ILocalizedContentFieldRepository 
     {
         /// <summary>
         /// The sp get record
@@ -76,7 +76,7 @@ namespace Jlw.ModularContent
         /// <returns>IEnumerable&lt;KeyValuePair&lt;System.String, System.Object&gt;&gt;.</returns>
         /// <exception cref="System.NotImplementedException">The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.</exception>
         /// TODO Edit XML Comment Template for GetParamsForSql
-        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedContentField o, string sSql) 
+        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IModularContentField o, string sSql) 
         { 
             switch (sSql) 
             {
@@ -119,9 +119,9 @@ namespace Jlw.ModularContent
         }
 
         /// <inheritdoc />
-        public ILocalizedContentField GetRecordByName(ILocalizedContentField o)
+        public IModularContentField GetRecordByName(IModularContentField o)
         {
-            return _dbClient.GetRecordObject<LocalizedContentField>(null, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentFieldRecordByName", CommandType.StoredProcedure, new[]
+            return _dbClient.GetRecordObject<ModularContentField>(null, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentFieldRecordByName", CommandType.StoredProcedure, new[]
             {
                 new KeyValuePair<string, object>("fieldKey", o?.FieldKey ?? ""),
                 new KeyValuePair<string, object>("fieldType", o?.FieldType ?? ""),

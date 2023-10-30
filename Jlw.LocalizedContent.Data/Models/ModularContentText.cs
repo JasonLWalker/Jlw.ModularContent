@@ -20,7 +20,7 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class to encapsulate a row from the [LocalizedContentText] database table
     /// </summary>
-    public class LocalizedContentText : ILocalizedContentText 
+    public class ModularContentText : IModularContentText 
 	{
 
         /// <inheritdoc />
@@ -49,13 +49,13 @@ namespace Jlw.ModularContent
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for #ctor
-        public LocalizedContentText() => Initialize(null);
+        public ModularContentText() => Initialize(null);
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalizedContentText"/> class.
+        /// Initializes a new instance of the <see cref="ModularContentText"/> class.
         /// </summary>
         /// <param name="o">The o.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public LocalizedContentText (object o) => Initialize(o);
+        public ModularContentText (object o) => Initialize(o);
 
         /// <summary>
         /// Initializes the specified o.

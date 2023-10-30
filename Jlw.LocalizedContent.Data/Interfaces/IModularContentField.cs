@@ -22,7 +22,7 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class to encapsulate a row from the LocalizedContentFields database table
     /// </summary>
-    public interface ILocalizedContentField 
+    public interface IModularContentField 
     {
         /// <summary>
         /// Returns the unique Id of the record. Matches the [Id] column of the [LocalizedContentFields] table in the database.

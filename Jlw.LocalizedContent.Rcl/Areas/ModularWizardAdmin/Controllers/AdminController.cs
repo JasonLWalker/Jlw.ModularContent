@@ -78,15 +78,15 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 	        if ((auth = TestAuthDenial(DefaultSettings.CanExport, DefaultSettings)) != null) return auth;
 
 			StringBuilder sb = new StringBuilder();
-            IEnumerable<ILocalizedContentField> fieldData;
+            IEnumerable<IModularContentField> fieldData;
             if (string.IsNullOrWhiteSpace(screenName))
                 fieldData = DataRepository.GetWizardFields(wizardName, _groupFilter);
             else
                 fieldData = DataRepository.GetWizardFields(wizardName, screenName, "EN", _groupFilter);
 
-            IEnumerable<ILocalizedContentText> aLangValues = DataRepository.GetLanguageValues(wizardName);
-            IEnumerable<ILocalizedContentText> aErrorValues = DataRepository.GetLanguageValues(wizardName + "_Errors");
-            List<ILocalizedContentText> aLanguageFields = new List<ILocalizedContentText>();
+            IEnumerable<IModularContentText> aLangValues = DataRepository.GetLanguageValues(wizardName);
+            IEnumerable<IModularContentText> aErrorValues = DataRepository.GetLanguageValues(wizardName + "_Errors");
+            List<IModularContentText> aLanguageFields = new List<IModularContentText>();
 
             foreach (var field in fieldData)
             {

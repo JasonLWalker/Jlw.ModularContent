@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Testing;
-using TModel = Jlw.ModularContent.LocalizedContentField;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentFieldTestSchema : BaseModelSchema<TModel>
+    public class LocalizedContentFieldTestSchema : BaseModelSchema<ModularContentField>
     {
 
 
 
-        public override IEnumerable<InstanceMemberTestData<TModel>> InstanceMemberTestList
+        public override IEnumerable<InstanceMemberTestData<ModularContentField>> InstanceMemberTestList
         {
             get
             {
@@ -34,7 +33,7 @@ namespace Jlw.Data.LocalizedContent.Tests
                 var groupFilter = DataUtility.GenerateRandom<string>();
                 var language = DataUtility.GenerateRandom<string>();
 
-                var sut = new TModel(new
+                var sut = new ModularContentField(new
                 {
                     Id = id,
                     GroupKey = groupKey,
@@ -54,22 +53,22 @@ namespace Jlw.Data.LocalizedContent.Tests
                     GroupFilter = groupFilter,
                 });
 
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Id), id);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupFilter), groupFilter);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldType), fieldType);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldData), fieldData);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldClass), fieldClass);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.ParentKey), parentKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.DefaultLabel), defaultLabel);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperClass), wrapperClass);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlEnd), wrapperHtmlEnd);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeType), auditChangeType);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Order), order);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.Id), id);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.GroupKey), groupKey);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.GroupFilter), groupFilter);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.FieldKey), fieldKey);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.FieldType), fieldType);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.FieldData), fieldData);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.FieldClass), fieldClass);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.ParentKey), parentKey);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.DefaultLabel), defaultLabel);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.WrapperClass), wrapperClass);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.WrapperHtmlEnd), wrapperHtmlEnd);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.AuditChangeType), auditChangeType);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.AuditChangeBy), auditChangeBy);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.AuditChangeDate), auditChangeDate);
+                yield return new InstanceMemberTestData<ModularContentField>(sut, nameof(sut.Order), order);
             }
         }
 
@@ -96,7 +95,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
         public void InitInterfaces()
         {
-            AddInterface(typeof(ILocalizedContentField));
+            AddInterface(typeof(IModularContentField));
         }
 
         public void InitFields()

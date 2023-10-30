@@ -20,11 +20,11 @@ namespace Jlw.ModularContent
 {
     /// <summary>
     /// Interface IWizardContentField
-    /// Implements the <see cref="ILocalizedContentField" />
+    /// Implements the <see cref="IModularContentField" />
     /// </summary>
-    /// <seealso cref="ILocalizedContentField" />
+    /// <seealso cref="IModularContentField" />
     /// TODO Edit XML Comment Template for IWizardContentField
-    public interface IWizardContentField : ILocalizedContentField
+    public interface IWizardContentField : IModularContentField
     {
         /// <summary>
         /// Gets or sets the label.

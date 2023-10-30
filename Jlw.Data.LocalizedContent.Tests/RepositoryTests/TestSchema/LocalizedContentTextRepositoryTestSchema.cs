@@ -23,8 +23,8 @@ namespace Jlw.Data.LocalizedContent.Tests
 
         void InitInterfaces()
         {
-            AddInterface(typeof(ILocalizedContentTextRepository));
-            AddInterface(typeof(IModularDataRepositoryBase<ILocalizedContentText, LocalizedContentText>));
+            AddInterface(typeof(IModularContentTextRepository));
+            AddInterface(typeof(IModularDataRepositoryBase<IModularContentText, ModularContentText>));
         }
 
         public LocalizedContentTextRepositoryTestSchema()

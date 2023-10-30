@@ -26,7 +26,7 @@ public abstract class ApiController : WizardApiBaseController
     protected IWizardAdminSettings _settings;
     protected int nMaxTreeDepth = 10;
     protected readonly Regex _reFieldName = new Regex("[^a-zA-Z0-9\\-]");
-    protected readonly ILocalizedContentTextRepository _languageRepository;
+    protected readonly IModularContentTextRepository _languageRepository;
     
     protected readonly List<WizardField> DefaultWizardControls = new List<WizardField>();
     protected readonly string HiddenFilterPrefix = "";
@@ -42,7 +42,7 @@ public abstract class ApiController : WizardApiBaseController
 	#endregion
 
 
-    protected ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository, IWizardAdminSettings settings) : base(repository, wizardFactory)
+    protected ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IWizardAdminSettings settings) : base(repository, wizardFactory)
     {
         _fieldRepository = fieldRepository;
         _languageRepository = languageRepository;
@@ -87,7 +87,7 @@ public abstract class ApiController : WizardApiBaseController
 	    if ((auth = TestAuthDenial(_settings.CanReadField, _settings)) != null) return auth;
 
 
-		ILocalizedContentField oResult;
+		IModularContentField oResult;
         o.GroupFilter = _groupFilter;
 
         try
@@ -134,7 +134,7 @@ public abstract class ApiController : WizardApiBaseController
 		    o.AuditChangeBy = User.Identity?.Name ?? "";
 		    if (o.FieldName.Equals("FieldKey", StringComparison.InvariantCultureIgnoreCase))
 		    {
-			    var field = _fieldRepository.GetRecord(new LocalizedContentField(o));
+			    var field = _fieldRepository.GetRecord(new ModularContentField(o));
 			    //return DataRepository.RenameWizardFieldRecursive(new WizardContentField(new { Id = o.Id }), o.FieldValue);
 			    return RenameField(new WizardField(field) { NewFieldKey = o.FieldValue });
 		    }
@@ -164,7 +164,7 @@ public abstract class ApiController : WizardApiBaseController
 	{
 		var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 		if (auth != null) return auth;
-		ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+		IModularContentField oResult = _fieldRepository.GetRecordByName(o);
 
 		if (oResult == null)
 		{
@@ -208,7 +208,7 @@ public abstract class ApiController : WizardApiBaseController
 
 		try
 		{
-			oResult = _fieldRepository.SaveRecord(new LocalizedContentField(field));
+			oResult = _fieldRepository.SaveRecord(new ModularContentField(field));
 			bResult = oResult != null;
 		}
 		catch (Exception ex)
@@ -237,7 +237,7 @@ public abstract class ApiController : WizardApiBaseController
 		if (auth != null) return auth;
 
 
-		ILocalizedContentField oResult = _fieldRepository.GetRecord(o);
+		IModularContentField oResult = _fieldRepository.GetRecord(o);
 
 		switch (o.FieldType?.ToUpper())
 		{
@@ -328,7 +328,7 @@ public abstract class ApiController : WizardApiBaseController
 		var bResult = false;
 		o.GroupFilter = _groupFilter;
 
-		ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+		IModularContentField oResult = _fieldRepository.GetRecordByName(o);
 		switch ((oResult?.FieldType ?? "").ToUpper())
 		{
             case nameof(WizardFieldTypes.SCREEN):
@@ -410,7 +410,7 @@ public abstract class ApiController : WizardApiBaseController
 		string origFieldKey = o.FieldKey;
 		o.FieldKey = newName;
 
-		ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+		IModularContentField oResult = _fieldRepository.GetRecordByName(o);
 		if (oResult?.Id > 0)
 		{
 			return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
@@ -511,7 +511,7 @@ public abstract class ApiController : WizardApiBaseController
         o.WrapperHtmlStart ??= "";
         o.ParentKey ??= "";
 
-        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        IModularContentField oResult = _fieldRepository.GetRecordByName(o);
         if (oResult?.Id > 0)
         {
             return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Wizard already exists", ApiMessageType.Alert));
@@ -620,7 +620,7 @@ public abstract class ApiController : WizardApiBaseController
         o.WrapperHtmlEnd ??= "";
         o.WrapperHtmlStart ??= "";
 
-        ILocalizedContentField oResult = _fieldRepository.GetRecordByName(o);
+        IModularContentField oResult = _fieldRepository.GetRecordByName(o);
         if (oResult?.Id > 0)
         {
             return JToken.FromObject(new ApiStatusMessage("A Record with that name already exists, please choose a new name and try again.", "Screen already exists", ApiMessageType.Alert));
@@ -703,7 +703,7 @@ public abstract class ApiController : WizardApiBaseController
         if ((auth = TestAuthDenial(_settings.CanReadField, _settings)) != null) return auth;
 
 
-        ILocalizedContentText oResult;
+        IModularContentText oResult;
         o.GroupFilter = _groupFilter;
 
         try
@@ -1117,7 +1117,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
 
-    public class LocalizedContentTextRecordInput : LocalizedContentText
+    public class LocalizedContentTextRecordInput : ModularContentText
     {
         public string EditToken { get; set; }
 
@@ -1168,9 +1168,9 @@ public abstract class ApiController : WizardApiBaseController
 
     /// <summary>
     /// Class LocalizedContentFieldRecordInput.
-    /// Implements the <see cref="LocalizedContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
+    /// Implements the <see cref="ModularContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
     /// </summary>
-    public class LocalizedContentFieldRecordInput : LocalizedContentField, ILocalizedContentField
+    public class LocalizedContentFieldRecordInput : ModularContentField, IModularContentField
     {
         /// <summary>
         /// Gets or sets the edit token.

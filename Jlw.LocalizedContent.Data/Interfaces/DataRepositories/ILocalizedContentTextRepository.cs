@@ -22,7 +22,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentText, Jlw.Data.LocalizedContent.LocalizedContentText}" />
     /// TODO Edit XML Comment Template for ILocalizedContentTextRepository
-    public interface ILocalizedContentTextRepository : IModularDataRepositoryBase<ILocalizedContentText, LocalizedContentText>
+    public interface IModularContentTextRepository : IModularDataRepositoryBase<IModularContentText, ModularContentText>
     {
         /// <summary>
         /// Gets the data table list.

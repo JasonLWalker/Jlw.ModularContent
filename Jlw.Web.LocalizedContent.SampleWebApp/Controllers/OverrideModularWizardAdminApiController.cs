@@ -12,7 +12,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
     [Route("admin/api/OverrideModularWizard/")]
     public class OverrideModularWizardAdminApiController : ApiController
     {
-        public OverrideModularWizardAdminApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, ILocalizedContentTextRepository languageRepository, IWizardAdminSettings settings) : base (repository, wizardFactory, fieldRepository, languageRepository, settings)
+        public OverrideModularWizardAdminApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IWizardAdminSettings settings) : base (repository, wizardFactory, fieldRepository, languageRepository, settings)
         {
             _groupFilter = "Sample%";
             _errorMessageGroup = "SampleWizard_Errors";

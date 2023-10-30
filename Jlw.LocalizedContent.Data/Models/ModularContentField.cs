@@ -23,7 +23,7 @@ namespace Jlw.ModularContent
     /// Class to encapsulate a row from the [LocalizedContentFields] database table.
     /// This class is used as a structure to represent a single container, field, or attribute in a Form, Wizard, or Email.
     /// </summary>
-    public class LocalizedContentField : ILocalizedContentField
+    public class ModularContentField : IModularContentField
 	{
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Id
@@ -84,23 +84,23 @@ namespace Jlw.ModularContent
         public int Order { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalizedContentField" /> class. Members are set to their default values.
+        /// Initializes a new instance of the <see cref="ModularContentField" /> class. Members are set to their default values.
         /// </summary>
         /// <remarks>The default constructor will initialize all properties to their default values. All properties of type <c>string</c> will be initialized as empty strings instead of null.</remarks>
-        public LocalizedContentField() => Initialize(null);
+        public ModularContentField() => Initialize(null);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalizedContentField" /> class.
+        /// Initializes a new instance of the <see cref="ModularContentField" /> class.
         /// </summary>
         /// <param name="o">Object used to initialize the class members.</param>
         /// <remarks><para>The constructor will attempt to initialize properties with values parsed from matching fields in the parameter <paramref name="o">o</paramref>. </para>
         /// <para>If <paramref name="o">o</paramref> is some form of <c>KeyValuePair</c> collection, then the constructor will attempt to find keys within the collection that match the names of the class properties. </para>
         /// <para>If <paramref name="o">o</paramref> is a non-collection type object, the constructor will attempt to find a field or property whose name matches the class member, and parse the data using the member from <paramref name="o">o</paramref>.</para></remarks>
-        public LocalizedContentField(object o) => Initialize(o);
+        public ModularContentField(object o) => Initialize(o);
 
 
         /// <summary>
-        /// Initializes and sets the properties of the <see cref="LocalizedContentField" /> class.
+        /// Initializes and sets the properties of the <see cref="ModularContentField" /> class.
         /// </summary>
         /// <param name="o">Object used to initialize the class members.</param>
         /// <remarks><para>The method will attempt to initialize properties with values parsed from matching fields in the parameter <paramref name="o" />. </para>

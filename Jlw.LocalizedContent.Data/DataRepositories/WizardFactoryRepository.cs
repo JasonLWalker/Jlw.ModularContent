@@ -103,9 +103,9 @@ namespace Jlw.ModularContent
         /// <inheritdoc />
         public IEnumerable<WizardContentField> GetWizardFields(string groupKey, string language, string groupFilter) => GetWizardFields(groupKey, null, language, groupFilter);
 
-        public IEnumerable<ILocalizedContentText> GetLanguageValues(string groupKey)
+        public IEnumerable<IModularContentText> GetLanguageValues(string groupKey)
         {
-            return _dbClient.GetRecordList<LocalizedContentText>(new { nRowStart=0, nPageSize=100000, sGroupKey=groupKey}, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentTextDt", CommandType.StoredProcedure, new[] { "nRowStart", "nPageSize", "sGroupKey" }));
+            return _dbClient.GetRecordList<ModularContentText>(new { nRowStart=0, nPageSize=100000, sGroupKey=groupKey}, _connString, new RepositoryMethodDefinition("sp_GetLocalizedContentTextDt", CommandType.StoredProcedure, new[] { "nRowStart", "nPageSize", "sGroupKey" }));
 
         }
 
