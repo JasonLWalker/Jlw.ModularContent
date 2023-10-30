@@ -42,7 +42,7 @@
       "destination": "libman/datatables.net-bs5"
     },
     {
-      "library": "bootbox.js@5.5.3",
+      "library": "bootbox.js@6.0.0",
       "destination": "libman/bootbox.js/"
     },
     {
@@ -51,12 +51,12 @@
     },
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwutility@1.1.12",
+      "library": "@jasonlwalker/jlwutility@1.2.11",
       "destination": "libman/jlwutility/"
     },
     {
       "provider": "jsdelivr",
-      "library": "@jasonlwalker/jlwappbuilder@1.0.29",
+      "library": "@jasonlwalker/jlwappbuilder@1.0.30",
       "destination": "libman/jlwappbuilder/"
     },
     {
