@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿/*
+using System.Collections.Generic;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DbUtility;
 using Microsoft.Data.SqlClient;
@@ -10,7 +11,6 @@ using TInterface = Jlw.LocalizedContent.ILocalizedContentFieldRepository;
 namespace Jlw.Data.LocalizedContent.Tests
 {
 
-    /*
     [TestClass]
     public class AddLocalizedContentFieldRepositoryTestFixture
     {
@@ -208,5 +208,5 @@ namespace Jlw.Data.LocalizedContent.Tests
         }
 
     }
-    */
 }
+    */
