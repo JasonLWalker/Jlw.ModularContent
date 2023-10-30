@@ -15,6 +15,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Jlw.LocalizedContent.Rcl\Jlw.ModularContent.Rcl.csproj" />
+		<ProjectReference Include="..\Jlw.ModularContent.Rcl\Jlw.ModularContent.Rcl.csproj" />
 	</ItemGroup>
 </Project>
