@@ -63,7 +63,7 @@
         </form>
     </div>
 </div>
-<script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
+<script src="@Url.Action("WizardLibScript", "ModularWizardJs")?_=@version"></script>
 @section Scripts {
 	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
 	<style>

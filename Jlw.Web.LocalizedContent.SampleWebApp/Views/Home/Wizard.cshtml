@@ -5,7 +5,7 @@
 @inject IWizardAdminSettings WizardSettings
 @model object
 @{
-	string version = ModularWizardAdminExtensions.Version;
+	string version = ModularWizardExtensions.Version;
 
 	ViewData["Title"] = "Sample Wizard";
     ViewData["Breadcrumb"] ??= new List<KeyValuePair<string, string>>()
@@ -79,7 +79,7 @@
                     $.when(
                         window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap.min.css")?_=' + cacheVer),
                         window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/toastr.min.css")?_=' + cacheVer),
-                        window.jlwUtility.lazyLoadLibrary(window.libJlwWizardBase, '@Url.Action("WizardLibScript", "WizardJs5")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwWizardBase, '@Url.Action("WizardLibScript", "ModularWizardJs")?_=' + cacheVer),
                         window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, '@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")?_=' + cacheVer),
                         window.jlwUtility.lazyLoadLibrary(
                             window.___FONT_AWESOME___ &&

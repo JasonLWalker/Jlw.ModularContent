@@ -14,11 +14,11 @@ using Microsoft.Extensions.Options;
 
 namespace Jlw.ModularContent
 {
-    public static partial class ModularWizardAdminExtensions
+    public static partial class ModularWizardExtensions
     {
-        public const string AreaName = "ModularWizard";
-        private static readonly AssemblyName AssemblyName = typeof(ModularWizardAdminExtensions).Assembly.GetName();
-        public static readonly string FileVersion = FileVersionInfo.GetVersionInfo(typeof(ModularWizardAdminExtensions).Assembly.Location).ProductVersion ?? "";
+        public const string AreaName = "ModularContent";
+        private static readonly AssemblyName AssemblyName = typeof(ModularWizardExtensions).Assembly.GetName();
+        public static readonly string FileVersion = FileVersionInfo.GetVersionInfo(typeof(ModularWizardExtensions).Assembly.Location).ProductVersion ?? "";
         public static readonly string Version = string.IsNullOrWhiteSpace(AssemblyName?.Version?.ToString()) || AssemblyName?.Version?.ToString() == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : AssemblyName?.Version?.ToString();
 
         internal class LocalizedContentAdminConfigureOptions : IPostConfigureOptions<StaticFileOptions>

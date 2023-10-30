@@ -61,7 +61,7 @@
     </div>
 </div>
 @section Scripts {
-    <script src="~/LocalizedContent/js/wizardLibScript.js?_v=@version"></script>
+    <script src="@Url.Action("WizardLibScript", "ModularWizardJs")?_v=@version"></script>
     <link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css?_v=@version">
     <script src="~/LocalizedContent/js/libJlwUtility.min.js?_v=@version"></script>
     <script src="~/LocalizedContent/js/bootbox.min.js?_v=@version"></script>
