@@ -5,8 +5,8 @@ namespace Jlw.LocalizedContent.Areas.LocalizedContentText.Controllers
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>
-    [Area("LocalizedContentText")]
-    [Authorize("LocalizedContentUser")]
+    [Area("LocalizedContent5Text")]
+    [Authorize(nameof(ModularWizardAdminAuthorization.LocalizedContent5User))]
     public abstract class AdminController : Controller 
     {
         /// <summary>Default route for the controller</summary>

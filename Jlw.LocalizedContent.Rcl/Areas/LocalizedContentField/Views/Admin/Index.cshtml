@@ -1,8 +1,8 @@
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@using Jlw.LocalizedContent
 @{
     ViewData["Title"] = ViewData["PageTitle"];
 
-    string jsRoot = LocalizedContentExtensions.AreaName;
+    string jsRoot = ModularContentExtensions.AreaName;
     string apiUrl = (string.IsNullOrWhiteSpace(ViewData["apiOverrideUrl"]?.ToString())) ? Url.Action("Index", "Api", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) + "/" : ViewData["apiOverrideUrl"]?.ToString();
     string adminUrl = (string.IsNullOrWhiteSpace(ViewData["adminOverrideUrl"]?.ToString())) ? Url.Action("Index", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) : ViewData["adminOverrideUrl"]?.ToString();
     string wizardUrl = (string.IsNullOrWhiteSpace(ViewData["wizardOverrideUrl"]?.ToString())) ? Url.Action("Wizard", new {Area = "LocalizedContentField", groupKey = (string) null, fieldKey = (string) null}) : ViewData["wizardOverrideUrl"]?.ToString();
