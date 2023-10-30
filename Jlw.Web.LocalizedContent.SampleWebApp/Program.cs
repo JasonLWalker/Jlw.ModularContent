@@ -16,7 +16,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions;
 using TUser = Jlw.Extensions.Identity.Stores.ModularBaseUser;
 
 namespace Jlw.Web.LocalizedContent.SampleWebApp;
@@ -69,7 +68,7 @@ public class Program
                 LinkGenerator = provider.GetRequiredService<LinkGenerator>(),
                 ShowSideNav = true
             };
-            defaultSettings.JsRoot = LocalizedContentExtensions.AreaName;
+            defaultSettings.JsRoot = ModularContentExtensions.AreaName;
             return defaultSettings;
         });
 
@@ -80,7 +79,7 @@ public class Program
             var DefaultSettings = new WizardAdminSettings();
             DefaultSettings.Area = "";
             DefaultSettings.LinkGenerator = linkGenerator;
-            DefaultSettings.JsRoot = LocalizedContentExtensions.AreaName;
+            DefaultSettings.JsRoot = ModularContentExtensions.AreaName;
             DefaultSettings.ApiControllerName = "OverrideModularWizardAdminApi";
             DefaultSettings.ControllerName = "OverrideModularWizardAdmin";
             //DefaultSettings.ToolboxHeight = "calc(100vh - 58px)";
@@ -117,7 +116,7 @@ public class Program
 
         
         
-        builder.Services.AddLocalizedContentAdmin(options=>options.ConnectionString = connString);
+        builder.Services.AddModularWizardAdmin(options=>options.ConnectionString = connString);
 
 
 
@@ -145,7 +144,7 @@ public class Program
 
         builder.Services.AddAuthorization(options =>
         {
-            options.AddDefaultLocalizedContentAdminAuthorizationPolicy();
+            options.AddDefaultModularContentAdminAuthorizationPolicy();
 
             options.AddPolicy("ContentOverrideAdmin", policy =>
             {
@@ -175,7 +174,7 @@ public class Program
 
         app.UseSqlLocalDbInstance();
 
-        app.UseDefaultLocalizedContentAdmin();
+        app.UseDefaultModularContentAdmin();
 
 
         app.UseEndpoints(endpoints =>

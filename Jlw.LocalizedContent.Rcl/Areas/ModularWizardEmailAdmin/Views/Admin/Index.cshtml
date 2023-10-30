@@ -1,9 +1,9 @@
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@using Jlw.LocalizedContent
 @model Jlw.LocalizedContent.Areas.ModularWizardEmailAdmin.Controllers.AdminController.WizardAdminSettings
 @{
     ViewData["Title"] = Model.PageTitle ?? ViewData["PageTitle"];
 	string version = Model.Version;
-    string jsRoot = LocalizedContentExtensions.AreaName;
+    string jsRoot = ModularContentExtensions.AreaName;
 }
 @section Style
 {

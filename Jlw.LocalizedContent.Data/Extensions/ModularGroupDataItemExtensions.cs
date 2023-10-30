@@ -6,7 +6,7 @@
 // Last Modified By : jlwalker
 // Last Modified On : 05-15-2023
 // ***********************************************************************
-// <copyright file="LocalizedGroupDataItemExtensions.cs" company="Jason L. Walker">
+// <copyright file="ModularGroupDataItemExtensions.cs" company="Jason L. Walker">
 //     Copyright ©2012-2023 Jason L. Walker
 // </copyright>
 // <summary></summary>
@@ -21,10 +21,10 @@ using Microsoft.Extensions.Options;
 namespace Jlw.LocalizedContent
 {
     /// <summary>
-    /// Class LocalizedGroupDataItemExtensions.
+    /// Class ModularGroupDataItemExtensions.
     /// </summary>
-    /// TODO Edit XML Comment Template for LocalizedGroupDataItemExtensions
-    public static partial class LocalizedContentExtensions
+    /// TODO Edit XML Comment Template for ModularGroupDataItemExtensions
+    public static partial class ModularContentExtensions
     {
         /// <summary>
         /// Adds the localized group data item repository.
@@ -33,7 +33,7 @@ namespace Jlw.LocalizedContent
         /// <param name="setupAction">The setup action.</param>
         /// <returns>IServiceCollection.</returns>
         /// TODO Edit XML Comment Template for AddLocalizedGroupDataItemRepository
-        public static IServiceCollection AddLocalizedGroupDataItemRepository(this IServiceCollection services, Action<LocalizedGroupDataItemRepositoryOptions> setupAction = null)
+        public static IServiceCollection AddModularGroupDataItemRepository(this IServiceCollection services, Action<LocalizedGroupDataItemRepositoryOptions> setupAction = null)
         {
             if (setupAction != null) services.Configure(setupAction);
 

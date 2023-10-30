@@ -24,7 +24,7 @@ namespace Jlw.LocalizedContent
     /// Class LocalizedContentTextExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedContentTextExtensions
-    public static partial class LocalizedContentExtensions 
+    public static partial class ModularContentExtensions 
     {
         /// <summary>
         /// Adds the <see cref="LocalizedContentTextRepository">LocalizedContentTextRepository</see> to the service collection as a singleton instance.
@@ -32,7 +32,7 @@ namespace Jlw.LocalizedContent
         /// <param name="services">Service collection instance that this extension will act upon</param>
         /// <param name="setupAction">The setup action options used to initialize the repository singleton.</param>
         /// <returns>Returns the <paramref name="services">services</paramref> service collection to allow for method chaining.<br /></returns>
-        public static IServiceCollection AddLocalizedContentTextRepository(this IServiceCollection services, Action<LocalizedContentTextRepositoryOptions> setupAction = null) 
+        public static IServiceCollection AddModularContentTextRepository(this IServiceCollection services, Action<LocalizedContentTextRepositoryOptions> setupAction = null) 
         {
             if (setupAction != null)
                 services.Configure(setupAction);

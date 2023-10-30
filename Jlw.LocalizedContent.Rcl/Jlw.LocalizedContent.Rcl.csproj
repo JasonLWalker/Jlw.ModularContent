@@ -60,9 +60,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="resources\LocalizedContent\font-awesome\" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Include="../README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 

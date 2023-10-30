@@ -3,7 +3,6 @@
 @using Microsoft.Extensions.DependencyInjection
 @using Newtonsoft.Json.Linq
 @using Jlw.LocalizedContent
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
 @inject IWizardFactoryRepository FactoryRepository
 @model WizardPreviewSettings
 @{
@@ -13,7 +12,7 @@
 	string version = Model?.Version ?? ""; 
 	string apiUrl = Model?.ApiOverrideUrl;
 
-    string jsRoot = LocalizedContentExtensions.AreaName;
+    string jsRoot = ModularContentExtensions.AreaName;
 
     var sideNav = Model?.SideNav.Items;
 	string wizardName = string.IsNullOrWhiteSpace(Model?.Wizard) ? Model?.DefaultWizard ?? "" : Model.Wizard;

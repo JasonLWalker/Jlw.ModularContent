@@ -24,9 +24,9 @@ namespace Jlw.LocalizedContent
     /// Class LocalizedContentFieldExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedContentFieldExtensions
-    public static partial class LocalizedContentExtensions
+    public static partial class ModularContentExtensions
     {
-        public const string AreaName = "LocalizedContent5";
+        public const string AreaName = "ModularContent";
 
         /// <summary>
         /// Adds the localized content field repository to the service collection as a singleton instance.
@@ -34,7 +34,7 @@ namespace Jlw.LocalizedContent
         /// <param name="services">Service collection instance that this extension will act upon</param>
         /// <param name="setupAction">The setup action options used to initialize the repository singleton.</param>
         /// <returns>Returns the <paramref name="services">services</paramref> service collection to allow for method chaining.<br /></returns>
-        public static IServiceCollection AddLocalizedContentFieldRepository(this IServiceCollection services, Action<IModularDbOptions> setupAction = null)
+        public static IServiceCollection AddModularContentFieldRepository(this IServiceCollection services, Action<IModularDbOptions> setupAction = null)
         {
             if (setupAction != null) services.Configure(setupAction);
 

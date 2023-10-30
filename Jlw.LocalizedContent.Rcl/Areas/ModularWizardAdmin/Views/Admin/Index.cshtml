@@ -1,5 +1,5 @@
 @using Microsoft.Extensions.DependencyInjection
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@using Jlw.LocalizedContent
 @model Jlw.LocalizedContent.WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
@@ -8,7 +8,7 @@
 	
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area }) + "/" : Model?.ApiOverrideUrl;
 
-    string jsRoot = LocalizedContentExtensions.AreaName;
+    string jsRoot = ModularContentExtensions.AreaName;
 }
 <div id="wizard-toolbox" class="flex-fill d-flex justify-content-start">
     <div class="d-flex flex-row w-100 p-0 m-0">

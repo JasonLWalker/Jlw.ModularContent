@@ -45,7 +45,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<IModularDbClient>(_dbClient);
-            services.AddLocalizedGroupDataItemRepository(options =>
+            services.AddModularGroupDataItemRepository(options =>
             {
                 options.ConnectionString = connString;
                 options.DbClient = dbClient;
@@ -81,7 +81,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton(new LocalizedGroupDataItemRepositoryOptions() { DbClient = _dbClient, ConnectionString = connString });
-            services.AddLocalizedGroupDataItemRepository();
+            services.AddModularGroupDataItemRepository();
 
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
 
@@ -116,7 +116,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<IOptions<LocalizedGroupDataItemRepositoryOptions>>(new OptionsWrapper<LocalizedGroupDataItemRepositoryOptions>(new LocalizedGroupDataItemRepositoryOptions() { DbClient = _dbClient, ConnectionString = connString }));
-            services.AddLocalizedGroupDataItemRepository();
+            services.AddModularGroupDataItemRepository();
 
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
 
@@ -150,7 +150,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<IModularDbClient>(_dbClient);
-            services.AddLocalizedGroupDataItemRepository(options =>
+            services.AddModularGroupDataItemRepository(options =>
             {
                 options.ConnectionString = connString;
                 options.DbClient = dbClient;
@@ -174,7 +174,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         public void ServiceCollection_Instance_Should_Be_Singleton()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddLocalizedGroupDataItemRepository(options =>
+            services.AddModularGroupDataItemRepository(options =>
             {
                 options.DbClient = _dbClient;
                 options.ConnectionString = _connString;
@@ -196,7 +196,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         public void Method_Should_Return_ServiceCollection()
         {
             IServiceCollection services = new ServiceCollection();
-            var svc = services.AddLocalizedGroupDataItemRepository(options =>
+            var svc = services.AddModularGroupDataItemRepository(options =>
             {
                 options.DbClient = _dbClient;
                 options.ConnectionString = _connString;

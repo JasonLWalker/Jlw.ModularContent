@@ -24,7 +24,7 @@ namespace Jlw.LocalizedContent
     /// Class LocalizedContentFieldExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for LocalizedContentFieldExtensions
-    public static partial class LocalizedContentExtensions
+    public static partial class ModularContentExtensions
     {
         /// <summary>
         /// Adds the localized wizard factory repository to the service collection as a singleton instance.
@@ -32,7 +32,7 @@ namespace Jlw.LocalizedContent
         /// <param name="services">Service collection instance that this extension will act upon</param>
         /// <param name="setupAction">The setup action options used to initialize the repository singleton.</param>
         /// <returns>Returns the <paramref name="services">services</paramref> service collection to allow for method chaining.<br /></returns>
-        public static IServiceCollection AddWizardFactoryRepository(this IServiceCollection services, Action<ModularDbOptions> setupAction = null)
+        public static IServiceCollection AddModularWizardFactoryRepository(this IServiceCollection services, Action<ModularDbOptions> setupAction = null)
         {
             if (setupAction != null) services.Configure(setupAction);
 

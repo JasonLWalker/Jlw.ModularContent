@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Jlw.Utilities.Data.DbUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -12,9 +14,12 @@ using Microsoft.Extensions.Options;
 
 namespace Jlw.LocalizedContent
 {
-    public static partial class LocalizedContentAdminExtensions
+    public static partial class ModularWizardAdminExtensions
     {
-        public const string AreaName = "LocalizedContent";
+        public const string AreaName = "ModularWizard";
+        private static readonly AssemblyName AssemblyName = typeof(ModularWizardAdminExtensions).Assembly.GetName();
+        public static readonly string FileVersion = FileVersionInfo.GetVersionInfo(typeof(ModularWizardAdminExtensions).Assembly.Location).ProductVersion ?? "";
+        public static readonly string Version = string.IsNullOrWhiteSpace(AssemblyName?.Version?.ToString()) || AssemblyName?.Version?.ToString() == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : AssemblyName?.Version?.ToString();
 
         internal class LocalizedContentAdminConfigureOptions : IPostConfigureOptions<StaticFileOptions>
         {
@@ -40,15 +45,15 @@ namespace Jlw.LocalizedContent
             }
         }
 
-        public static IServiceCollection AddLocalizedContentAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
+        public static IServiceCollection AddModularWizardAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
         {
 
             services.TryAddSingleton<IWizardAdminSettings>(new WizardAdminSettings());
-            services.AddLocalizedGroupDataItemRepository(options);
-            services.AddLocalizedContentFieldRepository(options);
-            services.AddLocalizedContentTextRepository(options);
+            services.AddModularGroupDataItemRepository(options);
+            services.AddModularContentFieldRepository(options);
+            services.AddModularContentTextRepository(options);
 
-            services.AddWizardFactoryRepository(options);
+            services.AddModularWizardFactoryRepository(options);
             services.TryAddSingleton<IWizardFactory>(provider =>
             {
                 return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
@@ -70,7 +75,7 @@ namespace Jlw.LocalizedContent
             return services;
         }
 
-        public static AuthorizationOptions AddDefaultLocalizedContentAdminAuthorizationPolicy(this AuthorizationOptions options)
+        public static AuthorizationOptions AddDefaultModularContentAdminAuthorizationPolicy(this AuthorizationOptions options)
         {
             options.AddPolicy("LocalizedContentUser", policy =>
             {
@@ -115,7 +120,7 @@ namespace Jlw.LocalizedContent
             return options;
         }
 
-        public static IApplicationBuilder UseDefaultLocalizedContentAdmin(this IApplicationBuilder app)
+        public static IApplicationBuilder UseDefaultModularContentAdmin(this IApplicationBuilder app)
         {
 
             app.UseEndpoints(endpoints =>

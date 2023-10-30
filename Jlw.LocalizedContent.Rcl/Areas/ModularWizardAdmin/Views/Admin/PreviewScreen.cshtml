@@ -2,13 +2,12 @@
 @using Jlw.Utilities.Data
 @using Microsoft.Extensions.DependencyInjection
 @using Jlw.LocalizedContent
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
 @inject IWizardFactoryRepository FactoryRepository
 @model WizardPreviewSettings
 @{
     ViewData["Title"] = "Preview Screen";
     Layout = "_EmptyLayout";
-    string jsRoot = LocalizedContentExtensions.AreaName;
+    string jsRoot = ModularContentExtensions.AreaName;
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl) ? Url.Action("Index", Model?.ApiControllerName ?? "Api", new { Area = Model?.Area, groupKey = (string)null, fieldKey = (string)null }) + "/" : Model?.ApiOverrideUrl);
 
 	string version = Model?.Version ?? "";
