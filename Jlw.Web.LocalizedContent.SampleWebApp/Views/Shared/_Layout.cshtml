@@ -1,69 +1,66 @@
 ﻿@using Jlw.LocalizedContent
 @using Microsoft.Extensions.DependencyInjection
-@using LocalizedContentExtensions = Jlw.LocalizedContent.LocalizedContentExtensions
+@inject IWizardSettings _settings
 @{
-    string libRoot = LocalizedContentExtensions.AreaName;
+    string version = _settings.Version;
+    string libRoot = ModularContentExtensions.AreaName;
     IList<KeyValuePair<string, string>> oBreadcrumb = (List<KeyValuePair<string, string>>)ViewData["Breadcrumb"] ?? new List<KeyValuePair<string, string>>();
 }
-@inject IWizardSettings _settings
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/@libRoot/css/bootstrap.min.css?_v=@_settings?.Version" />
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
-<header>
-	<nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
-		<div class="container">
-			<a class="navbar-brand" href="/">Localized Content Admin</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-				@await Html.PartialAsync("_LoginPartial")
-			</div>
-		</div>
-	</nav>
-</header>
-<div class="container">
-	<main role="main" class="pb-3">
-		@if (oBreadcrumb?.Count > 0)
-		{
-			<nav aria-label="breadcrumb" class="bg-light bg-gradient border rounded-1 my-1">
-				<ol class="breadcrumb px-2 py-1 mb-0">
-					@{
-						if (oBreadcrumb.Any())
-						{
-							var nLast = oBreadcrumb.Count;
-							for (var n = 0; n < nLast; n++)
-							{
-								var kvp = oBreadcrumb[n];
-								if (n == nLast - 1)
-								{
-									<li class="breadcrumb-item active">@kvp.Value</li>
-									continue;
-								}
-								<li class="breadcrumb-item"><a href="@kvp.Key">@kvp.Value</a></li>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">Localized Content Admin</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (oBreadcrumb?.Count > 0)
+            {
+                <nav aria-label="breadcrumb" class="bg-light bg-gradient border rounded-1 my-1">
+                    <ol class="breadcrumb px-2 py-1 mb-0">
+                        @{
+                            if (oBreadcrumb.Any())
+                            {
+                                var nLast = oBreadcrumb.Count;
+                                for (var n = 0; n < nLast; n++)
+                                {
+                                    var kvp = oBreadcrumb[n];
+                                    if (n == nLast - 1)
+                                    {
+                                        <li class="breadcrumb-item active">@kvp.Value</li>
+                                        continue;
+                                    }
+                                    <li class="breadcrumb-item"><a href="@kvp.Key">@kvp.Value</a></li>
 
-							}
-						}
-						else
-						{
-							<li class="breadcrumb-item active">Home</li>
-						}
-					}
-				</ol>
-			</nav>
-		}
-		@RenderBody()
-	</main>
-</div>
-<script language="javascript" src="~/@libRoot/js/jquery.min.js?_v=2"></script>
-<script language="javascript" src="~/@libRoot/js/bootstrap.min.js?_v=2"></script>
-@await RenderSectionAsync("Scripts", required: false)
+                                }
+                            }
+                            else
+                            {
+                                <li class="breadcrumb-item active">Home</li>
+                            }
+                        }
+                    </ol>
+                </nav>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

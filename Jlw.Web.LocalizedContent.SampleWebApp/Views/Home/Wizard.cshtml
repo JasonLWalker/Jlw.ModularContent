@@ -6,8 +6,7 @@
 @inject IWizardAdminSettings WizardSettings
 @model object
 @{
-	string version = typeof(AdminController).Assembly.GetName().Version?.ToString();
-	version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
+	string version = ModularWizardAdminExtensions.Version;
 
 	ViewData["Title"] = "Sample Wizard";
     ViewData["Breadcrumb"] ??= new List<KeyValuePair<string, string>>()
@@ -23,9 +22,8 @@
 
 }
 <div class="row">
-    @{//if (!Model.WizardComplete)
-        //{
-	    if (WizardSettings.ShowSideNav)
+    @{
+ 	    if (WizardSettings.ShowSideNav)
 	    {
 		    <div class=" d-lg-inline-block wizard-nav-col col-lg-auto border-right">
 			    <form method="post">
@@ -70,52 +68,104 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/LocalizedContent/js/wizardLibScript.js?_=@version"></script>
-    <script src="~/LocalizedContent/js/libJlwUtility.min.js"></script>
-    <script src="~/LocalizedContent/js/bootbox.min.js"></script>
-    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/all.min.js")"></script>
-    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")"></script>
     <script>
-        (function(t, $, initOptions, undefined) {
 
-            var wiz = window.libJlwWizardBase(t || new window.libJlwUtility() || {}, $, initOptions, undefined);
+        (function(cacheVer) {
+            function onPageLoadInit() {
+                function fnInit() {
+                    var bModalExists = (typeof $.fn['modal'] == "function")
+                    if (bModalExists)
+                        window.jlwUtility.showPleaseWait();
 
-            t.wizardFields = @Html.Raw(JsonConvert.SerializeObject(FactoryRepository.GetWizardModelFields(wizardName, "Sample%") ?? new object()));
-	        @*[
-                'ApplicationId',
-                'DigitalSignature'
-            ];*@
-            //t.initializeWizard = initialize;
-            t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
-            t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+                    $.when(
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/toastr.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwWizardBase, '@Url.Action("WizardLibScript", "WizardJs5")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, '@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(
+                            window.___FONT_AWESOME___ &&
+                            window.___FONT_AWESOME___.styles &&
+                            window.___FONT_AWESOME___.styles.fas,
+                            '@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")?_=' + cacheVer
+                        )
+                    ).done(function() {
+                        window.bootbox.setDefaults({ centerVertical: true, scrollable: true });
+
+                        (function(t, $, initOptions, undefined) {
+
+                            var wiz = window.libJlwWizardBase(t || new window.libJlwUtility() || {}, $, initOptions, undefined);
+
+                            t.wizardFields = @Html.Raw(JsonConvert.SerializeObject(FactoryRepository.GetWizardModelFields(wizardName, "Sample%") ?? new object()));
+	                        @*[
+                                'ApplicationId',
+                                'DigitalSignature'
+                            ];*@
+                            //t.initializeWizard = initialize;
+                            t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
+                            t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
 
 
-            if (initOptions)
-                initialize(initOptions);
+                            if (initOptions)
+                                initialize(initOptions);
 
-            function initialize(opts) {
-                currApplicationId = opts["ApplicationId"];
-                var btn = $("nav .breadcrumb .breadcrumb-item>a[href$='\/Wizard']");
-                /*
-                btn.data('section', 0);
-                btn.data('step', 0);
+                            function initialize(opts) {
+                                currApplicationId = opts["ApplicationId"];
+                                var btn = $("nav .breadcrumb .breadcrumb-item>a[href$='\/Wizard']");
+                                /*
+                                btn.data('section', 0);
+                                btn.data('step', 0);
 
-                btn.off().on('click', t.fnOnClickAction);
-                */
-                t.navToScreen(opts['screen']).done(function() {
-                    //$('.wizard-form .wizard-body').html('');
-                    t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
-                });
+                                btn.off().on('click', t.fnOnClickAction);
+                                */
+                                t.navToScreen(opts['screen']).done(function() {
+                                    //$('.wizard-form .wizard-body').html('');
+                                    t.populateFormData(opts["formData"] || {}, $('.wizard-form'));
+                                });
 
+                            }
+
+                        })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
+                            'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
+                            'urlApiRoot': '@Html.Raw(Url.Action("Index", "SampleWizardApi"))',
+                            //'debugLevel':11,
+                            'wizardParent': '.wizard-form',
+                            'screen': "StartHere",
+                            'wizard': "@wizardName"
+                        });
+
+                        window.jlwUtility.hidePleaseWait();
+
+                    });
+                }
+
+                if (typeof window.jlwUtility == 'undefined') {
+                    window.jlwUtility = new window.libJlwUtility({
+                        'cacheVersion': cacheVer,
+                        'libPaths': {
+                            'jQuery': '@Url.Content($"~/{jsRoot}/js/jquery.min.js")?_=' + cacheVer,
+                            'Bootstrap': '@Url.Content($"~/{jsRoot}/js/bootstrap.min.js")?_=' + cacheVer,
+                            'Toastr': '@Url.Content($"~/{jsRoot}/js/toastr.min.js")?_=' + cacheVer,
+                            'Bootbox': '@Url.Content($"~/{jsRoot}/js/bootbox.min.js")?_=' + cacheVer,
+                            'FontAwesome': '@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")?_=' + cacheVer,
+                        },
+                        'fnInit': function(){ window.setTimeout(fnInit, 50)}
+                    });
+                } else {
+                    fnInit();
+                }
+            };
+
+
+            if (typeof window.libJlwUtility == 'undefined') {
+                var headTag = document.getElementsByTagName("head")[0];
+                var jqTag = document.createElement('script');
+                jqTag.type = 'text/javascript';
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_=' + cacheVer;
+                jqTag.onload = onPageLoadInit;
+                headTag.appendChild(jqTag);
+            } else {
+                onPageLoadInit();
             }
-
-        })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
-            'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
-            'urlApiRoot': '@Html.Raw(Url.Action("Index", "SampleWizardApi"))',
-            //'debugLevel':11,
-            'wizardParent': '.wizard-form',
-            'screen': "StartHere",
-            'wizard': "@wizardName"
-        });
+        })('@version');
     </script>
 }

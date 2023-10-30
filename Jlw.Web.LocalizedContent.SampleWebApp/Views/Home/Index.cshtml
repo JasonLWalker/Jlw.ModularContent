@@ -1,5 +1,9 @@
-﻿@{
+﻿@using Jlw.LocalizedContent
+@{
     ViewData["Title"] = "View";
+    string version = ModularWizardAdminExtensions.Version;
+    const string areaName = ModularContentExtensions.AreaName;
+    const string jsRoot = areaName;
 }
 <h1>View</h1>
 <ul>
@@ -13,16 +17,83 @@
     <li><a href="@Url.Action("Language","OverrideLocalizedDataItems")">Language Admin</a></li>
 </ul>
 
-<ul class="d- none"> 
-	@foreach (var claim in User.Claims) 
-	{ 
- 
-		<li> 
-			Claim: 
-			{ 
-			"@Html.Raw(claim.Type)", 
-			"@Html.Raw(claim.Value)" 
-			} 
-		</li> 
-	} 
+<ul class="d- none">
+    @foreach (var claim in User.Claims)
+    {
+
+        <li>
+            Claim:
+            {
+            "@Html.Raw(claim.Type)",
+            "@Html.Raw(claim.Value)"
+            }
+        </li>
+
+    }
 </ul>
+@section Scripts {
+    <script>
+        (function (cacheVer, undefined) {
+            function onPageLoadInit() {
+                // Define Initialization callback
+                function fnInit() {
+                    window.jlwUtility.showPleaseWait();
+                    // Wait for required libraries to finish
+                    $.when(
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/toastr.min.css")?_=' + cacheVer),
+                        window.jlwUtility.promiseInitBootstrap,
+                        window.jlwUtility.promiseInitFontAwesome,
+                        window.jlwUtility.promiseInitBootbox,
+                        window.jlwUtility.promiseInitToastr,
+                        window.jlwUtility.lazyLoadLibrary(
+                            window.___FONT_AWESOME___ &&
+                            window.___FONT_AWESOME___.styles &&
+                            window.___FONT_AWESOME___.styles.fas,
+                            '@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")?_=' + cacheVer
+                        )
+                    ).done(function () {
+                        window.jlwUtility.hidePleaseWait();
+                    });
+
+                }
+
+
+                // Does jlwUtility global exist?
+                if (typeof window.jlwUtility == 'undefined') {
+                    // libary does not exist, load utility and lazy-load minimum required libraries, then fire initialization callback
+                    window.jlwUtility = new window.libJlwUtility({
+                        'cacheVersion': cacheVer,
+                        'libPaths': {
+                            'jQuery': '@Url.Content($"~/{jsRoot}/js/jquery.min.js")?_=' + cacheVer,
+                            'Bootstrap': '@Url.Content($"~/{jsRoot}/js/bootstrap.min.js")?_=' + cacheVer,
+                            'Toastr': '@Url.Content($"~/{jsRoot}/js/toastr.min.js")?_=' + cacheVer,
+                            'Bootbox': '@Url.Content($"~/{jsRoot}/js/bootbox.min.js")?_=' + cacheVer,
+                            'FontAwesome': '@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")?_=' + cacheVer
+                        },
+                        'fnInit': function () {
+                            window.setTimeout(fnInit, 50);
+                        }
+                    });
+                } else {
+                    // fire initialization callback
+                    fnInit();
+                }
+            }
+
+            // Does the libJlwUtility library exist?
+            if (typeof libJlwUtility == 'undefined') {
+                // library doesn't exist, autoload library and fire onPageLoadInit when loaded
+                var headTag = document.getElementsByTagName("head")[0];
+                var jqTag = document.createElement('script');
+                jqTag.type = 'text/javascript';
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.js")?_=' + cacheVer;
+                jqTag.onload = onPageLoadInit;
+                headTag.appendChild(jqTag);
+            } else {
+                // library exists, fire page initialization
+                onPageLoadInit();
+            }
+        })('@version');
+    </script>
+}
