@@ -3,9 +3,9 @@
 @model WizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
-	string version = Model.Version;
+    string version = Model.Version;
     version = string.IsNullOrWhiteSpace(version) || version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : version;
-	
+
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area }) + "/" : Model?.ApiOverrideUrl;
 
     string jsRoot = ModularContentExtensions.AreaName;
@@ -23,40 +23,40 @@
                             </div>
                         </div>
                         <div id="preview-statusbar" class="bg-light border text-left">
-	                        <div class="float-start">
-		                        &nbsp;<small><span class="resolution-status"></span></small>
-	                        </div>
-	                        <div class="float-end p-1">
-		                        <button id="" class="btn btn-sm btn-label py-0 align-top" onclick="$('#wizard-toolbox').toggleClass('fullscreen');">
-			                        <span class="fa fa-fw fa-expand"></span>
-			                        <span class="fa fa-fw fa-compress"></span>
-		                        </button>
-	                        </div>
-	                        <div class="btn-group btn-group-sm float-end p-1" role="group" aria-label="Screen Size">
-		                        <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
-		                        <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
+                            <div class="float-start">
+                                &nbsp;<small><span class="resolution-status"></span></small>
+                            </div>
+                            <div class="float-end p-1">
+                                <button id="" class="btn btn-sm btn-label py-0 align-top" onclick="$('#wizard-toolbox').toggleClass('fullscreen');">
+                                    <span class="fa fa-fw fa-expand"></span>
+                                    <span class="fa fa-fw fa-compress"></span>
+                                </button>
+                            </div>
+                            <div class="btn-group btn-group-sm float-end p-1" role="group" aria-label="Screen Size">
+                                <input type="radio" class="btn-check" id="preview-size-responsive" name="preview-size" value="" data-breakpoint="" autocomplete="off" checked="checked" title="Responsive" />
+                                <label for="preview-size-responsive" class="btn btn-outline-primary p-0">&nbsp;&nbsp;*&nbsp;&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-xxs" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />
-		                        <label for="preview-size-xxs" class="btn btn-outline-primary p-0">&nbsp;XXS&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-xxs" name="preview-size" value="preview-xxs" data-breakpoint="" autocomplete="off" title="extra extra small" />
+                                <label for="preview-size-xxs" class="btn btn-outline-primary p-0">&nbsp;XXS&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-xs" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />
-		                        <label for="preview-size-xs" class="btn btn-outline-primary p-0">&nbsp;XS&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-xs" name="preview-size" value="preview-xs" data-breakpoint="" autocomplete="off" />
+                                <label for="preview-size-xs" class="btn btn-outline-primary p-0">&nbsp;XS&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-sm" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />
-		                        <label for="preview-size-sm" class="btn btn-outline-primary p-0">&nbsp;SM&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-sm" name="preview-size" value="preview-sm" data-breakpoint="-sm" autocomplete="off" />
+                                <label for="preview-size-sm" class="btn btn-outline-primary p-0">&nbsp;SM&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-md" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />
-		                        <label for="preview-size-md" class="btn btn-outline-primary p-0">&nbsp;MD&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-md" name="preview-size" value="preview-md" data-breakpoint="-md" autocomplete="off" />
+                                <label for="preview-size-md" class="btn btn-outline-primary p-0">&nbsp;MD&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-lg" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />
-		                        <label for="preview-size-lg" class="btn btn-outline-primary p-0">&nbsp;LG&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-lg" name="preview-size" value="preview-lg" data-breakpoint="-lg" autocomplete="off" />
+                                <label for="preview-size-lg" class="btn btn-outline-primary p-0">&nbsp;LG&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-xl" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />
-		                        <label for="preview-size-xl" class="btn btn-outline-primary p-0">&nbsp;XL&nbsp;</label>
+                                <input type="radio" class="btn-check" id="preview-size-xl" name="preview-size" value="preview-xl" data-breakpoint="-xl" autocomplete="off" />
+                                <label for="preview-size-xl" class="btn btn-outline-primary p-0">&nbsp;XL&nbsp;</label>
 
-		                        <input type="radio" class="btn-check" id="preview-size-xxl" name="preview-size" value="preview-xxl" data-breakpoint="-xxl" autocomplete="off" />
-		                        <label for="preview-size-xxl" class="btn btn-outline-primary p-0">&nbsp;XXL&nbsp;</label>
-	                        </div>
+                                <input type="radio" class="btn-check" id="preview-size-xxl" name="preview-size" value="preview-xxl" data-breakpoint="-xxl" autocomplete="off" />
+                                <label for="preview-size-xxl" class="btn btn-outline-primary p-0">&nbsp;XXL&nbsp;</label>
+                            </div>
                         </div>
                     </div>
                     @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_RightToolbar.cshtml").Result
@@ -67,13 +67,12 @@
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
 @section Style {
-	@Html.Raw(Model.ExtraCss)
+    @Html.Raw(Model.ExtraCss)
 }
 @section Scripts {
-	@Html.Raw(Model.ExtraScript)
-	<link rel="stylesheet" href="~/@jsRoot/css/bootstrap-sketchy.min.css?_v=@version">
-	<script src="~/ModularContent/js/wizardLibScript.js?_=@version"></script>
-	<script>
+    @Html.Raw(Model.ExtraScript)
+    <script src="@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")?_=@version"></script>
+    <script>
     var bPreviewFrameLoaded = false;
     window.addEventListener('message', function(event) {
         // IMPORTANT: Check the origin of the data!
@@ -102,8 +101,8 @@
         }
     });
 
-	</script>
-	<style>
+    </script>
+    <style>
 		html, body { height: 100% !important; }
 
 		#wizard-toolbox {
@@ -226,11 +225,6 @@
 			flex: 0 0 250px;
 		}
 
-		.close {
-			border: none;
-			background: transparent;
-		}
-
 		.right-toolbar .button-icon.disabled > .dropdown, #btn-update-language:disabled, #field-type-edit:disabled {
 			background-color: #e9ecef;
 		}
@@ -296,156 +290,131 @@
 		ul.fancytree-container > li > ul {
 			padding-left: 0;
 		}
-	</style>
-	<style>
-		.text-warning-hover:hover {
-			color: #ffc107 !important;
-		}
-
-		.text-danger-hover:hover {
-			color: #dc3545 !important;
-		}
-
-		.text-primary-hover:hover {
-			color: #007bff !important;
-		}
-
-		.text-dark-hover:hover {
-			color: #343a40 !important;
-		}
-
-		.text-info-hover:hover {
-			color: #17a2b8 !important;
-		}
-
-		.text-success-hover:hover {
-			color: #28a745 !important;
-		}
-
-		.text-light-hover:hover {
-			color: #f8f9fa !important;
-		}
-	</style>
-	<style>
-		.jlw-editform-localizedcontenttext .tox-tinymce {
-			height: 80vh !important;
-			height: calc(80vh - 200px) !important;
-		}
-
-		pre.highlighting *, code.highlighting-content *, textarea.editing * {
-			font-family: monospace !important;
-		}
-
-		textarea.editing, pre.highlighting {
-			/*border: none !important;*/
-			margin: 0;
-			padding: .5rem .8rem !important;
-			width: inherit;
-			height: inherit;
-		}
-
-		textarea.editing, pre.highlighting, pre.highlighting * {
-			/* Also add text styles to highlighing tokens */
-			font-size: 13pt !important;
-			font-family: monospace !important;
-			line-height: 18pt !important;
-		}
-
-
-		textarea.editing, pre.highlighting {
-			/* In the same place */
-			position: absolute !important;
-			top: 0;
-			left: 0;
-		}
-
-
-		/* Move the textarea in front of the result */
-
-		textarea.editing {
-			z-index: 1;
-		}
-
-		pre.highlighting {
-			z-index: 0;
-		}
-
-		/* Make textarea almost completely transparent */
-		textarea.editing {
-			color: transparent !important;
-			background: transparent !important;
-			caret-color: black; /* Or choose your favourite color */
-		}
-
-		/* Can be scrolled */
-		textarea.editing, pre.highlighting {
-			overflow: auto;
-			white-space: nowrap; /* Allows textarea to scroll horizontally */
-		}
-
-		/* No resize on textarea */
-		textarea.editing {
-			resize: none;
-			-moz-tab-size: 3;
-			-o-tab-size: 3;
-			tab-size: 3;
-		}
-
-		/* Syntax Highlighting from prism.js starts below, partly modified: */
-		code[class*="language-"],
-		pre[class*="language-"] {
-			text-align: left;
-			white-space: pre;
-			word-spacing: normal;
-			word-break: normal;
-			word-wrap: normal;
-			-moz-tab-size: 3;
-			-o-tab-size: 3;
-			tab-size: 3;
-			-webkit-hyphens: none;
-			-moz-hyphens: none;
-			-ms-hyphens: none;
-			hyphens: none;
-		}
-
-		/* Code blocks */
-		pre[class*="language-"] {
-			overflow: auto;
-			border-left: initial;
-		}
-
-		code[class*="language"] {
-			margin: 0 !important;
-		}
-	/* End of prism.js syntax highlighting*/
     </style>
-	<style>@Html.Raw(Model?.ExtraCss)</style>
-	<script>
-        // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
-        (function (a) {
-            a.fn.replaceTagName = function (f) {
-                var g = [],
-                    h = this.length;
-                while (h--) {
-                    var k = document.createElement(f),
-                        b = this[h],
-                        d = b.attributes;
-                    for (var c = d.length - 1; c >= 0; c--) {
-                        var j = d[c];
-                        k.setAttribute(j.name, j.value);
-                    }
-                    k.innerHTML = b.innerHTML;
-                    a(b).after(k).remove();
-                    g[h - 1] = k;
-                }
-                return a(g);
-            }
-        })(window.jQuery);
-    </script>
-	<script src="@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js?_v={version}")"></script>
-	<script src="@Url.Content($"~/{jsRoot}/js/bootbox.min.js?_v={version}")"></script>
-	<script>
+    <style>
+        .text-warning-hover:hover {
+            color: #ffc107 !important;
+        }
 
+        .text-danger-hover:hover {
+            color: #dc3545 !important;
+        }
+
+        .text-primary-hover:hover {
+            color: #007bff !important;
+        }
+
+        .text-dark-hover:hover {
+            color: #343a40 !important;
+        }
+
+        .text-info-hover:hover {
+            color: #17a2b8 !important;
+        }
+
+        .text-success-hover:hover {
+            color: #28a745 !important;
+        }
+
+        .text-light-hover:hover {
+            color: #f8f9fa !important;
+        }
+    </style>
+    <style>
+        .jlw-editform-localizedcontenttext .tox-tinymce {
+            height: 80vh !important;
+            height: calc(80vh - 200px) !important;
+        }
+
+        pre.highlighting *, code.highlighting-content *, textarea.editing * {
+            font-family: monospace !important;
+        }
+
+        textarea.editing, pre.highlighting {
+            /*border: none !important;*/
+            margin: 0;
+            padding: .5rem .8rem !important;
+            width: inherit;
+            height: inherit;
+        }
+
+            textarea.editing, pre.highlighting, pre.highlighting * {
+                /* Also add text styles to highlighing tokens */
+                font-size: 13pt !important;
+                font-family: monospace !important;
+                line-height: 18pt !important;
+            }
+
+
+        textarea.editing, pre.highlighting {
+            /* In the same place */
+            position: absolute !important;
+            top: 0;
+            left: 0;
+        }
+
+
+        /* Move the textarea in front of the result */
+
+        textarea.editing {
+            z-index: 1;
+        }
+
+        pre.highlighting {
+            z-index: 0;
+        }
+
+        /* Make textarea almost completely transparent */
+        textarea.editing {
+            color: transparent !important;
+            background: transparent !important;
+            caret-color: black; /* Or choose your favourite color */
+        }
+
+        /* Can be scrolled */
+        textarea.editing, pre.highlighting {
+            overflow: auto;
+            white-space: nowrap; /* Allows textarea to scroll horizontally */
+        }
+
+        /* No resize on textarea */
+        textarea.editing {
+            resize: none;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
+        }
+
+        /* Syntax Highlighting from prism.js starts below, partly modified: */
+        code[class*="language-"],
+        pre[class*="language-"] {
+            text-align: left;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            -moz-tab-size: 3;
+            -o-tab-size: 3;
+            tab-size: 3;
+            -webkit-hyphens: none;
+            -moz-hyphens: none;
+            -ms-hyphens: none;
+            hyphens: none;
+        }
+
+        /* Code blocks */
+        pre[class*="language-"] {
+            overflow: auto;
+            border-left: initial;
+        }
+
+        code[class*="language"] {
+            margin: 0 !important;
+        }
+        /* End of prism.js syntax highlighting*/
+    </style>
+    <style>@Html.Raw(Model?.ExtraCss)</style>
+    <script>
         (function(cacheVer) {
 
             function onPageLoadInit() {
@@ -472,26 +441,58 @@
                         }
                     });
 
+                    // Jquery plugin from https://newbedev.com/change-the-tag-but-keep-the-attributes-and-content-jquery-javascript
+                    (function (a) {
+                        a.fn.replaceTagName = function (f) {
+                            var g = [],
+                                h = this.length;
+                            while (h--) {
+                                var k = document.createElement(f),
+                                    b = this[h],
+                                    d = b.attributes;
+                                for (var c = d.length - 1; c >= 0; c--) {
+                                    var j = d[c];
+                                    k.setAttribute(j.name, j.value);
+                                }
+                                k.innerHTML = b.innerHTML;
+                                a(b).after(k).remove();
+                                g[h - 1] = k;
+                            }
+                            return a(g);
+                        }
+                    })(window.jQuery);
+
                     window.jlwUtility.showPleaseWait();
 					$.ajaxSetup({
 					  cache: true
 					});
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css?_v={version}")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css?_v={version}")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css?_v={version}")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css?_v={version}")"));
-                    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css?_v={version}")"));
+                    //$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css?_v={version}")"));
+                    //$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/toastr.min.css?_v={version}")"));
+                    //$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/css/prism-vs.min.css?_v={version}")"));
+                    //$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css?_v={version}")"));
+                    //$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css?_v={version}")"));
                     $.when(
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable, "@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, "@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.bootbox, "@Url.Content($"~/{jsRoot}/js/bootbox.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.___FONT_AWESOME___ && window.___FONT_AWESOME___.styles && window.___FONT_AWESOME___.styles.fas, "@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.FontAwesome, "@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.fancytree, "@Url.Content($"~/{jsRoot}/fancytree/dist/jquery.fancytree-all-deps.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.Sortable, "@Url.Content($"~/{jsRoot}/js/Sortable.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.Prism, "@Url.Content($"~/{jsRoot}/js/prism.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.toastr, "@Url.Content($"~/{jsRoot}/js/toastr.min.js?_v={version}")"),
-                        window.jlwUtility.lazyLoadLibrary(window.tinyMCE, "@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js?_v={version}")")
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/toastr.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/prism-vs.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/fancytree/dist/skin-lion/ui.fancytree.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.css")?_=' + cacheVer),
+						window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap-sketchy.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary($.fn.DataTable, '@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, '@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary($.fn.contextMenu, '@Url.Content($"~/{jsRoot}/jquery-contextmenu/dist/jquery.contextMenu.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary($.fn.fancytree, '@Url.Content($"~/{jsRoot}/fancytree/dist/jquery.fancytree-all-deps.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.Sortable, '@Url.Content($"~/{jsRoot}/js/Sortable.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.Prism, '@Url.Content($"~/{jsRoot}/js/prism.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.Prism, '@Url.Content($"~/{jsRoot}/js/wizardLibScript.js")?_=' + cacheVer),
+                        //window.jlwUtility.lazyLoadLibrary(window.tinyMCE, '@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(
+                            window.___FONT_AWESOME___ &&
+                            window.___FONT_AWESOME___.styles &&
+                            window.___FONT_AWESOME___.styles.fas,
+                            '@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")?_=' + cacheVer
+                        )
                     ).done(function() {
 						$.ajaxSetup({
 						  cache: false
@@ -537,8 +538,14 @@
                 if (typeof window.jlwUtility == 'undefined') {
                     window.jlwUtility = new window.libJlwUtility({
                         'cacheVersion': cacheVer,
-                        'libPaths': {},
-                        'fnInit': window.setTimeout(fnInit, 10)
+						'libPaths': {
+                            'jQuery': '@Url.Content($"~/{jsRoot}/js/jquery.min.js")?_=' + cacheVer,
+                            'Bootstrap': '@Url.Content($"~/{jsRoot}/js/bootstrap.min.js")?_=' + cacheVer,
+                            'Toastr': '@Url.Content($"~/{jsRoot}/js/toastr.min.js")?_=' + cacheVer,
+                            'Bootbox': '@Url.Content($"~/{jsRoot}/js/bootbox.min.js")?_=' + cacheVer,
+                            'FontAwesome': '@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")?_=' + cacheVer
+						},
+                        'fnInit': function(){ window.setTimeout(fnInit, 10)}
                     });
                 } else {
                     fnInit();
@@ -550,7 +557,7 @@
                 var headTag = document.getElementsByTagName("head")[0];
                 var jqTag = document.createElement('script');
                 jqTag.type = 'text/javascript';
-                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js?_v={version}")';
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_=' + cacheVer;
                 jqTag.onload = onPageLoadInit;
                 headTag.appendChild(jqTag);
             } else {
@@ -558,10 +565,10 @@
             }
         })('@version');
     </script>
-	@Html.Raw(Model?.ExtraScript)
+    @Html.Raw(Model?.ExtraScript)
 }
 <div class="d-none hidden">
-	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
-	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
 </div>
 @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageListScript.cshtml").Result
