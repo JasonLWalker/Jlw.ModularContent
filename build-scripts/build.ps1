@@ -9,7 +9,7 @@ if (-Not ($packageName)){
 }
 
 if (-Not ($versionPrefix)){
-	$versionPrefix="3.1.$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString().SubString(0,9))"
+	$versionPrefix="5.2.$([System.TimeSpan]::FromTicks($([System.DateTime]::UtcNow.Ticks)).Subtract($([System.TimeSpan]::FromTicks(630822816000000000))).TotalDays.ToString().SubString(0,9))"
 }
 
 # Build with dotnet
