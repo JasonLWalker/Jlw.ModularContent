@@ -1,6 +1,6 @@
 [
   {
-    "outputFileName": "resources/LocalizedContent5/css/bootstrap.css",
+    "outputFileName": "resources/ModularContent/css/bootstrap.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/bootstrap/css/bootstrap.css"
@@ -11,7 +11,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/css/bootstrap.min.css",
+    "outputFileName": "resources/ModularContent/css/bootstrap.min.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/bootstrap/css/bootstrap.min.css"
@@ -22,7 +22,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/css/dataTables.bootstrap5.css",
+    "outputFileName": "resources/ModularContent/css/dataTables.bootstrap5.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/datatables.net-bs5/dataTables.bootstrap5.css"
@@ -33,7 +33,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/css/toastr.css",
+    "outputFileName": "resources/ModularContent/css/toastr.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/toastr/toastr.css"
@@ -44,7 +44,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/jquery.js",
+    "outputFileName": "resources/ModularContent/js/jquery.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/jquery/jquery.js"
@@ -55,7 +55,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/bootstrap.min.js",
+    "outputFileName": "resources/ModularContent/js/bootstrap.min.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/popper.js/umd/popper.min.js",
@@ -67,7 +67,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/bootbox.js",
+    "outputFileName": "resources/ModularContent/js/bootbox.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/bootbox.js/bootbox.js"
@@ -78,7 +78,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/Sortable.js",
+    "outputFileName": "resources/ModularContent/js/Sortable.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/sortable/Sortable.js"
@@ -89,7 +89,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/toastr.js",
+    "outputFileName": "resources/ModularContent/js/toastr.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/toastr/toastr.min.js"
@@ -100,7 +100,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/jquery.dataTables.min.js",
+    "outputFileName": "resources/ModularContent/js/jquery.dataTables.min.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/datatables.net/js/jquery.dataTables.min.js",
@@ -112,7 +112,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/libJlwAppBuilder.js",
+    "outputFileName": "resources/ModularContent/js/libJlwAppBuilder.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/jlwappbuilder/libJlwAppBuilder.js"
@@ -123,7 +123,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/libJlwUtility.js",
+    "outputFileName": "resources/ModularContent/js/libJlwUtility.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/jlwutility/libJlwUtility.js"
@@ -134,7 +134,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/js/prism.js",
+    "outputFileName": "resources/ModularContent/js/prism.js",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/prism/prism.js"
@@ -145,7 +145,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/css/prism-vs.css",
+    "outputFileName": "resources/ModularContent/css/prism-vs.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/prism-themes/themes/prism-vs.css"
@@ -156,7 +156,7 @@
     }
   },
   {
-    "outputFileName": "resources/LocalizedContent5/css/prism-coy.css",
+    "outputFileName": "resources/ModularContent/css/prism-coy.css",
     // An array of relative input file path. Globbing patterns supported
     "inputFiles": [
       "libman/prism/themes/prism-coy.css"
