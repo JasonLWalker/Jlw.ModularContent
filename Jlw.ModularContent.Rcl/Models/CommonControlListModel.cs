@@ -18,12 +18,12 @@ public class CommonControlListModel : ICommonControlListModel
 {
     private readonly List<SelectListGroup> _groups = new List<SelectListGroup>();
     private readonly List<SelectListItem> _items = new List<SelectListItem>();
-    private readonly ILocalizedGroupDataItemRepository _repo;
+    private readonly IModularGroupDataItemRepository _repo;
 
     public IEnumerable<SelectListGroup> Groups => _groups;
     public IEnumerable<SelectListItem> Items => _items;
 
-    public CommonControlListModel(ILocalizedGroupDataItemRepository repo)
+    public CommonControlListModel(IModularGroupDataItemRepository repo)
     {
         _repo = repo;
         Initialize();

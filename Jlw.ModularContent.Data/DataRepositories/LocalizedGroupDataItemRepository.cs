@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository" />
-    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>, ILocalizedGroupDataItemRepository 
+    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>, IModularGroupDataItemRepository 
     {
         /// <summary>
         /// The stored procedure name for the get record

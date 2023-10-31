@@ -61,13 +61,13 @@ namespace Jlw.ModularContent
 
             services.TryAddSingleton<ILanguageListModel>(provider =>
             {
-                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
+                var repo = provider.GetRequiredService<IModularGroupDataItemRepository>();
                 return new LanguageListModel(repo);
             });
 
             services.TryAddSingleton<ICommonControlListModel>(provider =>
             {
-                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
+                var repo = provider.GetRequiredService<IModularGroupDataItemRepository>();
                 return new CommonControlListModel(repo);
             });
 

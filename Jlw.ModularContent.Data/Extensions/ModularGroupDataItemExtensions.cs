@@ -37,7 +37,7 @@ namespace Jlw.ModularContent
         {
             if (setupAction != null) services.Configure(setupAction);
 
-            services.TryAddSingleton<ILocalizedGroupDataItemRepository>(provider =>
+            services.TryAddSingleton<IModularGroupDataItemRepository>(provider =>
             {
                 IModularDbOptions options = provider.GetService<IOptions<LocalizedGroupDataItemRepositoryOptions>>()?.Value;
                 options ??= (new OptionsWrapper<LocalizedGroupDataItemRepositoryOptions>(provider.GetService<LocalizedGroupDataItemRepositoryOptions>()))?.Value;
