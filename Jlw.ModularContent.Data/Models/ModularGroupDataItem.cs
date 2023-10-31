@@ -20,7 +20,7 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class to encapsulate a row from the [LocalizedGroupDataItems] database table
     /// </summary>
-    public class LocalizedGroupDataItem : IModularGroupDataItem 
+    public class ModularGroupDataItem : IModularGroupDataItem 
 	{
         /// <inheritdoc />
 		public long Id { get; protected set; }
@@ -54,15 +54,15 @@ namespace Jlw.ModularContent
         public DateTime AuditChangeDate { get; protected set; }
 
         /// <summary>
-        /// Default Constructor. Initializes a new instance of the <see cref="LocalizedGroupDataItem"/> class.
+        /// Default Constructor. Initializes a new instance of the <see cref="ModularGroupDataItem"/> class.
         /// </summary>
-        public LocalizedGroupDataItem() => Initialize(null);
+        public ModularGroupDataItem() => Initialize(null);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalizedGroupDataItem"/> class.
+        /// Initializes a new instance of the <see cref="ModularGroupDataItem"/> class.
         /// </summary>
         /// <param name="o">The o.</param>
-        public LocalizedGroupDataItem (object o) => Initialize(o);
+        public ModularGroupDataItem (object o) => Initialize(o);
 
         /// <summary>
         /// Initializes the class from the values in the reference object.

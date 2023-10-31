@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository" />
-    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<IModularGroupDataItem, LocalizedGroupDataItem>, IModularGroupDataItemRepository 
+    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<IModularGroupDataItem, ModularGroupDataItem>, IModularGroupDataItemRepository 
     {
         /// <summary>
         /// The stored procedure name for the get record
@@ -153,7 +153,7 @@ namespace Jlw.ModularContent
                             new KeyValuePair<string, object>("lang", language ?? "")
                         }, o =>
                         {
-                            return new LocalizedGroupDataItem(o);
+                            return new ModularGroupDataItem(o);
                         }));
             }
 

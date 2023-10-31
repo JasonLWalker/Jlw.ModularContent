@@ -22,7 +22,7 @@ namespace Jlw.ModularContent
     /// Implements the <see cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
-    public interface IModularGroupDataItemRepository : IModularDataRepositoryBase<IModularGroupDataItem, LocalizedGroupDataItem>
+    public interface IModularGroupDataItemRepository : IModularDataRepositoryBase<IModularGroupDataItem, ModularGroupDataItem>
     {
         /// <summary>
         /// Gets the data table list data.
