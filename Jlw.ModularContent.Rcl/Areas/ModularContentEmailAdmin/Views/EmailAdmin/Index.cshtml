@@ -1,0 +1,95 @@
+@using Jlw.ModularContent
+@model Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers.EmailAdminController.WizardAdminSettings
+@{
+    ViewData["Title"] = Model.PageTitle ?? ViewData["PageTitle"];
+	string version = Model.Version;
+    string jsRoot = ModularContentExtensions.AreaName;
+}
+@section Style
+{
+	<style>
+        .email-body {
+	        max-height: 10em;
+	        overflow-y: auto;
+        }
+	</style>
+	@Html.Raw(Model.ExtraCss)
+}
+@section Scripts {
+    @Html.Raw(Model.ExtraScript)
+    <script src="@Url.Content($"~/{jsRoot}/tinymce/tinymce.min.js?_={version}")"></script>
+    <script>
+
+        (function(cacheVer) {
+            function onPageLoadInit() {
+                function fnInit() {
+                    window.jlwUtility.showPleaseWait();
+                    $.when(
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/bootstrap.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/dataTables.bootstrap5.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadStyle('@Url.Content($"~/{jsRoot}/css/toastr.min.css")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(jQuery.fn.DataTable,'@Url.Content($"~/{jsRoot}/js/jquery.dataTables.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(window.libJlwAppBuilder, '@Url.Content($"~/{jsRoot}/js/libJlwAppBuilder.min.js")?_=' + cacheVer),
+                        window.jlwUtility.lazyLoadLibrary(
+                            window.___FONT_AWESOME___ &&
+                            window.___FONT_AWESOME___.styles &&
+                            window.___FONT_AWESOME___.styles.fas,
+                            '@Url.Content($"~/{jsRoot}/font-awesome/js/solid.min.js")?_=' + cacheVer
+                        )
+                    ).done(function() {
+                        bootbox.setDefaults({ centerVertical: true, scrollable: true });
+
+                        window.jlwLibLocalizedContentField();
+                        window.jlwUtility.hidePleaseWait();
+
+                    });
+                }
+
+                if (typeof window.jlwUtility == 'undefined') {
+                    window.jlwUtility = new window.libJlwUtility({
+                        'cacheVersion': cacheVer,
+                        'libPaths': {
+                            'jQuery': '@Url.Content($"~/{jsRoot}/js/jquery.min.js")?_=' + cacheVer,
+                            'Bootstrap': '@Url.Content($"~/{jsRoot}/js/bootstrap.min.js")?_=' + cacheVer,
+                            'Toastr': '@Url.Content($"~/{jsRoot}/js/toastr.min.js")?_=' + cacheVer,
+                            'Bootbox': '@Url.Content($"~/{jsRoot}/js/bootbox.min.js")?_=' + cacheVer,
+                            'FontAwesome': '@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")?_=' + cacheVer
+                        },
+                        'fnInit': function () { window.setTimeout(fnInit, 50) }
+                    });
+                } else {
+                    fnInit();
+                }
+            };
+
+
+            if (typeof window.libJlwUtility == 'undefined') {
+                var headTag = document.getElementsByTagName("head")[0];
+                var jqTag = document.createElement('script');
+                jqTag.type = 'text/javascript';
+                jqTag.src = '@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_=' + cacheVer;
+                jqTag.onload = onPageLoadInit;
+                headTag.appendChild(jqTag);
+            } else {
+                onPageLoadInit();
+            }
+        })('@version');
+    </script>
+}
+<div class="col-xs-12">
+    <div>
+        @if (Model?.CanInsert ?? false)
+        {
+            <button class="float-end btn btn-sm btn-primary btn-newrecord"><span class="fa fa-plus"></span> Add New Record</button>
+        }
+        <div class="jlw-header h3">
+            @Model.PageTitle
+        </div>
+    </div>
+    <br />
+    @Html.PartialAsync(Model.DataTableListView).Result
+</div>
+<div class="d-none hidden">
+	@Html.PartialAsync(Model.EditView).Result
+</div>
+@Html.PartialAsync(Model.DataTableScriptView).Result

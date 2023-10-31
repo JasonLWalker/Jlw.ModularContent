@@ -52,7 +52,6 @@ function Get-ProjectInfoTable {
     $tableString += "|Target Framework|$($xmlProject.SelectSingleNode("//TargetFramework[1]").InnerText)|`r`n"
     $tableString += "|Author(s)|$($xmlProject.SelectSingleNode("//Authors[1]").InnerText)|`r`n"
     $tableString += "|Copyright|$($xmlProject.SelectSingleNode("//Copyright[1]").InnerText)|`r`n"
-    $tableString += "|Version|$AssemblyVersion|`r`n"
 
     return $tableString
 }

@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers 
 {
     /// <summary>
     /// Class ApiController.
@@ -37,7 +37,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] 
     [JsonConverter(typeof(DefaultContractResolver))]
     [JsonObject(NamingStrategyType = typeof(DefaultNamingStrategy))]
-	public abstract class ApiController : ControllerBase 
+	public abstract class EmailApiController : ControllerBase 
 	{
         /// <summary>
         /// The data repository instance
@@ -119,11 +119,11 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiController"/> class.
+        /// Initializes a new instance of the <see cref="EmailApiController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public ApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository) 
+        public EmailApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository) 
         { 
             _fieldRepository = fieldRepository;
             _textRepository = textRepository;

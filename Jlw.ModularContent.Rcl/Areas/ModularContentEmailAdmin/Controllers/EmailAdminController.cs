@@ -1,11 +1,11 @@
 using Jlw.Extensions.DataParsing;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers 
+namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers 
 {
     /// <summary>Class AdminController.
     /// Implements the <see cref="Microsoft.AspNetCore.Mvc.Controller" /></summary>
-    public abstract class AdminController : Controller 
+    public abstract class EmailAdminController : Controller 
     {
         /// <summary>Email Admin UI page</summary>
         /// <param name="groupKey">The group key to filter by.</param>
@@ -46,9 +46,9 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
             public bool DataTableInfo { get; set; } = true;
             public string DataTableAttributes { get; set; }
 
-            public string EditView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_EditRecord.cshtml";
-            public string DataTableListView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_DataTableList.cshtml";
-            public string DataTableScriptView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_DataTableListScript.cshtml";
+            public string EditView { get; set; } = "~/Areas/ModularContentEmailAdmin/Views/EmailAdmin/_EditRecord.cshtml";
+            public string DataTableListView { get; set; } = "~/Areas/ModularContentEmailAdmin/Views/EmailAdmin/_DataTableList.cshtml";
+            public string DataTableScriptView { get; set; } = "~/Areas/ModularContentEmailAdmin/Views/EmailAdmin/_DataTableListScript.cshtml";
 
             public WizardAdminSettings() : this(null) {}
 
