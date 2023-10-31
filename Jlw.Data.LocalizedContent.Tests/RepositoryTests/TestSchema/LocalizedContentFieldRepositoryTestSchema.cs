@@ -2,11 +2,10 @@
 using Jlw.ModularContent;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
-using TRepo = Jlw.ModularContent.LocalizedContentFieldRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentFieldRepositoryTestSchema : BaseModelSchema<TRepo>
+    public class LocalizedContentFieldRepositoryTestSchema : BaseModelSchema<ModularContentFieldRepository>
     {
         void InitConstructors()
         {
@@ -23,7 +22,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
         void InitInterfaces()
         {
-            AddInterface(typeof(ILocalizedContentFieldRepository));
+            AddInterface(typeof(IModularContentFieldRepository));
             AddInterface(typeof(IModularDataRepositoryBase<IModularContentField, ModularContentField>));
         }
 

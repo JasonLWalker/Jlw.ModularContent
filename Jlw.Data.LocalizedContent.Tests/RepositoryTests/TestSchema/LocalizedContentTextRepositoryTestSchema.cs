@@ -2,11 +2,10 @@
 using Jlw.ModularContent;
 using Jlw.Utilities.Data.DbUtility;
 using Jlw.Utilities.Testing;
-using TRepo = Jlw.ModularContent.LocalizedContentTextRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentTextRepositoryTestSchema : BaseModelSchema<TRepo>
+    public class LocalizedContentTextRepositoryTestSchema : BaseModelSchema<ModularContentTextRepository>
     {
         void InitConstructors()
         {

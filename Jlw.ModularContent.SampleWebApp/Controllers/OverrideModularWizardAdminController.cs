@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jlw.ModularContent;
-using Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
+using Jlw.ModularContent.Areas.ModularContentWizardAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +9,10 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class OverrideModularWizardAdminController : AdminController
+    public class OverrideModularWizardAdminController : WizardAdminController
     {
         
-        public OverrideModularWizardAdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository) : base(settings, repository)
+        public OverrideModularWizardAdminController(IModularWizardAdminSettings settings, IModularWizardFactoryRepository repository) : base(settings, repository)
         {
             _groupFilter = "Sample%";
 

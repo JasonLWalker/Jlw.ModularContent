@@ -48,27 +48,27 @@ namespace Jlw.ModularContent
         public static IServiceCollection AddModularWizardAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
         {
 
-            services.TryAddSingleton<IWizardAdminSettings>(new WizardAdminSettings());
+            services.TryAddSingleton<IModularWizardAdminSettings>(new ModularWizardAdminSettings());
             services.AddModularGroupDataItemRepository(options);
             services.AddModularContentFieldRepository(options);
             services.AddModularContentTextRepository(options);
 
             services.AddModularWizardFactoryRepository(options);
-            services.TryAddSingleton<IWizardFactory>(provider =>
+            services.TryAddSingleton<IModularWizardFactory>(provider =>
             {
-                return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
+                return new ModularWizardFactory(provider.GetRequiredService<IModularWizardFactoryRepository>());
             });
 
-            services.TryAddSingleton<ILanguageListModel>(provider =>
+            services.TryAddSingleton<IModularLanguageListModel>(provider =>
             {
-                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
-                return new LanguageListModel(repo);
+                var repo = provider.GetRequiredService<IModularGroupDataItemRepository>();
+                return new ModularLanguageListModel(repo);
             });
 
-            services.TryAddSingleton<ICommonControlListModel>(provider =>
+            services.TryAddSingleton<IModularCommonControlListModel>(provider =>
             {
-                var repo = provider.GetRequiredService<ILocalizedGroupDataItemRepository>();
-                return new CommonControlListModel(repo);
+                var repo = provider.GetRequiredService<IModularGroupDataItemRepository>();
+                return new ModularCommonControlListModel(repo);
             });
 
             services.ConfigureOptions(typeof(LocalizedContentAdminConfigureOptions));
@@ -77,7 +77,7 @@ namespace Jlw.ModularContent
 
         public static AuthorizationOptions AddDefaultModularContentAdminAuthorizationPolicy(this AuthorizationOptions options)
         {
-            options.AddPolicy("LocalizedContentUser", policy =>
+            options.AddPolicy(AreaName + "User", policy =>
             {
                 policy.RequireAssertion(context =>
                 {
@@ -85,7 +85,7 @@ namespace Jlw.ModularContent
                 });
             });
 
-            options.AddPolicy("LocalizedContentCreate", policy =>
+            options.AddPolicy(AreaName + "Create", policy =>
             {
                 policy.RequireAssertion(context =>
                 {
@@ -93,7 +93,7 @@ namespace Jlw.ModularContent
                 });
             });
 
-            options.AddPolicy("LocalizedContentRead", policy =>
+            options.AddPolicy(AreaName + "Read", policy =>
             {
                 policy.RequireAssertion(context =>
                 {
@@ -101,7 +101,7 @@ namespace Jlw.ModularContent
                 });
             });
 
-            options.AddPolicy("LocalizedContentUpdate", policy =>
+            options.AddPolicy(AreaName + "Update", policy =>
             {
                 policy.RequireAssertion(context =>
                 {
@@ -109,7 +109,7 @@ namespace Jlw.ModularContent
                 });
             });
 
-            options.AddPolicy("LocalizedContentDelete", policy =>
+            options.AddPolicy(AreaName + "Delete", policy =>
             {
                 policy.RequireAssertion(context =>
                 {

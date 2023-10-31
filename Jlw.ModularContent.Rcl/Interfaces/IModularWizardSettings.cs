@@ -1,0 +1,22 @@
+﻿using Microsoft.AspNetCore.Routing;
+
+namespace Jlw.ModularContent;
+
+public interface IModularWizardSettings
+{
+    string DefaultWizard { get; }
+    string Version { get; }
+    string GroupFilter { get; }
+    bool ShowSideNav { get; set; }
+    ModularWizardSideNav SideNav { get; }
+    string PageTitle { get; set; }
+    string ExtraCss { get; set; }
+    string ExtraScript { get; set; }
+    string Area { get; set; }
+    string ApiControllerName { get; set; }
+    string ControllerName { get; set; }
+
+    public LinkGenerator LinkGenerator { get; set; }
+    string ApiOverrideUrl { get; set; }
+    string JsRoot { get; set; }
+}

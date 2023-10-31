@@ -42,8 +42,8 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// <summary>
         /// The data repository instance
         /// </summary>
-        protected readonly ILocalizedContentFieldRepository _fieldRepository;
-        protected readonly IWizardFactoryRepository _factoryRepository;
+        protected readonly IModularContentFieldRepository _fieldRepository;
+        protected readonly IModularWizardFactoryRepository _factoryRepository;
         protected readonly IModularContentTextRepository _textRepository;
         /// <summary>
         /// The primary group filter
@@ -61,7 +61,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// Class LocalizedContentFieldRecordInput.
         /// Implements the <see cref="ModularContentField" /> model with public property setters. This class will be used to pass input data from the client to the API methods.
         /// </summary>
-        public class ModularWizardEmailRecordInput : WizardContentField
+        public class ModularWizardEmailRecordInput : ModularWizardContentField
 		{
             /// <summary>
             /// Gets or sets the edit token.
@@ -123,7 +123,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public ApiController(ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IWizardFactoryRepository factoryRepository) 
+        public ApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository) 
         { 
             _fieldRepository = fieldRepository;
             _textRepository = textRepository;
@@ -149,7 +149,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// <returns>System.Object.</returns>
         /// TODO Edit XML Comment Template for DtList
         [HttpPost("DtList")]
-        public virtual object DtList([FromForm] LocalizedContentFieldDataTablesInput o)
+        public virtual object DtList([FromForm] ModularContentFieldDataTablesInput o)
         {
             o.GroupFilter = _groupFilter;
 
@@ -159,7 +159,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
             {
                 foreach (var row in data["data"]!)
                 {
-                    var parent = row.ToObject<WizardContentField>();
+                    var parent = row.ToObject<ModularWizardContentField>();
                     string lang = string.IsNullOrWhiteSpace(row["Language"]?.ToString())
                         ? null
                         : row["Language"].ToString();
@@ -167,7 +167,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                     string fieldKey = parent?.FieldKey;
                     var fields = _factoryRepository.GetWizardFields(groupKey, fieldKey, lang, _groupFilter).ToList();
                     fields.Add(parent);
-                    var oEmail = new WizardContentEmail(fieldKey, fields, new { });
+                    var oEmail = new ModularWizardContentEmail(fieldKey, fields, new { });
                     row["Body"] = oEmail.Body;
                     row["Subject"] = oEmail.Subject;
                 }
@@ -203,8 +203,8 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
                 
 
                 var fields = _factoryRepository.GetWizardFields(oReturn.GroupKey, oReturn.FieldKey, lang, _groupFilter).ToList();
-                fields.Add(new WizardContentField(parent));
-                var oEmail = new WizardContentEmail(oData.FieldKey, fields, new { });
+                fields.Add(new ModularWizardContentField(parent));
+                var oEmail = new ModularWizardContentEmail(oData.FieldKey, fields, new { });
                 oReturn.Language = lang ?? "EN";
                 oReturn.Body = oEmail.Body;
                 oReturn.Subject = oEmail.Subject;

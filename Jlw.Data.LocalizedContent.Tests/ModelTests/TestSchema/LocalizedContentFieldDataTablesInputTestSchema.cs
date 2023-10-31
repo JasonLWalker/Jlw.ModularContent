@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Testing;
 using Newtonsoft.Json;
-using TModel = Jlw.ModularContent.LocalizedContentFieldDataTablesInput;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedContentFieldDataTablesInputTestSchema : BaseModelSchema<TModel>
+    public class LocalizedContentFieldDataTablesInputTestSchema : BaseModelSchema<ModularContentFieldDataTablesInput>
     {
 
 
 
-        public override IEnumerable<InstanceMemberTestData<TModel>> InstanceMemberTestList
+        public override IEnumerable<InstanceMemberTestData<ModularContentFieldDataTablesInput>> InstanceMemberTestList
         {
             get
             {
@@ -41,19 +41,19 @@ namespace Jlw.Data.LocalizedContent.Tests
 
                 json += "}";
 
-                var sut = JsonConvert.DeserializeObject<TModel>(json) ;
+                var sut = JsonConvert.DeserializeObject<ModularContentFieldDataTablesInput>(json) ;
 
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Id), id);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupKey), groupKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.GroupFilter), groupFilter);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldKey), fieldKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldType), fieldType);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.Id), id);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.GroupKey), groupKey);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.GroupFilter), groupFilter);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.FieldKey), fieldKey);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.FieldType), fieldType);
 //                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldClass), fieldClass);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.ParentKey), parentKey);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.draw), draw);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.start), start);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.length), length);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Language), language);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.ParentKey), parentKey);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.draw), draw);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.start), start);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.length), length);
+                yield return new InstanceMemberTestData<ModularContentFieldDataTablesInput>(sut, nameof(sut.Language), language);
 /*                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.DefaultLabel), defaultLabel);
                                                                                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperClass), wrapperClass);
                                                                                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);

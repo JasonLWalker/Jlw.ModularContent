@@ -1,0 +1,1298 @@
+﻿@model Jlw.ModularContent.ModularWizardAdminSettings
+@{
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
+}
+<script>
+    function libJlwRightToolbarAdminExtension(t, $, initOptions, undefined) {
+        if (!t.urlApiRoot)
+            t.urlApiRoot = '@apiUrl';
+
+        var oRightToolbar = $('#rightToolbar');
+        var oFieldClass = $('input[name=FieldClass]', oRightToolbar);
+        var oFieldData = $('input[name=FieldData]', oRightToolbar);
+        
+        t.oRightToolbar = oRightToolbar;
+        t.dtErrorMessages = {};
+
+
+        function initMemberRegex() {
+	        // Regular expressions
+	        t.rxCols = /(?<!\S)(?:(col(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?(1[0-2]|[1-9]|auto)?)/gi;
+	        t.rxPadding = /(?<!\S)(?:(p(t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxMargin = /(?<!\S)(?:(m(t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?((?:n)?[0-5]|auto)?)/gi;
+	        t.rxDisplay = /(?<!\S)(?:(d(?:-sm|-md|-lg|-xl|-xxl|-print)?)(?:[\-])?(none|inline|inline-block|block|table|table-cell|table-row|flex|inline-flex)?)/gi;
+	        t.rxBorder = /(?<!\S)(?:(border(?:t|r|e|b|l|s|x|y)?(?:-sm|-md|-lg|-xl|-xxl)?)(?:[\-])?([0-5]|auto)?)/gi;
+	        t.rxButtons = /(?<!\S)(?:btn(?:[\-])?(outline|block|link|lg|sm)?(?:[\-])?(primary|secondary|success|danger|warning|info|light|dark|link)?)/gi;
+	        t.rxIcon = /(?<!\S)(fa(?:[\w\-\d]+)?|(text-primary|text-secondary|text-success|text-danger|text-warning|text-info|text-light|text-dark))/gi;
+        }
+        
+        function initMemberArrays() {
+	        // Arrays
+	        t.aBreakpoints = ['', '-sm', '-md', '-lg', '-xl', '-xxl'];
+	        t.aSides = ['', 't', 'e', 'b', 's'];
+	        t.aMarginSize = {'-6':'-5', '-5':'-4', '-4':'-3', '-3':'-2', '-2':'-1', '-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+	        t.aPaddingSize = {'-1':'', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'auto'};
+	        t.aColSize = {'-1':'', '0':'*', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7', '8':'8', '9':'9', '10':'10', '11':'11', '12':'12', '13':'auto'};
+        }
+
+        function initMemberFunctions() {
+	        // Add functions
+	        t.parseColClass = parseColClass;
+	        t.parsePaddingClass = parsePaddingClass;
+	        t.parseButtonClass = parseButtonClass;
+	        t.parseButtonData = parseButtonData;
+
+	        t.loadProperties = loadProperties;
+	        t.saveFieldData = saveFieldData;
+        }
+
+        function initControls() {
+	        $('input[name="ColSize"]', t.oRightToolbar).data('display-values', t.aColSize);
+	        $('.padding-p', t.oRightToolbar).data('display-values', t.aPaddingSize);
+	        $('.margin-m', t.oRightToolbar).data('display-values', t.aMarginSize);
+    
+	        $('.padding-p', t.oRightToolbar).on('change', onChangePaddingSize);
+	        $('.margin-m', t.oRightToolbar).on('change', onChangeMarginSize);
+
+
+	        $('input[name="ColSize"]', t.oRightToolbar).on('change', onChangeColSpanSize);
+	        $('input[name="WrapperColBreakpoint"]', t.oRightToolbar).on('change', onChangeColBreakpoint);
+	        $('input[name="FieldPaddingBreakpoint"],input[name="WrapperPaddingBreakpoint"]', t.oRightToolbar).on('change', onChangePaddingBreakpoint);
+	        $('input[name="FieldMarginBreakpoint"], input[name="WrapperMarginBreakpoint"]', t.oRightToolbar).on('change', onChangeMarginBreakpoint);
+    
+	        $('.form-range', t.oRightToolbar).on('input',onChangeSlider);
+	        $('.btn-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
+	        $('.card-toggle-thumb', t.oRightToolbar).on('click',onTogglePanelCaret);
+
+	        $('select[name=buttonIcon] option', t.oRightToolbar).each(function() {
+		        var elem = $(this);
+		        var val = elem.val();
+		        $('.button-icon .dropdown-menu', t.oRightToolbar).append('<a href="#" class="dropdown-item small" data-icon=' + val + '>' + (val == "" ? '' : '<span class="fa fa-fw ' + val + '"></span> - ') + elem.text() + '</a>');
+	        });
+            
+			$('#btn-update-language').on('click', onClickBtnLanguage);
+			$('.btn-field-data').on('click', onClickBtnFieldData);
+            @if(Model?.CanEditField ?? false) {
+		        <text>
+			        $('select[name="buttonStyle"],input[name="buttonH100"],input[name="buttonOutline"],input[name="buttonBlock"]', t.oRightToolbar).on('change', onChangeButtonClass);
+			        $('select[name=buttonIcon],select[name=buttonIconColor],select[name=buttonActionType],input[name=buttonEventClick],.button-action-opts', t.oRightToolbar).on('change', onChangeButtonData);
+
+		            $('.button-icon a.dropdown-item', t.oRightToolbar).off().on('click', onChangeButtonIcon);
+			        $('select[name=InputType]', t.oRightToolbar).on('change', onChangeInputType);
+			        $('input[name=FieldKey],input[name=DefaultLabel],input[name=FieldClass],input[name=WrapperClass],input[name=FieldData]', t.oRightToolbar).off().on('change', saveFieldData);
+			        $('select[name=FieldType],textarea[name=WrapperHtmlStart],textarea[name=WrapperHtmlEnd]', t.oRightToolbar).off().on('change', saveFieldData);          
+			        $('#field-type-edit').on('click', onClickBtnFieldTypeEdit);
+				</text>
+		    }
+            else
+            {
+				@:$('input[type=text], input[type=checkbox], input[type=range], input[type=text], #btn-update-language, #field-type-edit, textarea, select', t.oRightToolbar).prop('disabled', true);
+	            @:$('#dropdownButtonIcon, .button-icon', t.oRightToolbar).addClass('disabled');
+	            if (Model?.CanEditLabelText ?? false)
+	            {
+		            @:$('input[name=DefaultLabel], #btn-update-language', t.oRightToolbar).prop('disabled', false);
+		            @:$('input[name=DefaultLabel]', t.oRightToolbar).off().on('change', saveFieldData);
+	            }
+	            else
+	            {
+		            @:$('input[name=DefaultLabel]', t.oRightToolbar).removeClass('bg-transparent');
+	            }
+            }
+
+
+
+
+			    t.libErrorMessages = new jlwLibErrorMessages('table.jlw-datatable.jlw-datatable-fieldmessagetext', t.urlApiRoot + '/ErrorMessage/', $);
+        }
+
+
+        function jlwLibErrorMessages($target, urlRoot, $) {
+	        if (!$) $ = window.jQuery;
+
+	        $.fn.dataTable.ext.errMode = 'none';
+	        var lib = new libJlwAppBuilder(urlRoot, $target);
+            
+            @if (Model?.CanEditErrorText ?? false)
+            {
+				@:lib.frmEdit = $('#jlwEditFormErrorMessageText').html();
+            }
+
+            @if (Model?.CanInsertErrorText ?? false)
+            {
+	            <text>
+		            function fnOnAddRecord(fnOnShow) {
+		                function fnShow(o, data) {
+			                var oFrm = $(o);
+			                $('input[name=GroupKey]', oFrm).val($('input[name=GroupKey]', t.oRightToolbar).val());
+			                $('input[name=FieldKey]', oFrm).val();
+			                $('select[name=Language]', oFrm).val('EN');
+		                    $('input[name=ParentKey]', oFrm).val($('input[name=FieldKey]', t.oRightToolbar).val());
+			                if (typeof fnOnShow == 'function')
+				                fnOnShow(o, data);
+		                }
+		                return lib.onAddRecord(fnShow);
+		            }
+	            </text>
+            }
+
+            @if (Model?.CanEditErrorText ?? false)
+            {
+	            <text>
+			        function fnOnEditRecord(oBtn, fnOnShow) {
+				        function fnShow(o, data) {
+					        var oFrm = $(o);
+					        $('input[name=FieldKey]', oFrm).prop('readonly', true);
+					        $('select[name=Language]', oFrm).prop('disabled', true);
+					        if (typeof fnOnShow == 'function')
+						        fnOnShow(o, data);
+				        }
+				        return lib.onEditRecord(oBtn, fnShow);
+			        }
+
+			        lib.addDtRowButton('', 'btn-edit', 'fas fa-pencil-alt text-warning', 'btn-outline-secondary', fnOnEditRecord);
+	            </text>
+            }
+
+            @if (Model?.CanDeleteErrorText ?? false)
+            {
+	            @:lib.addDtRowButton('', 'btn-delete-message', 'fas fa-trash-alt text-danger', 'btn-outline-secondary', lib.onDeleteRecord);
+            }
+
+
+	        function fnRenderErrorMessage(cell, type, row) { return '<small><b><em>' + row['Language'] + ' - '+ row['FieldKey'] + '</em></b><br />' + row['Text'] + '</small>'; }
+            
+
+
+
+	        lib.fnPostDtAjaxData = function(dta) {
+		        dta['GroupKey'] = $('input[name=GroupKey]', t.oRightToolbar).val();
+		        dta['ParentKey'] = $('input[name=FieldKey]', t.oRightToolbar).val();
+	        }
+
+	        lib.addDtRenderer(fnRenderErrorMessage, [0]);
+	        lib.addDtRenderer(lib.dtRenderButtons, [2]);
+	        var dt = lib.initializeDataTable(lib.sDtSelector);
+
+	        dt.on('error.dt',
+			        function(e, settings, techNote, message) {
+				        if (console)
+					        console.log('An error has been reported by DataTables: ', message);
+			        })
+		        .on('xhr.dt', function ( e, settings, json, xhr ) {
+			        var data = xhr["responseJSON"];
+			        t.checkAjaxMessage(data);
+		        } );
+                
+            @if (Model?.CanInsertErrorText ?? false)
+            {
+	            @:lib.addDtFooterButton(' Add New Record', '.btn-add-errormessage', 'fa fa-plus', 'btn-primary', fnOnAddRecord);
+	            @:$('.btn-add-errormessage', t.oRightToolbar).off('click').on('click', fnOnAddRecord);
+            }
+
+	        return lib;
+        }
+
+        function getParentBreakpoint(parent) {
+	        return $(parent.data('breakpoint') + ':checked', parent).val();
+        }
+
+        function loadProperties(fieldId) {
+	        t.post(t.urlApiRoot + '/GetField', { id: Math.abs(fieldId) })
+		        .done(function(data) {
+			        $('.common-card, .label-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
+			        var p = $('#propertylist');
+			        $('.form-group', p).addClass('d-none');
+			        $('input', p).val('');
+
+			        var o = {};
+			        var s = '';
+			        var fieldId = data['Id'];
+			        var groupKey = data['GroupKey'];
+			        var fieldKey = data['FieldKey'];
+			        var fieldType = (data['FieldType'] || '').toUpperCase();
+			        var fieldData = data['FieldData'];
+			        var fieldClass = data['FieldClass'];
+			        var fieldOrder = data['Order'];
+			        var parentKey = data['ParentKey'];
+			        var wrapperHtmlStart = data["WrapperHtmlStart"];
+			        var wrapperHtmlEnd = data["WrapperHtmlEnd"];
+
+			        if (!fieldId)
+				        return;
+
+			        $('.common-card', t.oRightToolbar).removeClass('d-none');
+
+
+			        if (typeof(fieldData) === 'string') {
+				        try {
+					        fieldData = $.parseJSON(fieldData);
+
+				        } catch (err) {
+					        // invalid json
+					        fieldData = {};
+				        }
+			        }
+
+			        var toolbar = $('.right-toolbar');
+			        $('input[name=Id]', toolbar).val(fieldId);
+			        $('input[name=GroupKey]', toolbar).val(groupKey);
+			        $('input[name=Order]', toolbar).val(fieldOrder);
+			        $('input[name=ParentKey]', toolbar).val(parentKey);
+
+			        $('textarea[name=WrapperHtmlStart]', toolbar).val(wrapperHtmlStart);
+			        $('textarea[name=WrapperHtmlEnd]', toolbar).val(wrapperHtmlEnd);
+
+
+			        s = data['FieldKey'];
+
+			        o = $('.field-name');
+			        o.removeClass('d-none');
+			        $('input', o).val(s);
+
+			        s = data['DefaultLabel'];
+			        o = $('.field-label');
+			        o.removeClass('d-none');
+			        $('input', o).val(s);
+
+
+			        s = data['FieldType'];
+			        o = $('.field-type');
+			        o.removeClass('d-none');
+			        $('select', o).val(s);
+			        $('.input-group-sm', o).removeClass('input-group');
+			        $('.input-group-append', o).addClass('d-none');
+
+			        s = JSON.stringify(fieldData);
+			        oFieldData.val(s);
+
+
+					$('.label-card').removeClass('d-none');
+                    var b = (fieldData['hideLabel'] || "") ? true : false;
+                    $('input#hideLabel').prop('checked', b);
+                    
+			        switch (fieldType) {
+				        case 'WIZARD':
+					$('.label-card').addClass('d-none');
+							break;
+				        case 'BUTTON':
+					        $('.button-card').removeClass('d-none');
+					        s = (fieldData['type'] || "").toUpperCase();
+					        $('select[buttonStyle]').val(s);
+					        o = $('input[buttonOutline]');
+					        o.removeClass('d-none');
+					        t.parseButtonClass(fieldClass);
+					        t.parseButtonData(fieldData);
+					        break;
+				        case 'INPUT':
+					        $('.input-card').removeClass('d-none');
+					        $('.error-message-card').removeClass('d-none');
+					        s = (fieldData['type'] || "").toUpperCase();
+					        $('select[name=InputType]').val(s);
+					        o = $('.field-type');
+					        $('.input-group-sm', o).addClass('input-group');
+					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+					        break;
+				        case 'FORM':
+					        $('.form-card').removeClass('d-none');
+					        $('.error-message-card').addClass('d-none');
+                            b = (fieldData['useCardLayout'] || "") ? true : false;
+                            $('input#useCardLayout').prop('checked', b);
+					        t.libErrorMessages.redrawTable();
+					        break;
+				        case 'EMBED':
+					        $('.embed-card').removeClass('d-none');
+					        $('.error-message-card').addClass('d-none');
+
+					        $('input[name=EmbedScreen]').val((fieldData['screen'] || fieldData['Screen'] || ""));
+					        $('input[name=EmbedForm]').val((fieldData['form'] || fieldData['Form'] || ""));
+
+                            b = (fieldData['hasEditButton'] || "") ? true : false;
+                            $('input#hasEditButton').prop('checked', b);
+                            b = (fieldData['disabled'] || "") ? true : false;
+                            $('input#isDisabled').prop('checked', b);
+                            b = (fieldData['useCardLayout'] || "") ? true : false;
+                            $('input#useEmbedCardLayout').prop('checked', b);
+					        t.libErrorMessages.redrawTable();
+					        break;
+				        case 'SELECT':
+					        $('.error-message-card').removeClass('d-none');
+					        s = (fieldData['type'] || "").toUpperCase();
+					        o = $('.select-type');
+					        o.removeClass('d-none');
+					        $('select', o).val(s);
+					        $('.input-group-sm', o).addClass('input-group');
+					        $('.input-group-append', o).removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+                            break;
+						case 'TEXTAREA':
+					        $('.error-message-card').removeClass('d-none');
+					        t.libErrorMessages.redrawTable();
+					        break;
+			        }
+                    
+	                $('input[name=FieldKey]', toolbar).prop('disabled', true);
+
+                    @if (Model.CanEditField)
+				    {
+					    <text>
+						    if (!(['WIZARD', 'SCREEN', 'FORM', 'BODY', 'HEADING'].includes(fieldType))) {
+			                    $('input[name=FieldKey]', toolbar).prop('disabled', false);
+		                    }
+					    </text>
+				    }
+
+
+			        o = $('.field-class');
+			        $('input', o).val(fieldClass);
+
+			        s = data['WrapperClass'];
+			        o = $('.wrapper-class');
+			        o.addClass('updating');
+			        $('input', o).val(s);
+
+			        $('#preview-statusbar input[name=preview-size]:checked').trigger('change');
+			        window.setTimeout(function() { o.removeClass('updating'); }, 10);
+		        })
+		        .fail(function() {
+			        $('.common-card, .label-card, .input-card, .select-type, .button-card, .form-card, .embed-card, .error-message-card').addClass('d-none');
+		        });
+        }
+
+        function onChangeColBreakpoint(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="ColSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parseColClass(s);
+
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
+	        o.val(data[bp]);
+	        o.trigger('change');
+	        data[bp] = o.val();
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangeMarginBreakpoint(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="MarginSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parseMarginClass(s);
+	        var m = data['m' + bp];
+	        var mt = data['mt' + bp];
+	        var mb = data['mb' + bp];
+	        var ml = data['ms' + bp];
+	        var mr = data['me' + bp];
+
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
+	        if (m != undefined && m != '-1') {
+		        mt = mb = ml = mr = m;
+	        }
+
+	        var elem = o;
+	        elem.val(m);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+        
+	        elem = $('input[name="MarginSizeTop"]', parent);
+	        elem.val(mt);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+        
+	        elem = $('input[name="MarginSizeRight"]', parent);
+	        elem.val(mr);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        elem = $('input[name="MarginSizeBottom"]', parent);
+	        elem.val(mb);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        elem = $('input[name="MarginSizeLeft"]', parent);
+	        elem.val(ml);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        $('.margin-m', parent).each(function() {
+		        $(this).trigger('input'); 
+	        });
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangeMarginSize(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var m = $('input[name=MarginSize]', parent);
+	        var coll;
+
+	        if (!m.hasClass('updating')) {
+		        m.addClass('updating');
+                
+		        if (target.data('side') === 'm') {
+			        coll = $('.margin-m', parent);
+			        coll.val(target.val());
+			        coll.each(function() {
+				        $(this).trigger('input'); 
+			        });
+		        } else {
+			        m.val(-1);
+			        m.trigger('input'); 
+		        }
+		        updateMarginClass(parent);
+		        window.setTimeout(function() { m.removeClass('updating'); }, 10);
+	        }
+        }
+
+        function onChangePaddingBreakpoint(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var bp = getParentBreakpoint(parent);
+	        var o = $('input[name="PaddingSize"]', parent);
+	        var s = updateClass.val();
+	        var data = parsePaddingClass(s);
+	        var p = data['p' + bp];
+	        var pt = data['pt' + bp];
+	        var pb = data['pb' + bp];
+	        var pl = data['ps' + bp];
+	        var pr = data['pe' + bp];
+
+	        if (o.hasClass('updating') || !data) return;
+	        o.addClass('updating');
+
+	        if (p != undefined && p != '-1') {
+		        pt = pb = pl = pr = p;
+	        }
+
+	        var elem = o;
+	        elem.val(p);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+        
+	        elem = $('input[name="PaddingSizeTop"]', parent);
+	        elem.val(pt);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+        
+	        elem = $('input[name="PaddingSizeRight"]', parent);
+	        elem.val(pr);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        elem = $('input[name="PaddingSizeBottom"]', parent);
+	        elem.val(pb);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        elem = $('input[name="PaddingSizeLeft"]', parent);
+	        elem.val(pl);
+	        elem.trigger('change');
+	        data[elem.data('side') + bp] = elem.val();
+
+	        $('.padding-p', parent).each(function() {
+		        $(this).trigger('input');
+	        });
+	        window.setTimeout(function() { o.removeClass('updating'); }, 10);
+        }
+
+        function onChangePaddingSize(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var p = $('input[name=PaddingSize]', parent);
+	        var coll;
+
+	        if (!p.hasClass('updating')) {
+		        p.addClass('updating');
+                
+		        if (target.data('side') === 'p') {
+			        coll = $('.padding-p', parent);
+			        coll.val(target.val());
+			        coll.each(function() {
+				        $(this).trigger('input'); 
+			        });
+		        } else {
+			        p.val(-1);
+			        p.trigger('input'); 
+		        }
+		        updatePaddingClass(parent);
+		        window.setTimeout(function() { p.removeClass('updating'); }, 10);
+	        }
+        }
+
+        function onChangeColSpanSize(evt) {
+	        var target = $(evt.delegateTarget);
+	        var parent = $(target.data('container'), t.oRightToolbar);
+	        var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+	        var data = parseColClass(updateClass.val());
+	        var bp = getParentBreakpoint(parent);
+	        if (!data || !bp) return;
+	        data[bp] = target.val();
+	        onChangeSlider(evt);
+	        if (!target.hasClass('updating')) {
+		        target.addClass('updating');
+		        updateColClass(parent);
+		        window.setTimeout(function() { target.removeClass('updating'); }, 10);
+	        }
+        }
+
+        function onChangeSlider(evt) {
+	        var o = $(evt.delegateTarget);
+	        var s = o.val() || '0';
+	        var data = o.data('display-values') || [];
+	        s = data[s] === undefined ? s : data[s];
+	        o.next('.range-value').html(s);
+        }
+
+        function onTogglePanelCaret(evt) {
+	        var o = $(this);
+	        var c = $('.fa-fw', o);
+	        var target = $(o.data('bs-target'));
+	        var hasClass = c.hasClass('fa-caret-' + o.data('showcaret'));
+	        var s = 'fa-caret-' + (hasClass ? o.data('hidecaret') :  o.data('showcaret'));
+	        c.removeClass('fa-caret-down fa-caret-right fa-caret-left fa-caret-up');
+	        c.addClass(s);
+        }
+
+        function onChangeButtonClass() {
+	        var s = oFieldClass.val();
+	        var btnStyle = $('select[name=buttonStyle]', t.oRightToolbar).val();
+	        var btnOutline = $('input[name=buttonOutline]', t.oRightToolbar).is(':checked');
+	        var btnLink = $('input[name=buttonLink]', t.oRightToolbar).is(':checked');
+	        var btnBlock = $('input[name=buttonBlock]', t.oRightToolbar).is(':checked');
+	        var btnH100 = $('input[name=buttonH100]', t.oRightToolbar).is(':checked');
+	        s = s.replace(t.rxButtons, '').replace('h-100', '').replace('w-100', '').trim();
+	        s += ' btn';
+	        if (btnStyle || btnOutline || btnLink)
+		        s += ' btn-' + (btnOutline ? 'outline-': '');
+
+	        if (btnStyle)
+		        s += btnStyle;
+
+	        if (btnLink) 
+		        s += 'link';
+            
+
+	        if (btnBlock)
+		        s += ' w-100';
+
+	        if (btnH100)
+		        s += ' h-100';
+
+	        oFieldClass.val(s);
+	        oFieldClass.trigger('change');
+        }
+
+        function onChangeButtonIcon(evt) {
+	        var oItem = $(this);
+	        $('select[name=buttonIcon]', t.oRightToolbar).val(oItem.data("icon")).trigger('change');
+        }
+
+        function onChangeButtonData(evt) {
+	        var fieldData = {};
+
+	        var icon = ($('select[name=buttonIcon]', t.oRightToolbar).val() || "").toLowerCase();
+	        var color = ($('select[name=buttonIconColor]', t.oRightToolbar).val() || "").toLowerCase();
+	        var action = ($('select[name=buttonActionType]', t.oRightToolbar).val() || "").toLowerCase();
+
+	        if (icon) icon += ' ' + color;
+
+	        if (icon) {
+		        fieldData['icon'] = ('fa ' + icon).trim();
+		        while(matches = t.rxIcon.exec(icon)) {
+			        switch((matches[0]||"").toLowerCase()) {
+			        case 'fa':
+			        case 'fa-w':
+				        break;
+			        default:
+				        if (matches[1].startsWith('fa-') ) {
+					        var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
+					        if (menuItem.length) {
+						        $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
+					        } else {
+						        $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+					        }
+				        }
+				        break;
+			        }
+		        }
+	        } else {
+		        $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+	        }
+
+
+	        $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+	        var oAction = {};
+	        var eventClick;
+	        if (action) {
+		        oAction['type'] = action;
+		        eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+
+		        if (eventClick) oAction['fnClick'] = eventClick;
+
+		        switch ((oAction['type'] || "").toLowerCase()) {
+		        case 'navtostep':
+			        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+			        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'nav':
+			        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'savestep':
+			        oAction['step'] = $('input[name=buttonActionStep]', t.oRightToolbar).val() || "";
+			        oAction['section'] = $('input[name=buttonActionSection]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'save':
+			        oAction['screen'] = $('select[name=buttonActionScreen]', t.oRightToolbar).val() || "";
+			        break;
+		        case 'link':
+			        oAction['url'] = $('input[name=buttonActionUrl]', t.oRightToolbar).val() || "";
+			        break;
+		        }
+		        $('.button-action-' + oAction['type'], t.oRightToolbar).removeClass('d-none');
+		        fieldData['action'] = oAction;
+	        } else {
+		        eventClick = $('input[name=buttonEventClick]', t.oRightToolbar).val();
+		        if (eventClick) oAction['fnClick'] = eventClick;
+		        fieldData['action'] = oAction;
+	        }
+
+	        var s = JSON.stringify(fieldData);
+	        //var o = $('input[name=FieldData]', t.oRightToolbar);
+
+	        oFieldData.val(s);
+	        oFieldData.trigger('change');
+        }
+
+        function onChangeInputType(evt) {
+	        var fieldData = null;
+	        var inputType = ($('select[name=InputType]', t.oRightToolbar).val() || "text").toLowerCase();
+            try {
+                fieldData = $.parseJSON(oFieldData.val());
+            } catch {
+				// JSON parsing error, do nothing
+            }
+            
+            if (!$.isPlainObject(fieldData))
+            {
+                return;
+            }
+            
+            fieldData["type"] = inputType;
+	        var s = JSON.stringify(fieldData);
+	        oFieldData.val(s);
+	        oFieldData.trigger('change');
+
+        }
+
+        @*
+        function fnEditTextarea(evt) {
+            prismSyntaxHighlight(this.value, this);
+            var ctrl = $(this);
+            var p = ctrl.parent().parent();
+            var row = p.parent();
+            if (evt.type == 'blur') {
+                $('.col-lg', row).removeClass('d-none');
+                //ctrl.prop('rows', 3);
+            } else {
+                $('.col-lg', row).addClass('d-none');
+                p.removeClass('d-none');
+                //ctrl.prop('rows', 10);
+            }
+
+        }
+        *@
+
+        function prismSyntaxHighlight(text, ctrl) {
+            var p = $(ctrl).parent();
+            var elem = $('code.highlighting-content', p);
+            elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+            Prism.highlightElement(elem.get(0));
+        }
+
+        function prismSyncScroll(element) {
+            /* Scroll result to scroll coords of event - sync with textarea */
+            var p = $(element).parent();
+            var result_element = $("pre.highlighting", p).get(0);
+            // Get and set x and y
+            result_element.scrollTop = element.scrollTop;
+            result_element.scrollLeft = element.scrollLeft;
+        }
+
+        function prismCheckTab(element, event) {
+            var code = element.value;
+            if (event.key == "Tab") {
+                /* Tab key pressed */
+                event.preventDefault(); // stop normal
+                var before_tab = code.slice(0, element.selectionStart); // text before tab
+                var after_tab = code.slice(element.selectionEnd, element.value.length); // text after tab
+                var cursor_pos = element.selectionEnd + 1; // after tab placed, where cursor moves to - 1 for 1 tab char
+                element.value = before_tab + "\t" + after_tab; // add tab char - 1 tab char
+                // move cursor
+                element.selectionStart = cursor_pos;
+                element.selectionEnd = cursor_pos;
+
+                var p = $(element).parent();
+                var text = element.value;
+                var elem = $('code.highlighting-content', p);
+                elem.html(text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("@Html.Raw("<")", "g"), "&lt;"));
+                Prism.highlightElement(elem.get(0));
+            }
+        }
+
+        function onClickBtnFieldData(evt) {
+            var re = /(["])((?:(?=(\\?))\3[\s\S])*?)\1/g;
+            var data = $('input[name=FieldData]').val();//.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t');
+            data = data.replace(re, function(match) {
+                return match.replace(/(\\r)?\\n/g, '\r\n').replace(/\\t/g, '\t');
+            });
+
+
+            var dialog = bootbox.dialog({
+                title: 'JSON Data for Field',
+                message: '<div class="row h-100"><div class="col h-100 mx-3"><textarea name="codeFieldData" class="w-100 h-100 form-control editing" spellcheck="false">' + data + '</textarea><pre aria-hidden="true" class="highlighting form-control"><code class="language-javascript highlighting-content"></code></pre></div></div>',
+                size: 'xl',
+                onShow: function(e) {
+                    var $targetObj = $(e.currentTarget);
+                    var fieldType = ($('select[name=FieldType]').val() || "").toUpperCase()
+                    $('.modal-content', $targetObj).css('height', '85%');
+                    $('.bootbox-body', $targetObj).addClass('h-100');
+                    var btnSave = $('.modal-footer > button.bootbox-accept');
+                    @if (Model.CanEditWizard)
+                    {
+                        @:if (fieldType == 'WIZARD') btnSave.removeClass('d-none');
+                    }
+                    @if (Model.CanEditScreen)
+                    {
+	                    @:if (fieldType == 'SCREEN') btnSave.removeClass('d-none');
+                    }
+                    @if (Model.CanEditField)
+                    {
+	                    @:if (fieldType != 'WIZARD' && fieldType != 'SCREEN') btnSave.removeClass('d-none');
+                    }
+                },
+                onShown: function(e) {
+                    $('textarea.editing', e.currentTarget).off()
+                        .on("input", function() { prismSyntaxHighlight(this.value, this); })
+                        .on("scroll", function() { prismSyncScroll(this); })
+                        .on("keydown", function(evt) { prismCheckTab(this, evt) });
+
+                    $('.modal-body textarea.editing', e.currentTarget).each(function() {
+                        var val = this.value || "";
+                        val = val.replace(/[\n]/g, '\\\\n');
+                        val = val.replace(/[\r]/g, '\\\\r');
+                        val = val.replace(/[\t]/g, '\\\\t');
+                        try {
+	                        // parse and serialize JSON for syntax check
+	                        var jsonVal = JSON.parse(val);
+	                        val = JSON.stringify(jsonVal, null, '\t');
+	                        val = val.replace(/\\\\n/g, '\n');
+	                        val = val.replace(/\\\\r/g, '\r');
+	                        val = val.replace(/\\\\t/g, '\t');
+                        } catch(ex) {
+	                        toastr.error(ex.message, 'An error occurred while parsing JSON data:');
+	                        //return false;
+                        }
+
+                        this.value = val;
+                        prismSyntaxHighlight(this.value, this);
+                    });
+
+
+                },
+                buttons: {
+                    @if (Model.CanEditWizard || Model.CanEditScreen || Model.CanEditField)
+                    {
+	                <text>
+                    confirm: {
+                        label: 'Save',
+                        className: 'btn-success d-none',
+                        callback: function(result) {
+                            // ...
+                            var val = $('textarea[name=codeFieldData]', result.delegateTarget).val();
+                            var jsonVal = {};
+                            val = val.replace(re, function(match) {
+                                return match.replace(/\r?\n/g, '\\n').replace(/\t/g, '\\t');
+                            });
+                            try {
+                                // parse and serialize JSON for syntax check
+                                jsonVal = $.parseJSON(val);
+                                val = JSON.stringify(jsonVal);
+                            } catch(ex) {
+                                toastr.error(ex.message, 'An error occurred while parsing JSON data:');
+                                return false;
+                            }
+                            $('input[name=FieldData]').val(val);
+                            $('input[name=FieldData]').trigger('change');
+                        }
+                    },
+	                </text>
+                    }
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                }
+            });
+        }
+
+        function onClickBtnLanguage(evt) {
+            var content = $('#jlw-dtlist-localizedcontenttext').html() || '<div></div>';
+            var data = t.serializeFormToJson($(evt.delegateTarget).closest('#fieldproperties-pane'));
+            function fnOnClose(result) { window.postMessage({ 'action': 'updateTree', 'tree-id': data['Id']}); }
+            var dialog = bootbox.dialog({
+                title: 'Label / Content Localization',
+                message: content,
+                size: 'xl',
+                closeButton: fnOnClose,
+                onEscape: fnOnClose,
+                onShow: function(e) {
+                    $('.modal-content', e.currentTarget).css('height', '85%');
+                    $('.bootbox-body', e.currentTarget).addClass('h-100');
+                },
+                onShown: function(e) {
+                    window.jlwLibLocalizedContentText($('table.jlw-datatable-localizedcontenttext', e.currentTarget), '@apiUrl/localization/', data, $);
+                },
+                buttons: {
+                    cancel: {
+                        label: 'Close',
+                        className: 'btn-sm btn-primary',
+                        callback: fnOnClose
+                    }
+                }
+            });
+        }
+        
+        function onClickBtnFieldTypeEdit(evt) {
+			$('select[name=FieldType]', t.oRightToolbar).prop('disabled', false);
+        }
+        
+        function parseColClass(s) {
+            var data = {
+                'col': -1,
+                'col-sm': -1,
+                'col-md': -1,
+                'col-lg': -1,
+                'col-xl': -1,
+                'col-xxl': -1
+            };
+            var matches = {};
+            while(matches = t.rxCols.exec(s)) {
+                var type = matches[1];
+                data[type] = matches[2] || '0';
+                if (matches[2] == 'auto')
+                    data[type] = '13';
+            }
+            return data;
+        }
+
+        function parsePaddingClass(s) {
+            var data = {};
+            var si = '';
+            var bi = '';
+            // Initialize data
+            for(bi in t.aBreakpoints) {
+                for(si in t.aSides) {
+                    data['p' + t.aSides[si] + t.aBreakpoints[bi]] = -1;
+                }
+            }
+            var matches = {};
+            while(matches = t.rxPadding.exec(s)) {
+                var type = matches[1];
+                var val = matches[3] || '0';
+                val = val == 'auto' ? 6 : val;
+                switch(matches[2]) {
+                    case 'l':
+                        data[type.replace('pl', 'ps')] = val;
+                        break;
+                    case 'r':
+	                    data[type.replace('pr', 'pe')] = val;
+	                    break;
+                    case 'x':
+                        data[type.replace('px', 'ps')] = val;
+                        data[type.replace('px', 'pe')] = val;
+                        break;
+                    case 'y':
+                        data[type.replace('py', 'pt')] = val;
+                        data[type.replace('py', 'pb')] = val;
+                        break;
+                    default:
+                        data[type] = val;
+                        break;
+                }
+            }
+            return data;
+        }
+
+        function parseMarginClass(s) {
+            var data = {};
+            var si = '';
+            var bi = '';
+            // Initialize data
+            for(bi in t.aBreakpoints) {
+                for(si in t.aSides) {
+                    data['m' + t.aSides[si] + t.aBreakpoints[bi]] = -1;
+                }
+            }
+            var matches = {};
+            while(matches = t.rxMargin.exec(s)) {
+                var type = matches[1];
+                var val = matches[3] || '0';
+                val = val == 'auto' ? 6 : val;
+                switch(val) {
+                    case 'n1':
+                        val = -2;
+                        break;
+                    case 'n2':
+                        val = -3;
+                        break;
+                    case 'n3':
+                        val = -4;
+                        break;
+                    case 'n4':
+                        val = -5;
+                        break;
+                    case 'n5':
+                        val = -6;
+                        break;
+                }
+                switch(matches[2]) {
+                case 'l':
+	                data[type.replace('ml', 'ms')] = val;
+	                break;
+                case 'r':
+	                data[type.replace('mr', 'me')] = val;
+	                break;
+                case 'x':
+                    data[type.replace('mx', 'ms')] = val;
+                    data[type.replace('mx', 'me')] = val;
+                    break;
+                case 'y':
+                    data[type.replace('my', 'mt')] = val;
+                    data[type.replace('my', 'mb')] = val;
+                    break;
+                default:
+                    data[type] = val;
+                    break;
+                }
+            }
+            return data;
+        }
+
+        function parseButtonClass(s) {
+            $('input[name="buttonOutline"],input[name="buttonBlock"],input[name="buttonH100"]').prop('checked', false);
+            var matches = {};
+            while(matches = t.rxButtons.exec(s)) {
+                switch((matches[1]||"").toLowerCase()) {
+                    case 'outline':
+                        $('input[name="buttonOutline"]').prop('checked', true);
+                        break;
+                    case 'block':
+                        $('input[name="buttonBlock"]').prop('checked', true);
+                        break;
+                    case 'link':
+                        $('input[name="buttonLink"]').prop('checked', true);
+                        break;
+                    case '':
+                    case 'sm':
+                    case 'lg':
+                        break;
+                }
+
+                if (matches[2]) {
+                    $('select[name=buttonStyle]').val((matches[2] || "").toLowerCase());
+                }
+            }
+
+            if ((s || "").toLowerCase().indexOf('h-100') > -1) {
+                $('input[name="buttonH100"]').prop('checked', true);
+            }
+
+            if ((s || "").toLowerCase().indexOf('w-100') > -1) {
+                $('input[name="buttonBlock"]').prop('checked', true);
+            }
+        }
+
+        function parseButtonData(data) {
+            var sIcon = data['icon'] || "";
+            var action = data['action'] || {};
+            var matches = {};
+            if (sIcon) {
+                while (matches = t.rxIcon.exec(sIcon)) {
+                    switch ((matches[0] || "").toLowerCase()) {
+                    case 'fa':
+                    case 'fa-w':
+                        break;
+                    case 'text-success':
+                    case 'text-warning':
+                    case 'text-danger':
+                    case 'text-primary':
+                    case 'text-secondary':
+                    case 'text-info':
+                    case 'text-light':
+                    case 'text-dark':
+                        if (matches[2]) {
+                            $('select[name=buttonIconColor]', t.oRightToolbar).val((matches[2] || "").toLowerCase());
+                        }
+                        break;
+                    default:
+                        $('select[name=buttonIcon]', t.oRightToolbar).val(matches[1]);
+                        if (matches[1].startsWith('fa-')) {
+                            var menuItem = $('.button-icon a[data-icon*=' + matches[1] + ']', t.oRightToolbar);
+                            if (menuItem.length) {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html(menuItem.html());
+                            } else {
+                                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+                            }
+                        }
+                        break;
+                    }
+                }
+            } else {
+                $(".button-icon .btn .btn-label", t.oRightToolbar).html('[ none ]');
+            }
+
+            $('.button-action-opts', t.oRightToolbar).addClass('d-none');
+            $('.button-action-' + (action["type"] || ""), t.oRightToolbar).removeClass('d-none');
+
+            $('input[name=buttonEventClick]', t.oRightToolbar).val(action["fnClick"]);
+            $('select[name=buttonActionType]', t.oRightToolbar).val(action["type"] || "");
+            $('input[name=buttonActionSection]', t.oRightToolbar).val(action["section"] || "");
+            $('input[name=buttonActionStep]', t.oRightToolbar).val(action["step"] || "");
+            $('input[name=buttonActionUrl]', t.oRightToolbar).val(action["url"] || "");
+            $('select[name=buttonActionScreen]', t.oRightToolbar).val(action["screen"] || "");
+        }
+
+        function buildFieldUpdateJson(o) {
+            var toolbar = $('.right-toolbar');
+            var updateData = {
+                id: $('input[name=Id]', toolbar).val(),
+                fieldName: o.prop('name'),
+                fieldValue: o.val()
+            };
+
+            return updateData;
+        }
+
+        function buildClassLookupString(data, lookup) {
+            var s = '';
+            var val = '';
+            var key = '';
+        
+            for (key in data) {
+                val = lookup[data[key]];
+                switch(data[key].toString()) {
+                case '-1':
+                    break;
+                default:
+                    if (val.length && val !== '*')
+                        s += ' ' + key + '-' + val;
+                    else
+                        s += ' ' + key;
+                    break;
+                }
+            }
+            return s;
+        }
+
+        function updateColClass(parent) {
+            //var oWrapperClass = $('input[name=WrapperClass]');
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
+            var colData = parseColClass(s);
+            var colBreakpoint = getParentBreakpoint(parent);
+
+            colData[colBreakpoint] = $('input[name=ColSize]').val();
+
+            s = s.replace(t.rxCols, '');
+            s = s.trim();
+            s += buildClassLookupString(colData, t.aColSize);
+            updateClass.val(s);
+            updateClass.trigger('change');
+        }
+
+        function updatePaddingClass(parent) {
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
+            var data = parsePaddingClass(s);
+            var breakPoint = getParentBreakpoint(parent);
+            var p = $('input[name=PaddingSize]', parent).val().toString();
+            var pt = $('input[name=PaddingSizeTop]', parent).val().toString();
+            var pb = $('input[name=PaddingSizeBottom]', parent).val().toString();
+            var pr = $('input[name=PaddingSizeRight]', parent).val().toString();
+            var pl = $('input[name=PaddingSizeLeft]', parent).val().toString();
+
+            data['p' + breakPoint] = p;
+            data['pt' + breakPoint] = pt;
+            data['pb' + breakPoint] = pb;
+            data['ps' + breakPoint] = pl;
+            data['pe' + breakPoint] = pr;
+
+            s = s.replace(t.rxPadding, '');
+            s = s.trim();
+            for (var i in t.aBreakpoints) {
+                var bp = t.aBreakpoints[i];
+                p = t.aPaddingSize[(data['p' + bp] || -1)];
+                pt = t.aPaddingSize[(data['pt' + bp] || -1)];
+                pb = t.aPaddingSize[(data['pb' + bp] || -1)];
+                pl = t.aPaddingSize[(data['ps' + bp] || data['pl' + bp] || -1)];
+                pr = t.aPaddingSize[(data['pe' + bp] || data['pr' + bp] || -1)];
+
+                if ((p !== undefined && p != '') || (new Set([pt, pb, pl, pr])).size === 1) {
+                    // general padding is set, ignore others
+                    if (p == '') p = pt;
+                    if (p != '') s += ' p' + bp + '-' + p;
+                } else {
+                    if (pt !== undefined && pt != '' && pt == pb) {
+                        // py is set
+                        s += ' py' + bp + '-' + pt;
+                    } else {
+                        // process pt and pb separately
+                        if (pt != undefined && pt != '') {
+                            s += ' pt' + bp + '-' + pt;
+                        }
+                        if (pb != undefined && pb != '') {
+                            s += ' pb' + bp + '-' + pb;
+                        }
+                    }
+
+                    if (pl !== undefined && pl != '' && pl == pr) {
+                        // px is set
+                        s += ' px' + bp + '-' + pl;
+                    } else {
+                        // process pl and pr separately
+                        if (pl != undefined && pl != '') {
+                            s += ' ps' + bp + '-' + pl;
+                        }
+                        if (pr != undefined && pr != '') {
+                            s += ' pe' + bp + '-' + pr;
+                        }
+                    }
+                }
+            }
+            updateClass.val(s);
+            updateClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+        }
+
+        function updateMarginClass(parent) {
+            var updateClass = $($(parent).data('updates'), t.oRightToolbar);
+            var s = updateClass.val();
+            var data = parseMarginClass(s);
+            var breakPoint = getParentBreakpoint(parent);
+            var m = $('input[name=MarginSize]', parent).val().toString();
+            var mt = $('input[name=MarginSizeTop]', parent).val().toString();
+            var mb = $('input[name=MarginSizeBottom]', parent).val().toString();
+            var mr = $('input[name=MarginSizeRight]', parent).val().toString();
+            var ml = $('input[name=MarginSizeLeft]', parent).val().toString();
+
+            data['m' + breakPoint] = m;
+            data['mt' + breakPoint] = mt;
+            data['mb' + breakPoint] = mb;
+            data['ms' + breakPoint] = ml;
+            data['me' + breakPoint] = mr;
+
+            s = s.replace(t.rxMargin, '');
+            s = s.trim();
+            for (var i in t.aBreakpoints) {
+                var bp = t.aBreakpoints[i];
+                m = t.aMarginSize[(data['m' + bp] || -1)];
+                mt = t.aMarginSize[(data['mt' + bp] || -1)];
+                mb = t.aMarginSize[(data['mb' + bp] || -1)];
+                ml = t.aMarginSize[(data['ms' + bp] || data['ml' + bp] || -1)];
+                mr = t.aMarginSize[(data['me' + bp] || data['mr' + bp] || -1)];
+
+                m = m.replace('-', 'n');
+                mt = mt.replace('-', 'n');
+                mb = mb.replace('-', 'n');
+                ml = ml.replace('-', 'n');
+                mr = mr.replace('-', 'n');
+
+                if ((m !== undefined && m != '') || (new Set([mt, mb, ml, mr])).size === 1) {
+                    // general margin is set, ignore others
+                    if (m == '') m = mt;
+                    if (m != '') s += ' m' + bp + '-' + m;
+                } else {
+                    if (mt !== undefined && mt != '' && mt == mb) {
+                        // my is set
+                        s += ' my' + bp + '-' + mt;
+                    } else {
+                        // process mt and mb separately
+                        if (mt != undefined && mt != '') {
+                            s += ' mt' + bp + '-' + mt;
+                        }
+                        if (mb != undefined && mb != '') {
+                            s += ' mb' + bp + '-' + mb;
+                        }
+                    }
+
+                    if (ml !== undefined && ml != '' && ml == mr) {
+                        // px is set
+                        s += ' mx' + bp + '-' + ml;
+                    } else {
+                        // process ml and mr separately
+                        if (ml != undefined && ml != '') {
+                            s += ' ms' + bp + '-' + ml;
+                        }
+                        if (mr != undefined && mr != '') {
+                            s += ' me' + bp + '-' + mr;
+                        }
+                    }
+                }
+            }
+            updateClass.val(s);
+            updateClass.trigger('change'); //saveFieldData({target: oWrapperClass});
+        }
+
+        function saveFieldData(evt) {
+            if (t.oRightToolbar.hasClass('updating')) 
+                return;
+
+            var o = $(evt.delegateTarget);
+
+            t.oRightToolbar.addClass('updating');
+
+            var data = buildFieldUpdateJson(o);
+
+            t.post(t.urlApiRoot + '/SaveNode', data )
+                .done(function(data) {
+                })
+                .fail(function() {
+
+                })
+                .always(function() {
+                    var tree = $.ui.fancytree.getTree("#wizardtree");
+                    if (o.prop('name') == "FieldKey") {
+                        tree.reload()
+                            .always(function() {
+                                tree.activateKey(0, { activeVisible: true });
+                                if (data['id']) {
+                                    tree.activateKey(data['id'], { activeVisible: true });
+                                }
+                            });
+                    } else {
+                        tree.activateKey(0, {activeVisible:true});
+                        if (data['id']) {
+                            tree.activateKey(data['id'], {activeVisible:true});
+                        }
+
+                    }
+                    $('select[name=FieldType]', t.oRightToolbar).prop('disabled', true);
+                    t.oRightToolbar.removeClass('updating');
+                });
+        }
+
+        initMemberArrays();
+        initMemberRegex();
+        initMemberFunctions();
+        initControls();
+
+    }
+
+</script>

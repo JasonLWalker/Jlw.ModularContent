@@ -58,7 +58,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
             settings.LanguageList.Add(new SelectListItem("Spanish", "SP"));
             settings.LanguageList.Add(new SelectListItem("French", "FR"));
 
-            return GetViewResult("~/Areas/ModularWizardEmailAdmin/Views/Admin/Index.cshtml", settings);
+            return GetViewResult("~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/Index.cshtml", settings);
 
         }
     }
