@@ -7,11 +7,10 @@ using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
-using TModel = Jlw.ModularContent.WizardAdminSettings;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {
-    public class WizardAdminSettingsTestSchema : BaseModelSchema<TModel>
+    public class WizardAdminSettingsTestSchema : BaseModelSchema<ModularWizardAdminSettings>
     {
         void InitConstructors()
         {
@@ -90,7 +89,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "DefaultWizard", Public, Protected);
             AddProperty(typeof(string), "GroupFilter", Public, Protected);
 
-            AddProperty(typeof(WizardSideNav), "SideNav", Public, null);
+            AddProperty(typeof(ModularWizardSideNav), "SideNav", Public, null);
             AddProperty(typeof(Object), "PreviewRecordData", Public, Public);
             AddProperty(typeof(List<SelectListItem>), "LanguageList", Public, null);
         }

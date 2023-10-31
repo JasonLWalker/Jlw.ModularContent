@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jlw.ModularContent;
 using Jlw.Utilities.Data;
 using Jlw.Utilities.Data.DataTables;
 using Jlw.Utilities.Testing;
 using Newtonsoft.Json;
-using TModel = Jlw.ModularContent.LocalizedGroupDataItemDataTablesInput;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
-    public class LocalizedGroupDataItemDataTablesInputTestSchema : BaseModelSchema<TModel>
+    public class LocalizedGroupDataItemDataTablesInputTestSchema : BaseModelSchema<ModularGroupDataItemDataTablesInput>
     {
 
 
 
-        public override IEnumerable<InstanceMemberTestData<TModel>> InstanceMemberTestList
+        public override IEnumerable<InstanceMemberTestData<ModularGroupDataItemDataTablesInput>> InstanceMemberTestList
         {
             get
             {
@@ -39,13 +39,13 @@ namespace Jlw.Data.LocalizedContent.Tests
 
                 json += "}";
 
-                var sut = JsonConvert.DeserializeObject<TModel>(json) ;
+                var sut = JsonConvert.DeserializeObject<ModularGroupDataItemDataTablesInput>(json) ;
 
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.Id), id);
+                yield return new InstanceMemberTestData<ModularGroupDataItemDataTablesInput>(sut, nameof(sut.Id), id);
 //                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.FieldClass), fieldClass);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.draw), draw);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.start), start);
-                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.length), length);
+                yield return new InstanceMemberTestData<ModularGroupDataItemDataTablesInput>(sut, nameof(sut.draw), draw);
+                yield return new InstanceMemberTestData<ModularGroupDataItemDataTablesInput>(sut, nameof(sut.start), start);
+                yield return new InstanceMemberTestData<ModularGroupDataItemDataTablesInput>(sut, nameof(sut.length), length);
 /*                yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.DefaultLabel), defaultLabel);
                                                                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperClass), wrapperClass);
                                                                 yield return new InstanceMemberTestData<TModel>(sut, nameof(sut.WrapperHtmlStart), wrapperHtmlStart);

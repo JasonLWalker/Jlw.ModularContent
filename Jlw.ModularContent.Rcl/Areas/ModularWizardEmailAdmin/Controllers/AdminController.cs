@@ -27,7 +27,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
             return View(viewName ?? "Index", settings ?? new WizardAdminSettings());
         }
 
-        public class WizardAdminSettings : ModularContent.WizardAdminSettings
+        public class WizardAdminSettings : ModularContent.ModularWizardAdminSettings
         {
             public bool ShowGroup { get; set; } = false;
             public bool ShowFieldName { get; set; } = false;
@@ -46,9 +46,9 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
             public bool DataTableInfo { get; set; } = true;
             public string DataTableAttributes { get; set; }
 
-            public string EditView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/Admin/_EditRecord.cshtml";
-            public string DataTableListView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/Admin/_DataTableList.cshtml";
-            public string DataTableScriptView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/Admin/_DataTableListScript.cshtml";
+            public string EditView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_EditRecord.cshtml";
+            public string DataTableListView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_DataTableList.cshtml";
+            public string DataTableScriptView { get; set; } = "~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/_DataTableListScript.cshtml";
 
             public WizardAdminSettings() : this(null) {}
 

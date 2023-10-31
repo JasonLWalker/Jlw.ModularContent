@@ -13,12 +13,11 @@ using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using TRepo = Jlw.ModularContent.LocalizedContentFieldRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
     [TestClass]
-    public class LocalizedContentFieldRepositoryTestFixture : BaseModelFixture<TRepo, LocalizedContentFieldRepositoryTestSchema>
+    public class LocalizedContentFieldRepositoryTestFixture : BaseModelFixture<ModularContentFieldRepository, LocalizedContentFieldRepositoryTestSchema>
     {
         [TestMethod]
         public void SqlParams_Should_Match_For_GetRecord()
@@ -29,7 +28,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             var output = new ModularContentField(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
             var o = sut.GetRecord(input);
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
@@ -62,7 +61,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             IEnumerable<ModularContentField> output = new []{ new ModularContentField(new { GroupKey = "testGroup" }) };
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordList<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
             var o = sut.GetAllRecords();
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
@@ -86,7 +85,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
 
             var o = sut.SaveRecord(input);
 
@@ -121,7 +120,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
 
             var o = sut.DeleteRecord(input);
 
@@ -151,7 +150,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var paramList = new MockDataParameterCollection();
-            var input = JsonConvert.DeserializeObject<LocalizedContentFieldDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false} }");
+            var input = JsonConvert.DeserializeObject<ModularContentFieldDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false} }");
             input.FieldType = DataUtility.GenerateRandom<string>();
             input.FieldKey = DataUtility.GenerateRandom<string>();
             input.ParentKey = DataUtility.GenerateRandom<string>();
@@ -179,7 +178,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             {
                 return dbConnection.CreateCommand();
             });
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
 
             var o = sut.GetDataTableList(input);
             var order = input.order?.FirstOrDefault();
@@ -213,7 +212,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
 
             Assert.ThrowsException<NotImplementedException>(() => sut.UpdateRecord(input));
         }
@@ -228,7 +227,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularContentField>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularContentFieldRepository sut = new ModularContentFieldRepository(mockClient.Object, "");
 
             Assert.ThrowsException<NotImplementedException>(() => sut.InsertRecord(input));
         }

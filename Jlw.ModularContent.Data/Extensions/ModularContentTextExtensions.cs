@@ -27,23 +27,23 @@ namespace Jlw.ModularContent
     public static partial class ModularContentExtensions 
     {
         /// <summary>
-        /// Adds the <see cref="LocalizedContentTextRepository">LocalizedContentTextRepository</see> to the service collection as a singleton instance.
+        /// Adds the <see cref="ModularContentTextRepository">LocalizedContentTextRepository</see> to the service collection as a singleton instance.
         /// </summary>
         /// <param name="services">Service collection instance that this extension will act upon</param>
         /// <param name="setupAction">The setup action options used to initialize the repository singleton.</param>
         /// <returns>Returns the <paramref name="services">services</paramref> service collection to allow for method chaining.<br /></returns>
-        public static IServiceCollection AddModularContentTextRepository(this IServiceCollection services, Action<LocalizedContentTextRepositoryOptions> setupAction = null) 
+        public static IServiceCollection AddModularContentTextRepository(this IServiceCollection services, Action<ModularContentTextRepositoryOptions> setupAction = null) 
         {
             if (setupAction != null)
                 services.Configure(setupAction);
 
             services.TryAddSingleton<IModularContentTextRepository>(provider =>
             {
-                ModularDbOptions options = (provider.GetService<IOptions<LocalizedContentTextRepositoryOptions>>() ?? new OptionsWrapper<LocalizedContentTextRepositoryOptions>(provider.GetService<LocalizedContentTextRepositoryOptions>()))?.Value;
+                ModularDbOptions options = (provider.GetService<IOptions<ModularContentTextRepositoryOptions>>() ?? new OptionsWrapper<ModularContentTextRepositoryOptions>(provider.GetService<ModularContentTextRepositoryOptions>()))?.Value;
 
                 var dbClient = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
                 var connString = options?.ConnectionString ?? "";
-                return new LocalizedContentTextRepository(dbClient, connString);
+                return new ModularContentTextRepository(dbClient, connString);
             });
 
             return services;

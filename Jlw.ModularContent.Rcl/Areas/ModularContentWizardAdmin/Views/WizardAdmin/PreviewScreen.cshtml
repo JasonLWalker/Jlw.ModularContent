@@ -1,0 +1,131 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Jlw.Utilities.Data
+@using Microsoft.Extensions.DependencyInjection
+@using Jlw.ModularContent
+@inject IModularWizardFactoryRepository FactoryRepository
+@model ModularWizardPreviewSettings
+@{
+    ViewData["Title"] = "Preview Screen";
+    Layout = "_EmptyLayout";
+    string jsRoot = ModularContentExtensions.AreaName;
+    string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl) ? Url.Action("Index", Model?.ApiControllerName ?? "Api", new { Area = Model?.Area, groupKey = (string)null, fieldKey = (string)null }) + "/" : Model?.ApiOverrideUrl);
+
+    string version = Model?.Version ?? "";
+
+    string wizardName = string.IsNullOrWhiteSpace(Model.Wizard) ? Model?.DefaultWizard ?? "" : Model.Wizard;
+    var sideNav = FactoryRepository.GetWizardSideNavData(wizardName, null, Model?.GroupFilter);
+    var modelFields = FactoryRepository.GetWizardModelFields(wizardName, Model?.GroupFilter);
+
+
+}
+<h1>Wizard Preview</h1>
+<div class="row @(DataUtility.ParseBool(Model?.ShowWireFrame) ? "bootstrap-sketchy" : "")">
+    @if (Model?.ShowSideNav ?? false)
+    {
+        <div class="d-none d-lg-inline-block col-lg-auto border-right">
+            <form method="post">
+                <input type="hidden" name="st" value="1" />
+                <div class="list-group wizard-nav">
+                    @foreach (var item in sideNav)
+                    {
+                        if (!item.IsHidden && !string.IsNullOrWhiteSpace(item.Label))
+                        {
+                            <button type="button" data-section="@item.Section" data-step="@item.Step" data-screen="@item.Screen" data-wizard="@item.Wizard" class="list-group-item list-group-item-action @item.ClassName"> @Html.Raw(item.Label)</button>
+                        }
+                    }
+                </div>
+            </form>
+        </div>
+    }
+    <div class="col-md wizard-form">
+        <form method="post">
+            <div class="h3 wizard-heading">@(ViewData["Heading"] ?? ViewData["Title"])</div>
+            <div class="wizard-body clearfix">
+
+                <div class="spinner-border spinner-border-sm float-start my-1" role="status"></div>
+                <div class="p-0">
+                    <div class="h5">&nbsp;Please wait, loading...</div>
+                    <input type="hidden" name="IsLivePreview" value="1" />
+                    <input type="hidden" name="Wizard" value="@(Model?.Wizard ?? "")" />
+                    @{
+                        foreach (var field in modelFields)
+                        {
+                            <input type="hidden" name="@field" value="" />
+                        }
+                    }
+                </div>
+            </div>
+            <div class="wizard-buttons row clearfix">
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script src="@Url.Action("WizardLibScript", "ModularWizardJs")?_v=@version"></script>
+    <link rel="stylesheet" href="@Url.Content($"~/{jsRoot}/css/bootstrap-sketchy.min.css")?_=@version">
+    <script src="@Url.Content($"~/{jsRoot}/js/libJlwUtility.min.js")?_=@version"></script>
+    <script src="@Url.Content($"~/{jsRoot}//js/bootbox.min.js")?_=@version"></script>
+    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/all.min.js")?_=@version"></script>
+    <script src="@Url.Content($"~/{jsRoot}/font-awesome/js/fontawesome.min.js")?_=@version"></script>
+    <script>
+        (function(t, $, initOptions, undefined) {
+
+            var wiz = window.libJlwWizardBase(t || new window.libJlwUtility() || {}, $, initOptions, undefined);
+
+            t.wizardFields = [
+                "IsLivePreview"
+            ];
+            //t.initializeWizard = initialize;
+            t.urlApiRoot = t.urlApiRoot || t.urlRoot + "api/Wizard";
+            t.onRenderWizardFormField = t.onRenderWizardFormField || onRenderWizardFormField;
+
+            var fnOldOnRenderWizard = t.onRenderWizard;
+            t.onRenderWizard = function(obj, data, parent) {
+                if (typeof (fnOldOnRenderWizard) === "function") fnOldOnRenderWizard(obj, data, parent);
+
+                $('input[name=IsLivePreview]').val("1");
+            }
+
+
+            t.navToScreen = fnNavToScreen;
+            t.fnOnClickNav = fnOnClickNav;
+
+	        function fnNavToScreen(screenId) { return t.navTo(screenId, "@(Model?.Wizard ?? "")", "", ""); }
+
+
+            function fnOnClickNav(evt) {
+	            var btn = $(evt.delegateTarget);
+	            var section = btn.data('section');
+	            var step = btn.data('step');
+	            var wizard = "@(Model?.Wizard ?? "")";
+	            var screen = btn.data('screen');
+	            var fn = btn.data('fnclick');
+	            if (fn && typeof t[fn] == 'function') {
+		            t[fn](evt);
+	            }
+	            t.navTo(screen, wizard, section, step);
+	            return false;
+            }
+
+
+            if (initOptions)
+                initialize(initOptions);
+
+            function initialize(opts) {
+                currApplicationId = opts["ApplicationId"];
+                var data = opts["formData"] || {};
+                t.navToScreen(opts['Screen']).done(function () {
+                    t.populateFormData(data, $('.wizard-form'));
+                });
+            }
+
+        })(window.libSampleWizard = window.libSampleWizard || new window.libJlwUtility() || {}, window.jQuery, {
+            'urlRoot': '@Html.Raw(Url.Action("Index", "Home"))',
+            'urlApiRoot': '@apiUrl',
+            //'debugLevel':11,
+            'Screen': '@(Model?.Screen ?? "")',
+            'wizardParent': '.wizard-form',
+            'formData':  { 'IsLivePreview': '1' }
+        });
+    </script>
+}
