@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers;
+using Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,7 +9,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class OverrideModularWizardEmailAdminController : AdminController
+    public class OverrideModularWizardEmailAdminController : EmailAdminController
     {
         [HttpGet("{groupKey?}/{parentKey?}")]
         public override ActionResult Index(string groupKey=null, string parentKey=null)
@@ -23,7 +23,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
             };
 
             ViewData["Breadcrumb"] = aBreadcrumb;
-            var settings = new AdminController.WizardAdminSettings()
+            var settings = new EmailAdminController.WizardAdminSettings()
             {
                 PageTitle = "Email Admin",
                 IsAdmin = true,
@@ -58,7 +58,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
             settings.LanguageList.Add(new SelectListItem("Spanish", "SP"));
             settings.LanguageList.Add(new SelectListItem("French", "FR"));
 
-            return GetViewResult("~/Areas/ModularWizardEmailAdmin/Views/WizardAdmin/Index.cshtml", settings);
+            return GetViewResult("~/Areas/ModularContentEmailAdmin/Views/EmailAdmin/Index.cshtml", settings);
 
         }
     }
