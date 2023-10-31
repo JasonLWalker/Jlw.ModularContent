@@ -8,7 +8,7 @@ namespace Jlw.ModularContent
     public class WizardSideNavItem : IWizardSideNavItem
     {
         /// <summary> Internal field record used by some properties </summary>
-        protected readonly IWizardContentField _field;
+        protected readonly IModularWizardContentField _field;
 
         /// <summary> Internal JToken object used to parse JSON data for some properties </summary>
         protected readonly JToken _jsonData;

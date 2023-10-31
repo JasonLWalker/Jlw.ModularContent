@@ -60,9 +60,9 @@ public class Program
             return new ModularDbClient<SqlConnection, SqlCommand, SqlParameter, SqlConnectionStringBuilder>();
         });
 
-        builder.Services.TryAddSingleton<IWizardSettings>(provider =>
+        builder.Services.TryAddSingleton<IModularWizardSettings>(provider =>
         {
-            var defaultSettings = new WizardSettings
+            var defaultSettings = new ModularWizardSettings
             {
                 Area = "",
                 LinkGenerator = provider.GetRequiredService<LinkGenerator>(),
@@ -72,11 +72,11 @@ public class Program
             return defaultSettings;
         });
 
-        builder.Services.TryAddSingleton<IWizardAdminSettings>(provider =>
+        builder.Services.TryAddSingleton<IModularWizardAdminSettings>(provider =>
         {
             var linkGenerator = provider.GetRequiredService<LinkGenerator>();
 
-            var DefaultSettings = new WizardAdminSettings();
+            var DefaultSettings = new ModularWizardAdminSettings();
             DefaultSettings.Area = "";
             DefaultSettings.LinkGenerator = linkGenerator;
             DefaultSettings.JsRoot = ModularContentExtensions.AreaName;

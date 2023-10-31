@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 {
-    public abstract class AdminController : Controller
+    public abstract class WizardAdminController : Controller
     {
         protected string _groupFilter = null;
-        protected WizardAdminSettings DefaultSettings { get; } = new WizardAdminSettings();
+        protected ModularWizardAdminSettings DefaultSettings { get; } = new ModularWizardAdminSettings();
         protected IWizardFactoryRepository DataRepository;
 
-        protected AdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository)
+        protected WizardAdminController(IModularWizardAdminSettings settings, IWizardFactoryRepository repository)
         {
             DataRepository = repository;
             DefaultSettings.IsAdmin = settings.IsAdmin;
@@ -65,7 +65,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
 	        if (auth != null) return auth;
 
-	        var settings = new WizardPreviewSettings(DefaultSettings);
+	        var settings = new ModularWizardPreviewSettings(DefaultSettings);
             settings.SideNav.Add(new WizardSideNavItem(new WizardContentField(new {Label = "Instructions", FieldType="SCREEN"})));
             return GetViewResult("Preview", settings);
         }
@@ -146,14 +146,14 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
         }
 
         [NonAction]
-        public virtual ActionResult GetPreviewScreen(string wizardName, string screenName, IWizardAdminSettings settings, object recordData)
+        public virtual ActionResult GetPreviewScreen(string wizardName, string screenName, IModularWizardAdminSettings settings, object recordData)
         {
 	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
 	        if (auth != null) return auth;
 	        if ((auth = TestAuthDenial(DefaultSettings.CanPreview, DefaultSettings)) != null) return auth;
 
 			var fields = DataRepository?.GetWizardFields(wizardName, _groupFilter);
-            var model = new WizardPreviewSettings(settings ?? DefaultSettings, fields, recordData ?? new {})
+            var model = new ModularWizardPreviewSettings(settings ?? DefaultSettings, fields, recordData ?? new {})
             {
                 ShowWireFrame = DataUtility.ParseBool(Request.Query["wireframe"]),
                 ShowSideNav = DataUtility.ParseBool(Request.Query["showNav"]),
@@ -169,7 +169,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
         /// <param name="settings">Settings to customize the view</param>
         /// <returns>ActionResult.</returns>
         [NonAction]
-        public ActionResult GetViewResult(string viewName = null, IWizardAdminSettings settings = null)
+        public ActionResult GetViewResult(string viewName = null, IModularWizardAdminSettings settings = null)
         {
 	        var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an ActionResult if not authorized)
 	        if (auth != null) return auth;
@@ -178,7 +178,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
         }
 
         [NonAction]
-        public ActionResult TestAuthDenial(bool? testValue = true, IWizardAdminSettings settings = null)
+        public ActionResult TestAuthDenial(bool? testValue = true, IModularWizardAdminSettings settings = null)
         {
 	        if (settings is null)
 	        {
@@ -193,7 +193,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
 		[NonAction]
         public string GetViewPath(string viewName)
         {
-            return $"~/Areas/ModularWizardAdmin/Views/Admin/{viewName ?? "Index"}.cshtml";
+            return $"~/Areas/ModularWizardAdmin/Views/WizardAdmin/{viewName ?? "Index"}.cshtml";
         }
 
         [NonAction]

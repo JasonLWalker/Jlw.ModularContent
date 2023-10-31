@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.IWizardFactoryRepository" />
     /// TODO Edit XML Comment Template for WizardFactoryRepository
-    public class WizardFactoryRepository : ModularDataRepositoryBase<IWizardContentField, WizardContentField>, IWizardFactoryRepository
+    public class WizardFactoryRepository : ModularDataRepositoryBase<IModularWizardContentField, WizardContentField>, IWizardFactoryRepository
     {
         /// <summary> Stored procedure to retrieve a single record </summary>
         protected const string SpGetRecord = "sp_GetWizardContentFieldRecord";
@@ -48,7 +48,7 @@ namespace Jlw.ModularContent
 
 
         /// <inheritdoc />
-        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IWizardContentField o, string sSql)
+        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IModularWizardContentField o, string sSql)
         {
             switch (sSql)
             {
@@ -79,13 +79,13 @@ namespace Jlw.ModularContent
 
 
         /// <inheritdoc />
-        public IWizardContentField SaveFieldParentOrder(WizardContentField fieldData)
+        public IModularWizardContentField SaveFieldParentOrder(WizardContentField fieldData)
         {
             return _dbClient.GetRecordObject<WizardContentField>(fieldData, _connString, new RepositoryMethodDefinition("sp_SaveLocalizedContentFieldParentOrder", CommandType.StoredProcedure, new[] { "Id", "ParentKey", "Order", "AuditChangeBy" }));
         }
 
         /// <inheritdoc />
-        public IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData)
+        public IModularWizardContentField SaveFieldData(WizardFieldUpdateData fieldData)
         {
 
             return _dbClient.GetRecordObject<WizardContentField>(fieldData, _connString, new RepositoryMethodDefinition("sp_SaveLocalizedContentFieldData", CommandType.StoredProcedure, new[] { "Id", "FieldName", "FieldValue", "AuditChangeBy", "GroupFilter" }));

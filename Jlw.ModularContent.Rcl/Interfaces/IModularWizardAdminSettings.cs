@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.ModularContent;
 
-public interface IWizardAdminSettings : IWizardSettings
+public interface IModularWizardAdminSettings : IModularWizardSettings
 { 
 	bool IsAuthorized { get; set; }				// Is user authorized to access this module
 	bool IsAdmin { get; set; }					// Is the user an admin (possibly deprecated)

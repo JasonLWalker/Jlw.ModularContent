@@ -44,14 +44,14 @@ namespace Jlw.ModularContent
         public string Heading { get; set; }
 
         /// <inheritdoc />
-        public IWizardContentField HeadingData { get; set; }
+        public IModularWizardContentField HeadingData { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Body
         public string Body { get; set; }
 
         /// <inheritdoc />
-        public IWizardContentField BodyData { get; set; }
+        public IModularWizardContentField BodyData { get; set; }
 
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for FieldData
@@ -72,7 +72,7 @@ namespace Jlw.ModularContent
         /// <param name="fieldData">The field data.</param>
         /// <param name="formData">The form data.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public WizardContent(IEnumerable<IWizardContentField> fieldData, object formData = null) :base(null)
+        public WizardContent(IEnumerable<IModularWizardContentField> fieldData, object formData = null) :base(null)
         {
             var data = fieldData?.ToList();
             var wizard = data?.FirstOrDefault(o => o.FieldType.Equals("Wizard", StringComparison.InvariantCultureIgnoreCase));

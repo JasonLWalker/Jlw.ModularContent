@@ -1,8 +1,8 @@
-﻿@model Jlw.ModularContent.WizardAdminSettings
+﻿@model Jlw.ModularContent.ModularWizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area ?? "", groupKey = (string)null, fieldKey = (string)null }) + "/" : Model?.ApiOverrideUrl;
 }
-@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_AdminCss.cshtml").Result
 <style>
     [id^="jlwContainer-"], [id^="jlwElement-"] {
         cursor: pointer;

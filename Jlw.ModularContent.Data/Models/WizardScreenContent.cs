@@ -16,7 +16,7 @@ namespace Jlw.ModularContent
         /// <param name="screenId"></param>
         /// <param name="fieldData"></param>
         /// <param name="formData"></param>
-        public WizardScreenContent(string screenId, IEnumerable<IWizardContentField> fieldData, object formData = null) : base(fieldData, formData)
+        public WizardScreenContent(string screenId, IEnumerable<IModularWizardContentField> fieldData, object formData = null) : base(fieldData, formData)
         {
 
             var data = fieldData?.ToList();

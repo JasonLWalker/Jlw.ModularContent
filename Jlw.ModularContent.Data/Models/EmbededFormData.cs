@@ -4,7 +4,7 @@ namespace Jlw.ModularContent
 {
     public class EmbededFormData : WizardFormData
     {
-        public EmbededFormData(IWizardContentField baseField, string formKey, string screenName, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null) : base(formKey, screenName, fieldData, editButton)
+        public EmbededFormData(IModularWizardContentField baseField, string formKey, string screenName, IEnumerable<WizardContentField> fieldData, WizardButtonData editButton = null) : base(formKey, screenName, fieldData, editButton)
         {
             FieldKey = baseField.FieldKey;
             ParentKey = baseField.ParentKey;

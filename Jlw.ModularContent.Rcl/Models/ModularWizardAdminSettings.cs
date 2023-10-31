@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Jlw.ModularContent;
 
-public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
+public class ModularWizardAdminSettings : ModularWizardSettings, IModularWizardAdminSettings
 {
 	#region Properties
 	
@@ -124,9 +124,9 @@ public class WizardAdminSettings : WizardSettings, IWizardAdminSettings
 	public List<SelectListItem> LanguageList { get; } = new List<SelectListItem>() { new SelectListItem("English", "EN") };
 	#endregion
 
-	public WizardAdminSettings() : this(null) { }
+	public ModularWizardAdminSettings() : this(null) { }
 
-	public WizardAdminSettings(object o) : base(o)
+	public ModularWizardAdminSettings(object o) : base(o)
 	{
 		IsAuthorized = DataUtility.ParseNullableBool(o, nameof(IsAuthorized)) ?? false;
 

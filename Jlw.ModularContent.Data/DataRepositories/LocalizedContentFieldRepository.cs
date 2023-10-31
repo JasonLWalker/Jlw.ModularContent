@@ -31,7 +31,7 @@ namespace Jlw.ModularContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedContentFieldRepository" />
     /// TODO Edit XML Comment Template for LocalizedContentFieldRepository
-    public class LocalizedContentFieldRepository : ModularDataRepositoryBase<IModularContentField, ModularContentField>, ILocalizedContentFieldRepository 
+    public class LocalizedContentFieldRepository : ModularDataRepositoryBase<IModularContentField, ModularContentField>, IModularContentFieldRepository 
     {
         /// <summary>
         /// The sp get record

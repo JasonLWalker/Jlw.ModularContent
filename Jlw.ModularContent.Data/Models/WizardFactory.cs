@@ -251,7 +251,7 @@ namespace Jlw.ModularContent
         }
 
         /// ToDo: Add XMLDoc comments
-        public virtual WizardFormData CreateEmbeddedScreenFormData(IWizardContentField embed, IEnumerable<WizardContentField> fieldData)
+        public virtual WizardFormData CreateEmbeddedScreenFormData(IModularWizardContentField embed, IEnumerable<WizardContentField> fieldData)
         {
             if (embed is null || fieldData is null)
                 return null;
@@ -349,7 +349,7 @@ namespace Jlw.ModularContent
         }
 
         /// ToDo: Add XMLDoc comments
-        public void ProcessPlaceholders(IWizardContentField field, object replacementObject)
+        public void ProcessPlaceholders(IModularWizardContentField field, object replacementObject)
         {
             if (field is null || replacementObject is null)
                 return;

@@ -9,7 +9,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
     [Route("admin/api/OverrideModularWizardEmail/")]
     public class OverrideModularWizardEmailAdminApiController : ApiController
     {
-        public OverrideModularWizardEmailAdminApiController(ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IWizardFactoryRepository factoryRepository) : base (fieldRepository, languageRepository, factoryRepository)
+        public OverrideModularWizardEmailAdminApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IWizardFactoryRepository factoryRepository) : base (fieldRepository, languageRepository, factoryRepository)
         {
             _groupFilter = "Sample%";
             _unlockApi = true;

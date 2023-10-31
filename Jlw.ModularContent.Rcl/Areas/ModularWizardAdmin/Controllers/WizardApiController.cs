@@ -18,12 +18,12 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 [JsonConverter(typeof(DefaultContractResolver))]
 [JsonObject(NamingStrategyType = typeof(DefaultNamingStrategy))]
-public abstract class ApiController : WizardApiBaseController
+public abstract class WizardApiController : WizardApiBaseController
 {
     #region Internal Properties
     protected string _groupFilter = "";
     protected string _errorMessageGroup = "";
-    protected IWizardAdminSettings _settings;
+    protected IModularWizardAdminSettings _settings;
     protected int nMaxTreeDepth = 10;
     protected readonly Regex _reFieldName = new Regex("[^a-zA-Z0-9\\-]");
     protected readonly IModularContentTextRepository _languageRepository;
@@ -38,11 +38,11 @@ public abstract class ApiController : WizardApiBaseController
         set => _previewRecordData = value;
     }
 
-    private ILocalizedContentFieldRepository _fieldRepository { get; set; }
+    private IModularContentFieldRepository _fieldRepository { get; set; }
 	#endregion
 
 
-    protected ApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, ILocalizedContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IWizardAdminSettings settings) : base(repository, wizardFactory)
+    protected WizardApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IModularWizardAdminSettings settings) : base(repository, wizardFactory)
     {
         _fieldRepository = fieldRepository;
         _languageRepository = languageRepository;
@@ -201,7 +201,7 @@ public abstract class ApiController : WizardApiBaseController
 		o.AuditChangeBy = User.Identity?.Name ?? "";
 		o.FieldKey = _reFieldName.Replace(o.FieldKey, "_");
 		//o.GroupFilter = _groupFilter;
-		IWizardContentField field = o;
+		IModularWizardContentField field = o;
 		if (field.Id < 1)
 			field = InitNewWizardField(field);
 
@@ -847,7 +847,7 @@ public abstract class ApiController : WizardApiBaseController
     #region NonActions
 
     [NonAction]
-    public JToken TestAuthDenial(bool? testValue = true, IWizardAdminSettings settings = null)
+    public JToken TestAuthDenial(bool? testValue = true, IModularWizardAdminSettings settings = null)
     {
 	    if (settings is null)
 	    {
@@ -860,7 +860,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
 	[NonAction]
-	public void InitializeControls(IWizardAdminSettings settings)
+	public void InitializeControls(IModularWizardAdminSettings settings)
 	{
 		DefaultWizardControls.Clear();
 		// Add Controls
@@ -990,7 +990,7 @@ public abstract class ApiController : WizardApiBaseController
     }
 
 	[NonAction]
-    protected virtual IWizardContentField InitNewWizardField(IWizardContentField o)
+    protected virtual IModularWizardContentField InitNewWizardField(IModularWizardContentField o)
     {
         switch (o.FieldType)
         {
@@ -1028,7 +1028,7 @@ public abstract class ApiController : WizardApiBaseController
     {
         public long key { get; set; }
         public string title { get; set; }
-        public IWizardContentField field_data { get; set; }
+        public IModularWizardContentField field_data { get; set; }
         public bool folder { get; set; }
         public IEnumerable<WizardTreeNode> children { get; set; }
 

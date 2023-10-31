@@ -24,7 +24,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// TODO Edit XML Comment Template for IWizardFactoryRepository
-    public interface IWizardFactoryRepository : IModularDataRepositoryBase<IWizardContentField, WizardContentField>
+    public interface IWizardFactoryRepository : IModularDataRepositoryBase<IModularWizardContentField, WizardContentField>
     {
         /// <summary>
         /// Gets the field data.
@@ -38,14 +38,14 @@ namespace Jlw.ModularContent
         /// </summary>
         /// <param name="fieldData"></param>
         /// <returns></returns>
-        IWizardContentField SaveFieldParentOrder(WizardContentField fieldData);
+        IModularWizardContentField SaveFieldParentOrder(WizardContentField fieldData);
 
         /// <summary>
         /// Sets the value of the column specified by the fieldData object
         /// </summary>
         /// <param name="fieldData"></param>
         /// <returns></returns>
-        IWizardContentField SaveFieldData(WizardFieldUpdateData fieldData);
+        IModularWizardContentField SaveFieldData(WizardFieldUpdateData fieldData);
 
         IEnumerable<IModularContentText> GetLanguageValues(string groupKey);
 

@@ -7,11 +7,10 @@ using Jlw.Utilities.Testing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
-using TModel = Jlw.ModularContent.WizardAdminSettings;
 
 namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
 {
-    public class WizardAdminSettingsTestSchema : BaseModelSchema<TModel>
+    public class WizardAdminSettingsTestSchema : BaseModelSchema<ModularWizardAdminSettings>
     {
         void InitConstructors()
         {

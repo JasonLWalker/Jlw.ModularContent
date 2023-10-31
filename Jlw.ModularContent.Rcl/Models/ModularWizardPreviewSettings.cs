@@ -5,12 +5,12 @@ using Jlw.Utilities.Data;
 
 namespace Jlw.ModularContent;
 
-public class WizardPreviewSettings : WizardAdminSettings
+public class ModularWizardPreviewSettings : ModularWizardAdminSettings
 {
     public string Screen { get; set; }
     public string Wizard { get; set; }
 
-    public WizardPreviewSettings(object settings, IEnumerable<IWizardContentField> fields = null, object recordData = null) : base(settings)
+    public ModularWizardPreviewSettings(object settings, IEnumerable<IModularWizardContentField> fields = null, object recordData = null) : base(settings)
     {
         Screen = DataUtility.ParseString(settings, "Screen");
         Wizard = DataUtility.ParseString(settings, "Wizard");

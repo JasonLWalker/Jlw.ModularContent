@@ -40,7 +40,7 @@ namespace Jlw.ModularContent
         /// <param name="parentKey"></param>
         /// <param name="fieldData"></param>
         /// <param name="formData"></param>
-        public WizardContentEmail(string parentKey, IEnumerable<IWizardContentField> fieldData, object formData = null)
+        public WizardContentEmail(string parentKey, IEnumerable<IModularWizardContentField> fieldData, object formData = null)
         {
 
             var data = fieldData?.ToList();

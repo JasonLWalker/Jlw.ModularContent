@@ -1,6 +1,6 @@
 @using Microsoft.Extensions.DependencyInjection
 @using Jlw.ModularContent
-@model WizardAdminSettings
+@model ModularWizardAdminSettings
 @{
     ViewData["Title"] = @Model.PageTitle;
     string version = Model.Version;
@@ -15,7 +15,7 @@
         <div class="row w-100 p-0 m-0">
             <div class="col-12">
                 <div class="row h-100">
-                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_LeftToolbar.cshtml").Result
+                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_LeftToolbar.cshtml").Result
                     <div class="col p-0 position-relative" style="max-width:calc(100vw - 520px)">
                         <div id="preview-frame-wrapper" class="">
                             <div class="m-0 p-0 border w-100 h-100">
@@ -59,13 +59,13 @@
                             </div>
                         </div>
                     </div>
-                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_RightToolbar.cshtml").Result
+                    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_RightToolbar.cshtml").Result
                 </div>
             </div>
         </div>
     </div>
 </div>
-@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_WizardAdminLibScript.cshtml").Result
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_WizardAdminLibScript.cshtml").Result
 @section Style {
     @Html.Raw(Model.ExtraCss)
 }
@@ -568,7 +568,7 @@
     @Html.Raw(Model?.ExtraScript)
 }
 <div class="d-none hidden">
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageList.cshtml").Result
-    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_EditLanguageRecord.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_DataTableLanguageList.cshtml").Result
+    @Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_EditLanguageRecord.cshtml").Result
 </div>
-@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_DataTableLanguageListScript.cshtml").Result
+@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_DataTableLanguageListScript.cshtml").Result

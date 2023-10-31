@@ -2,7 +2,7 @@
 
 namespace Jlw.ModularContent;
 
-public interface IWizardSettings
+public interface IModularWizardSettings
 {
     string DefaultWizard { get; }
     string Version { get; }

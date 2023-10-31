@@ -48,7 +48,7 @@ namespace Jlw.ModularContent
         public static IServiceCollection AddModularWizardAdmin(this IServiceCollection services, Action<IModularDbOptions> options = null)
         {
 
-            services.TryAddSingleton<IWizardAdminSettings>(new WizardAdminSettings());
+            services.TryAddSingleton<IModularWizardAdminSettings>(new ModularWizardAdminSettings());
             services.AddModularGroupDataItemRepository(options);
             services.AddModularContentFieldRepository(options);
             services.AddModularContentTextRepository(options);

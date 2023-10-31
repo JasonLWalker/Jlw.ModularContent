@@ -1,4 +1,4 @@
-﻿@model Jlw.ModularContent.WizardAdminSettings
+﻿@model Jlw.ModularContent.ModularWizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = "ModularWizardAdmin" }) + "/" : Model.ApiOverrideUrl;
 }

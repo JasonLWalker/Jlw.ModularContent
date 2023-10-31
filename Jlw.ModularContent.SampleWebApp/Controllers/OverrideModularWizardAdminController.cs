@@ -9,10 +9,10 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
 {
     [Route("~/Admin/[controller]")]
     [Authorize("ContentOverrideAdmin")]
-    public class OverrideModularWizardAdminController : AdminController
+    public class OverrideModularWizardAdminController : WizardAdminController
     {
         
-        public OverrideModularWizardAdminController(IWizardAdminSettings settings, IWizardFactoryRepository repository) : base(settings, repository)
+        public OverrideModularWizardAdminController(IModularWizardAdminSettings settings, IWizardFactoryRepository repository) : base(settings, repository)
         {
             _groupFilter = "Sample%";
 

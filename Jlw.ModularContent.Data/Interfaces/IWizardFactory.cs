@@ -60,10 +60,10 @@ namespace Jlw.ModularContent
         void AddEmbeddedForm(string key, IWizardContent content, IEnumerable<WizardContentField> extraFields = null, bool isDisabled = false, bool hasEditButton = false);
 
         /// ToDo: Add XMLDoc comments
-        WizardFormData CreateEmbeddedScreenFormData(IWizardContentField embed, IEnumerable<WizardContentField> fieldData);
+        WizardFormData CreateEmbeddedScreenFormData(IModularWizardContentField embed, IEnumerable<WizardContentField> fieldData);
 
         /// ToDo: Add XMLDoc comments
-        void ProcessPlaceholders(IWizardContentField field, object replacementObject);
+        void ProcessPlaceholders(IModularWizardContentField field, object replacementObject);
 
         /// <summary>
         /// Resolves placeholders in the string using data provided by the replacementObject

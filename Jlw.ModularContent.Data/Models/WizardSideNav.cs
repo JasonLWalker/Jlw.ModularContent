@@ -10,7 +10,7 @@ namespace Jlw.ModularContent
     public class WizardSideNav : IWizardSideNav
     {
         /// <summary>Internal list of Screen fields</summary>
-        protected readonly IEnumerable<IWizardContentField> _fields;
+        protected readonly IEnumerable<IModularWizardContentField> _fields;
 
         /// <summary>Internal list of individual items</summary>
         protected readonly List<IWizardSideNavItem> _items = new List<IWizardSideNavItem>();
@@ -22,14 +22,14 @@ namespace Jlw.ModularContent
         /// Constructor to initialize the list of items from an IEnumerable&lt;IWizardContentField&gt; list of fields
         /// </summary>
         /// <param name="fields"></param>
-        public WizardSideNav(IEnumerable<IWizardContentField> fields = null)
+        public WizardSideNav(IEnumerable<IModularWizardContentField> fields = null)
         {
             if (fields != null)
             {
                 _fields = fields?.Where(o =>
                               o.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase) ||
                               o.FieldType.Equals("WIZARD", StringComparison.InvariantCultureIgnoreCase)) ??
-                          new IWizardContentField[] { };
+                          new IModularWizardContentField[] { };
                 _items.AddRange(_fields.Select(o => new WizardSideNavItem(o)));
             }
         }

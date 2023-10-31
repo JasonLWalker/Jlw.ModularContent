@@ -61,7 +61,7 @@ namespace Jlw.ModularContent
 
         /// TODO Edit XML Comment Template for Heading
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
-        IWizardContentField HeadingData { get; set; }
+        IModularWizardContentField HeadingData { get; set; }
 
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Jlw.ModularContent
 
         /// TODO Edit XML Comment Template for Heading
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, NamingStrategyType = typeof(DefaultNamingStrategy))]
-        IWizardContentField BodyData { get; set; }
+        IModularWizardContentField BodyData { get; set; }
 
 
         /// <summary>

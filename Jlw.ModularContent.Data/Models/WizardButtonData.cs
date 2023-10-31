@@ -80,7 +80,7 @@ namespace Jlw.ModularContent
         /// </summary>
         /// <param name="data">The data.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public WizardButtonData(IWizardContentField data) : base(data)
+        public WizardButtonData(IModularWizardContentField data) : base(data)
         {
             Label = data?.Label ?? "";
             Class = data?.FieldClass ?? "";

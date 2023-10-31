@@ -38,7 +38,7 @@ namespace Jlw.ModularContent
         {
             if (setupAction != null) services.Configure(setupAction);
 
-            services.TryAddSingleton<ILocalizedContentFieldRepository>(provider =>
+            services.TryAddSingleton<IModularContentFieldRepository>(provider =>
             {
                 var options = (provider.GetService<IOptions<ModularDbOptions>>() ?? new OptionsWrapper<ModularDbOptions>(provider.GetRequiredService<ModularDbOptions>())).Value;
                 var client = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();

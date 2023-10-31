@@ -4,7 +4,7 @@
 @using Newtonsoft.Json.Linq
 @using Jlw.ModularContent
 @inject IWizardFactoryRepository FactoryRepository
-@model WizardPreviewSettings
+@model ModularWizardPreviewSettings
 @{
     ViewData["Title"] = ViewData["PageTitle"];
     Layout = "_EmptyLayout";
@@ -65,7 +65,7 @@
 </div>
 <script src="@Url.Action("WizardLibScript", "ModularWizardJs")?_=@version"></script>
 @section Scripts {
-	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/Admin/_AdminCss.cshtml").Result
+	@Html.PartialAsync("~/Areas/ModularWizardAdmin/Views/WizardAdmin/_AdminCss.cshtml").Result
 	<style>
 		html, body, .container, main {
 			height: 100%;

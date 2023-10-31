@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Jlw.ModularContent;
 
-public class WizardSettings : IWizardSettings
+public class ModularWizardSettings : IModularWizardSettings
 {
     public string Version { get; protected set; }
     public string GroupFilter { get; protected set; }
@@ -40,11 +40,11 @@ public class WizardSettings : IWizardSettings
     protected readonly WizardSideNav _sideNav = new WizardSideNav();
     public WizardSideNav SideNav => _sideNav;
 
-    public WizardSettings() : this(null)
+    public ModularWizardSettings() : this(null)
     {
     }
 
-    public WizardSettings(object o)
+    public ModularWizardSettings(object o)
     {
         ShowSideNav = DataUtility.ParseBool(o, "ShowSideNav");
 
@@ -63,7 +63,7 @@ public class WizardSettings : IWizardSettings
         Version = DataUtility.ParseString(o, "Version");
         if (string.IsNullOrWhiteSpace(Version))
         {
-            Version = typeof(WizardSettings).Assembly.GetName().Version?.ToString() ?? "";
+            Version = typeof(ModularWizardSettings).Assembly.GetName().Version?.ToString() ?? "";
         }
         Version = string.IsNullOrWhiteSpace(Version) || Version == "0.0.0.1" ? DateTime.Now.Ticks.ToString() : Version;
 

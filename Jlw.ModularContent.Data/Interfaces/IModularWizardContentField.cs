@@ -24,7 +24,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="IModularContentField" />
     /// TODO Edit XML Comment Template for IWizardContentField
-    public interface IWizardContentField : IModularContentField
+    public interface IModularWizardContentField : IModularContentField
     {
         /// <summary>
         /// Gets or sets the label.

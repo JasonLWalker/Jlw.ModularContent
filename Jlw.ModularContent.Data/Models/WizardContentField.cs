@@ -21,12 +21,12 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class WizardContentField.
     /// Implements the <see cref="ModularContentField" />
-    /// Implements the <see cref="IWizardContentField" />
+    /// Implements the <see cref="IModularWizardContentField" />
     /// </summary>
     /// <seealso cref="ModularContentField" />
-    /// <seealso cref="IWizardContentField" />
+    /// <seealso cref="IModularWizardContentField" />
     /// TODO Edit XML Comment Template for WizardContentField
-    public class WizardContentField : ModularContentField, IWizardContentField
+    public class WizardContentField : ModularContentField, IModularWizardContentField
     {
         /// <inheritdoc />
         /// TODO Edit XML Comment Template for Label
