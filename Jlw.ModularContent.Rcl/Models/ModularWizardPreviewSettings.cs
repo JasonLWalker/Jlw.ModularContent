@@ -15,7 +15,7 @@ public class ModularWizardPreviewSettings : ModularWizardAdminSettings
         Screen = DataUtility.ParseString(settings, "Screen");
         Wizard = DataUtility.ParseString(settings, "Wizard");
         if (fields != null)
-            SideNav.AddRange(fields.Where(o=>o.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase)).Select(o=>new WizardSideNavItem(o)));
+            SideNav.AddRange(fields.Where(o=>o.FieldType.Equals("SCREEN", StringComparison.InvariantCultureIgnoreCase)).Select(o=>new ModularWizardSideNavItem(o)));
 
     }
 }

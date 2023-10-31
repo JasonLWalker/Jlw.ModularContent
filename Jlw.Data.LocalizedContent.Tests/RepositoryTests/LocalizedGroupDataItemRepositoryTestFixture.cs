@@ -11,12 +11,11 @@ using Jlw.Utilities.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using TRepo = Jlw.ModularContent.LocalizedGroupDataItemRepository;
 
 namespace Jlw.Data.LocalizedContent.Tests
 {
     [TestClass]
-    public class LocalizedGroupDataItemRepositoryTestFixture : BaseModelFixture<TRepo, LocalizedGroupDataItemRepositoryTestSchema>
+    public class LocalizedGroupDataItemRepositoryTestFixture : BaseModelFixture<ModularGroupDataItemRepository, LocalizedGroupDataItemRepositoryTestSchema>
     {
         [TestMethod]
         public void SqlParams_Should_Match_For_GetRecord()
@@ -27,7 +26,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             var output = new ModularGroupDataItem(new { Id = 1 });
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
             var o = sut.GetRecord(input);
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
@@ -53,7 +52,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             IEnumerable<ModularGroupDataItem> output = new []{ new ModularGroupDataItem(new { Id = 1 }) };
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordList<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
             var o = sut.GetAllRecords();
 
             mockClient.Verify(m => m.GetConnectionBuilder(It.IsAny<string>()));
@@ -81,7 +80,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
 
             var o = sut.SaveRecord(input);
 
@@ -110,7 +109,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
 
             var o = sut.DeleteRecord(input);
 
@@ -134,7 +133,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         {
             var mockClient = new Mock<IModularDbClient>();
             var paramList = new MockDataParameterCollection();
-            var input = JsonConvert.DeserializeObject<LocalizedGroupDataItemDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false},GroupKey:'group_key',GroupFilter:'group_filter' }");
+            var input = JsonConvert.DeserializeObject<ModularGroupDataItemDataTablesInput>(@"{draw: 1,columns: [ {data: 'Id'} ], order: [{column:0, dir: 'asc'}],start: 0,length: -1,search: {value: 'some text', regex: false},GroupKey:'group_key',GroupFilter:'group_filter' }");
             var output = new DataTablesOutput(input);
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(new DbConnectionStringBuilder());
             mockClient.Setup(m => m.GetConnection(It.IsAny<string>())).Returns((string connString) =>
@@ -156,7 +155,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             {
                 return dbConnection.CreateCommand();
             });
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
 
             var o = sut.GetDataTableList(input);
             var order = input.order?.FirstOrDefault();
@@ -186,7 +185,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
 
             Assert.ThrowsException<NotImplementedException>(() => sut.UpdateRecord(input));
         }
@@ -201,7 +200,7 @@ namespace Jlw.Data.LocalizedContent.Tests
             mockClient.Setup(m => m.GetConnectionBuilder(It.IsAny<string>())).Returns(connStr);
             mockClient.Setup(m => m.GetRecordObject<ModularGroupDataItem>(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<IRepositoryMethodDefinition>())).Returns(output);
 
-            TRepo sut = new TRepo(mockClient.Object, "");
+            ModularGroupDataItemRepository sut = new ModularGroupDataItemRepository(mockClient.Object, "");
 
             Assert.ThrowsException<NotImplementedException>(() => sut.InsertRecord(input));
         }

@@ -30,6 +30,6 @@ namespace Jlw.ModularContent
         /// <param name="o">The o.</param>
         /// <returns>System.Object.</returns>
         /// TODO Edit XML Comment Template for GetDataTableList
-        object GetDataTableList(LocalizedContentTextDataTablesInput o);
+        object GetDataTableList(ModularContentTextDataTablesInput o);
     }
 } 

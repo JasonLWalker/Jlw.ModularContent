@@ -41,7 +41,7 @@ namespace Jlw.ModularContent
                 var options = (provider.GetService<IOptions<ModularDbOptions>>() ?? new OptionsWrapper<ModularDbOptions>(provider.GetRequiredService<ModularDbOptions>())).Value;
                 var client = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
                 var connString = options?.ConnectionString ?? "";
-                return new WizardFactoryRepository(client, connString);
+                return new ModularWizardFactoryRepository(client, connString);
             });
 
             return services;

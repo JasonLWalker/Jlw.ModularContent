@@ -43,7 +43,7 @@ namespace Jlw.ModularContent
                 var options = (provider.GetService<IOptions<ModularDbOptions>>() ?? new OptionsWrapper<ModularDbOptions>(provider.GetRequiredService<ModularDbOptions>())).Value;
                 var client = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
                 var connString = options?.ConnectionString ?? "";
-                return new LocalizedContentFieldRepository(client, connString);
+                return new ModularContentFieldRepository(client, connString);
             });
 
             return services;

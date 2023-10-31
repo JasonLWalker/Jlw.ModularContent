@@ -37,8 +37,8 @@ public class ModularWizardSettings : IModularWizardSettings
 
 
 
-    protected readonly WizardSideNav _sideNav = new WizardSideNav();
-    public WizardSideNav SideNav => _sideNav;
+    protected readonly ModularWizardSideNav _sideNav = new ModularWizardSideNav();
+    public ModularWizardSideNav SideNav => _sideNav;
 
     public ModularWizardSettings() : this(null)
     {

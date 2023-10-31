@@ -89,7 +89,7 @@ namespace Jlw.Web.Rcl.LocalizedContent.Tests.ModelTests
             AddProperty(typeof(string), "DefaultWizard", Public, Protected);
             AddProperty(typeof(string), "GroupFilter", Public, Protected);
 
-            AddProperty(typeof(WizardSideNav), "SideNav", Public, null);
+            AddProperty(typeof(ModularWizardSideNav), "SideNav", Public, null);
             AddProperty(typeof(Object), "PreviewRecordData", Public, Public);
             AddProperty(typeof(List<SelectListItem>), "LanguageList", Public, null);
         }

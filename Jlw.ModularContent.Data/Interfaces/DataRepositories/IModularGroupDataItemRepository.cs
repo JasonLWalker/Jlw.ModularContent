@@ -29,7 +29,7 @@ namespace Jlw.ModularContent
         /// </summary>
         /// <param name="o">The refence object.</param>
         /// <returns>System.Object.</returns>
-        object GetDataTableList(LocalizedGroupDataItemDataTablesInput o);
+        object GetDataTableList(ModularGroupDataItemDataTablesInput o);
 
         /// <summary>
         /// Retrieves the Value of matching item

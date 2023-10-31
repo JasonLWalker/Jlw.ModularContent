@@ -8,7 +8,7 @@ public interface IModularWizardSettings
     string Version { get; }
     string GroupFilter { get; }
     bool ShowSideNav { get; set; }
-    WizardSideNav SideNav { get; }
+    ModularWizardSideNav SideNav { get; }
     string PageTitle { get; set; }
     string ExtraCss { get; set; }
     string ExtraScript { get; set; }

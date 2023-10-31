@@ -5,5 +5,5 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Jlw.Data.LocalizedContent.Tests
 {
     [TestClass]
-    public class LocalizedGroupDataItemDataTablesInput_TestFixture : BaseModelFixture<LocalizedGroupDataItemDataTablesInput, LocalizedGroupDataItemDataTablesInputTestSchema> { }
+    public class LocalizedGroupDataItemDataTablesInput_TestFixture : BaseModelFixture<ModularGroupDataItemDataTablesInput, LocalizedGroupDataItemDataTablesInputTestSchema> { }
 }

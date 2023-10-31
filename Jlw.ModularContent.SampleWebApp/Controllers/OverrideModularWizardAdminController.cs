@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jlw.ModularContent;
-using Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
+using Jlw.ModularContent.Areas.ModularContentWizardAdmin.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

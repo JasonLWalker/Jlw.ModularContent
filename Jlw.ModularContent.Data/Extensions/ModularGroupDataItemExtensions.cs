@@ -33,20 +33,20 @@ namespace Jlw.ModularContent
         /// <param name="setupAction">The setup action.</param>
         /// <returns>IServiceCollection.</returns>
         /// TODO Edit XML Comment Template for AddLocalizedGroupDataItemRepository
-        public static IServiceCollection AddModularGroupDataItemRepository(this IServiceCollection services, Action<LocalizedGroupDataItemRepositoryOptions> setupAction = null)
+        public static IServiceCollection AddModularGroupDataItemRepository(this IServiceCollection services, Action<ModularGroupDataItemRepositoryOptions> setupAction = null)
         {
             if (setupAction != null) services.Configure(setupAction);
 
             services.TryAddSingleton<IModularGroupDataItemRepository>(provider =>
             {
-                IModularDbOptions options = provider.GetService<IOptions<LocalizedGroupDataItemRepositoryOptions>>()?.Value;
-                options ??= (new OptionsWrapper<LocalizedGroupDataItemRepositoryOptions>(provider.GetService<LocalizedGroupDataItemRepositoryOptions>()))?.Value;
+                IModularDbOptions options = provider.GetService<IOptions<ModularGroupDataItemRepositoryOptions>>()?.Value;
+                options ??= (new OptionsWrapper<ModularGroupDataItemRepositoryOptions>(provider.GetService<ModularGroupDataItemRepositoryOptions>()))?.Value;
                 options ??= provider.GetService<IModularDbOptions>();
                 options ??= provider.GetService<ModularDbOptions>();
 
                 var dbClient = options?.DbClient ?? provider.GetRequiredService<IModularDbClient>();
                 var connString = options?.ConnectionString ?? "";
-                return new LocalizedGroupDataItemRepository(dbClient, connString);
+                return new ModularGroupDataItemRepository(dbClient, connString);
             });
 
             return services;

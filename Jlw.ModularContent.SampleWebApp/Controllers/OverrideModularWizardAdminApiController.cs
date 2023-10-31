@@ -1,6 +1,6 @@
 ﻿using System;
 using Jlw.ModularContent;
-using Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers;
+using Jlw.ModularContent.Areas.ModularContentWizardAdmin.Controllers;
 using Jlw.Utilities.Data.DataTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
     [Route("admin/api/OverrideModularWizard/")]
     public class OverrideModularWizardAdminApiController : WizardApiController
     {
-        public OverrideModularWizardAdminApiController(IModularWizardFactoryRepository repository, IWizardFactory wizardFactory, IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IModularWizardAdminSettings settings) : base (repository, wizardFactory, fieldRepository, languageRepository, settings)
+        public OverrideModularWizardAdminApiController(IModularWizardFactoryRepository repository, IModularWizardFactory wizardFactory, IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IModularWizardAdminSettings settings) : base (repository, wizardFactory, fieldRepository, languageRepository, settings)
         {
             _groupFilter = "Sample%";
             _errorMessageGroup = "SampleWizard_Errors";
@@ -31,7 +31,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
             return base.Index();
         }
 
-        public override object ErrorMessageDtList([FromForm] LocalizedContentTextDataTablesInput o)
+        public override object ErrorMessageDtList([FromForm] ModularContentTextDataTablesInput o)
         {
 			var auth = TestAuthDenial(); // Check to see if user has permissions. (Method returns null if authorized, or an object if not authorized)
 			if (auth != null) JToken.FromObject(new DataTablesOutput(o)); ;

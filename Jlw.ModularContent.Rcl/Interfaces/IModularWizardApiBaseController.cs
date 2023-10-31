@@ -2,8 +2,8 @@
 {
     public interface IModularWizardApiBaseController
     {
-        public object Index(IWizardModelBase model);
-        public object SaveWizardPage(IWizardModelBase model);
+        public object Index(IModularWizardModelBase model);
+        public object SaveWizardPage(IModularWizardModelBase model);
 
     }
 }
