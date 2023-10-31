@@ -1,6 +1,6 @@
 <!-- $(
 	## Add Poweshell template variables Here ##
-	$projectName = "Jlw.LocalizedContent"
+	$projectName = "Jlw.ModularContent"
 ) -->
 # $projectName
 
@@ -13,7 +13,7 @@
 
 # Data Repository
 <!-- $( 
-	$projectName = "Jlw.LocalizedContent.Data"
+	$projectName = "Jlw.ModularContent.Data"
 	$projectPath = "$($buildPath)**\$($projectName).csproj"
 ) -->
 [![Nuget](https://img.shields.io/nuget/v/$($projectName)?label=$($projectName)%20%28release%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/$($projectName)?label=$($projectName)%20%28preview%29)](https://www.nuget.org/packages/$($projectName)/#versions-body-tab)
@@ -27,7 +27,7 @@ $(Get-ProjectDependencyTable $projectPath)
 
 # Razor Class Library
 <!-- $(
-	$projectName = "jlw.LocalizedContent.Rcl"
+	$projectName = "jlw.ModularContent.Rcl"
 	$projectPath = "$($buildPath)**\$($projectName).csproj"
 	$libmanPath = "$($buildPath)\$($projectName)"
 	$purposes = @{ 
