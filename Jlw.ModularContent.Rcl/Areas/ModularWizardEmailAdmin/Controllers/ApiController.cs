@@ -43,7 +43,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// The data repository instance
         /// </summary>
         protected readonly IModularContentFieldRepository _fieldRepository;
-        protected readonly IWizardFactoryRepository _factoryRepository;
+        protected readonly IModularWizardFactoryRepository _factoryRepository;
         protected readonly IModularContentTextRepository _textRepository;
         /// <summary>
         /// The primary group filter
@@ -123,7 +123,7 @@ namespace Jlw.ModularContent.Areas.ModularWizardEmailAdmin.Controllers
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public ApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IWizardFactoryRepository factoryRepository) 
+        public ApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository) 
         { 
             _fieldRepository = fieldRepository;
             _textRepository = textRepository;

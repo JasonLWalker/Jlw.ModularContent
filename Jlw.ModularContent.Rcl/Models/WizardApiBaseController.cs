@@ -5,12 +5,12 @@ namespace Jlw.ModularContent
     [ApiController]
     public abstract class WizardApiBaseController : ControllerBase
     {
-        protected IWizardFactoryRepository DataRepository { get; set; }
+        protected IModularWizardFactoryRepository DataRepository { get; set; }
         protected virtual IWizardFactory WizardFactory { get; set; }
         protected string WizardPrefix { get; set; }
 
 
-        public WizardApiBaseController(IWizardFactoryRepository repository, IWizardFactory wizardFactory)
+        public WizardApiBaseController(IModularWizardFactoryRepository repository, IWizardFactory wizardFactory)
         {
             DataRepository = repository;
             WizardFactory = wizardFactory;

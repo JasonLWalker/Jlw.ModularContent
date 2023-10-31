@@ -11,9 +11,9 @@ namespace Jlw.ModularContent.Areas.ModularWizardAdmin.Controllers
     {
         protected string _groupFilter = null;
         protected ModularWizardAdminSettings DefaultSettings { get; } = new ModularWizardAdminSettings();
-        protected IWizardFactoryRepository DataRepository;
+        protected IModularWizardFactoryRepository DataRepository;
 
-        protected WizardAdminController(IModularWizardAdminSettings settings, IWizardFactoryRepository repository)
+        protected WizardAdminController(IModularWizardAdminSettings settings, IModularWizardFactoryRepository repository)
         {
             DataRepository = repository;
             DefaultSettings.IsAdmin = settings.IsAdmin;

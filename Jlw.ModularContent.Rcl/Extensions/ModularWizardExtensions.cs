@@ -56,7 +56,7 @@ namespace Jlw.ModularContent
             services.AddModularWizardFactoryRepository(options);
             services.TryAddSingleton<IWizardFactory>(provider =>
             {
-                return new WizardFactory(provider.GetRequiredService<IWizardFactoryRepository>());
+                return new WizardFactory(provider.GetRequiredService<IModularWizardFactoryRepository>());
             });
 
             services.TryAddSingleton<ILanguageListModel>(provider =>

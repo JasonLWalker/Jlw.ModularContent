@@ -15,7 +15,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
     [Route("~/api/Wizard")]
     public class SampleWizardApi : WizardApiBaseController
     {
-        public SampleWizardApi(IWizardFactoryRepository repository, IWizardFactory wizardFactory) : base(repository, wizardFactory)
+        public SampleWizardApi(IModularWizardFactoryRepository repository, IWizardFactory wizardFactory) : base(repository, wizardFactory)
         {
             WizardPrefix = "SampleWizard";
         }

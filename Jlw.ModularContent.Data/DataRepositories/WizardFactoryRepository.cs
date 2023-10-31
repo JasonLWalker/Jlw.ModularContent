@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.IWizardFactoryRepository" />
     /// TODO Edit XML Comment Template for WizardFactoryRepository
-    public class WizardFactoryRepository : ModularDataRepositoryBase<IModularWizardContentField, WizardContentField>, IWizardFactoryRepository
+    public class WizardFactoryRepository : ModularDataRepositoryBase<IModularWizardContentField, WizardContentField>, IModularWizardFactoryRepository
     {
         /// <summary> Stored procedure to retrieve a single record </summary>
         protected const string SpGetRecord = "sp_GetWizardContentFieldRecord";

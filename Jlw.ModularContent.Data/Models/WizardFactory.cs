@@ -38,13 +38,13 @@ namespace Jlw.ModularContent
         /// <summary>
         /// The data repository
         /// </summary>
-        protected IWizardFactoryRepository DataRepository;
+        protected IModularWizardFactoryRepository DataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WizardFactory"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public WizardFactory(IWizardFactoryRepository repository)
+        public WizardFactory(IModularWizardFactoryRepository repository)
         {
             DataRepository = repository;
         }

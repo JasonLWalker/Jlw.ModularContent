@@ -24,7 +24,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedContentField, Jlw.Data.LocalizedContent.LocalizedContentField}" />
     /// TODO Edit XML Comment Template for IWizardFactoryRepository
-    public interface IWizardFactoryRepository : IModularDataRepositoryBase<IModularWizardContentField, WizardContentField>
+    public interface IModularWizardFactoryRepository : IModularDataRepositoryBase<IModularWizardContentField, WizardContentField>
     {
         /// <summary>
         /// Gets the field data.

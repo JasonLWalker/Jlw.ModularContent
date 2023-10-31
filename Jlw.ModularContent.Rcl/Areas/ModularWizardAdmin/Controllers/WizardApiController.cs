@@ -42,7 +42,7 @@ public abstract class WizardApiController : WizardApiBaseController
 	#endregion
 
 
-    protected WizardApiController(IWizardFactoryRepository repository, IWizardFactory wizardFactory, IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IModularWizardAdminSettings settings) : base(repository, wizardFactory)
+    protected WizardApiController(IModularWizardFactoryRepository repository, IWizardFactory wizardFactory, IModularContentFieldRepository fieldRepository, IModularContentTextRepository languageRepository, IModularWizardAdminSettings settings) : base(repository, wizardFactory)
     {
         _fieldRepository = fieldRepository;
         _languageRepository = languageRepository;

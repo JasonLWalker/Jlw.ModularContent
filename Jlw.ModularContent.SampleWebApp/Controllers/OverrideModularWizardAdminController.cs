@@ -12,7 +12,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
     public class OverrideModularWizardAdminController : WizardAdminController
     {
         
-        public OverrideModularWizardAdminController(IModularWizardAdminSettings settings, IWizardFactoryRepository repository) : base(settings, repository)
+        public OverrideModularWizardAdminController(IModularWizardAdminSettings settings, IModularWizardFactoryRepository repository) : base(settings, repository)
         {
             _groupFilter = "Sample%";
 
