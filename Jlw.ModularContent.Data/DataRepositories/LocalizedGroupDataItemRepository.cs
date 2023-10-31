@@ -30,7 +30,7 @@ namespace Jlw.ModularContent
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.ModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// <seealso cref="Jlw.Data.LocalizedContent.ILocalizedGroupDataItemRepository" />
-    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>, IModularGroupDataItemRepository 
+    public class LocalizedGroupDataItemRepository : ModularDataRepositoryBase<IModularGroupDataItem, LocalizedGroupDataItem>, IModularGroupDataItemRepository 
     {
         /// <summary>
         /// The stored procedure name for the get record
@@ -69,7 +69,7 @@ namespace Jlw.ModularContent
         /// <param name="sSql">The s SQL.</param>
         /// <returns>IEnumerable&lt;KeyValuePair&lt;System.String, System.Object&gt;&gt;.</returns>
         /// <exception cref="System.NotImplementedException">The method {typename}.{m.Name}({DataUtility.GetTypeArgs(m.GetParameters().Select(p => p.ParameterType).ToArray())}) is not implemented at this time.</exception>
-        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(ILocalizedGroupDataItem o, string sSql) 
+        protected override IEnumerable<KeyValuePair<string, object>> GetParamsForSql(IModularGroupDataItem o, string sSql) 
         { 
             switch (sSql) 
             { 
@@ -138,14 +138,14 @@ namespace Jlw.ModularContent
         }
 
         /// <inheritdoc />
-        public IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language=null)
+        public IEnumerable<IModularGroupDataItem> GetItems(string groupKey, string language=null)
         {
             if (_dbClient != null)
             {
-                return _dbClient.GetRecordList<ILocalizedGroupDataItem>(
+                return _dbClient.GetRecordList<IModularGroupDataItem>(
                     null,
                     this._connString,
-                    new RepositoryMethodDefinition<ILocalizedGroupDataItem>("sp_GetLocalizedGroupDataItems",
+                    new RepositoryMethodDefinition<IModularGroupDataItem>("sp_GetLocalizedGroupDataItems",
                         CommandType.StoredProcedure,
                         new KeyValuePair<string, object>[]
                         {
@@ -157,7 +157,7 @@ namespace Jlw.ModularContent
                         }));
             }
 
-            return new List<ILocalizedGroupDataItem>();
+            return new List<IModularGroupDataItem>();
         }
     }
 } 

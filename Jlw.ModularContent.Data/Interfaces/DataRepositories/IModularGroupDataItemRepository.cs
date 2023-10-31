@@ -22,7 +22,7 @@ namespace Jlw.ModularContent
     /// Implements the <see cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
     /// </summary>
     /// <seealso cref="T:Jlw.Utilities.Data.DbUtility.IModularDataRepositoryBase{Jlw.Data.LocalizedContent.ILocalizedGroupDataItem, Jlw.Data.LocalizedContent.LocalizedGroupDataItem}" />
-    public interface IModularGroupDataItemRepository : IModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>
+    public interface IModularGroupDataItemRepository : IModularDataRepositoryBase<IModularGroupDataItem, LocalizedGroupDataItem>
     {
         /// <summary>
         /// Gets the data table list data.
@@ -46,6 +46,6 @@ namespace Jlw.ModularContent
         /// <param name="groupKey"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        IEnumerable<ILocalizedGroupDataItem> GetItems(string groupKey, string language = null);
+        IEnumerable<IModularGroupDataItem> GetItems(string groupKey, string language = null);
     }
 } 

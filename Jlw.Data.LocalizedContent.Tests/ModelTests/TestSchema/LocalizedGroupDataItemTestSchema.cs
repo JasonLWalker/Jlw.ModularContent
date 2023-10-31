@@ -73,7 +73,7 @@ namespace Jlw.Data.LocalizedContent.Tests
 
         public void InitInterfaces()
         {
-            AddInterface(typeof(ILocalizedGroupDataItem));
+            AddInterface(typeof(IModularGroupDataItem));
         }
 
         public void InitFields()

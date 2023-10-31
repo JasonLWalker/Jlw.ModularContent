@@ -20,7 +20,7 @@ namespace Jlw.ModularContent
     /// <summary>
     /// Class to encapsulate a row from the [LocalizedGroupDataItems] database table
     /// </summary>
-    public class LocalizedGroupDataItem : ILocalizedGroupDataItem 
+    public class LocalizedGroupDataItem : IModularGroupDataItem 
 	{
         /// <inheritdoc />
 		public long Id { get; protected set; }

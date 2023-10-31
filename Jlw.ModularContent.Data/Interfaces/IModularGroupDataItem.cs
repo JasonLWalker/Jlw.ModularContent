@@ -8,7 +8,7 @@ namespace Jlw.ModularContent
     /// <summary> 
     /// Class to encapsulate a row from the LocalizedGroupDataItems database table 
     /// </summary> 
-    public interface ILocalizedGroupDataItem 
+    public interface IModularGroupDataItem 
     {
 
         /// <summary>Member for Id Database Column</summary>

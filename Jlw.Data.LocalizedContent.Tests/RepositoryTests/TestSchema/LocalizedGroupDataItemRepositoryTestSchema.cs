@@ -24,7 +24,7 @@ namespace Jlw.Data.LocalizedContent.Tests
         void InitInterfaces()
         {
             AddInterface(typeof(IModularGroupDataItemRepository));
-            AddInterface(typeof(IModularDataRepositoryBase<ILocalizedGroupDataItem, LocalizedGroupDataItem>));
+            AddInterface(typeof(IModularDataRepositoryBase<IModularGroupDataItem, LocalizedGroupDataItem>));
         }
 
         public LocalizedGroupDataItemRepositoryTestSchema()
