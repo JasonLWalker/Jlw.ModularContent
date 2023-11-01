@@ -39,12 +39,16 @@ namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers
     [JsonObject(NamingStrategyType = typeof(DefaultNamingStrategy))]
 	public abstract class EmailApiController : ControllerBase 
 	{
+        public object PreviewRecordData { get; set; }
+
         /// <summary>
         /// The data repository instance
         /// </summary>
         protected readonly IModularContentFieldRepository _fieldRepository;
         protected readonly IModularWizardFactoryRepository _factoryRepository;
         protected readonly IModularContentTextRepository _textRepository;
+        protected readonly IModularWizardFactory _factory;
+
         /// <summary>
         /// The primary group filter
         /// for this class. This will be set in descendant classes to allow those classes to only modify a subset of database records.
@@ -123,11 +127,12 @@ namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// TODO Edit XML Comment Template for #ctor
-        public EmailApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository) 
+        public EmailApiController(IModularContentFieldRepository fieldRepository, IModularContentTextRepository textRepository, IModularWizardFactoryRepository factoryRepository, IModularWizardFactory factory) 
         { 
             _fieldRepository = fieldRepository;
             _textRepository = textRepository;
             _factoryRepository = factoryRepository;
+            _factory = factory;
 			_groupFilter = "";
         }
 
@@ -141,6 +146,15 @@ namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers
         {
             return new {};
         }
+
+        [HttpPost("Preview")]
+        public virtual object Preview(ModularWizardEmailRecordInput oData)
+        {
+
+            var msg = _factory.CreateWizardContentEmail(oData.GroupKey, oData.FieldKey, PreviewRecordData ?? new {});
+            return  (object)msg ?? new { };
+        }
+
 
         /// <summary>
         /// Dts the list.

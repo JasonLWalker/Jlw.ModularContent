@@ -71,7 +71,7 @@ namespace Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers
                 DataTableSearch = o.ParseTo<bool>(nameof(DataTableSearch));
                 DataTableInfo = o.ParseTo<bool>(nameof(DataTableInfo));
                 DataTableAttributes = o.ParseTo<string>(nameof(DataTableAttributes));
-
+                PreviewRecordData = o.ParseTo<object>(nameof(PreviewRecordData));
                 EditView = o.NullIfWhiteSpace(nameof(EditView)) ?? EditView;
                 DataTableListView = o.NullIfWhiteSpace(nameof(DataTableListView)) ?? DataTableListView;
                 DataTableScriptView = o.NullIfWhiteSpace(nameof(DataTableScriptView)) ?? DataTableScriptView;
