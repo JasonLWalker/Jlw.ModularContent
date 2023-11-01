@@ -59,7 +59,20 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
                 {
                     {"FirstName", "User First Name"},
                     {"LastName", "User Last Name"},
-                }
+                },
+                ExtraCss = @"<style>
+.jlw-datatable-wizardemail button.btn-localize,
+.jlw-datatable-wizardemail .breadcrumb-groupkey,
+.jlw-datatable-wizardemail .breadcrumb-fieldkey,
+.jlw-datatable-wizardemail .breadcrumb-language,
+.jlw-datatable-wizardemail .label-email-subject,
+.jlw-datatable-wizardemail .email-subject,
+.jlw-datatable-wizardemail .label-email-body
+{
+    display: none;
+}
+
+</style>"
             };
             settings.LanguageList.Add(new SelectListItem("Spanish", "SP"));
             settings.LanguageList.Add(new SelectListItem("French", "FR"));

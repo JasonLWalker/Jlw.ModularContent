@@ -150,12 +150,12 @@
             }, [2]);
 
             t.addDtRenderer(function(data, type, row) {
-                var s = '<a href="@Model?.AdminUrl/'+ row['GroupKey'] + '">' + row['GroupKey']+ '</a> &gt; ';
-                s += '<a href="@Model?.AdminUrl/'+ row['GroupKey'] + '/' + row["FieldKey"] + '">' + row['FieldKey'] + '</a> &gt; ';
-                s += row['Language'] + " - ";
-                s +=  row['Label'] + "<hr />";
-                s += '<b>Email Subject:</b> ' + row['Subject'] + "<br />";
-                s += '<div><strong>Email Body:</strong><br /><div class="email-body">' + row['Body'] + "</div></div>";
+                var s = '<span class="breadcrumb-groupkey"><a href="@Model?.AdminUrl/'+ row['GroupKey'] + '">' + row['GroupKey']+ '</a> &gt; </span>';
+                s += '<span class="breadcrumb-fieldkey"><a href="@Model?.AdminUrl/'+ row['GroupKey'] + '/' + row["FieldKey"] + '">' + row['FieldKey'] + '</a> &gt; </span>';
+                s += '<span class="breadcrumb-language">' + row['Language'] + " - </span>";
+                s +=  '<span class="breadcrumb-label">' + row['Label'] + "</span><hr />";
+                s += '<span class="label-email-subject"><b>Email Subject:</b> </span><span class="email-subject">' + row['Subject'] + "<br /></span>";
+                s += '<div><span class="label-email-body"><strong>Email Body:</strong><br /></span><div class="email-body">' + row['Body'] + "</div></div>";
                 return s;
             }, [10]);
 
