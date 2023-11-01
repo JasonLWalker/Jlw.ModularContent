@@ -1,4 +1,5 @@
 @using Newtonsoft.Json
+@using System.Collections
 @model Jlw.ModularContent.Areas.ModularContentEmailAdmin.Controllers.EmailAdminController.WizardAdminSettings
 @{
     string apiUrl = (string.IsNullOrWhiteSpace(Model?.ApiOverrideUrl)) ? Url.Action("Index", "Api", new { Area = Model?.Area, groupKey = (string)null, parentKey = (string)null }) + "/" : Model.ApiOverrideUrl;
@@ -12,7 +13,7 @@
 
             @if (Model?.CanEdit ?? false)
             {
-            <text>
+                <text>
                 t.frmEdit = $('#jlwEditFormLocalizedContentField').html();
 
                 t.showDialog = function (oData, frmEdit, sTitle, btns)
@@ -42,22 +43,69 @@
                 t.initTinyMce = t.initWysiwyg; // Save original initialization
                 t.initWysiwyg = function (oFrm) {
                     t.initTinyMce(oFrm);
+                    window.tinymce.PluginManager.add('insertplaceholder', function (editor, url) {
+                        editor.ui.registry.addNestedMenuItem('insertplaceholder', {
+                            text: 'Template Placeholders',
+                            getSubmenuItems: function () {
+                                return [
+                                    @{
+                                        if (Model?.PreviewRecordData is IEnumerable<KeyValuePair<string, string>> aMembers)
+                                        {
+                                            var n = 0;
+                                            foreach (var kvp in aMembers)
+                                            {
+                                                <text>@(n++>0 ? ",": ""){ type: 'menuitem', text: '@kvp.Value', onAction: function () { editor.insertContent('[%@kvp.Key%]'); } }</text>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            var members = ((object)(Model?.PreviewRecordData ?? new { })).GetType().GetProperties();
+                                            var n = 0;
+                                            foreach (var member in members)
+                                            {
+                                                <text>@(n++>0 ? ",": ""){ type: 'menuitem', text: '@member.Name', onAction: function () { editor.insertContent('[%@member.Name%]'); } }</text>
+                                            }
+                                        }
+                                    }
+                                ];
+                            }
+                        });
+
+                        return {
+                            getMetadata: function () {
+                                return {
+                                    name: 'Template Placeholder',
+                                    url: 'about:blank'
+                                };
+                            }
+                        }
+                    });
                 }
 
 		        // Prevent Bootstrap dialog from blocking focusin
-		        document.addEventListener('focusin', function (e) { 
-		            if (e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) { 
+		        document.addEventListener('focusin', function (e) {
+		            if (e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root') !== null) {
 		                e.stopImmediatePropagation();
-		            } 
+		            }
 		        });
 
                 @if (string.IsNullOrWhiteSpace(Model.GroupKey) || string.IsNullOrWhiteSpace(Model.FieldKey))
                 {
-                    @:t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary mx-1', onEditLanguage);
+                    @:t.addDtRowButton('', 'btn-localize', '', 'btn-outline-secondary m-1', onEditLanguage);
                 }
-                t.addDtRowButton('', 'btn-edit', 'fa fa-fw fa-pencil-alt text-warning', 'btn-outline-secondary mx-1', t.onEditRecord);
+
+                function onPreviewRecord(oBtn) {
+                    var oData = t.getParentData(oBtn);
+                    t.post(t.sUrlRoot + "Preview", oData).done(function (data) {
+                        bootbox.alert({ title: data['subject'], message: data['body'],size: "large"});
+                        //console.log(a);
+                    });
+                }
+                t.addDtRowButton('', 'btn-preview', 'fa fa-fw fa-search text-info', 'btn-outline-secondary m-1', onPreviewRecord);
+
+                t.addDtRowButton('', 'btn-edit', 'fa fa-fw fa-pencil-alt text-warning', 'btn-outline-secondary m-1', t.onEditRecord);
             </text>
-        }
+            }
 
             @if (Model?.CanDelete ?? false)
             {
@@ -81,7 +129,7 @@
                     t.setModalOnTop(oFrm);
                 }
 
-                t.addDtRowButton('', 'btn-delete', 'fa fa-fw fa-trash-alt text-danger', 'btn-outline-secondary mx-1', onDeleteRecord);
+                t.addDtRowButton('', 'btn-delete', 'fa fa-fw fa-trash-alt text-danger', 'btn-outline-secondary m-1', onDeleteRecord);
                 </text>
             }
 
@@ -109,14 +157,14 @@
                 s += '<b>Email Subject:</b> ' + row['Subject'] + "<br />";
                 s += '<div><strong>Email Body:</strong><br /><div class="email-body">' + row['Body'] + "</div></div>";
                 return s;
-            }, [11]);
+            }, [10]);
 
             t.addDtRenderer(function(data, type, row) {
                 // Do not output content for these columns
                 row['WrapperHtmlStart'] = '';
                 row['WrapperHtmlEnd'] = '';
                 return t.dtRenderButtons(data, type, row);
-            }, [19]);
+            }, [18]);
 
             var dt = t.initializeDataTable(t.sDtSelector);
 

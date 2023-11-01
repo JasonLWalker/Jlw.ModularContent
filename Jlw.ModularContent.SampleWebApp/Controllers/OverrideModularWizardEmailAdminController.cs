@@ -23,6 +23,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
             };
 
             ViewData["Breadcrumb"] = aBreadcrumb;
+
             var settings = new EmailAdminController.WizardAdminSettings()
             {
                 PageTitle = "Email Admin",
@@ -38,7 +39,7 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
                 TinyMceSettings = JObject.Parse(@"
                 {
                     useTinyMce: true,
-                    plugins: 'image imagetools paste link code help',
+                    plugins: 'image imagetools paste link code help insertplaceholder',
                     height: 'calc(90vh - 350px)',
                     image_advtab: true,
                     paste_data_images: true,
@@ -47,13 +48,18 @@ namespace Jlw.Web.ModularContent.SampleWebApp.Controllers
                         file: { title: 'File', items: 'newdocument ' },
                         edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
                         view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen' },
-                        insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+                        insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime | insertplaceholder' },
                         format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat' },
                         tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
                         table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
                         help: { title: 'Help', items: 'help' }
                     }
                 }"),
+                PreviewRecordData = new Dictionary<string, string>()
+                {
+                    {"FirstName", "User First Name"},
+                    {"LastName", "User Last Name"},
+                }
             };
             settings.LanguageList.Add(new SelectListItem("Spanish", "SP"));
             settings.LanguageList.Add(new SelectListItem("French", "FR"));
